@@ -18,7 +18,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
+Relevant Reference:
+- http://standards.freedesktop.org/desktop-entry-spec/latest/ar01s06.html
 """
 
 from __future__ import (absolute_import, division, print_function,
@@ -68,15 +69,15 @@ def get_games(root_folder='Games'):
         name = (dentry.getName() or dentry.DesktopFileID).strip()
         ico_name = dentry.getIcon().strip()
 
-        # Remove the placeholder tokens used for handling file associations
-        cmd = re.sub('%%', '%', re.sub('%[a-zA-Z]', '', dentry.getExec()))
+        # Remove the placeholder tokens used in the Exec key
+        # TODO: Actually sub in things like %i, %c, %k.
+        # XXX: Should I centralize this substitution to allow argument passing?
+        #      (eg. for Emulators?)
+        cmd = re.sub('%[a-zA-Z]', '', dentry.getExec())
 
+        # Needed to work around Desura .desktop generation quoting failure
         split_cmd = shlex.split(cmd)
-        if not which(cmd) and which(split_cmd[0]):
-            # Needed to work around Desura .desktop generation quoting failure
-            cmd = split_cmd
-        else:
-            cmd = [cmd]
+        cmd = split_cmd if (which(split_cmd[0]) and not which(cmd)) else [cmd]
 
         if dentry.getTerminal():
             cmd = TERMINAL_CMD  + cmd
