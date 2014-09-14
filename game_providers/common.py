@@ -75,11 +75,13 @@ class InstalledGameEntry(GameEntry):
     """
     @todo: Mechanism for sub-entries like "Config" as in Desura.
     """
-    def __init__(self, name, icon, argv, tryexec=None, *args, **kwargs):
+    def __init__(self, name, icon, argv, tryexec=None, use_terminal=False,
+                 *args, **kwargs):
         super(InstalledGameEntry, self).__init__(name, icon, *args, **kwargs)
 
         self.argv = argv
         self.tryexec = tryexec or argv[0]
+        self.use_terminal = use_terminal
 
     def __eq__(self, other):
         return (self.name, self.argv) == (other.name, other.argv)

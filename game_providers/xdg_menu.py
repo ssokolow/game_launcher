@@ -79,10 +79,8 @@ def get_games(root_folder='Games'):
         split_cmd = shlex.split(cmd)
         cmd = split_cmd if (which(split_cmd[0]) and not which(cmd)) else [cmd]
 
-        if dentry.getTerminal():
-            cmd = TERMINAL_CMD  + cmd
-
         results.append(InstalledGameEntry(name=name, icon=ico_name, argv=cmd,
                                           tryexec=dentry.getTryExec(),
+                                          use_terminal=dentry.getTerminal(),
                                           provider='XDG'))
     return results
