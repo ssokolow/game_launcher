@@ -38,7 +38,8 @@ def get_games():
 
     for entry in games[:]:
         if not entry.is_installed():
-            log.info("Skipping entry. Not installed: %s" % entry.argv)
+            log.info("Skipping entry from %s. Not installed: %s",
+                     entry.provider, entry.argv)
             games.remove(entry)
 
     # TODO: Dedupe

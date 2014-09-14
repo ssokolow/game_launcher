@@ -51,5 +51,6 @@ def get_games():
 
         # TODO: Rework this once I have sub-entry support.
         # (including using things like for desura_launch_Play.sh)
-        results.append(InstalledGameEntry(name=name, icon=row[3], argv=argv))
+        results.append(InstalledGameEntry(name=name, icon=row[3], argv=argv,
+                                          provider='Desura'))
     return results

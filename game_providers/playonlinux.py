@@ -69,5 +69,6 @@ def get_games():
                 break
 
         results.append(InstalledGameEntry(name=name, icon=icon,
-                                          argv=["playonlinux", "--run", name]))
+                                          argv=["playonlinux", "--run", name],
+                                          provider='PlayOnLinux'))
     return results

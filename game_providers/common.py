@@ -49,9 +49,10 @@ class GameEntry(object):
     """
     @todo: Decide on a proper definition of equality.
     """
-    def __init__(self, name, icon, *args, **kwargs):
+    def __init__(self, name, icon, provider=None, *args, **kwargs):
         self.name = name
         self.icon = icon
+        self.provider = provider
 
         # Shut up PyLint without silencing real "unused argument" warnings
         args, kwargs  # pylint: disable=pointless-statement

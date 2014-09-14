@@ -83,5 +83,6 @@ def get_games(root_folder='Games'):
             cmd = TERMINAL_CMD  + cmd
 
         results.append(InstalledGameEntry(name=name, icon=ico_name, argv=cmd,
-                                          tryexec=dentry.getTryExec()))
+                                          tryexec=dentry.getTryExec(),
+                                          provider='XDG'))
     return results
