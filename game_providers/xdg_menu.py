@@ -24,10 +24,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
 
-import re, shlex
+import logging, re, shlex
 import xdg.Menu
 from .common import InstalledGameEntry, TERMINAL_CMD
 
+log = logging.getLogger(__name__)
 
 def _process_menu(menu):
     """Recursive handler for getting games from menus.
@@ -42,17 +43,9 @@ def _process_menu(menu):
         elif isinstance(entry, xdg.Menu.MenuEntry):
             dentry = entry.DesktopEntry
 
-            name = dentry.getName() or entry.DesktopFileID
-            ico_name = dentry.getIcon()
-            cmd = re.sub('%%', '%', re.sub('%[a-zA-Z]', '', dentry.getExec()))
-
-            if dentry.getTerminal():
-                cmd = TERMINAL_CMD % cmd
-
-            entries.append((name.strip(), ico_name.strip(), cmd.strip(),
-                            dentry))
+            entries.append(dentry)
         else:
-            print("S: %s" % entry)
+            log.debug("S: %s", entry)
 
     return entries
 
@@ -65,9 +58,22 @@ def get_games(root_folder='Games'):
     @bug: On *buntu, this code doesn't find games unless you explicitly pass in
           the appropriate C{root_folder} value.
     """
+    results = []
     menu = xdg.Menu.parse()
+
     if root_folder:
         menu = menu.getMenu(root_folder)
 
-    return [InstalledGameEntry(name=x[0], icon=x[1], argv=shlex.split(x[2]))
-            for x in _process_menu(menu)]
+    for dentry in _process_menu(menu):
+        name = (dentry.getName() or dentry.DesktopFileID).strip()
+        ico_name = dentry.getIcon().strip()
+
+        # Remove the placeholder tokens used for handling file associations
+        cmd = re.sub('%%', '%', re.sub('%[a-zA-Z]', '', dentry.getExec()))
+
+        if dentry.getTerminal():
+            cmd = TERMINAL_CMD  + cmd
+        cmd = shlex.split(cmd)
+
+        results.append(InstalledGameEntry(name=name, icon=ico_name, argv=cmd))
+    return results
