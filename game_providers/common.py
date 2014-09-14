@@ -5,7 +5,8 @@ import os
 from functools import total_ordering
 
 # TODO: Include my patched xdg-terminal or some other fallback mechanism
-TERMINAL_CMD = 'xterm -e %s'
+TERMINAL_CMD = ['xterm', '-e']
+
 # Python 2+3 compatibility for isinstance()
 try:
     basestring

@@ -71,9 +71,9 @@ def get_games(root_folder='Games'):
         # Remove the placeholder tokens used for handling file associations
         cmd = re.sub('%%', '%', re.sub('%[a-zA-Z]', '', dentry.getExec()))
 
+        cmd = shlex.split(cmd)
         if dentry.getTerminal():
             cmd = TERMINAL_CMD  + cmd
-        cmd = shlex.split(cmd)
 
         results.append(InstalledGameEntry(name=name, icon=ico_name, argv=cmd))
     return results
