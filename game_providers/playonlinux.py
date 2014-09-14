@@ -24,7 +24,7 @@ from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
 
 import os, re
-from common import GameEntry
+from .common import GameEntry
 
 POL_PREFIX = os.path.expanduser('~/.PlayOnLinux')
 
@@ -68,10 +68,5 @@ def get_games():
                 icon = icon_path
                 break
 
-        results.append((name, icon, ["playonlinux", "--run", name], None))
+        results.append(GameEntry(name, icon, ["playonlinux", "--run", name]))
     return results
-
-# TODO: Figure out what API I need and actually hook this in
-games = get_pol_games()
-print('\n'.join(repr(x) for x in games))
-print(len(games))

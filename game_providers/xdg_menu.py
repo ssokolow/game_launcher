@@ -24,9 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
 
-import re
+import re, shlex
 import xdg.Menu
-from common import GameEntry
+from .common import GameEntry
 
 # TODO: Include my patched xdg-terminal or some other fallback mechanism
 TERMINAL_CMD = 'xterm -e %s'
@@ -58,7 +58,7 @@ def _process_menu(menu):
 
     return entries
 
-def get_system_games(root_folder='Games'):
+def get_games(root_folder='Games'):
     """Retrieve a list of games from the XDG system menus.
 
     Written based on this public-domain code:
@@ -71,9 +71,5 @@ def get_system_games(root_folder='Games'):
     if root_folder:
         menu = menu.getMenu(root_folder)
 
-    return _process_menu(menu)
-
-# TODO: Figure out what API I need and actually hook this in
-games = get_system_games()
-print('\n'.join(repr(x) for x in games))
-print(len(games))
+    return [GameEntry(x[0], x[1], shlex.split(x[2]))
+            for x in _process_menu(menu)]

@@ -20,12 +20,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
 
-import os, sqlite3
-from common import GameEntry
+import os, shlex, sqlite3
+from .common import GameEntry
 
 DESURA_DB = os.path.expanduser('~/.desura/iteminfo_d.sqlite')
 
-def get_desura_games():
+def get_games():
     """Retrieve a list of games from the Desura client's data store.
 
     @todo: Support all Desura dotfile configurations rather than just the
@@ -36,14 +36,20 @@ def get_desura_games():
         return []
 
     conn = sqlite3.connect(DESURA_DB)
-    return conn.execute("""SELECT DISTINCT
+    results = []
+    for row in conn.execute("""SELECT DISTINCT
             i.internalid, i.name, e.name, i.icon,
             e.exe, e.exeargs, e.userargs
             FROM iteminfo AS i, exe AS e
-            WHERE i.internalid = e.itemid""").fetchall()
+            WHERE i.internalid = e.itemid"""):
 
-# TODO: Figure out what API I need and actually hook this in
-games = get_desura_games()
-print('\n'.join(repr(x) for x in games))
-# TODO: Some games only work with join(split(x[4])[0], 'desura_launch_Play.sh')
-print(len(games))
+        argv = [row[4]] + shlex.split(row[5]) + shlex.split(row[6])
+        if row[2] == 'Play':
+            name = row[1]
+        else:
+            name = '%s - %s' % (row[1], row[2])
+
+        # TODO: Rework this once I have sub-entry support.
+        # (including using things like for desura_launch_Play.sh)
+        results.append(GameEntry(name, row[3], argv))
+    return results
