@@ -21,7 +21,7 @@ from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
 
 import os, shlex, sqlite3
-from .common import GameEntry
+from .common import InstalledGameEntry
 
 DESURA_DB = os.path.expanduser('~/.desura/iteminfo_d.sqlite')
 
@@ -51,5 +51,5 @@ def get_games():
 
         # TODO: Rework this once I have sub-entry support.
         # (including using things like for desura_launch_Play.sh)
-        results.append(GameEntry(name, row[3], argv))
+        results.append(InstalledGameEntry(name=name, icon=row[3], argv=argv))
     return results

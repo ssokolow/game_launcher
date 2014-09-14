@@ -26,7 +26,7 @@ from __future__ import (absolute_import, division, print_function,
 
 import re, shlex
 import xdg.Menu
-from .common import GameEntry, TERMINAL_CMD
+from .common import InstalledGameEntry, TERMINAL_CMD
 
 
 def _process_menu(menu):
@@ -69,5 +69,5 @@ def get_games(root_folder='Games'):
     if root_folder:
         menu = menu.getMenu(root_folder)
 
-    return [GameEntry(x[0], x[1], shlex.split(x[2]))
+    return [InstalledGameEntry(name=x[0], icon=x[1], argv=shlex.split(x[2]))
             for x in _process_menu(menu)]

@@ -24,7 +24,7 @@ from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
 
 import os, re
-from .common import GameEntry
+from .common import InstalledGameEntry
 
 POL_PREFIX = os.path.expanduser('~/.PlayOnLinux')
 
@@ -68,5 +68,6 @@ def get_games():
                 icon = icon_path
                 break
 
-        results.append(GameEntry(name, icon, ["playonlinux", "--run", name]))
+        results.append(InstalledGameEntry(name=name, icon=icon,
+                                          argv=["playonlinux", "--run", name]))
     return results
