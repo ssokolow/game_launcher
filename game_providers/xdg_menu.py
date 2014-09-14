@@ -26,7 +26,7 @@ from __future__ import (absolute_import, division, print_function,
 
 import logging, re, shlex
 import xdg.Menu
-from .common import InstalledGameEntry, TERMINAL_CMD
+from .common import InstalledGameEntry, TERMINAL_CMD, which
 
 log = logging.getLogger(__name__)
 
@@ -71,7 +71,13 @@ def get_games(root_folder='Games'):
         # Remove the placeholder tokens used for handling file associations
         cmd = re.sub('%%', '%', re.sub('%[a-zA-Z]', '', dentry.getExec()))
 
-        cmd = shlex.split(cmd)
+        split_cmd = shlex.split(cmd)
+        if not which(cmd) and which(split_cmd[0]):
+            # Needed to work around Desura .desktop generation quoting failure
+            cmd = split_cmd
+        else:
+            cmd = [cmd]
+
         if dentry.getTerminal():
             cmd = TERMINAL_CMD  + cmd
 
