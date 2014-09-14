@@ -75,5 +75,6 @@ def get_games(root_folder='Games'):
         if dentry.getTerminal():
             cmd = TERMINAL_CMD  + cmd
 
-        results.append(InstalledGameEntry(name=name, icon=ico_name, argv=cmd))
+        results.append(InstalledGameEntry(name=name, icon=ico_name, argv=cmd,
+                                          tryexec=dentry.getTryExec()))
     return results
