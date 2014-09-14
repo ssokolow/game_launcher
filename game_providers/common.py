@@ -3,6 +3,9 @@ from __future__ import (absolute_import, division, print_function,
 
 from functools import total_ordering
 
+# TODO: Include my patched xdg-terminal or some other fallback mechanism
+TERMINAL_CMD = 'xterm -e %s'
+
 @total_ordering
 class GameEntry(object):
     """

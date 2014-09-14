@@ -26,10 +26,8 @@ from __future__ import (absolute_import, division, print_function,
 
 import re, shlex
 import xdg.Menu
-from .common import GameEntry
+from .common import GameEntry, TERMINAL_CMD
 
-# TODO: Include my patched xdg-terminal or some other fallback mechanism
-TERMINAL_CMD = 'xterm -e %s'
 
 def _process_menu(menu):
     """Recursive handler for getting games from menus.
