@@ -36,6 +36,11 @@ def get_games():
     games = sorted(chain(*(x.get_games() for x in (
         xdg_menu, desura, playonlinux))))
 
+    for entry in games[:]:
+        if not entry.is_installed():
+            log.info("Skipping entry. Not installed: %s" % entry.argv)
+            games.remove(entry)
+
     # TODO: Dedupe
     print('\n'.join(repr(x) for x in games))
     print("%d games found" % len(games))
