@@ -25,9 +25,9 @@ Relevant Reference:
 from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
 
-import logging, re, shlex
+import logging, re
 import xdg.Menu
-from .common import InstalledGameEntry, TERMINAL_CMD, which
+from .common import InstalledGameEntry, resolve_exec
 
 log = logging.getLogger(__name__)
 
@@ -76,8 +76,7 @@ def get_games(root_folder='Games'):
         cmd = re.sub('%[a-zA-Z]', '', dentry.getExec())
 
         # Needed to work around Desura .desktop generation quoting failure
-        split_cmd = shlex.split(cmd)
-        cmd = split_cmd if (which(split_cmd[0]) and not which(cmd)) else [cmd]
+        cmd = resolve_exec(cmd)
 
         results.append(InstalledGameEntry(name=name, icon=ico_name, argv=cmd,
                                           tryexec=dentry.getTryExec(),

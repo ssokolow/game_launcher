@@ -1,17 +1,23 @@
 from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
 
-import os
+import logging, os, shlex
 from functools import total_ordering
 
 # TODO: Include my patched xdg-terminal or some other fallback mechanism
 TERMINAL_CMD = ['xterm', '-e']
+
+# Don't search for metadata inside scripts like "start.sh" if they're bigger
+# than this size.
+MAX_SCRIPT_SIZE = 1024 ** 2  # 1 MiB
 
 # Python 2+3 compatibility for isinstance()
 try:
     basestring
 except NameError:
     basestring = str  # pylint: disable=invalid-name,redefined-builtin
+
+log = logging.getLogger(__name__)
 
 def which(exec_name, execpath=None):
     """Like the UNIX which command, this function attempts to find the given
@@ -44,18 +50,32 @@ def which(exec_name, execpath=None):
                 return full_path + suffix
     return None  # Couldn't find anything.
 
+def resolve_exec(cmd, rel_to=None):
+    """Disambiguate spaces in a string which may or may not be shell-quoted"""
+    split_cmd = shlex.split(cmd)
+
+    if rel_to:
+        cmd = os.path.join(rel_to, cmd)
+        split_cmd[0] = os.path.join(rel_to, split_cmd[0])
+
+    return split_cmd if (which(split_cmd[0]) and not which(cmd)) else [cmd]
+
+def script_precheck(path):
+    """Basic checks which should be run before inspecting any script."""
+    return os.path.isfile(path) and os.stat(path).st_size <= MAX_SCRIPT_SIZE
+
 @total_ordering
 class GameEntry(object):
     """
     @todo: Decide on a proper definition of equality.
     """
-    def __init__(self, name, icon, provider=None, *args, **kwargs):
+    def __init__(self, name, icon=None, provider=None, *args, **kwargs):
         self.name = name
         self.icon = icon
         self.provider = provider
 
-        # Shut up PyLint without silencing real "unused argument" warnings
-        args, kwargs  # pylint: disable=pointless-statement
+        if args or kwargs:
+            log.debug("Unconsumed arguments: %r, %r", args, kwargs)
 
     def __eq__(self, other):
         return self.name == other.name
@@ -75,7 +95,7 @@ class InstalledGameEntry(GameEntry):
     """
     @todo: Mechanism for sub-entries like "Config" as in Desura.
     """
-    def __init__(self, name, icon, argv, tryexec=None, use_terminal=False,
+    def __init__(self, name, argv, icon=None, tryexec=None, use_terminal=False,
                  *args, **kwargs):
         super(InstalledGameEntry, self).__init__(name, icon, *args, **kwargs)
 

@@ -16,6 +16,10 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+@todo: Include a "help me refine the design" option which allows users to OK
+       the submission of directory listings and contents of files like
+       "start.sh" so I can debug cases of incomplete metadata collection.
 """
 
 from __future__ import (absolute_import, division, print_function,
@@ -30,11 +34,12 @@ import logging
 log = logging.getLogger(__name__)
 
 from itertools import chain
-from game_providers import xdg_menu, desura, playonlinux
+from game_providers import xdg_menu, desura, playonlinux, fallback
 
 def get_games():
-    games = sorted(chain(*(x.get_games() for x in (
-        xdg_menu, desura, playonlinux))))
+    # TODO: Move priority ordering control into backend metadata
+    games = sorted(chain(*[x.get_games() for x in (
+        xdg_menu, desura, playonlinux, fallback)]))
 
     for entry in games[:]:
         if not entry.is_installed():
