@@ -26,6 +26,7 @@ from __future__ import (absolute_import, division, print_function,
 
 import logging, os
 from ..common import InstalledGameEntry, which
+from .common import filename_to_name
 
 from . import gog, ssokolow_install_sh
 
@@ -87,7 +88,18 @@ def inspect_candidates(paths):
                 results.append(InstalledGameEntry(**result))
                 break
         else:
-            log.info("Fallback - <Unmatched>: %s", candidate)
+            log.info("Fallback - <Unmatched>: %s",
+                     filename_to_name(os.path.basename(candidate)))
+
+            #TODO: Another sub-plugin which uses filename_to_name to produce
+            #      a title and attempts to guess argv, preferring names like
+            #      play.sh, run.sh, rungame.sh, run-*.sh, etc.,
+            #      blacklisting names like uninstall* and install*,
+            #      demoting names like extract-*,
+            #      preferring Foo and Foo.sh over Foo.$ARCH
+            #      and trying to prefer shallower paths to executables but
+            #      preferring bin/ when descending is necessary
+
     return results
 
 def get_games(roots=GAMES_DIRS):
