@@ -7,8 +7,8 @@ omit =
     */python?.?/sqlite3/*
     */lib-python/?.?/*.py
     */lib_pypy/_*.py
-    */dist-packages/enum/*
-    */dist-packages/xdg/*
+    */site-packages/enum/*
+    */site-packages/xdg/*
     */site-packages/ordereddict.py
     */site-packages/nose/*
     */unittest2/*
