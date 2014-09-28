@@ -54,11 +54,12 @@ PROGRAM_EXTS = (
 # @todo: Find some way to do a coverage test for this.
 WHITESPACE_OVERRIDES = {
     r'Db\b': 'DB',
+    r'Djgpp': 'DJGPP',
     r'IN Vedit': 'INVedit',
     r'Mc ': 'Mc',
     r'Mac ': 'Mac',
     r'Ux\b': 'UX',
-    r'iii\b': 'III',
+    r'iii\b': ' III',
     r' I V': 'IV',
     r' V I': 'VI',
     r' V M': 'VM',
