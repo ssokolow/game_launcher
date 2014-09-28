@@ -1,0 +1,6 @@
+.coverage
+cover
+html
+htmlcov
+.tox
+SnakeByte.egg-info

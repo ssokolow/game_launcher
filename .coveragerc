@@ -1,0 +1,14 @@
+[run]
+omit =
+    */python?.?/enum.py
+    */python?.?/functools.py
+    */python?.?/shlex.py
+    */python?.?/weakref.py
+    */python?.?/sqlite3/*
+    */lib-python/?.?/*.py
+    */lib_pypy/_*.py
+    */dist-packages/enum/*
+    */dist-packages/xdg/*
+    */site-packages/ordereddict.py
+    */site-packages/nose/*
+    */unittest2/*

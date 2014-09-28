@@ -24,6 +24,7 @@ __license__ = "GNU GPL 3.0 or later"
 
 import os, re, shlex
 
+# @todo: Unit tests for these regexes, separate from the integrated one
 fname_ver_re = re.compile(r"""[ _-]*(
         [ _-](alpha|beta)?\d+(\.\d+|[a-zA-Z])*((a|b|alpha|beta|rc)\d+)?|
         (alpha|beta)\D|
@@ -40,6 +41,7 @@ camelcase_re = re.compile(r'((?<=[a-z])[A-Z0-9]|(?<!\A)[A-Z](?=[a-z]))')
 # Used by L{titlecase_up} to find word-starting lowercase letters
 wordstart_re = re.compile(r'(^|[ -])[a-z]')
 
+# @todo: Find some way to do a coverage test for this.
 PROGRAM_EXTS = (
     '.swf', '.jar',
     '.sh', '.py', '.pl',
@@ -49,6 +51,7 @@ PROGRAM_EXTS = (
 )
 
 # Overrides for common places where the L{filename_to_name} heuristic breaks
+# @todo: Find some way to do a coverage test for this.
 WHITESPACE_OVERRIDES = {
     r'Db\b': 'DB',
     r'IN Vedit': 'INVedit',
@@ -151,3 +154,5 @@ def make_metadata_mapper(field_map, extras_cb=None):
             extras_cb(token_list, fields)
         return fields
     return process_statement
+
+# vim: set sw=4 sts=4 expandtab :
