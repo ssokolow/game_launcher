@@ -45,7 +45,7 @@ wordstart_re = re.compile(r'(^|[ -])[a-z]')
 PROGRAM_EXTS = (
     '.swf', '.jar',
     '.sh', '.py', '.pl',
-    '.exe', '.cmd', '.pif'
+    '.exe', '.cmd', '.pif',
     '.bin',
     '.desktop',
 )
