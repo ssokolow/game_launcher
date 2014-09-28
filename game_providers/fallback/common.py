@@ -77,13 +77,6 @@ def titlecase_up(in_str):
 def filename_to_name(fname):
     """A heuristic transform to produce pretty good titles from filenames
     without relying on out-of-band information.
-
-    @todo: Consider making this a class which can be initialized with
-           /usr/share/dict/words to enable a fourth branch to the word splitter
-           which fixes the last major issue... things like these:
-
-            prisonarchitect-alpha24c-linux -> Prisonarchitect
-            escapegoat2 -> Escapegoat 2
     """
     # Remove recognized program extensions
     fbase, fext = os.path.splitext(fname)
