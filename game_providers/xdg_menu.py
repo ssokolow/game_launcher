@@ -25,6 +25,9 @@ Relevant Reference:
 from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
 
+__author__ = "Stephan Sokolow (deitarion/SSokolow)"
+__license__ = "GNU GPL 3.0 or later"
+
 import logging, re
 import xdg.Menu
 from .common import InstalledGameEntry, resolve_exec

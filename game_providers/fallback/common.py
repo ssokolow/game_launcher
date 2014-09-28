@@ -19,6 +19,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
 
+__author__ = "Stephan Sokolow (deitarion/SSokolow)"
+__license__ = "GNU GPL 3.0 or later"
+
 import os, re, shlex
 
 fname_ver_re = re.compile(r"""[ _-]*(
