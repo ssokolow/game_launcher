@@ -11,8 +11,9 @@ from game_providers.fallback.common import filename_to_name, PROGRAM_EXTS
 # Minimal set of extensions one might expect a game to use
 # (For whitelist-based extension stripping so it's not too greedy)
 test_program_exts = (
+    '.air', '.swf', '.jar',
     '.sh', '.py', '.pl',
-    '.exe', '.cmd', '.pif',
+    '.exe', '.bat', '.cmd', '.pif',
     '.bin',
     '.desktop',
 )
@@ -109,11 +110,15 @@ filename_test_map = {
 filename_test_map.update({'test' + x: ['Test'] for x in test_program_exts})
 
 def test_program_ext_completeness():
+    """Test for comprehensiveness of PROGRAM_EXTS-stripping test"""
     missed = [x for x in test_program_exts if x not in PROGRAM_EXTS]
     assert not missed, "Extensions not in PROGRAM_EXTS: %s" % missed
 
+    excess = [x for x in PROGRAM_EXTS if x not in test_program_exts]
+    assert not excess, "Extensions in PROGRAM_EXTS but not test: %s" % excess
+
 def test_filename_to_name():
-    """Test accuracy of guesses by filename_to_name()"""
+    """Test for sufficient accuracy of guesses by filename_to_name()"""
     score = 0
     failures = {}
 

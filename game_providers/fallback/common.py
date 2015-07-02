@@ -44,11 +44,14 @@ wordstart_re = re.compile(r'(^|[ -])[a-z]')
 
 # @todo: Find some way to do a coverage test for this.
 PROGRAM_EXTS = (
-    '.swf', '.jar',
+    '.air', '.swf', '.jar',
     '.sh', '.py', '.pl',
-    '.exe', '.cmd', '.pif',
+    '.exe', '.bat', '.cmd', '.pif',
     '.bin',
     '.desktop',
+    # Note: .com is intentionally excluded because they're so rare outside of
+    #       DOSBox and I worry about the potential for false positives caused
+    #       by it showing up in some game's clever title.
 )
 
 # Overrides for common places where the L{filename_to_name} heuristic breaks
