@@ -32,11 +32,12 @@ from . import gog, ssokolow_install_sh
 
 # Placeholders for user-specified values which should be stored in the database
 # TODO: Some kind of "If it's in /usr/games, default to Terminal=true" rule
-GAMES_DIRS = [os.path.expanduser('~/opt'), '/usr/games']
+GAMES_DIRS = ['/mnt/buffalo_ext/games', os.path.expanduser('~/opt'), '/usr/games']
 BLACKLIST = [
     '/home/ssokolow/opt/teensyduino.old',
     '/home/ssokolow/opt/fennec-10.0.0.2',
     '/home/ssokolow/opt/Opera_Mobile_Emulator_12.0_Linux',
+    '/home/ssokolow/opt/firefox',  # TODO: Include */firefox[_-]*
 ]
 
 # Files which shouldn't require +x to be considered for inclusion
