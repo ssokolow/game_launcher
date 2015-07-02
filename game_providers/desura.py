@@ -24,9 +24,10 @@ __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
 import os, shlex, sqlite3
-from .common import InstalledGameEntry
+from .common import InstalledGameEntry, GameLauncher
 
 DESURA_DB = os.path.expanduser('~/.desura/iteminfo_d.sqlite')
+BACKEND_NAME = "Desura"
 
 def get_games():
     """Retrieve a list of games from the Desura client's data store.
@@ -39,21 +40,34 @@ def get_games():
         return []
 
     conn = sqlite3.connect(DESURA_DB)
-    results = []
+    entries = {}
     for row in conn.execute("""SELECT DISTINCT
             i.internalid, i.name, e.name, i.icon,
-            e.exe, e.exeargs, e.userargs
-            FROM iteminfo AS i, exe AS e
-            WHERE i.internalid = e.itemid"""):
+            e.exe, e.exeargs, e.userargs, ii.installcheck,
+            i.developer, i.publisher
+            FROM iteminfo AS i, exe AS e, installinfo as ii
+            WHERE i.internalid = e.itemid AND i.internalid = ii.itemid
+            ORDER BY e.rank ASC"""):
 
-        argv = [row[4]] + shlex.split(row[5]) + shlex.split(row[6])
-        if row[2] == 'Play':
-            name = row[1]
+        if row[2].lower().startswith('play'):
+            role = GameLauncher.Roles.play
+        elif row[2].lower().startswith('settings'):
+            role = GameLauncher.Roles.configure
         else:
-            name = '%s - %s' % (row[1], row[2])
+            role = GameLauncher.Roles.unknown
 
-        # TODO: Rework this once I have sub-entry support.
-        # (including using things like for desura_launch_Play.sh)
-        results.append(InstalledGameEntry(name=name, icon=row[3], argv=argv,
-                                          provider='Desura'))
-    return results
+        if row[0] not in entries:
+            entries[row[0]] = InstalledGameEntry(name=row[1],
+                                                 icon=row[3],
+                                                 provider=BACKEND_NAME)
+
+        entries[row[0]].commands.append(GameLauncher(
+                argv=[row[4]] + shlex.split(row[5]) + shlex.split(row[6]),
+                provider=BACKEND_NAME,
+                role=role,
+                name=row[2],
+                icon=row[3],
+                description="Developer: %s\nPublisher: %s" % (row[8], row[9]),
+                tryexec=row[7],
+                use_terminal=False))
+    return entries.values()

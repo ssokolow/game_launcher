@@ -20,7 +20,7 @@ from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
 
 import os
-from ..common import script_precheck
+from ..common import script_precheck, GameLauncher
 from .common import lex_shellscript, make_metadata_mapper
 
 BACKEND_NAME = "GOG.com"
@@ -43,10 +43,20 @@ def inspect(path):
         'PACKAGE_NAME': 'game_id'
     }, detect_gogishness))
 
-    fields['argv'] = start_path
-
     icon_path = os.path.join(path, 'support', fields['game_id'] + '.png')
     if os.path.isfile(icon_path):
         fields['icon'] = icon_path
+
+    # TODO: Let InstalledGameEntry deduce this from the GameLauncher listings
+    fields['provider'] = "GOG.com"
+
+    # TODO: Detect and offer start.sh subcommands
+    fields['commands'] = [GameLauncher(
+        argv=[start_path],
+        role=GameLauncher.Roles.play,
+        name=fields['name'],
+        provider=BACKEND_NAME,
+        tryexec=start_path,
+        use_terminal=False)]
 
     return fields

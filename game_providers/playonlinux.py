@@ -27,8 +27,9 @@ __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
 import os, re
-from .common import InstalledGameEntry
+from .common import InstalledGameEntry, GameLauncher
 
+BACKEND_NAME = "PlayOnLinux"
 POL_PREFIX = os.path.expanduser('~/.PlayOnLinux')
 
 # Let this get subbed in elsewhere so there's a clean way to identify which
@@ -71,7 +72,16 @@ def get_games():
                 icon = icon_path
                 break
 
-        results.append(InstalledGameEntry(name=name, icon=icon,
-                                          argv=["playonlinux", "--run", name],
-                                          provider='PlayOnLinux'))
+        results.append(InstalledGameEntry(
+            name=name,
+            icon=icon,
+            provider=BACKEND_NAME,
+            commands=[GameLauncher(
+                argv=["playonlinux", "--run", name],
+                provider=BACKEND_NAME,
+                role=GameLauncher.Roles.play,
+                name=name,
+                icon=icon,
+                use_terminal=False)
+            ]))
     return results

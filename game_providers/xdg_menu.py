@@ -28,9 +28,11 @@ from __future__ import (absolute_import, division, print_function,
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
+BACKEND_NAME="XDG"
+
 import logging, re
 import xdg.Menu
-from .common import InstalledGameEntry, resolve_exec
+from .common import InstalledGameEntry, GameLauncher, resolve_exec
 
 log = logging.getLogger(__name__)
 
@@ -69,8 +71,10 @@ def get_games(root_folder='Games'):
         menu = menu.getMenu(root_folder)
 
     for dentry in _process_menu(menu):
-        name = (dentry.getName() or dentry.DesktopFileID).strip()
-        ico_name = dentry.getIcon().strip()
+        if (dentry.getType() != 'Application' or
+                dentry.getNoDisplay() or
+                dentry.getHidden()):  # TODO: allow ignoring Hidden?
+            continue
 
         # Remove the placeholder tokens used in the Exec key
         # TODO: Actually sub in things like %i, %c, %k.
@@ -78,11 +82,23 @@ def get_games(root_folder='Games'):
         #      (eg. for Emulators?)
         cmd = re.sub('%[a-zA-Z]', '', dentry.getExec())
 
-        # Needed to work around Desura .desktop generation quoting failure
-        cmd = resolve_exec(cmd)
-
-        results.append(InstalledGameEntry(name=name, icon=ico_name, argv=cmd,
-                                          tryexec=dentry.getTryExec(),
-                                          use_terminal=dentry.getTerminal(),
-                                          provider='XDG'))
+        name = (dentry.getName() or dentry.DesktopFileID).strip()
+        icon = dentry.getIcon().strip()
+        results.append(InstalledGameEntry(
+            name=name,
+            icon=icon,
+            provider=BACKEND_NAME,
+            commands=[GameLauncher(
+                # Needed to work around Desura .desktop quoting failure
+                argv=resolve_exec(cmd),
+                provider=BACKEND_NAME,
+                role=GameLauncher.Roles.play,
+                name=name,
+                path=dentry.getPath(),
+                icon=icon,
+                description=dentry.getComment(),
+                tryexec=dentry.getTryExec(),
+                xdg_categories=dentry.getCategories(),
+                use_terminal=dentry.getTerminal())
+            ]))
     return results

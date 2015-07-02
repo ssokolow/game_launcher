@@ -20,20 +20,20 @@ from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
 
 import os, logging
-from ..common import resolve_exec, script_precheck
+from ..common import resolve_exec, script_precheck, GameLauncher
 from .common import lex_shellscript, make_metadata_mapper
 
 BACKEND_NAME = "ssokolow's install.sh"
 log = logging.getLogger(__name__)
 
 def inspect(path):
-    """Try to extract GOG.com tarball metadata from the given folder"""
+    """Try to extract install.sh metadata from the given folder"""
     install_path = os.path.join(path, 'install.sh')
     if not script_precheck(install_path):
         return None
 
     metadata_map = {
-        'GAME_ID': 'game_id',
+        'GAME_ID': 'game_id',  # TODO: Decide how to support this
         'GAME_NAME': 'name',
         'GAME_SYNOPSIS': 'description',
         'GAME_EXEC': 'argv',
@@ -41,9 +41,18 @@ def inspect(path):
         'CATEGORIES': 'xdg_categories',
     }
     fields = lex_shellscript(install_path, make_metadata_mapper(metadata_map))
+    if 'xdg_categories' in fields:
+        fields['xdg_categories'] = fields['xdg_categories'].strip(';').split(';')
+
+    for fname in fields:
+        for varname, varkey in metadata_map.items():
+            ref = '$' + varname
+            if ref in fields[fname]:
+                fields[fname] = fields[fname].replace(ref, fields[varkey])
 
     if all(x in fields for x in metadata_map.values()):
-        fields['sub_provider'] = BACKEND_NAME
+        # TODO: Decide how to support this
+        pass  # fields['sub_provider'] = BACKEND_NAME
     else:
         log.debug("Unrecognized install.sh: %s", install_path)
         return None
@@ -51,10 +60,23 @@ def inspect(path):
     try:
         fields['argv'] = resolve_exec(fields['argv'], rel_to=path)
     except KeyError:
-        print(install_path)
+        log.error("%s specifies no argv", path)
         raise
 
     if not os.path.exists(fields['icon']):
         fields['icon'] = os.path.join(path, fields['icon'])
 
-    return fields
+    fields.update({
+        'role': GameLauncher.Roles.play,
+        'provider': BACKEND_NAME,
+        'tryexec': fields['argv'][0],
+        'use_terminal': False
+    })
+    launcher = GameLauncher(**fields)
+
+    return {
+        'name': launcher.name,
+        'icon': launcher.icon,
+        'provider': BACKEND_NAME,
+        'commands': [launcher]
+    }

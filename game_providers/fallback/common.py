@@ -22,7 +22,8 @@ from __future__ import (absolute_import, division, print_function,
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
-import os, re, shlex
+import logging, os, re, shlex
+log = logging.getLogger(__name__)
 
 # @todo: Unit tests for these regexes, separate from the integrated one
 fname_ver_re = re.compile(r"""[ _-]*(

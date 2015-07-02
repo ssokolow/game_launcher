@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Experimental code to drive and develop game providers
 
@@ -42,14 +42,15 @@ def get_games():
         xdg_menu, desura, playonlinux, fallback)]))
 
     for entry in games[:]:
-        if not entry.is_installed():
-            log.info("Skipping entry from %s. Not installed: %s",
-                     entry.provider, entry.argv)
+        if not entry.is_executable():
+            log.info("Skipping entry %s from %s. Not executable:\n\t%s",
+                     entry,
+                     entry.provider,
+                     '\n\t'.join(' '.join(x.argv) for x in entry.commands))
             games.remove(entry)
 
     # TODO: Dedupe
-    print('\n'.join(repr(x) for x in games))
-    print("%d games found" % len(games))
+    return games
 
 def main():
     """The main entry point, compatible with setuptools entry points."""
@@ -77,7 +78,7 @@ def main():
     logging.basicConfig(level=log_levels[opts.verbose],
                         format='%(levelname)s: %(message)s')
 
-    get_games()
+    print('\n'.join(repr(x) for x in get_games()))
 
 if __name__ == '__main__':
     main()
