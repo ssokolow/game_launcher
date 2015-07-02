@@ -5,6 +5,7 @@ omit =
     */python?.?/shlex.py
     */python?.?/weakref.py
     */python?.?/sqlite3/*
+    */python?.?/email*
     */lib-python/?.?/*.py
     */lib_pypy/_*.py
     */site-packages/enum/*
