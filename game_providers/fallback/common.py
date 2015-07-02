@@ -26,9 +26,10 @@ import os, re, shlex
 
 # @todo: Unit tests for these regexes, separate from the integrated one
 fname_ver_re = re.compile(r"""[ _-]*(
-        [ _-](alpha|beta)?\d+(\.\d+|[a-zA-Z])*((a|b|alpha|beta|rc)\d+)?|
+        [ _-](alpha|beta|v)?\d+(\.\d+|[a-zA-Z])*((a|b|alpha|beta|rc)\d+)?|
         (alpha|beta)\D|
         lin(ux)?(32|64)?|
+        x64|
         standalone
     )""", re.IGNORECASE | re.VERBOSE)
 fname_whitespace_re = re.compile(r"[ _-]")

@@ -18,6 +18,7 @@ test_program_exts = (
 )
 
 filename_test_map = {
+    'Aaaaa_Awesome_x64_Linux': ['Aaaaa Awesome'],
     'AndroVMplayer-Linux64': ['AndroVMplayer'],
     'Anodyne_STANDALONE_1_506.swf': ['Anodyne'],
     'Antichamber': ['Antichamber'],
@@ -77,6 +78,7 @@ filename_test_map = {
     'railyard': ['Railyard', 'Rail Yard'],
     'reus': ['Reus'],
     'roguelegacy': ['Rogue Legacy', 'Roguelegacy'],
+    'RogueLegacyLinux_v120a': ['Rogue Legacy'],
     'runic-temp': ['Runic Temp'],
     'shipwreck': ['Shipwreck'],
     'Solar2': ['Solar 2'],
