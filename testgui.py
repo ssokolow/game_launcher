@@ -10,7 +10,7 @@ __appname__ = "Test GUI for game_launcher"
 __version__ = "0.0pre0"
 __license__ = "GNU GPL 3.0 or later"
 
-import logging, os, subprocess, sys
+import logging, os, sys
 log = logging.getLogger(__name__)
 
 RES_DIR = os.path.dirname(__file__)
@@ -63,13 +63,15 @@ class Application(object):  # pylint: disable=C0111,R0902
         self.view.set_text_column(1)
         self.view.set_pixbuf_column(0)
 
-        self.populate_model()
+        self.entries = get_games()
+        self.populate_model(self.entries)
 
         mainwin = self.builder.get_object('mainwin')
         mainwin.set_title('%s %s' % (mainwin.get_title(), __version__))
         mainwin.show_all()
 
     def gtkbuilder_load(self, path):
+        """Shorthand wrapper for all steps of loading a GtkBuilder file"""
         path = os.path.join(RES_DIR, path)
         self.builder.add_from_file(os.path.join(RES_DIR, path))
         self.builder.connect_signals(self)
@@ -119,7 +121,7 @@ class Application(object):  # pylint: disable=C0111,R0902
             log.error("BAD ICON: %s", path)
             return None  # TODO: Broken icon placeholder
 
-    def populate_model(self):
+    def populate_model(self, src_list):
         """Populate store_games."""
         # Source: http://faq.pygtk.org/index.py?req=show&file=faq13.043.htp
         self.view.freeze_child_notify()
@@ -128,10 +130,8 @@ class Application(object):  # pylint: disable=C0111,R0902
         self.data.set_sort_column_id(-1,
                                 gtk.SORT_ASCENDING)  # pylint: disable=E1101
 
-        self.entries = get_games()
-
         try:
-
+            for pos, entry in enumerate(src_list):
                 self.data.append((
                     self.get_scaled_icon(entry.icon, ICON_SIZE),
                     entry.name,
@@ -148,9 +148,11 @@ class Application(object):  # pylint: disable=C0111,R0902
         """Helper for Builder.connect_signals"""
         gtk.main_quit()  # pylint: disable=E1101
 
-    def on_view_games_item_activated(self, widget, path):
+    def on_view_games_item_activated(self, _, path):
+        """Handler to launch games on double-click"""
         self.entries[self.data[path][3]].first_launcher(
             role=GameLauncher.Roles.play).run()
+        # TODO: Decide how to make role fall back to unknown.
         # TODO: Add some sort of is-running notification to the GUI
 
     # pylint: disable=no-self-use
