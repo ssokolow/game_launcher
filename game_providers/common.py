@@ -201,25 +201,29 @@ class GameLauncher(object):
             4. Reassign all remaining C{play} commands to C{unknown} if
                affirmative evidence of that role isn't available.
         """
-        play = 1
-        configure = 2
-        unknown = 3
-        install = 4
-        uninstall = 5
 
-        def guess(self, name):
+        # We want bool(unknown) == False but we also want this sort order.
+        play = -2
+        configure = -1
+        unknown = 0
+        install = 1
+        uninstall = 2
+
+        @classmethod
+        def guess(cls, name):
             """Guess the role of a command from its title or filename"""
             if name:
                 name = name.lower()
                 for result, matches in {
-                    self.configure: ('config', 'setup', 'settings'),
-                    self.install: ('install',),
-                    self.uninstall: ('uninst', 'remove'),
-                }:
+                    cls.play: ('play', 'start', 'client'),
+                    cls.configure: ('config', 'setup', 'settings'),
+                    cls.install: ('install',),
+                    cls.uninstall: ('uninst', 'remove'),
+                }.items():
                     for fragment in matches:
                         if fragment in name:
                             return result
-            return None
+            return cls.unknown
 
     # pylint: disable=too-many-arguments
     def __init__(self, argv, provider, role=None, name=None, path=None,
