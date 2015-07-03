@@ -55,6 +55,20 @@ PROGRAM_EXTS = (
     #       by it showing up in some game's clever title.
 )
 
+# Files which shouldn't be considered as executables even when marked +x
+NON_BINARY_EXTS = (
+    '.dll', '.so', '.so.*', '.dso', '.shlib', '.o', '.dylib'
+    '.ini', '.xml', '.txt',
+    '.assets', '.u', '.frag', '.vert', '.fxg', '.xnb', '.xsb', '.xwb', '.xgs',
+    '.usf', '.msf', '.asi', '.fsb', '.fev', '.mdd', '.lbx', '.zmp',
+    '.as', '.cpp', '.c', '.h', '.java',
+    '.ogg', '.mp3', '.wav', '.spc', '.mid', '.midi', '.rmi',
+    '.png', '.bmp', '.gif', '.jpg', '.jpeg', '.svg', '.tga', '.pcx',
+    '.ttf', '.crt',
+    '.dl_', '.sc_', '.ex_',
+)
+# .mojosetup/*, uninstall-*, java/, node_modules, xdg-*, Shaders, *~, Mono
+
 # Overrides for common places where the L{filename_to_name} heuristic breaks
 # @todo: Find some way to do a coverage test for this.
 WHITESPACE_OVERRIDES = {
