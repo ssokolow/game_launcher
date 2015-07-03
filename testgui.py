@@ -46,10 +46,10 @@ gtkexcepthook.enable()
 class Application(object):  # pylint: disable=C0111,R0902
     def __init__(self):
         # Shut up PyLint about defining members in _init_gui
-        self.builder = gtk.Builder()
+        self.builder = gtk.Builder()  # pylint: disable=E1101
         self.data = None
         self.entries = []
-        self.icon_theme = gtk.icon_theme_get_default()
+        self.icon_theme = gtk.icon_theme_get_default()  # pylint: disable=E1101
 
         """Parts of __init__ that should only run in the single instance."""
         # Check for some deps late enough to display a GUI error message
@@ -57,7 +57,8 @@ class Application(object):  # pylint: disable=C0111,R0902
         self.data = self.builder.get_object('store_games')
 
         self.view = self.builder.get_object("view_games")
-        self.view.set_selection_mode(gtk.SELECTION_MULTIPLE)
+        self.view.set_selection_mode(
+            gtk.SELECTION_MULTIPLE)  # pylint: disable=E1101
 
         self.view.set_text_column(1)
         self.view.set_pixbuf_column(0)
@@ -111,7 +112,8 @@ class Application(object):  # pylint: disable=C0111,R0902
         self.view.freeze_child_notify()
         self.view.set_model(None)
         self.data.set_default_sort_func(lambda *args: -1)
-        self.data.set_sort_column_id(-1, gtk.SORT_ASCENDING)
+        self.data.set_sort_column_id(-1,
+                                gtk.SORT_ASCENDING)  # pylint: disable=E1101
 
         self.entries = get_games()
 
@@ -124,13 +126,14 @@ class Application(object):  # pylint: disable=C0111,R0902
                     pos
                 ))
         finally:
-            self.data.set_sort_column_id(1, gtk.SORT_ASCENDING)
+            self.data.set_sort_column_id(1,
+                                gtk.SORT_ASCENDING)  # pylint: disable=E1101
             self.view.set_model(self.data)
             self.view.thaw_child_notify()
 
     def gtk_main_quit(self, widget, event):  # pylint: disable=R0201,W0613
         """Helper for Builder.connect_signals"""
-        gtk.main_quit()
+        gtk.main_quit()  # pylint: disable=E1101
 
     def on_view_games_item_activated(self, widget, path):
         self.entries[self.data[path][3]].first_launcher(
@@ -211,7 +214,7 @@ def main():
                         format='%(levelname)s: %(message)s')
 
     Application()
-    gtk.main()
+    gtk.main()  # pylint: disable=E1101
     gtk.gdk.notify_startup_complete()
 
 if __name__ == '__main__':
