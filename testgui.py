@@ -74,37 +74,50 @@ class Application(object):  # pylint: disable=C0111,R0902
         self.builder.add_from_file(os.path.join(RES_DIR, path))
         self.builder.connect_signals(self)
 
-    def get_scaled_icon(self, path):
-        """@todo: Replace this with something less hacky."""
-        if self.icon_theme.has_icon(path):
-            return self.icon_theme.load_icon(path, ICON_SIZE, 0)
-        elif os.path.exists(path):
-            try:
-                icon = gtk.gdk.pixbuf_new_from_file(path)
-                w, h = icon.get_width(), icon.get_height()
+    def _ensure_good_upscales(self, icon_name, target_size):
+        """Mitigate scaling blur for icons smaller than 32px
+        (By using pixel doubling/tripling to give them a more retro look)
+        """
+        iinfo = self.icon_theme.lookup_icon(icon_name, target_size,
+                        gtk.ICON_LOOKUP_USE_BUILTIN)  # pylint: disable=E1101
+        base_size = iinfo.get_base_size()
 
-                # TODO: Allow the user to choose whether small icons get scaled
-                #       up and, if so, how much matting should be allowed to
-                #       compromise between size consistency and appearance
-                if w >= h != ICON_SIZE:
-                    ratio = w / ICON_SIZE
-                elif h >= w != ICON_SIZE:
-                    ratio = h / ICON_SIZE
-                else:
-                    return icon
+        # For icons smaller than 32px, use pixel doubling to add some upscales
+        # (Otherwise, 16px icons are unacceptably blurry)
+        # TODO: I'll have to figure out how to workaround PlayOnLinux's
+        #       crappy 16->32 upscaling
+        if base_size < 32:
+            icon = self.icon_theme.load_icon(icon_name, base_size, 0)
+            w, h = icon.get_width(), icon.get_height()
+            isize = max(w, h)
 
-                # TODO: Try using a "blocky, not blurry" algorithm when scaling
-                #       up beyond a certain degree.
-                # TODO: Figure out how to tap into GTK's scaled icon generation
-                #       and caching
-                return icon.scale_simple(int(w / ratio), int(h / ratio),
-                                         gtk.gdk.INTERP_BILINEAR)
-            except glib.GError:
-                # TODO: Broken icon placeholder
-                icon = None
-        else:
+            # TODO: Figure out how to get GTK+ to cache these
+            for scale in (2, 3):
+                # pylint: disable=E1101
+                gtk.icon_theme_add_builtin_icon(icon_name, isize * scale,
+                    icon.scale_simple(w * scale, h * scale,
+                        gtk.gdk.INTERP_NEAREST))
+
+    def get_scaled_icon(self, path, size):
+        """Interpret a raw Icon value from a .desktop and return a good icon
+
+        (Employs L{_ensure_good_upscales} to minimize blurrying tiny icons)
+        """
+        # Inject non-theme icon paths as builtins for consistent lookup
+        if os.path.exists(path) and not self.icon_theme.has_icon(path):
+            icon = gtk.gdk.pixbuf_new_from_file(path)
+            w, h = icon.get_width(), icon.get_height()
+            isize = max(w, h)
+
+            # pylint: disable=E1101
+            gtk.icon_theme_add_builtin_icon(path, isize, icon)
+
+        try:
+            self._ensure_good_upscales(path, size)
+            return self.icon_theme.load_icon(path, size, 0)
+        except glib.GError:  # pylint: disable=E1101
             log.error("BAD ICON: %s", path)
-            return None
+            return None  # TODO: Broken icon placeholder
 
     def populate_model(self):
         """Populate store_games."""
@@ -120,7 +133,7 @@ class Application(object):  # pylint: disable=C0111,R0902
         try:
 
                 self.data.append((
-                    self.get_scaled_icon(entry.icon),
+                    self.get_scaled_icon(entry.icon, ICON_SIZE),
                     entry.name,
                     xmlescape(entry.summarize()),
                     pos
