@@ -18,11 +18,13 @@
           <object class="GtkIconView" id="view_games">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="model">store_games</property>
             <property name="item_width">96</property>
             <property name="row_spacing">2</property>
             <property name="column_spacing">2</property>
             <property name="margin">2</property>
             <property name="tooltip_column">2</property>
+            <signal name="button-press-event" handler="on_view_games_button_press_event" swapped="no"/>
             <signal name="item-activated" handler="on_view_games_item_activated" swapped="no"/>
           </object>
         </child>

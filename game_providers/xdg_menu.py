@@ -82,6 +82,7 @@ def get_games(root_folder='Games'):
         #      (eg. for Emulators?)
         cmd = re.sub('%[a-zA-Z]', '', dentry.getExec())
 
+        # TODO: Find a way to hint that one of the copies of this is generated
         name = (dentry.getName() or dentry.DesktopFileID).strip()
         icon = dentry.getIcon().strip()
         results.append(InstalledGameEntry(
