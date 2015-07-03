@@ -111,10 +111,15 @@ def filename_to_name(fname):
     return name
 
 def lex_shellscript(script_path, statement_cb):
-    """Given a POSIX-mode shlex.shlex object, split it into statements and
-        call the given statement processor to convert statements into dicts.
+    """Given a file-like object, use a POSIX-mode shlex.shlex object to split
+       it into statements and call the given statement processor to convert
+       statements into dicts.
+
+       Accepts either an individual callback or a lists or tuples of them.
     """
     fields = {}
+    if not isinstance(statement_cb, (list, tuple)):
+        statement_cb = [statement_cb]
 
     with open(script_path, 'r') as fobj:
         lexer = shlex.shlex(fobj, script_path, posix=True)
@@ -124,7 +129,8 @@ def lex_shellscript(script_path, statement_cb):
         while token is not None:
             token = lexer.get_token()
             if token in [None, '\n', ';']:
-                fields.update(statement_cb(current_statement))
+                for callbk in statement_cb:
+                    callbk(current_statement, fields)
                 current_statement = []
             else:
                 current_statement.append(token)
@@ -137,11 +143,10 @@ def make_metadata_mapper(field_map, extras_cb=None):
     @param extras_cb: A callback to perform more involved transformations.
     """
 
-    def process_statement(token_list):
+    def process_statement(token_list, fields):
         """A simple callback to convert lists of shell tokens into key=value
            pairs according to the contents of C{field_map}
         """
-        fields = {}
         if len(token_list) == 6 and token_list[0:3] == ['declare', '-', 'r']:
             if token_list[3] in field_map:
                 fields[field_map[token_list[3]]] = token_list[5]
@@ -151,7 +156,6 @@ def make_metadata_mapper(field_map, extras_cb=None):
 
         if extras_cb:
             extras_cb(token_list, fields)
-        return fields
     return process_statement
 
 # vim: set sw=4 sts=4 expandtab :

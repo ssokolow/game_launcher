@@ -32,6 +32,20 @@ def detect_gogishness(token_list, fields):
         if ''.join(token_list[1:]) == 'support/gog_com.shlib':
             fields['sub_provider'] = BACKEND_NAME
 
+    # TODO: Rework this so I can explicitly specify roles here
+    if len(token_list) >= 5 and token_list[0] == 'define_option':
+        tlist = token_list[3].split()
+        for prefix in ('start', '$game_name', '${game_name}'):
+            if tlist[0].lower() == prefix:
+                tlist.pop(0)
+            token_list[3] = ' '.join(tlist).strip()
+            if not token_list[3] or token_list[3].lower() == '[default]':
+                token_list[3] = 'Play'
+
+        fields.setdefault('commands', []).append(
+            (token_list[3], token_list[2]))
+
+
 def inspect(path):
     """Try to extract GOG.com tarball metadata from the given folder"""
     start_path = os.path.join(path, 'start.sh')
@@ -47,16 +61,13 @@ def inspect(path):
     if os.path.isfile(icon_path):
         fields['icon'] = icon_path
 
-    # TODO: Let InstalledGameEntry deduce this from the GameLauncher listings
-    fields['provider'] = "GOG.com"
-
     # TODO: Detect and offer start.sh subcommands
+    # TODO: Detect things like Manual.pdf and generate subcommands
     fields['commands'] = [GameLauncher(
-        argv=[start_path],
-        role=GameLauncher.Roles.play,
-        name=fields['name'],
+        argv=[start_path, x[1]],
+        name=x[0],
         provider=BACKEND_NAME,
         tryexec=start_path,
-        use_terminal=False)]
+        use_terminal=False) for x in fields['commands']]
 
     return fields
