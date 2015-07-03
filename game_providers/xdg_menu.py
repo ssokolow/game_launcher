@@ -99,6 +99,7 @@ def get_games(root_folder='Games'):
                 description=dentry.getComment(),
                 tryexec=dentry.getTryExec(),
                 xdg_categories=dentry.getCategories(),
+                keywords=dentry.getKeywords(),
                 use_terminal=dentry.getTerminal())
             ]))
     return results
