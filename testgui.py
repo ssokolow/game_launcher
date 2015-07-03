@@ -82,13 +82,18 @@ class Application(object):  # pylint: disable=C0111,R0902
                 icon = gtk.gdk.pixbuf_new_from_file(path)
                 w, h = icon.get_width(), icon.get_height()
 
-                if w >= h > 32:
-                    ratio = w / 32.0
-                elif h >= w > 32:
-                    ratio = h / 32.0
+                # TODO: Allow the user to choose whether small icons get scaled
+                #       up and, if so, how much matting should be allowed to
+                #       compromise between size consistency and appearance
+                if w >= h != ICON_SIZE:
+                    ratio = w / ICON_SIZE
+                elif h >= w != ICON_SIZE:
+                    ratio = h / ICON_SIZE
                 else:
                     return icon
 
+                # TODO: Try using a "blocky, not blurry" algorithm when scaling
+                #       up beyond a certain degree.
                 # TODO: Figure out how to tap into GTK's scaled icon generation
                 #       and caching
                 return icon.scale_simple(int(w / ratio), int(h / ratio),
