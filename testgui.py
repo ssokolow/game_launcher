@@ -14,7 +14,7 @@ import logging, os, subprocess, sys
 log = logging.getLogger(__name__)
 
 RES_DIR = os.path.dirname(__file__)
-ICON_SIZE = 32
+ICON_SIZE = 64
 
 # ---=== Begin Imports ===---
 
