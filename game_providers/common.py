@@ -336,10 +336,10 @@ class GameLauncher(GameSubentry):
         """Defined in terms of C{tryexec} and C{argv[0]}"""
         if self.tryexec and not which(self.tryexec):
             return False
-
         return bool(which(self.argv[0]))
 
     def run(self):
+        """Launch this entry as a subprocess using the contained metadata"""
         # Work around things like Desura expecting Windows-style PWD behaviour
         if not self.path:
             self.path = os.path.dirname(which(self.argv[0]))
@@ -347,5 +347,11 @@ class GameLauncher(GameSubentry):
                 log.error("Failed to generate valid $PWD (%s)", self.path)
                 self.path = None
 
-        print("Spawning %s" % self.argv)
+        argv = self.argv
+        if self.use_terminal:
+            argv = TERMINAL_CMD + argv
+
+        print("Spawning %r with cwd=%r" % (self.argv, self.path))
         return subprocess.Popen(self.argv, cwd=self.path).pid
+        # TODO: Rework so I can capture output and display it on unclean exit
+        #       (Eg. error while loading shared libraries: ...)
