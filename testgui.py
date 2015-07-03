@@ -112,7 +112,7 @@ class Application(object):  # pylint: disable=C0111,R0902
 
         try:
             for pos, entry in enumerate(self.entries):
-                description = "%s (%s)" % (entry.name, entry.provider)
+                description = "%s (%s)" % (entry.name, ', '.join(entry.provider))
                 if entry.description and entry.description != entry.name:
                     description += "\n\n" + xmlescape(entry.description)
                 if any(x for x in entry.xdg_categories if x != 'Game'):
