@@ -75,7 +75,6 @@ def get_games():
         results.append(InstalledGameEntry(
             name=name,
             icon=icon,
-            provider=BACKEND_NAME,
             commands=[GameLauncher(
                 argv=["playonlinux", "--run", name],
                 provider=BACKEND_NAME,

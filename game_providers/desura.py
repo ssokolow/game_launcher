@@ -57,9 +57,7 @@ def get_games():
             role = GameLauncher.Roles.unknown
 
         if row[0] not in entries:
-            entries[row[0]] = InstalledGameEntry(name=row[1],
-                                                 icon=row[3],
-                                                 provider=BACKEND_NAME)
+            entries[row[0]] = InstalledGameEntry(name=row[1], icon=row[3])
 
         entries[row[0]].commands.append(GameLauncher(
                 argv=[row[4]] + shlex.split(row[5]) + shlex.split(row[6]),

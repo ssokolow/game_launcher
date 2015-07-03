@@ -87,7 +87,6 @@ def get_games(root_folder='Games'):
         results.append(InstalledGameEntry(
             name=name,
             icon=icon,
-            provider=BACKEND_NAME,
             commands=[GameLauncher(
                 # Needed to work around Desura .desktop quoting failure
                 argv=resolve_exec(cmd),
