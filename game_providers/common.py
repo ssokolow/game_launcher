@@ -46,12 +46,19 @@ def which(exec_name, execpath=None):
     @todo: Figure out how to "pragma: no cover" conditional on os.name.
     """
     if 'nt' in os.name:
+        def test(path):
+            """@todo: Is there a more thorough way to do this on Windows?"""
+            return os.path.exists(path)
+
         # TODO: Figure out how to retrieve this list from the OS.
         # (We can't just use PATHEXT according to
         #  http://bugs.python.org/issue2200#msg131532 because spawnv doesn't
         #  support all extensions)
         suffixes = ['.exe', '.com', '.bat', '.cmd']  # pragma: no cover
     else:
+        def test(path):
+            """@todo: Is there a more thorough way to check this?"""
+            return os.access(path, os.X_OK)
         suffixes = []
 
     if isinstance(execpath, basestring):
@@ -61,10 +68,10 @@ def which(exec_name, execpath=None):
 
     for path in execpath:
         full_path = os.path.join(os.path.expanduser(path), exec_name)
-        if os.path.exists(full_path):
+        if test(full_path):
             return full_path
         for suffix in suffixes:
-            if os.path.exists(full_path + suffix):  # pragma: no cover
+            if test(full_path + suffix):  # pragma: no cover
                 return full_path + suffix
     return None  # Couldn't find anything.
 
