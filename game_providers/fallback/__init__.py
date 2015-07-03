@@ -25,7 +25,7 @@ from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
 
 import logging, os
-from ..common import InstalledGameEntry, which
+from ..common import InstalledGameEntry
 from .common import filename_to_name
 
 from . import gog, ssokolow_install_sh
@@ -92,14 +92,20 @@ def inspect_candidates(paths):
             log.info("Fallback - <Unmatched>: %s",
                      filename_to_name(os.path.basename(candidate)))
 
-            #TODO: Another sub-plugin which uses filename_to_name to produce
-            #      a title and attempts to guess argv, preferring names like
-            #      play.sh, run.sh, rungame.sh, run-*.sh, etc.,
-            #      blacklisting names like uninstall* and install*,
-            #      demoting names like extract-*,
-            #      preferring Foo and Foo.sh over Foo.$ARCH
-            #      and trying to prefer shallower paths to executables but
-            #      preferring bin/ when descending is necessary
+            # TODO: Another sub-plugin which uses filename_to_name to produce
+            #       a title and attempts to guess argv and icon, preferring
+            #       names like play.sh, run.sh, rungame.sh, run-*.sh, etc.,
+            #       and icon.*, blacklisting names like uninstall* and
+            #       install*, demoting names like extract-*,
+            #       preferring Foo and Foo.sh over Foo.$ARCH
+            #       and trying to prefer shallower paths to executables but
+            #       preferring bin/ when descending is necessary
+            #
+            #       It should also support reporting success when it encounters
+            #       a folder containing only one +x file and one image in an
+            #       acceptable format at the top level or inside data/ or
+            #       assets/ (eg. That'd work for Chocolate Castle, Defcon, FTL,
+            #       Ultionus, Volgarr, etc.)
 
     return results
 

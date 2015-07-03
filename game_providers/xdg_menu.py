@@ -88,7 +88,7 @@ def get_games(root_folder='Games'):
             name=name,
             icon=icon,
             commands=[GameLauncher(
-                # Needed to work around Desura .desktop quoting failure
+                # resolve_cmd needed to work around Desura .desktop quoting bug
                 argv=resolve_exec(cmd),
                 provider=BACKEND_NAME,
                 role=GameLauncher.Roles.play,

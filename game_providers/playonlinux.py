@@ -72,6 +72,7 @@ def get_games():
                 icon = icon_path
                 break
 
+        # TODO: Deduplicate based on WINEPREFIX?
         results.append(InstalledGameEntry(
             name=name,
             icon=icon,
