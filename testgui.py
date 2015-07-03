@@ -20,7 +20,7 @@ ICON_SIZE = 32
 
 from xml.sax.saxutils import escape as xmlescape
 
-from test_providers import get_games
+from game_providers import get_games
 from game_providers.common import GameLauncher
 
 try:

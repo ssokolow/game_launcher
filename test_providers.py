@@ -34,23 +34,7 @@ import logging
 log = logging.getLogger(__name__)
 
 from itertools import chain
-from game_providers import xdg_menu, desura, playonlinux, fallback
-
-def get_games():
-    # TODO: Move priority ordering control into backend metadata
-    games = sorted(chain(*[x.get_games() for x in (
-        xdg_menu, desura, playonlinux, fallback)]))
-
-    for entry in games[:]:
-        if not entry.is_executable():
-            log.info("Skipping entry %s from %s. Not executable:\n\t%s",
-                     entry,
-                     entry.provider,
-                     '\n\t'.join(' '.join(x.argv) for x in entry.commands))
-            games.remove(entry)
-
-    # TODO: Dedupe
-    return games
+from game_providers import get_games
 
 def main():
     """The main entry point, compatible with setuptools entry points."""
