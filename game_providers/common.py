@@ -23,6 +23,7 @@ import enum, logging, os, shlex, subprocess, sys
 from functools import total_ordering
 
 # TODO: Include my patched xdg-terminal or some other fallback mechanism
+# TODO: Move this and most other constants to a config.py for visibility
 TERMINAL_CMD = ['xterm', '-e']
 
 # Don't search for metadata inside scripts like "start.sh" if they're bigger
