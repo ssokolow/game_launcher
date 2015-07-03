@@ -157,6 +157,17 @@ class GameEntry(object):
         return self._provider.union(x.provider for x in self.commands
                                     if x.provider)
 
+    def summarize(self):
+        """Return all human-relevant metadata in formatted plaintext form"""
+        lines = ["%s (%s)" % (self.name, ', '.join(self.provider))]
+        if self.description and self.description != self.name:
+            lines.extend(('', self.description))
+        if any(x for x in self.xdg_categories if x != 'Game'):
+            lines.extend(('', 'Categories:'))
+            lines.extend(['- ' + x.strip() for x in self.xdg_categories if
+                          x.strip() not in ('', 'Game')])
+        return '\n'.join(lines)
+
     def update(self, other):
         """Merge in metadata from another entry object."""
         for name in ('icon', 'provider', '_description'):
@@ -165,6 +176,12 @@ class GameEntry(object):
                 setattr(self, name, getattr(other, name))
 
         self.provider.update(other.provider)
+
+    # TODO: Rename to categories and allow non-launcher content like providers?
+    @property
+    def xdg_categories(self):
+        """Deduce the provider list from the commands"""
+        return [cat for cats in self.commands for cat in cats]
 
 @total_ordering
 class InstalledGameEntry(GameEntry):

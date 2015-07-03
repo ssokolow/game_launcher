@@ -116,20 +116,11 @@ class Application(object):  # pylint: disable=C0111,R0902
         self.entries = get_games()
 
         try:
-            for pos, entry in enumerate(self.entries):
-                description = "%s (%s)" % (entry.name, ', '.join(entry.provider))
-                if entry.description and entry.description != entry.name:
-                    description += "\n\n" + xmlescape(entry.description)
-                if any(x for x in entry.xdg_categories if x != 'Game'):
-                    description += ("\n\nCategories:\n- " + xmlescape(
-                                    '\n- '.join([x for x in
-                                                 entry.xdg_categories if
-                                                 x != 'Game'])))
 
                 self.data.append((
                     self.get_scaled_icon(entry.icon),
                     entry.name,
-                    description,
+                    xmlescape(entry.summarize()),
                     pos
                 ))
         finally:
