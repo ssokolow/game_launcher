@@ -125,6 +125,13 @@ class GameEntry(object):
 
         self.provider.update(other.provider)
 
+        # TODO: Make this no longer O(n^2)
+        # TODO: Prefer run.sh over bare commands
+        # TODO: Resort so Play comes first
+        for command in other.commands:
+            if not any(x.argv == command.argv for x in self.commands):
+                self.commands.append(command)
+
     # TODO: Rename to categories and allow non-launcher content like providers?
     @property
     def categories(self):
