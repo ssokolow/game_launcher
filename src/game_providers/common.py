@@ -119,8 +119,9 @@ class GameEntry(object):
 
     def update(self, other):
         """Merge in metadata from another entry object."""
+        # TODO: Check for common subset of the name and dedupe
         for name in ('icon', 'provider', '_description'):
-            if hasattr(other, name) and not hasattr(self, name):
+            if hasattr(other, name) and not getattr(self, name, None):
                 setattr(self, name, getattr(other, name))
 
         self.provider.update(other.provider)
