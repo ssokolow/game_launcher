@@ -18,7 +18,7 @@ PROVIDERS = [xdg_menu, desura, playonlinux, fallback]
 
 def get_games():
     """Use all available backends to retrieve a deduplicated list of games"""
-    result_sets, results = {}, []
+    results_raw, results = [], []
 
     # Get raw results
     for entry in sorted(chain(*[x.get_games() for x in PROVIDERS])):
@@ -29,18 +29,24 @@ def get_games():
                      '\n\t'.join(' '.join(x.argv) for x in entry.commands))
             continue
 
-        result_sets.setdefault(entry.name, []).append(entry)
+        # Look into having entries generate a tuple for use as a dict key
+        # for sorting into buckets prior to comparison
+        results_raw.append(entry)
+
+    # TODO: Probably a good idea to note which results weren't re-discovered
+    #       by the fallback walker and manually run them through it to see
+    #       if anything turns up.
 
     # Merge and deduplicate
-    for resultset in result_sets.values():
-        first = resultset.pop(0)
-        results.append(first)
+    # TODO: Redesign to not be O(n^2)
+    while results_raw:
+        val1 = results_raw.pop(0)
+        results.append(val1)
 
-        for entry in resultset[:]:
-            if first == entry:
-                first.update(entry)
-                resultset.remove(entry)
-            else:
-                results.append(entry)
+        for val2 in results_raw[:]:
+            if val1 == val2:
+                results_raw.remove(val2)
+                val1.update(val2)
+                break
 
     return results
