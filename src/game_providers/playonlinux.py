@@ -29,6 +29,7 @@ __license__ = "GNU GPL 3.0 or later"
 import os, re
 from .common import InstalledGameEntry, GameLauncher
 from ..util.executables import Roles
+from ..util.shlexing import lex_shellscript, make_metadata_mapper
 
 BACKEND_NAME = "PlayOnLinux"
 POL_PREFIX = os.path.expanduser('~/.PlayOnLinux')
@@ -56,7 +57,8 @@ def get_games():
         return []
 
     results = []
-    for name in os.listdir(os.path.join(POL_PREFIX, 'shortcuts')):
+    shortcut_dir = os.path.join(POL_PREFIX, 'shortcuts')
+    for name in os.listdir(shortcut_dir):
         if os.path.isdir(name):
             continue
 
@@ -76,14 +78,22 @@ def get_games():
                 icon = icon_path
                 break
 
+        fields = lex_shellscript(os.path.join(shortcut_dir, name),
+            make_metadata_mapper({'WINEPREFIX': 'base_path'}))
+        if 'base_path' not in fields:
+            print(os.path.join(shortcut_dir, name), fields)
+            continue
+
+
         # TODO: Deduplicate based on WINEPREFIX?
         results.append(InstalledGameEntry(
             name=name,
             icon=icon,
+            base_path=fields['base_path'],
             commands=[GameLauncher(
                 argv=["playonlinux", "--run", name],
                 provider=BACKEND_NAME,
-                role=Roles.play,
+                role=Roles.guess(name),
                 name=name,
                 icon=icon,
                 use_terminal=False)

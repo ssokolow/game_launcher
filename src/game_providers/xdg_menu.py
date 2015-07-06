@@ -30,7 +30,7 @@ __license__ = "GNU GPL 3.0 or later"
 
 BACKEND_NAME = "XDG"
 
-import logging, re
+import logging, os, re
 import xdg.Menu
 
 from .common import InstalledGameEntry, GameLauncher
@@ -38,6 +38,17 @@ from ..util.common import resolve_exec
 from ..util.executables import Roles
 
 log = logging.getLogger(__name__)
+
+# TODO: Put this somewhere like util.common
+# A list of paths that, if exactly matched, should not be used for game
+# deduplication via install directory
+COMMON_DIRS = [
+    '/opt', os.path.expanduser('~/opt'),
+    '/bin', os.path.expanduser('~/bin'),
+    '/usr/games/bin', '/usr/local/games/bin',
+    '/usr/games', '/usr/local/games',
+    '/usr/bin', '/usr/local/bin',
+]
 
 def _process_menu(menu):
     """Recursive handler for getting games from menus.
@@ -88,16 +99,26 @@ def get_games(root_folder='Games'):
         # TODO: Find a way to hint that one of the copies of this is generated
         name = (dentry.getName() or dentry.DesktopFileID).strip()
         icon = dentry.getIcon().strip()
+        path = dentry.getPath()
+        tryexec = dentry.getTryExec()
+
+        # resolve_cmd needed to work around Desura .desktop quoting bug
+        argv = resolve_exec(cmd)
+
+        base_path = path or os.path.dirname(tryexec or argv[0]) or None
+        if base_path and base_path in COMMON_DIRS:
+            base_path = None
+
         results.append(InstalledGameEntry(
             name=name,
             icon=icon,
+            base_path=base_path,
             commands=[GameLauncher(
-                # resolve_cmd needed to work around Desura .desktop quoting bug
-                argv=resolve_exec(cmd),
+                argv=argv,
                 provider=BACKEND_NAME,
                 role=Roles.play,
                 name=name,
-                path=dentry.getPath(),
+                path=path,
                 icon=icon,
                 description=dentry.getComment(),
                 tryexec=dentry.getTryExec(),

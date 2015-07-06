@@ -65,6 +65,7 @@ def inspect(path):
         'GAME_NAME': 'name',
         'PACKAGE_NAME': 'game_id'
     }, detect_gogishness))
+    fields['base_path'] = path
 
     icon_path = os.path.join(path, 'support', fields['game_id'] + '.png')
     if os.path.isfile(icon_path):

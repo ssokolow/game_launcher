@@ -40,6 +40,8 @@ class GameEntry(object):
     @todo: Decide on a proper definition of equality.
     """
 
+    base_path = None
+
     # pylint: disable=too-many-arguments
     def __init__(self, name, icon=None, provider=None, description=None,
                  commands=None, *args, **kwargs):
@@ -139,8 +141,20 @@ class InstalledGameEntry(GameEntry):
            install directories, and the like as deduplication keys.
     """
 
+    def __init__(self, base_path, **kwargs):
+        super(InstalledGameEntry, self).__init__(**kwargs)
+
+        # TODO: Apply COMMON_DIRS filtering here so it's unified
+        # XXX: What if multiple copies are installed? Allow a list?
+        if base_path:
+            self.base_path = os.path.normcase(os.path.abspath(base_path))
+
     def __eq__(self, other):
         """@todo: Make this more discerning"""
+        if (self.base_path and other.base_path and
+            self.base_path == other.base_path):
+            return True
+
         argv_match = False
         for x in self.commands:
             for y in other.commands:

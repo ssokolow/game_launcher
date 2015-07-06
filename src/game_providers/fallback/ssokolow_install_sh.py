@@ -87,6 +87,7 @@ def inspect(path):
     return {
         'name': launcher.name,
         'icon': launcher.icon,
+        'base_path': path,
         'provider': BACKEND_NAME,
         'commands': [launcher, installer]
     }

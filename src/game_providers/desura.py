@@ -45,7 +45,7 @@ def get_games():
     for row in conn.execute("""SELECT DISTINCT
             i.internalid, i.name, e.name, i.icon,
             e.exe, e.exeargs, e.userargs, ii.installcheck,
-            i.developer, i.publisher
+            i.developer, i.publisher, ii.installpath
             FROM iteminfo AS i, exe AS e, installinfo as ii
             WHERE i.internalid = e.itemid AND i.internalid = ii.itemid
             ORDER BY e.rank ASC"""):
@@ -58,7 +58,8 @@ def get_games():
             role = Roles.unknown
 
         if row[0] not in entries:
-            entries[row[0]] = InstalledGameEntry(name=row[1], icon=row[3])
+            entries[row[0]] = InstalledGameEntry(name=row[1], icon=row[3],
+                                                 base_path=row[10])
 
         entries[row[0]].commands.append(GameLauncher(
                 argv=[row[4]] + shlex.split(row[5]) + shlex.split(row[6]),

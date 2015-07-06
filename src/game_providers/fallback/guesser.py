@@ -111,6 +111,7 @@ def inspect(path):
         'name': name,
         'icon': icon,
         'provider': BACKEND_NAME,  # TODO: Allow this to be inferred
+        'base_path': path,
         'commands': [],
     }
 
