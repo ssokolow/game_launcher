@@ -124,6 +124,16 @@ class GameEntry(object):
             if hasattr(other, name) and not getattr(self, name, None):
                 setattr(self, name, getattr(other, name))
 
+        # Deduplicate names like "GameName (option)" from POL more helpfully
+        # (But don't let mismatches between different backends cause
+        #  overzealous trimming such as "Eets 2" + "Eets Munchies" = "Eets")
+        #  TODO: Unit test to make the following line more robust
+        if self.provider == other.provider:
+            name_prefix = os.path.commonprefix((self.name, other.name))
+            if len(name_prefix) > 2:
+                self.name = name_prefix.rstrip(' -:([<')
+        # TODO: Now strip common prefixes from the subentry names
+
         self.provider.update(other.provider)
 
         # TODO: Make this no longer O(n^2)
