@@ -4,9 +4,7 @@
   },
   "hobl_linux64": {
     "ideal": "HOBL",
-    "acceptable": [
-      "Hobl"
-    ]
+    "attainable": "Hobl"
   },
   "Trauma": {
     "ideal": "Trauma"
@@ -16,9 +14,7 @@
   },
   "GSB": {
     "ideal": "G.S.B.",
-    "acceptable": [
-      "GSB"
-    ]
+    "attainable": "GSB"
   },
   "time-swap": {
     "ideal": "Time Swap"
@@ -37,8 +33,8 @@
   },
   "bit.trip.runner-1.0": {
     "ideal": "Bit.Trip Runner",
+    "attainable": "Bit.Trip.Runner",
     "acceptable": [
-      "Bit.Trip.Runner",
       "bit.trip.runner",
       "BIT.TRIP RUNNER",
       "Bit.trip.runner"
@@ -52,15 +48,11 @@
   },
   "titanattacks": {
     "ideal": "Titan Attacks",
-    "acceptable": [
-      "Titanattacks"
-    ]
+    "attainable": "Titanattacks"
   },
   "Aaaaa_Awesome_x64_Linux": {
     "ideal": "Aaaaa! for the Awesome",
-    "acceptable": [
-      "Aaaaa Awesome"
-    ]
+    "attainable": "Aaaaa Awesome"
   },
   "darwinia": {
     "ideal": "Darwinia"
@@ -94,9 +86,7 @@
   },
   "LaMulana": {
     "ideal": "La-Mulana",
-    "acceptable": [
-      "La Mulana"
-    ]
+    "attainable": "La Mulana"
   },
   "avadon": {
     "ideal": "Avadon"
@@ -121,9 +111,7 @@
   },
   "fortune": {
     "ideal": "fortune",
-    "acceptable": [
-      "Fortune"
-    ]
+    "attainable": "Fortune"
   },
   "volt": {
     "ideal": "Volt"
@@ -154,9 +142,7 @@
   },
   "VirusJigglinFever": {
     "ideal": "Virus Jigglin' Fever",
-    "acceptable": [
-      "Virus Jigglin Fever"
-    ]
+    "attainable": "Virus Jigglin Fever"
   },
   "PixelJunk Shooter": {
     "ideal": "PixelJunk Shooter"
@@ -180,16 +166,12 @@
     "ideal": "Testy MacJohnson"
   },
   "Blake Stone Aliens of Gold": {
-    "ideal": "Blake Stone: Aliens Of Gold",
-    "acceptable": [
-      "Blake Stone Aliens Of Gold"
-    ]
+    "ideal": "Blake Stone: Aliens of Gold",
+    "attainable": "Blake Stone Aliens of Gold"
   },
   "knightspp_linux_209": {
     "ideal": "Knights of Pen and Paper",
-    "acceptable": [
-      "Knightspp"
-    ]
+    "attainable": "Knightspp"
   },
   "Apotheon": {
     "ideal": "Apotheon"
@@ -214,9 +196,7 @@
   },
   "dearesther": {
     "ideal": "Dear Esther",
-    "acceptable": [
-      "Dearesther"
-    ]
+    "attainable": "Dearesther"
   },
   "DesktopDungeons": {
     "ideal": "Desktop Dungeons"
@@ -258,7 +238,8 @@
     ]
   },
   "RaceTheSunLinux_1.42": {
-    "ideal": "Race The Sun"
+    "ideal": "Race The Sun",
+    "attainable": "Race the Sun"
   },
   "Teslagrad": {
     "ideal": "Teslagrad"
@@ -271,18 +252,14 @@
   },
   "MouseCraft": {
     "ideal": "MouseCraft",
-    "acceptable": [
-      "Mouse Craft"
-    ]
+    "attainable": "Mouse Craft"
   },
   "The Bard's Tale": {
     "ideal": "The Bard's Tale"
   },
   "TypeRider": {
     "ideal": "TypeRider",
-    "acceptable": [
-      "Type Rider"
-    ]
+    "attainable": "Type Rider"
   },
   "Pixel Piracy": {
     "ideal": "Pixel Piracy"
@@ -301,15 +278,15 @@
   },
   "roguelegacy": {
     "ideal": "Rogue Legacy",
+    "attainable": "Roguelegacy",
     "acceptable": [
       "Roguelegacy"
     ]
   },
   "gp_full_linux64_v1.13": {
     "ideal": "G.P.",
-    "acceptable": [
-      "GP"
-    ]
+    "attainable": "GP",
+    "acceptable": ["Gp"]
   },
   "BeansQuest": {
     "ideal": "Bean's Quest",
@@ -345,9 +322,7 @@
   },
   "SteamWorldDig": {
     "ideal": "SteamWorld Dig",
-    "acceptable": [
-      "Steam World Dig"
-    ]
+    "attainable": "Steam World Dig"
   },
   "fennec-7.0.1": {
     "ideal": "Fennec"
@@ -366,8 +341,8 @@
   },
   "spaz": {
     "ideal": "S.P.A.Z.",
+    "attainable": "SPAZ",
     "acceptable": [
-      "SPAZ",
       "Spaz"
     ]
   },
@@ -385,9 +360,7 @@
   },
   "Blake Stone Planet Strike": {
     "ideal": "Blake Stone: Planet Strike",
-    "acceptable": [
-      "Blake Stone Planet Strike"
-    ]
+    "attainable": "Blake Stone Planet Strike"
   },
   "dolphin-emu": {
     "ideal": "Dolphin Emu"
@@ -403,9 +376,7 @@
   },
   "escapegoat2": {
     "ideal": "Escape Goat 2",
-    "acceptable": [
-      "Escapegoat 2"
-    ]
+    "attainable": "Escapegoat 2"
   },
   "DungeonsOfDredmor": {
     "ideal": "Dungeons of Dredmor",
@@ -424,8 +395,8 @@
   },
   "trine2_complete_story_v2_01_build_425_humble_linux": {
     "ideal": "Trine 2: Complete Story",
+    "attainable": "Trine 2 Complete Story",
     "acceptable": [
-      "Trine 2 Complete Story",
       "Trine2 Complete Story"
     ]
   },
@@ -449,9 +420,7 @@
   },
   "supertuxkart-0.9-linux": {
     "ideal": "SuperTuxKart",
-    "acceptable": [
-      "Supertuxkart"
-    ]
+    "attainable": "Supertuxkart"
   },
   "StrikeSuitZero_linux_1389211698": {
     "ideal": "Strike Suit Zero"
@@ -500,9 +469,7 @@
   },
   "LanguageTool": {
     "ideal": "LanguageTool",
-    "acceptable": [
-      "Language Tool"
-    ]
+    "attainable": "Language Tool"
   },
   "Hammerwatch": {
     "ideal": "Hammerwatch"
@@ -539,15 +506,11 @@
   },
   "zenbound2": {
     "ideal": "Zen Bound 2",
-    "acceptable": [
-      "Zenbound 2"
-    ]
+    "attainable": "Zenbound 2"
   },
   "kagbeta-linux32-client": {
     "ideal": "KAG Client",
-    "acceptable": [
-      "Kag Client"
-    ]
+    "attainable": "Kag Client"
   },
   "fennec-4.0.1": {
     "ideal": "Fennec"
@@ -562,22 +525,19 @@
     "ideal": "Testilization V"
   },
   "RaceTheSun_1.10_LINUX": {
-    "ideal": "Race The Sun"
+    "ideal": "Race The Sun",
+    "attainable": "Race the Sun"
   },
   "supermeatboy": {
     "ideal": "Super Meat Boy",
-    "acceptable": [
-      "Supermeatboy"
-    ]
+    "attainable": "Supermeatboy"
   },
   "elliot_quest": {
     "ideal": "Elliot Quest"
   },
   "Octodad Dadliest Catch": {
     "ideal": "Octodad: Dadliest Catch",
-    "acceptable": [
-      "Octodad Dadliest Catch"
-    ]
+    "attainable": "Octodad Dadliest Catch"
   },
   "TestyMacJohnson": {
     "ideal": "Testy MacJohnson"
@@ -595,7 +555,8 @@
     "ideal": "Ascendant"
   },
   "ToTheMoon": {
-    "ideal": "To The Moon"
+    "ideal": "To The Moon",
+    "attainable": "To the Moon"
   },
   "Jazzpunk": {
     "ideal": "Jazzpunk"
@@ -605,18 +566,14 @@
   },
   "avirusnamedtom": {
     "ideal": "A Virus Named Tom",
-    "acceptable": [
-      "Avirusnamedtom"
-    ]
+    "attainable": "Avirusnamedtom"
   },
   "processing-1.5.1": {
     "ideal": "Processing"
   },
   "atomzombiesmasher": {
     "ideal": "Atom Zombie Smasher",
-    "acceptable": [
-      "Atomzombiesmasher"
-    ]
+    "attainable": "Atomzombiesmasher"
   },
   "teensyduino": {
     "ideal": "Teensyduino"
@@ -635,18 +592,14 @@
   },
   "prisonarchitect-alpha24c-linux": {
     "ideal": "Prison Architect",
-    "acceptable": [
-      "Prisonarchitect"
-    ]
+    "attainable": "Prisonarchitect"
   },
   "Hexcells Infinite - Linux": {
     "ideal": "Hexcells Infinite"
   },
   "beatblastersiii": {
     "ideal": "BeatBlasters III",
-    "acceptable": [
-      "Beatblasters III"
-    ]
+    "attainable": "Beatblasters III"
   },
   "OpenUHS 0.6.6": {
     "ideal": "OpenUHS",
