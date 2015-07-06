@@ -1,0 +1,740 @@
+{
+  "": { "ideal": "unknown" },
+  "YrminsulV1.031-Linux.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Influent.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Shipwreck.bin.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "ToTheMoon.bin.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-escapegoat2.sh": { "ideal": "uninstall" },
+  "zen": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "DesktopDungeons.sh": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "JDownloader2": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "BOH": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "poclbm.py": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Perfect Cherry Blossom": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Shadowrun": { "ideal": "play" },
+  "OctodadDadliestCatch": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "ROR.sh": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "braid": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "fennec": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "ROR.bin": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "dearesther_linux": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "run_eets2.sh": { "ideal": "play" },
+  "arduino": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Avadon-amd64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Super Mario Bros. X": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Spelunky World": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Spy Chameleon - RGB Agent.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-Guacamelee.sh": { "ideal": "uninstall" },
+  "Lemmings for Windows": {
+    "ideal": "play",
+    "attainable": "unknown"
+  },
+  "limbo": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Addon": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "run trauma": { "ideal": "play" },
+  "unepic32": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "GSB.bin.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "EscapeGoat2.exe": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "RaceTheSun.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "CircuitGame.bin.x86": { "ideal": "play" },
+  "Giana Sisters - Twisted Dreams (DirectX 9)": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "game": { "ideal": "play" },
+  "run_game.sh": { "ideal": "play" },
+  "DROD: The City Beneath": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "TheBridge.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Machinarium": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "._install.sh": { "ideal": "install" },
+  "YrminsulV1.031-Linux.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "OpenUHS.command": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "PrisonArchitect": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-unepic.sh": { "ideal": "uninstall" },
+  "install.sh": { "ideal": "install" },
+  "Jazzpunk.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "IttleDew_1.1.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "unxwb.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Reus.bin.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "run-mozilla.sh": { "ideal": "play" },
+  "JDownloader 2 Update & Rescue.desktop": {
+    "attainable": null,
+    "ideal": null
+  },
+  "Giana Sisters - Twisted Dreams (Configuration)": { "ideal": "configure" },
+  "Defender's Quest": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "jasper": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "TowerOfGuns.sh": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Capsized": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "RogueLegacy": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "CaveStory+_64.sh": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "game-bin": { "ideal": "play" },
+  "ccn.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "sdk_installer_openpandora_toolchain.sh": { "ideal": "install" },
+  "PaperSorcererLinux.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "eets2": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-capsized.sh": { "ideal": "uninstall" },
+  "uninstall-avadon.sh": { "ideal": "uninstall" },
+  "uninstall.sh": { "ideal": "uninstall" },
+  "NePlusUltra.exe": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Jamestown": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "optimize_data.sh": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "An Untitled Story": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-Grimrock": { "ideal": "uninstall" },
+  "trine2.sh": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "SPAZ": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Dredmor-x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "rymdkapsel": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "railyardm3e.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "JDownloader2Update": {
+    "attainable": null,
+    "ideal": null
+  },
+  "Delve Deeper": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "unxwb.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Launcher": { "ideal": "play" },
+  "DesktopDungeons.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "AndroVMplayer": { "ideal": "play" },
+  "NePlusUltra.bin.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Inescapable.i686": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "mozilla-xremote-client": { "ideal": "play" },
+  "Nihilumbra": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "EscapeGoat2.bin.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-supermeatboy.sh": { "ideal": "uninstall" },
+  "Settings": { "ideal": "configure" },
+  "EscapeGoat2.bin.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "processing": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-avirusnamedtom.sh": { "ideal": "uninstall" },
+  "Install.sh": { "ideal": "install" },
+  "Dredmor-amd64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Megabyte Punch": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Antichamber.sh": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "hobl.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Hunter Hunted": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "FTL": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-shipwreck.sh": { "ideal": "uninstall" },
+  "Shipwreck": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Explodemon": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "choc": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Jamestown-x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-reus.sh": { "ideal": "uninstall" },
+  "DontMove": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "railyardm3e.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "server_linux_x86": { "ideal": "play" },
+  "Hexcells Infinite.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Gunpoint": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-vessel.sh": { "ideal": "uninstall" },
+  "Server": { "ideal": "play" },
+  "Reus": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "ultratron.sh": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Nihilumbra.desktop": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "knightspp.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-braid.sh": { "ideal": "uninstall" },
+  "Prince of Persia: The Sands of Time": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "CircuitGame.exe": { "ideal": "play" },
+  "uninstall-TowerOfGuns.sh": { "ideal": "uninstall" },
+  "uninstall-jamestown-gunpowderplot.sh": { "ideal": "uninstall" },
+  "uninstall-dearesther.sh": { "ideal": "uninstall" },
+  "unxwb": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Avadon-x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "titanattacks.sh": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "defcon.bin.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "jarnal.sh": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "AVirusNamedTOM": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Beatbuddy.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "unepic64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "darwinia.bin.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "CaveStory+_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "RogueCastle.bin.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Play": { "ideal": "play" },
+  "PaperSorcererLinux.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Evoland": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "SuperMeatBoy": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Hexcells Infinite.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "v1.2.0_64.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Cube and Star An Arbitrary Love.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "NePlusUltra.bin.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Bravada.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "gsb.sh": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "LaMulana.bin.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-spaz.sh": { "ideal": "uninstall" },
+  "Letter Quest": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Cq.bin.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Cube and Star An Arbitrary Love.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "CircuitGame.bin.x86_64": { "ideal": "play" },
+  "uninstall-CostumeQuest.sh": { "ideal": "uninstall" },
+  "Grimrock": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "EscapeGoat2": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "testrules.sh": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Client": { "ideal": "play" },
+  "Reus.bin.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Shadowrun.sh": { "ideal": "play" },
+  "Inescapable.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Jazzpunk.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "BeatBlastersIII": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "._uninstall.sh": { "ideal": "uninstall" },
+  "Shipwreck.bin.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Reus.exe": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "DROD: King Dugan's Dungeon": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-RiskOfRain.sh": { "ideal": "uninstall" },
+  "GSB.bin.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "dynablaster_linux_x64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "TypeRider.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Cubetractor": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "EndlessNuclearKittens.sh": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "install": { "ideal": "install" },
+  "Total Annihilation: Commander Pack": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Vessel": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Heart of Darkness": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-Antichamber.sh": { "ideal": "uninstall" },
+  "plugin-container": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Rayman Origins": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "The Banner Saga": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "TypeRider.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "NEOScavenger": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "AtomZombieSmasher": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "runner": { "ideal": "play" },
+  "CaveStory+": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Dear_Esther": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Lode Runner Online: The Mad Monks' Revenge": { "ideal": "play" },
+  "PrisonArchitect.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "TimeSwap": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "DROD: Journey To Rooted Hold": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Continue_LINUX_1_4.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "dynablaster_linux_x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Triple Town": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uplink.bin.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "server_linux_x64": { "ideal": "play" },
+  "ZenBound2.bin": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Bonus": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "vox": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "RogueCastle.exe": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Awesome.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-jamestown.sh": { "ideal": "uninstall" },
+  "Avadon": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-LaMulana.sh": { "ideal": "uninstall" },
+  "Jamestown-amd64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Pushcat": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Dredmor": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Banished": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "elliot_quest": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "unepic.sh": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "RogueCastle.bin.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Spy Chameleon - RGB Agent.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Aqua Kitty: Milk Mine Defender": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Volgarr": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Terraria": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-limbo.sh": { "ideal": "uninstall" },
+  "JDownloader 2.desktop": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-ToTheMoon.sh": { "ideal": "uninstall" },
+  "Uninstall JDownloader": { "ideal": "uninstall" },
+  "Stronghold HD": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "BrickLayer": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "SnakeBlocks.x86": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "uninstall-EufloriaHD": { "ideal": "uninstall" },
+  "run.sh": { "ideal": "play" },
+  "EZ4_Client": { "ideal": "play" },
+  "RaceTheSun.x86_64": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "Gnomoria": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "PrisonArchitect.i686": {
+    "attainable": "unknown",
+    "ideal": "play"
+  },
+  "updater": {
+    "attainable": null,
+    "ideal": null
+  },
+  "Not the Robots": {
+    "attainable": "unknown",
+    "ideal": "play"
+  }
+}
