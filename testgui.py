@@ -25,6 +25,7 @@ from xml.sax.saxutils import escape as xmlescape
 
 # TODO: Decide on a name for the project and rename "src"
 from src.game_providers import get_games
+from src.util.executables import Roles
 
 try:
     import pygtk
@@ -164,6 +165,8 @@ class Application(object):  # pylint: disable=C0111,R0902
         """Generate and return a context menu for the given entry index"""
         popup = gtk.Menu()
         entry = self.entries[self.data[pos][3]]
+
+        default_cmd = entry.first_launcher(Roles.play, True)
         for cmd in entry.commands:
             # TODO: Move this into the frontend agnostic code
             # TODO: Use the role name, falling back to Play only if unknown
@@ -177,7 +180,7 @@ class Application(object):  # pylint: disable=C0111,R0902
             popup.add(item)
 
             # TODO: Actually use a customizable default setting
-            if cmd == entry.commands[0]:
+            if cmd == default_cmd:
                 attrs = pango.AttrList()
                 attrs.insert(pango.AttrWeight(600, end_index=len(name)))
                 item.get_child().set_attributes(attrs)
@@ -255,7 +258,10 @@ class Application(object):  # pylint: disable=C0111,R0902
 
     def on_view_games_item_activated(self, _, path):
         """Handler to launch games on double-click"""
-        self.entries[self.data[path][3]].commands[0].run()
+        cmd = self.entries[self.data[path][3]].first_launcher(Roles.play, True)
+
+        if cmd:
+            cmd.run()
         # TODO: Add some sort of is-running notification to the GUI
 
     # pylint: disable=no-self-use

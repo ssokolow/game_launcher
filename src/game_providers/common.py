@@ -78,11 +78,11 @@ class GameEntry(object):
                                       if x.description] + [None])[0]
 
     def first_launcher(self, role=None, fallback_unknown=False):
-        """Get the first launcher matching the specified role."""
-        result = [x for x in self.commands if not role or x.role in role]
+        """Get the first usable launcher matching the specified role."""
+        result = [x for x in self.commands
+                  if (not role or x.role == role) and x.is_executable()]
         if not result and fallback_unknown:
-            result += [x for x in self.commands
-                       if x.role == Roles.unknown]
+            return self.first_launcher(Roles.unknown)
         return (result + [None])[0]
 
     def is_executable(self, role=None):
