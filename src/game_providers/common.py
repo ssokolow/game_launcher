@@ -58,7 +58,7 @@ class GameEntry(object):
             log.debug("Unconsumed arguments: %r, %r", args, kwargs)
 
     def __eq__(self, other):
-        return self.name == other.name
+        return self.name.lower() == other.name.lower()
 
     def __gt__(self, other):
         return self.name > other.name
@@ -145,8 +145,7 @@ class InstalledGameEntry(GameEntry):
         for x in self.commands:
             for y in other.commands:
                 argv_match = argv_match or x.argv == y.argv
-        return self.name == other.name or argv_match
-        # TODO: ...or any base path matches
+        return super(InstalledGameEntry, self).__eq__(other) or argv_match
 
     @property
     def categories(self):
