@@ -1,10 +1,12 @@
+"""Tests for util.naming"""
 from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
 
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
-from game_providers.fallback.common import filename_to_name, PROGRAM_EXTS
+# TODO: Decide on a name for the program and rename "src"
+from src.util.naming import filename_to_name, PROGRAM_EXTS
 
 # TODO: unittest.TestCase for titlecase_up()
 
@@ -102,8 +104,10 @@ filename_test_map = {
     'torchlight': ['Torchlight', 'Torch Light'],
     'ToTheMoon': ['To The Moon'],
     'trine2_linux': ['Trine 2'],
+    'trine2_complete_story_v2_01_build_425_humble_linux': ['Trine2 Complete Story', 'Trine 2 Complete Story'],
     'Ultionus': ['Ultionus'],
     'unxwb': ['UnXWB'],
+    'uplink-x64': ['Uplink'],
     'vessel': ['Vessel'],
     'x-com db 1.4': ['X-Com DB'],
 }
@@ -142,3 +146,4 @@ def test_filename_to_name():
     print(message)
 
     assert score > -10
+

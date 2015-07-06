@@ -1,6 +1,6 @@
 """Code to retrieve a list of installed games from PlayOnLinux
 
-Copyright (C) 2014 Stephan Sokolow
+Copyright (C) 2014-2015 Stephan Sokolow
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@ __license__ = "GNU GPL 3.0 or later"
 
 import os, re
 from .common import InstalledGameEntry, GameLauncher
+from ..util.executables import Roles
 
 BACKEND_NAME = "PlayOnLinux"
 POL_PREFIX = os.path.expanduser('~/.PlayOnLinux')
@@ -45,6 +46,9 @@ def humansort_key(strng):
     return [w.isdigit() and int(w) or w.lower()
             for w in re.split(r'(\d+)', strng)]
 
+# TODO: There should be a way for a scraper to suppress entries like the
+#       PlayOnLinux XDG launcher from appearing and, instead, expose it
+#       somewhere else (the context menu, maybe?)
 def get_games():
     """Retrieve a list of games installed in PlayOnLinux."""
 
@@ -79,7 +83,7 @@ def get_games():
             commands=[GameLauncher(
                 argv=["playonlinux", "--run", name],
                 provider=BACKEND_NAME,
-                role=GameLauncher.Roles.play,
+                role=Roles.play,
                 name=name,
                 icon=icon,
                 use_terminal=False)

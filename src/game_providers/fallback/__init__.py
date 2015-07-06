@@ -3,7 +3,7 @@
 (Named "fallback" because the inherent imprecision relegates it to filling in
 the gaps left by the better approaches.)
 
-Copyright (C) 2014 Stephan Sokolow
+Copyright (C) 2014-2015 Stephan Sokolow
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -24,20 +24,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
 
-import logging, os
-from ..common import InstalledGameEntry
-from .common import filename_to_name
+__author__ = "Stephan Sokolow (deitarion/SSokolow)"
+__license__ = "GNU GPL 3.0 or later"
 
-from . import gog, ssokolow_install_sh
+import logging, os
+from ...util.common import multiglob_compile
+from ...util.naming import filename_to_name
+from ..common import InstalledGameEntry
+
+from . import gog, ssokolow_install_sh, guesser
 
 # Placeholders for user-specified values which should be stored in the database
 # TODO: Some kind of "If it's in /usr/games, default to Terminal=true" rule
-GAMES_DIRS = ['/mnt/buffalo_ext/games', os.path.expanduser('~/opt'), '/usr/games']
+GAMES_DIRS = ['/mnt/buffalo_ext/games', os.path.expanduser('~/opt'),
+              '/usr/games']
 BLACKLIST = [
-    '/home/ssokolow/opt/teensyduino.old',
-    '/home/ssokolow/opt/fennec-10.0.0.2',
-    '/home/ssokolow/opt/Opera_Mobile_Emulator_12.0_Linux',
-    '/home/ssokolow/opt/firefox',  # TODO: Include */firefox[_-]*
+    '*/teensyduino.old',
+    '*/fennec-10.0.0.2',
+    '*/Opera_Mobile_Emulator',
+    '*/firefox',  # TODO: Include */firefox[_-]*
 ]
 
 # Files which shouldn't require +x to be considered for inclusion
@@ -46,12 +51,13 @@ EXEC_EXCEPTIONS = ('.swf', '.jar')
 
 log = logging.getLogger(__name__)
 
-def gather_candidates(path, blacklist=BLACKLIST):
+def gather_candidates(path, blacklist=BLACKLIST):  # pylint: disable=W0102
     """C{os.listdir()} the contents of a folder and filter for potential games.
 
     This is essentially a pre-filter to eliminate things which cannot be games
     as quickly and in as lightweight a manner as possible.
     """
+    blacklist_re = multiglob_compile(blacklist, prefix=True)
     candidates = set()
     for fname in os.listdir(path):
         fpath = os.path.join(path, fname)
@@ -62,7 +68,7 @@ def gather_candidates(path, blacklist=BLACKLIST):
             continue
 
         # Skip blacklisted paths
-        if fpath in blacklist:
+        if blacklist_re.match(fpath):
             log.debug("Skipped blacklisted path: %s", fpath)
             continue
 
@@ -80,36 +86,7 @@ def gather_candidates(path, blacklist=BLACKLIST):
         candidates.add(fpath)
     return candidates
 
-def inspect_candidates(paths):
-    results = []
-    for candidate in paths:
-        for subplugin in (gog, ssokolow_install_sh):
-            result = subplugin.inspect(candidate)
-            if result:
-                results.append(InstalledGameEntry(**result))
-                break
-        else:
-            log.info("Fallback - <Unmatched>: %s",
-                     filename_to_name(os.path.basename(candidate)))
-
-            # TODO: Another sub-plugin which uses filename_to_name to produce
-            #       a title and attempts to guess argv and icon, preferring
-            #       names like play.sh, run.sh, rungame.sh, run-*.sh, etc.,
-            #       and icon.*, blacklisting names like uninstall* and
-            #       install*, demoting names like extract-*,
-            #       preferring Foo and Foo.sh over Foo.$ARCH
-            #       and trying to prefer shallower paths to executables but
-            #       preferring bin/ when descending is necessary
-            #
-            #       It should also support reporting success when it encounters
-            #       a folder containing only one +x file and one image in an
-            #       acceptable format at the top level or inside data/ or
-            #       assets/ (eg. That'd work for Chocolate Castle, Defcon, FTL,
-            #       Ultionus, Volgarr, etc.)
-
-    return results
-
-def get_games(roots=GAMES_DIRS):
+def get_games(roots=GAMES_DIRS):  # pylint: disable=dangerous-default-value
     """List potential games by examining a set of /opt-like paths."""
     candidates = set()
     # TODO: Do some symlink resolution and path deduplication on roots here
@@ -117,8 +94,16 @@ def get_games(roots=GAMES_DIRS):
     for root in roots:
         candidates.update(gather_candidates(root))
 
-    # Two passes so we can let the set() deduplicate things
-    results = inspect_candidates(candidates)
+    results = []
+    for candidate in candidates:
+        for subplugin in (gog, ssokolow_install_sh, guesser):
+            result = subplugin.inspect(candidate)
+            if result:
+                results.append(InstalledGameEntry(**result))
+                break
+        else:
+            log.info("Fallback - <Unmatched>: %s",
+                     filename_to_name(os.path.basename(candidate)))
 
     # TODO: Another sub-plugin to be called after the GOG and install.sh ones
     #       which feels around for .desktop files and executable binaries.

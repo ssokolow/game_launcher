@@ -1,6 +1,6 @@
 """Sub-plugin to extract metadata from GOG.com start.sh scripts.
 
-Copyright (C) 2014 Stephan Sokolow
+Copyright (C) 2014-2015 Stephan Sokolow
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,9 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
 
+__author__ = "Stephan Sokolow (deitarion/SSokolow)"
+__license__ = "GNU GPL 3.0 or later"
+
 import os
-from ..common import script_precheck, GameLauncher
-from .common import lex_shellscript, make_metadata_mapper
+from ..common import GameLauncher
+from ...util.naming import titlecase_up
+from ...util.executables import Roles
+from ...util.shlexing import (script_precheck, lex_shellscript,
+                              make_metadata_mapper)
 
 BACKEND_NAME = "GOG.com"
 
@@ -38,12 +44,15 @@ def detect_gogishness(token_list, fields):
         for prefix in ('start', '$game_name', '${game_name}'):
             if tlist[0].lower() == prefix:
                 tlist.pop(0)
-            token_list[3] = ' '.join(tlist).strip()
-            if not token_list[3] or token_list[3].lower() == '[default]':
-                token_list[3] = 'Play'
+        if tlist and tlist[-1].lower() == '[default]':
+            tlist.pop()
+        token_list[3] = ' '.join(tlist).strip()
+
+        if not token_list[3] or token_list[3].lower() == '[default]':
+            token_list[3] = 'Play'
 
         fields.setdefault('commands', []).append(
-            (token_list[3], token_list[2]))
+            (titlecase_up(token_list[3]), token_list[2]))
 
 
 def inspect(path):
@@ -69,5 +78,14 @@ def inspect(path):
         provider=BACKEND_NAME,
         tryexec=start_path,
         use_terminal=False) for x in fields['commands']]
+
+    fields['commands'].extend([
+        GameLauncher(name="Install", argv=[start_path, '--install-deb'],
+                     provider=BACKEND_NAME,
+                     role=Roles.install),
+        GameLauncher(name="Uninstall", argv=[start_path, '--uninstall'],
+                     provider=BACKEND_NAME,
+                     role=Roles.uninstall)
+    ])
 
     return fields

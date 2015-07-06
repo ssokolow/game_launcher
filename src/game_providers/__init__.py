@@ -1,3 +1,8 @@
+"""Framework for extracting a list of games from the system"""
+
+__author__ = "Stephan Sokolow (deitarion/SSokolow)"
+__license__ = "GNU GPL 3.0 or later"
+
 import logging
 from itertools import chain
 
@@ -7,8 +12,12 @@ log = logging.getLogger(__name__)
 
 # TODO: Move priority ordering control into backend metadata
 PROVIDERS = [xdg_menu, desura, playonlinux, fallback]
+# TODO: Add backends based on `residualvm -t` and `scummvm -t`
+#       (And support jumping straight to a save via
+#        context menu, --list-saves, and --save-slot)
 
 def get_games():
+    """Use all available backends to retrieve a deduplicated list of games"""
     result_sets, results = {}, []
 
     # Get raw results
@@ -34,6 +43,4 @@ def get_games():
             else:
                 results.append(entry)
 
-    # TODO: Dedupe
     return results
-

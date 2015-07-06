@@ -23,8 +23,8 @@ FALLBACK_ICON = "applications-games"
 
 from xml.sax.saxutils import escape as xmlescape
 
-from game_providers import get_games
-from game_providers.common import GameLauncher
+# TODO: Decide on a name for the project and rename "src"
+from src.game_providers import get_games
 
 try:
     import pygtk
@@ -38,11 +38,10 @@ except ImportError:
     sys.stderr.write("Missing PyGTK! Exiting.\n")
     sys.exit(1)
 
+# TODO: Uncomment this once I'm no longer debugging
 # Present tracebacks as non-fatal errors in the GUI for more user-friendliness
-# TODO: In concert with this, I'll probably want some kind of failsafe
-#       for re-enabling the Save button if necessary.
-from lgogd_uri import gtkexcepthook
-gtkexcepthook.enable()
+# from lgogd_uri import gtkexcepthook
+# gtkexcepthook.enable()
 
 # ---=== Begin Application Class ===---
 
@@ -84,6 +83,8 @@ class Application(object):  # pylint: disable=C0111,R0902
         """
         iinfo = self.icon_theme.lookup_icon(icon_name, target_size,
                         gtk.ICON_LOOKUP_USE_BUILTIN)
+        if iinfo is None:
+            return None
         base_size = iinfo.get_base_size()
 
         # For icons smaller than 32px, use pixel doubling to add some upscales
@@ -106,7 +107,14 @@ class Application(object):  # pylint: disable=C0111,R0902
         """Interpret a raw Icon value from a .desktop and return a good icon
 
         (Employs L{_ensure_good_upscales} to minimize blurrying tiny icons)
+
+        @todo: Consider some kind of autocropping for things like Ultratron
+               where they matted a perfectly good square icon on a rectangular
+               white background.
         """
+        if path is None:
+            return None
+
         # Inject non-theme icon paths as builtins for consistent lookup
         if os.path.exists(path) and not self.icon_theme.has_icon(path):
             icon = gtk.gdk.pixbuf_new_from_file(path)
@@ -118,7 +126,7 @@ class Application(object):  # pylint: disable=C0111,R0902
         try:
             self._ensure_good_upscales(path, size)
             return self.icon_theme.load_icon(path, size, 0)
-        except glib.GError:
+        except (AttributeError, glib.GError):
             log.error("BAD ICON: %s", path)
             try:
                 return self.icon_theme.load_icon(FALLBACK_ICON, size, 0)
@@ -127,21 +135,23 @@ class Application(object):  # pylint: disable=C0111,R0902
         return None
 
     # TODO: The popup menu should include:
+    #       - A submenu for selecting which subentry is default (double-click)
+    #       - An option to merge the selected entries which is conditional
+    #         on multiple entries actually being selected.
+    #       - An option to split the selected entry's subentries into entries.
     #       - An option to change the icon which opens a dialog box with...
     #           - A preview with a scale slider
     #           - A "Pick Icon..." button which causes the system to scan the
     #             game's container (folder, WINEPREFIX, etc.) and display an
     #             icon picker with all found icons.
+    #             - I'll want to examine gExtractWinIcons to figure out what
+    #               it's doing that I'm not when using wrestool directly.
     #           - A "Browse Icon..." button which calls up an open dialog.
     #           - Some kind of cropper to help un-border things like
     #             GOG's rounded icons.
     #           - Some kind of matte adjustment control for upscaling
     #           - A dropdown to override the choice of scaling algorithm
     #             on a per-icon basis.
-    #       - A submenu for selecting which subentry is default (double-click)
-    #       - An option to merge the selected entries which is conditional
-    #         on multiple entries actually being selected.
-    #       - An option to split the selected entry's subentries into entries.
     #       - A preferences panel which provides...
     #           - A means of setting launch wrappers like pasuspender
     #           - A means of setting custom arguments to the game
@@ -157,8 +167,11 @@ class Application(object):  # pylint: disable=C0111,R0902
         for cmd in entry.commands:
             # TODO: Move this into the frontend agnostic code
             # TODO: Use the role name, falling back to Play only if unknown
+            # TODO: Sort by role
+            # TODO: Put a separator between the Play links and the inst/uninst
             name = cmd.name if cmd.name != entry.name else 'Play'
 
+            # TODO: Add an "Are you sure?" dialog for install/uninstall
             item = gtk.MenuItem(name)
             item.connect('activate', lambda _, cmd=cmd: cmd.run())
             popup.add(item)
@@ -242,9 +255,7 @@ class Application(object):  # pylint: disable=C0111,R0902
 
     def on_view_games_item_activated(self, _, path):
         """Handler to launch games on double-click"""
-        self.entries[self.data[path][3]].first_launcher(
-            role=GameLauncher.Roles.play).run()
-        # TODO: Decide how to make role fall back to unknown.
+        self.entries[self.data[path][3]].commands[0].run()
         # TODO: Add some sort of is-running notification to the GUI
 
     # pylint: disable=no-self-use

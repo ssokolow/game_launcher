@@ -1,6 +1,6 @@
 """Code to retrieve a list of installed games from the Desura client
 
-Copyright (C) 2014 Stephan Sokolow
+Copyright (C) 2014-2015 Stephan Sokolow
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@ __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
 import os, shlex, sqlite3
+from ..util.executables import Roles
 from .common import InstalledGameEntry, GameLauncher
 
 DESURA_DB = os.path.expanduser('~/.desura/iteminfo_d.sqlite')
@@ -50,11 +51,11 @@ def get_games():
             ORDER BY e.rank ASC"""):
 
         if row[2].lower().startswith('play'):
-            role = GameLauncher.Roles.play
+            role = Roles.play
         elif row[2].lower().startswith('settings'):
-            role = GameLauncher.Roles.configure
+            role = Roles.configure
         else:
-            role = GameLauncher.Roles.unknown
+            role = Roles.unknown
 
         if row[0] not in entries:
             entries[row[0]] = InstalledGameEntry(name=row[1], icon=row[3])

@@ -33,8 +33,8 @@ __license__ = "GNU GPL 3.0 or later"
 import logging
 log = logging.getLogger(__name__)
 
-from itertools import chain
-from game_providers import get_games
+# TODO: Decide on a name for the project and rename "src"
+from src.game_providers import get_games
 
 def main():
     """The main entry point, compatible with setuptools entry points."""

@@ -19,9 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
 
+__author__ = "Stephan Sokolow (deitarion/SSokolow)"
+__license__ = "GNU GPL 3.0 or later"
+
 import os, logging
-from ..common import resolve_exec, script_precheck, GameLauncher
-from .common import lex_shellscript, make_metadata_mapper
+from ..common import GameLauncher
+from ...util.common import resolve_exec
+from ...util.executables import Roles
+from ...util.shlexing import (script_precheck, lex_shellscript,
+                              make_metadata_mapper)
 
 BACKEND_NAME = "ssokolow's install.sh"
 log = logging.getLogger(__name__)
@@ -38,11 +44,11 @@ def inspect(path):
         'GAME_SYNOPSIS': 'description',
         'GAME_EXEC': 'argv',
         'ICON_PATH': 'icon',
-        'CATEGORIES': 'xdg_categories',
+        'CATEGORIES': 'categories',
     }
     fields = lex_shellscript(install_path, make_metadata_mapper(metadata_map))
-    if 'xdg_categories' in fields:
-        fields['xdg_categories'] = fields['xdg_categories'].strip(';').split(';')
+    if 'categories' in fields:
+        fields['categories'] = fields['categories'].strip(';').split(';')
 
     for fname in fields:
         for varname, varkey in metadata_map.items():
@@ -67,16 +73,20 @@ def inspect(path):
         fields['icon'] = os.path.join(path, fields['icon'])
 
     fields.update({
-        'role': GameLauncher.Roles.play,
+        'role': Roles.play,
         'provider': BACKEND_NAME,
         'tryexec': fields['argv'][0],
         'use_terminal': False
     })
     launcher = GameLauncher(**fields)
+    installer = GameLauncher(name="Install",
+                             role=Roles.install,
+                             provider=BACKEND_NAME,
+                             argv=[install_path])
 
     return {
         'name': launcher.name,
         'icon': launcher.icon,
         'provider': BACKEND_NAME,
-        'commands': [launcher]
+        'commands': [launcher, installer]
     }

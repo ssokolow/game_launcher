@@ -3,7 +3,7 @@
 Original Source: https://gist.github.com/ssokolow/1692707
 Requires: PyXDG (python3-xdg on Debian-based distros)
 
-Copyright (C) 2012-2014 Stephan Sokolow
+Copyright (C) 2012-2015 Stephan Sokolow
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,11 +28,14 @@ from __future__ import (absolute_import, division, print_function,
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
-BACKEND_NAME="XDG"
+BACKEND_NAME = "XDG"
 
 import logging, re
 import xdg.Menu
-from .common import InstalledGameEntry, GameLauncher, resolve_exec
+
+from .common import InstalledGameEntry, GameLauncher
+from ..util.common import resolve_exec
+from ..util.executables import Roles
 
 log = logging.getLogger(__name__)
 
@@ -92,13 +95,13 @@ def get_games(root_folder='Games'):
                 # resolve_cmd needed to work around Desura .desktop quoting bug
                 argv=resolve_exec(cmd),
                 provider=BACKEND_NAME,
-                role=GameLauncher.Roles.play,
+                role=Roles.play,
                 name=name,
                 path=dentry.getPath(),
                 icon=icon,
                 description=dentry.getComment(),
                 tryexec=dentry.getTryExec(),
-                xdg_categories=dentry.getCategories(),
+                categories=dentry.getCategories(),
                 keywords=dentry.getKeywords(),
                 use_terminal=dentry.getTerminal())
             ]))
