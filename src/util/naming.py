@@ -46,27 +46,64 @@ PROGRAM_EXTS = (
 # Overrides for common places where the L{filename_to_name} heuristic breaks
 # TODO: Find some way to do a coverage test for this.
 WHITESPACE_OVERRIDES = {
+    r' - ': ': ',
+    r'And ': 'and ',
+    r' And The ': ' and the ',
+    r'\bCant': "Can't",
     r'Db\b': 'DB',
     r'Djgpp': 'DJGPP',
+    r'\bDont': "Don't",
     r'IN Vedit': 'INVedit',
     r'Mc ': 'Mc',
     r'Mac ': 'Mac',
+    r'Of ': 'of ',
+    r' Of The ': ' of the ',
+    r'^Open ': r'Open',
+    r'Or ': 'or ',
+    r's ': "'s ",
+    r'Scumm VM': 'ScummVM',
+    r' The ': ' the ',
     r'Ux\b': 'UX',
+    r'xwb': 'XWB',
     r'iii\b': ' III',
     r' I V': 'IV',
     r' V I': 'VI',
     r' V M': 'VM',
-    r'xwb': 'XWB',
+}
+
+# Workaround for limitations in my current approach to generating
+# _WS_OVERRIDE_MAP
+WS_OVERRIDE_EXCEPTIONS = {
+    r's ': (-4, re.compile(r"""(
+        .{1,3}'s|         # Already possessive
+        .{1,3}us|         # Latin-derived words like Virus
+        .{1,2}ess|        # Feminine forms like goddess and actress
+        cells|            # "cells" is more likely to be plural than possessive
+        .{1,4}s[ ](of|\d) # Possessives aren't usually before "of" or numbers
+    )""", re.IGNORECASE | re.VERBOSE)),
 }
 
 # Map used by L{filename_to_name}'s single-pass approach to using
 # WHITESPACE_OVERRIDES.
-_WS_OVERRIDE_MAP = {x.replace(r'\b', ''): y for x, y
+_WS_OVERRIDE_MAP = {x.replace(r'\b', '').replace('^', ''): y for x, y
                     in WHITESPACE_OVERRIDES.items()}
 
 def titlecase_up(in_str):
     """A C{str.title()} analogue which won't mess up acronyms."""
     return wordstart_re.sub(lambda x: x.group(0).upper(), in_str)
+
+def _apply_ws_overrides(match):
+    """Callback for re.sub"""
+    match_str = match.group(0)
+    result = _WS_OVERRIDE_MAP[match_str]
+
+    if match_str in WS_OVERRIDE_EXCEPTIONS:
+        offset, pat = WS_OVERRIDE_EXCEPTIONS[match_str]
+        abs_offset = max(0, match.start() + offset)
+        subject = match.string[abs_offset:]
+        if pat.match(subject):
+            return match_str
+    return result
 
 def filename_to_name(fname):
     """A heuristic transform to produce pretty good titles from filenames
@@ -93,8 +130,7 @@ def filename_to_name(fname):
     name = titlecase_up(name)
 
     # Fix capitalization anomalies broken by whitespace conversion
-    name = re.sub('|'.join(WHITESPACE_OVERRIDES),
-                  lambda x: _WS_OVERRIDE_MAP[x.group(0)], name)
+    name = re.sub('|'.join(WHITESPACE_OVERRIDES), _apply_ws_overrides, name)
 
     return name
 
