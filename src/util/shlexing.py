@@ -53,12 +53,14 @@ def make_metadata_mapper(field_map, extras_cb=None):
         """A simple callback to convert lists of shell tokens into key=value
            pairs according to the contents of C{field_map}
         """
-        if len(token_list) == 6 and token_list[0:3] == ['declare', '-', 'r']:
-            if token_list[3] in field_map:
-                fields[field_map[token_list[3]]] = token_list[5]
-        elif len(token_list) == 3 and token_list[1] == '=':
-            if token_list[0] in field_map:
-                fields[field_map[token_list[0]]] = token_list[2]
+        tlist = token_list[:]
+        if len(tlist) == 6 and tlist[0:3] == ['declare', '-', 'r']:
+            tlist = tlist[3:]
+        elif len(tlist) == 4 and tlist[0] == 'export' and tlist[2] == '=':
+            tlist = tlist[1:]
+        if len(tlist) == 3 and tlist[1] == '=':
+            if tlist[0] in field_map:
+                fields[field_map[tlist[0]]] = tlist[2]
 
         if extras_cb:
             extras_cb(token_list, fields)
