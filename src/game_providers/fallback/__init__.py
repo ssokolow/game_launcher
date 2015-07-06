@@ -37,7 +37,8 @@ from . import gog, ssokolow_install_sh, guesser
 # Placeholders for user-specified values which should be stored in the database
 # TODO: Some kind of "If it's in /usr/games, default to Terminal=true" rule
 GAMES_DIRS = ['/mnt/buffalo_ext/games', os.path.expanduser('~/opt'),
-              '/usr/games']
+              '/usr/games', '/usr/local/games',
+              '/usr/games/bin', '/usr/local/games/bin']
 BLACKLIST = [
     '*/teensyduino.old',
     '*/fennec-10.0.0.2',
@@ -57,8 +58,11 @@ def gather_candidates(path, blacklist=BLACKLIST):  # pylint: disable=W0102
     This is essentially a pre-filter to eliminate things which cannot be games
     as quickly and in as lightweight a manner as possible.
     """
-    blacklist_re = multiglob_compile(blacklist, prefix=True)
     candidates = set()
+    if not os.path.isdir(path):
+        return candidates
+
+    blacklist_re = multiglob_compile(blacklist, prefix=True)
     for fname in os.listdir(path):
         fpath = os.path.join(path, fname)
 
@@ -99,7 +103,11 @@ def get_games(roots=GAMES_DIRS):  # pylint: disable=dangerous-default-value
         for subplugin in (gog, ssokolow_install_sh, guesser):
             result = subplugin.inspect(candidate)
             if result:
-                results.append(InstalledGameEntry(**result))
+                try:
+                    results.append(InstalledGameEntry(**result))
+                except TypeError:
+                    print("TypeError for InstalledGameEntry(**%r)" % result)
+                    raise
                 break
         else:
             log.info("Fallback - <Unmatched>: %s",
