@@ -19,7 +19,7 @@ from __future__ import (absolute_import, division, print_function,
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
-import logging, os, subprocess
+import errno, logging, os, subprocess
 from functools import total_ordering
 
 from ..util.common import which
@@ -288,6 +288,17 @@ class GameLauncher(GameSubentry):
             argv = TERMINAL_CMD + argv
 
         log.info("Spawning %r with cwd=%r", self.argv, self.path)
-        return subprocess.Popen(self.argv, cwd=self.path).pid
-        # TODO: Rework so I can capture output and display it on unclean exit
-        #       (Eg. error while loading shared libraries: ...)
+        try:
+            return subprocess.Popen(self.argv, cwd=self.path).pid
+            # TODO: Rework so I can capture output and display it on unclean
+            #       exit (eg. error while loading shared libraries: ...)
+        except OSError, err:
+            if err.errno != errno.ENOEXEC:
+                raise
+            if not self.argv[0].endswith('.sh'):
+                raise
+            with file(self.argv[0]) as fobj:
+                if fobj.read(2) == '#!':
+                    raise
+            # If we reach here, it's a shellscript with no shebang
+            return subprocess.Popen(['/bin/sh'] + self.argv, cwd=self.path).pid
