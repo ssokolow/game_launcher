@@ -93,9 +93,8 @@ def gather_candidates(path, blacklist=BLACKLIST):  # pylint: disable=W0102
 def get_games(roots=GAMES_DIRS):  # pylint: disable=dangerous-default-value
     """List potential games by examining a set of /opt-like paths."""
     candidates = set()
-    # TODO: Do some symlink resolution and path deduplication on roots here
 
-    for root in roots:
+    for root in set(os.path.abspath(x) for x in roots):
         candidates.update(gather_candidates(root))
 
     results = []

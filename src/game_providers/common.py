@@ -73,6 +73,14 @@ class GameEntry(object):
         return "<%s (%s)>" % (self.name, ', '.join(self.provider))
 
     @property
+    def default_launcher(self):
+        """A property returning a launcher safe for double-click triggering"""
+        # TODO: ".sh" files should be preferred over extensionless ones.
+        # TODO: An extensionless file should be preferred over that same name
+        #       with a .x86 or .x86_64 extension.
+        return self.first_launcher(Roles.play, True)
+
+    @property
     def description(self):
         """Make a best effort to return a description for this entry."""
         return self._description or ([x.description

@@ -25,7 +25,6 @@ from xml.sax.saxutils import escape as xmlescape
 
 # TODO: Decide on a name for the project and rename "src"
 from src.game_providers import get_games
-from src.util.executables import Roles
 
 try:
     import pygtk
@@ -200,8 +199,9 @@ class Application(object):  # pylint: disable=C0111,R0902
         popup = gtk.Menu()
         entry = self.entries[self.data[pos][3]]
 
-        default_cmd = entry.first_launcher(Roles.play, True)
-        for cmd in entry.commands:
+        default_cmd = entry.default_launcher
+        for cmd in sorted(entry.commands,
+                          key=lambda x: (x != default_cmd, x.role, x.name)):
             # TODO: Move this into the frontend agnostic code
             # TODO: Use the role name, falling back to Play only if unknown
             # TODO: Sort by role
@@ -292,7 +292,7 @@ class Application(object):  # pylint: disable=C0111,R0902
 
     def on_view_games_item_activated(self, _, path):
         """Handler to launch games on double-click"""
-        cmd = self.entries[self.data[path][3]].first_launcher(Roles.play, True)
+        cmd = self.entries[self.data[path][3]].default_launcher
 
         if cmd:
             cmd.run()

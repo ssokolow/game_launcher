@@ -42,7 +42,7 @@ def classify_executable(fname):
     return Roles.guess(fname)
 
 @enum.unique  # pylint: disable=too-few-public-methods
-class Roles(enum.Enum):
+class Roles(enum.IntEnum):
     """An enumeration of the roles L{GameSubentry} instances can take.
 
     @note: These values should be maintained in an order that allows them
