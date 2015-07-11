@@ -26,7 +26,7 @@ from __future__ import (absolute_import, division, print_function,
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
-import os, re
+import logging, os, re
 from .common import InstalledGameEntry, GameLauncher
 from ..util.executables import Roles
 from ..util.shlexing import lex_shellscript, make_metadata_mapper
@@ -37,6 +37,8 @@ POL_PREFIX = os.path.expanduser('~/.PlayOnLinux')
 # Let this get subbed in elsewhere so there's a clean way to identify which
 # entries had to fall back to a default icon
 DEFAULT_ICON = "playonlinux"
+
+log = logging.getLogger(__name__)
 
 def humansort_key(strng):
     """Human/natural sort key-gathering function for sorted()
@@ -81,7 +83,8 @@ def get_games():
         fields = lex_shellscript(os.path.join(shortcut_dir, name),
             make_metadata_mapper({'WINEPREFIX': 'base_path'}))
         if 'base_path' not in fields:
-            print(os.path.join(shortcut_dir, name), fields)
+            log.debug("Couldn't find WINEPREFIX in %s (Got %r)",
+                      os.path.join(shortcut_dir, name), fields)
             continue
 
         # TODO: Find the original source icons in the WINEPREFIXes to work
