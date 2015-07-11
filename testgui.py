@@ -88,21 +88,28 @@ class Application(object):  # pylint: disable=C0111,R0902
             return None
         base_size = iinfo.get_base_size()
 
-        # For icons smaller than 32px, use pixel doubling to add some upscales
+        # For icons smaller than 32px use pixel doubling to add some upscales
         # (Otherwise, 16px icons are unacceptably blurry)
+        # Also, add some explicitly doubled versions for icons which refuse to
+        # scale to force scaling.
         # TODO: I'll have to figure out how to workaround PlayOnLinux's
         #       crappy 16->32 upscaling
-        if base_size < 32:
-            icon = self.icon_theme.load_icon(icon_name, base_size, 0)
-            w, h = icon.get_width(), icon.get_height()
+        icon = self.icon_theme.load_icon(icon_name, base_size, 0)
+        w, h = icon.get_width(), icon.get_height()
+
+        # Inject larger versions using INTERP_NEAREST at integer scales up to
+        # but not including the target size (but at least once for any icons
+        # below 32px). It provides a good compromise between the jagginess of
+        # raw pixel doubling and the extreme blur of heavy interpolation.
+        scale = 2
+        while base_size * scale < max(target_size, 32 * 2):
             isize = max(w, h)
+            log.debug("%s: %s -> %s", icon_name, isize, base_size * scale)
 
-            # TODO: Figure out how to get GTK+ to cache these
-            for scale in (2, 3):
-
-                gtk.icon_theme_add_builtin_icon(icon_name, isize * scale,
-                    icon.scale_simple(w * scale, h * scale,
-                        gtk.gdk.INTERP_NEAREST))
+            gtk.icon_theme_add_builtin_icon(icon_name, isize * scale,
+                icon.scale_simple(w * scale, h * scale,
+                    gtk.gdk.INTERP_NEAREST))
+            scale += 1
 
     def get_scaled_icon(self, path, size):
         """Interpret a raw Icon value from a .desktop and return a good icon
