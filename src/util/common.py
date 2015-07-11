@@ -11,7 +11,8 @@ import fnmatch, os, re, shlex, sys
 RESOURCE_DIRS = (
     'assets',
     'data', '*_data',
-    'resources'
+    'resources',
+    'icons',
 )
 
 # Ensure cmp is available to Python 3 for cases where it's the cleanest option
