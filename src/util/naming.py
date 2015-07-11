@@ -89,7 +89,7 @@ _WS_OVERRIDE_MAP = {x.replace(r'\b', '').replace('^', ''): y for x, y
                     in WHITESPACE_OVERRIDES.items()}
 
 def titlecase_up(in_str):
-    """A C{str.title()} analogue which won't mess up acronyms."""
+    """A C{str.title()} analogue which won't mess up acronyms like FTL."""
     return wordstart_re.sub(lambda x: x.group(0).upper(), in_str)
 
 def _apply_ws_overrides(match):
@@ -110,6 +110,7 @@ def filename_to_name(fname):
     without relying on out-of-band information.
     """
     # Remove recognized program extensions
+    # (But not others because periods may appear in the game name)
     fbase, fext = os.path.splitext(fname)
     if fext.lower() in PROGRAM_EXTS:
         fname = fbase
