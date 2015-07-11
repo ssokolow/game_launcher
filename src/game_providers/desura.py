@@ -61,6 +61,22 @@ def get_games():
             entries[row[0]] = InstalledGameEntry(name=row[1], icon=row[3],
                                                  base_path=row[10])
 
+        # TODO: Inspect base_path to see if the game has a higher-resolution
+        #       icon than Desura's cached version.
+        #       (Crayon Physics, Darwinia, Frozen Synapse, Trine, World of Goo)
+        #       (I'll probably need some kind of confidence value in the icon
+        #        detector's result so Desura can override low-confidence
+        #        responses. In fact, that'd probably be a good way to handle
+        #        priority in deduplication in general.)
+
+        # TODO: Come up with an API to indicate to the parent app that
+        #       Desura/Desurium entries should be moved from the main listing
+        #       to a menu (either context or otherwise) if this successfully
+        #       finds games.
+
+        # TODO: Maybe something which writes a desura_icon.png into the game
+        #       folder if it fails to find any icon there?
+
         entries[row[0]].commands.append(GameLauncher(
                 argv=[row[4]] + shlex.split(row[5]) + shlex.split(row[6]),
                 provider=BACKEND_NAME,

@@ -16,6 +16,12 @@ PROVIDERS = [xdg_menu, desura, playonlinux, fallback]
 #       (And support jumping straight to a save via
 #        context menu, --list-saves, and --save-slot)
 
+# TODO: Audit all backends to ensure that they meet minimum acceptable
+#       standards for explaining what inputs they ignored and why when
+#       at debug-level logging (in case of false negatives).
+
+# TODO: This only performs acceptably with a warm cache. Rework it as a
+#       generator so we can display a visual progress indication.
 def get_games():
     """Use all available backends to retrieve a deduplicated list of games"""
     results_raw, results = [], []

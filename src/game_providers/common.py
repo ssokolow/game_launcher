@@ -40,6 +40,11 @@ class GameEntry(object):
     @todo: Decide on a proper definition of equality.
     """
 
+    # TODO: Decide on a way to build unique titles when two different copies
+    #       or versions of the same thing are installed.
+    #       (eg. Maybe use a versions, providers, base paths fallback chain
+    #        if the base paths don't match)
+
     base_path = None
 
     # pylint: disable=too-many-arguments

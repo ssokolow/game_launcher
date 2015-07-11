@@ -65,6 +65,18 @@ def find_files(path):
             etype = classify_executable(fname)
             if etype is not None:
                 executables.setdefault(etype, []).append(fname)
+
+    # TODO: Figure out why Dynablaster Revenge's non-server binaries aren't
+    #       showing up.
+
+    # TODO: If we only find install/uninstall, and there's a single
+    #       subdirectory, try descending one layer deeper.
+    #       (This will fix Bit.Trip games and various MojoSetup installs)
+
+    # TODO: Also find .desktop files. Even if they only work when installed,
+    #       they provide metadata we can scrape for things like the game's
+    #       proper title.
+
     return {
         'executables': executables,
         'icons': icons,
@@ -73,8 +85,10 @@ def find_files(path):
 
 def inspect(path):
     """Try to guess metadata from the given folder"""
-    name = filename_to_name(os.path.basename(path))
     found = find_files(path)
+    name = filename_to_name(os.path.basename(path))
+    # TODO: Inspect executable names to get capitalization hints which
+    #       can better-inform filename_to_name
 
     if found:
         exes = found.get('executables', {})

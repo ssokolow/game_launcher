@@ -59,7 +59,8 @@ def pick_icon(icons, parent_path):
             result.append(icon)
     icons = result or icons
 
-    # TODO: Prefer square images
+    # TODO: Prefer square images so we don't wind up using Time Swap's Ouya
+    #       icon by mistake.
 
     # TODO: Prefer SVG > PNG > XPM > BMP > JPEG
     #       (But try to find a way to prefer timeswapIcon.png over icon.svg
@@ -68,6 +69,9 @@ def pick_icon(icons, parent_path):
 
     # TODO: Once I've got a regression suite in place, try capturing the
     #       NEO Scavenger icon by matching for img/*logo.*
+
+    # TODO: Need to understand patterns like *_(32|128).png so SuperTuxKart
+    #       reliably gets the bigger icon when it needs to be upscaled.
 
     # TODO: I'll need to extract icons from .exe files in Mono-based games
     #       like Atom Zombie Smasher which don't offer them separately.

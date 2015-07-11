@@ -84,8 +84,23 @@ def get_games():
             print(os.path.join(shortcut_dir, name), fields)
             continue
 
+        # TODO: Find the original source icons in the WINEPREFIXes to work
+        #       around PlayOnLinux's sub-par rescaling. Affects:
+        #        - Delve Deeper
+        #        - Gnomoria
+        #        - Heart of Darkness
+        #        - Lemmings for Windows
+        #        - Lode Runner Online: The Mad Monks' Revenge
+        #        - Megabyte Punch
+        #        - Perfect Cherry Blossom
+        #        - Prince of Persia: The Sands of Time
+        #        - Rayman Origins
 
-        # TODO: Deduplicate based on WINEPREFIX?
+        # TODO: Come up with an API to indicate to the parent app that
+        #       the PlayOnLinux entry should be moved from the main listing to
+        #       a menu (either context or otherwise) if this successfully
+        #       finds games.
+
         results.append(InstalledGameEntry(
             name=name,
             icon=icon,

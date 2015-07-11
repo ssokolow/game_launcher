@@ -112,10 +112,4 @@ def get_games(roots=GAMES_DIRS):  # pylint: disable=dangerous-default-value
             log.info("Fallback - <Unmatched>: %s",
                      filename_to_name(os.path.basename(candidate)))
 
-    # TODO: Another sub-plugin to be called after the GOG and install.sh ones
-    #       which feels around for .desktop files and executable binaries.
-    #       (But only once I've decided how to implement a priority order so
-    #        it doesn'r clutter things up with the guts of stuff also found by
-    #        other backends like the XDG menu one.)
-
     return results

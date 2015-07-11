@@ -183,6 +183,10 @@ class Application(object):  # pylint: disable=C0111,R0902
     #           - A "Browse Icon..." button which calls up an open dialog.
     #           - Some kind of cropper to help un-border things like
     #             GOG's rounded icons.
+    #           - A checkbox to auto-remove a solid-colour background
+    #             like in the icons for Reus, Vessel, Uplink, Escape Goat 2,
+    #             and possibly Beatblasters III and Not The Robots, but not
+    #             Super Meat Boy, Shadowgrounds, Dear Esther, or Antichamber.
     #           - Some kind of matte adjustment control for upscaling
     #           - A dropdown to override the choice of scaling algorithm
     #             on a per-icon basis.
@@ -297,6 +301,12 @@ class Application(object):  # pylint: disable=C0111,R0902
         if cmd:
             cmd.run()
         # TODO: Add some sort of is-running notification to the GUI
+        # TODO: Support screensaver suspension
+        # TODO: Support runtime tracking (and, later, instrument with idleness
+        #       detection) to track play time.
+        # TODO: Write something which can save and restore ALL window positions
+        # TODO: Hurry up and write that LD_PRELOAD hook to kill a game's
+        #       ability to request fullscreen operation.
 
     # pylint: disable=no-self-use
     # def on_view_games_key_press_event(self, widget, event):
