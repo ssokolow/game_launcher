@@ -111,6 +111,27 @@ class Application(object):  # pylint: disable=C0111,R0902
                     gtk.gdk.INTERP_NEAREST))
             scale += 1
 
+    @staticmethod
+    def _ensure_dimensions(icon, target_size, threshold=16):
+        """Workaround used by L{get_scaled_icon} to deal with a bug where
+           GTK+ returns a 32px icon for DOSBox when 64px is requested.
+
+           If the largest dimension of the given image is at least C{threshold}
+           pixels different from the target size, rescale to the target size
+           using C{INTERP_HYPER} (the slowest and most accurate scaling
+           algorithm... but I've only ever seen GTK+ ignore a size request for
+           an icon once, so this function should normally not do any scaling.
+           """
+        w, h = icon.get_width(), icon.get_height()
+        isize = max(w, h)
+
+        if abs(target_size - isize) >= threshold:
+            factor = target_size / h if w < h else target_size / w
+            return icon.scale_simple(int(w * factor), int(h * factor),
+                                     gtk.gdk.INTERP_HYPER)
+        else:
+            return icon
+
     def get_scaled_icon(self, path, size):
         """Interpret a raw Icon value from a .desktop and return a good icon
 
@@ -131,13 +152,19 @@ class Application(object):  # pylint: disable=C0111,R0902
 
             gtk.icon_theme_add_builtin_icon(path, isize, icon)
 
+        # TODO: Deduplicate this code as much as possible
         try:
             self._ensure_good_upscales(path, size)
-            return self.icon_theme.load_icon(path, size, 0)
+            icon = self.icon_theme.load_icon(path, size, 0)
+            if not (size == icon.get_width() == icon.get_height()):
+                log.debug("%s: %s != %s != %s" %
+                      (path, size, icon.get_width(), icon.get_height()))
+            return self._ensure_dimensions(icon, size)
         except (AttributeError, glib.GError):
             log.error("BAD ICON: %s", path)
             try:
-                return self.icon_theme.load_icon(FALLBACK_ICON, size, 0)
+                return self._ensure_dimensions(
+                    self.icon_theme.load_icon(FALLBACK_ICON, size, 0))
             except glib.GError, err:
                 log.error("Error while loading fallback icon: %s", err)
         return None
