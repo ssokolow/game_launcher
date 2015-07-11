@@ -83,7 +83,7 @@ class Roles(enum.IntEnum):
             # Used to identify classifications based on filename substrings
             mappings = {
                 cls.play: ('run', 'play', 'start', 'game', 'launcher',
-                           'client', 'server'),
+                           'addon', 'client', 'server'),
                 cls.configure: ('config', 'setup', 'settings'),
                 cls.install: ('install', 'extract', 'unpack'),
                 cls.uninstall: ('uninst', 'remove'),

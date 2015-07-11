@@ -96,10 +96,7 @@
     "attainable": "unknown",
     "ideal": "play"
   },
-  "Addon": {
-    "attainable": "unknown",
-    "ideal": "play"
-  },
+  "Addon": { "ideal": "play" },
   "run trauma": { "ideal": "play" },
   "unepic32": {
     "attainable": "unknown",
