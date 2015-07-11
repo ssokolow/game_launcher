@@ -13,7 +13,7 @@ import os, re
 camelcase_re = re.compile(r'((?<=[a-z])[A-Z0-9]|(?<!\A)[A-Z](?=[a-z]))')
 
 # Used by L{titlecase_up} to find word-starting lowercase letters
-wordstart_re = re.compile(r'(^|[ -])[a-z]')
+wordstart_re = re.compile(r'(^|[. _-])[a-z]')
 
 # TODO: Unit tests for these regexes, separate from the integrated one
 fname_ver_re = re.compile(r"""[ _-]*(

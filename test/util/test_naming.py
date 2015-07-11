@@ -9,7 +9,7 @@ from os.path import join, dirname
 from ..common import json_aggregate_harness, load_json_map
 
 # TODO: Decide on a name for the program and rename "src"
-from src.util.naming import filename_to_name, PROGRAM_EXTS
+from src.util.naming import filename_to_name, titlecase_up, PROGRAM_EXTS
 
 # TODO: unittest.TestCase for titlecase_up()
 
@@ -22,6 +22,28 @@ test_program_exts = (
     '.bin',
     '.desktop',
 )
+
+titlecase_up_map = {
+    '1234567890': '1234567890',
+    'testtesttest': 'Testtesttest',
+    'foo_bar_baz_quux': 'Foo_Bar_Baz_Quux',
+    'foo-bar-baz-quux': 'Foo-Bar-Baz-Quux',
+    'green eggs and spam': 'Green Eggs And Spam',
+    'hello': 'Hello',
+    'ScummVM': 'ScummVM',
+    'bit.trip.runner': 'Bit.Trip.Runner',
+    'FTL': 'FTL',
+}
+
+def test_titlecase_up():
+    """Test for correct function of titlecase_up()"""
+    # TODO: Make this much more thorough
+    for before, after in titlecase_up_map.items():
+        result1 = titlecase_up(before)
+        assert result1 == after, "%s != %s" % (result1, after)
+
+        result2 = titlecase_up(result1)
+        assert result2 == result1, "%s != %s" % (result2, result1)
 
 def test_program_ext_completeness():
     """Test for comprehensiveness of PROGRAM_EXTS-stripping test"""
