@@ -169,6 +169,8 @@
     "attainable": null,
     "ideal": null
   },
+  "setup.exe": { "ideal": "configure" },
+  "start.sh": { "ideal": "play" },
   "Giana Sisters - Twisted Dreams (Configuration)": { "ideal": "configure" },
   "Defender's Quest": {
     "attainable": "unknown",
@@ -265,6 +267,7 @@
     "attainable": "unknown",
     "ideal": "play"
   },
+  "play.sh": { "ideal": "play" },
   "AndroVMplayer": { "ideal": "play" },
   "NePlusUltra.bin.x86_64": {
     "attainable": "unknown",
@@ -294,6 +297,9 @@
     "ideal": "play"
   },
   "uninstall-avirusnamedtom.sh": { "ideal": "uninstall" },
+  "extract-game.sh": { "ideal": "install" },
+  "unpack.sh": { "ideal": "install" },
+  "remove-game.sh": { "ideal": "uninstall" },
   "Install.sh": { "ideal": "install" },
   "Dredmor-amd64": {
     "attainable": "unknown",
