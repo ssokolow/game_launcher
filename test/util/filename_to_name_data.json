@@ -227,6 +227,7 @@
   },
   "DROD 1+2+3": {
     "ideal": "D.R.O.D. 1+2+3",
+    "attainable": "DROD 1+2+3",
     "acceptable": [
       "DROD 1+2+3"
     ]
@@ -395,8 +396,8 @@
   },
   "trine2_complete_story_v2_01_build_425_humble_linux": {
     "ideal": "Trine 2: Complete Story",
-    "attainable": "Trine 2 Complete Story",
     "acceptable": [
+      "Trine 2 Complete Story",
       "Trine2 Complete Story"
     ]
   },
@@ -467,6 +468,11 @@
   "Noire 1.01.swf": {
     "ideal": "Noire"
   },
+  "CapitalizedExtension.EXE": {
+    "ideal": "Capitalized Extension"
+  },
+  "Ys": { "ideal": "Ys" },
+  "ys": { "ideal": "Ys" },
   "LanguageTool": {
     "ideal": "LanguageTool",
     "attainable": "Language Tool"

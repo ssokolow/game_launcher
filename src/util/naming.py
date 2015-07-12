@@ -16,19 +16,31 @@ camelcase_re = re.compile(r'((?<=[a-z])[A-Z0-9]|(?<!\A)[A-Z](?=[a-z]))')
 wordstart_re = re.compile(r'(^|[. _-])[a-z]')
 
 # TODO: Unit tests for these regexes, separate from the integrated one
-fname_ver_re = re.compile(r"""[ _-]*(
-        [ _-](alpha|beta|v|build[ _-]?)?\d+(\.\d+|[a-zA-Z])*
-            ((a|b|alpha|beta|rc|build)\d+)?|
-        (alpha|beta)\D|
-        lin(ux)?(32|64|\b)|
-        linux?(32|64)?|
-        x64|
-        standalone|
-        humble|
+fname_re_fragments = {
+    's': '([ _-])',  # Whitespace
+    'ver': '(v?\d+([._]\d+)+([a-zA-Z])*|v\d+)',
+    'phase_full': '(alpha|beta|(?![a-zA-Z])rc|build[ _-]\d+)',
+    'build': '(full|standalone|humble)',
+    'platform': '(lin(ux?)(32|64)?|x64)',
+}
+fname_re_fragments['phase'] = ('(a|b(?!uild)|%(phase_full)s)'
+                               % fname_re_fragments)
+
+fname_ver_re = re.compile(r"""%(s)s*(
+        %(phase)s %(ver)s|
+        %(phase)s \d+[a-zA-Z]|
+        %(ver)s (%(s)s %(phase)s %(s)s? \d)? (%(s)s %(platform)s)?|
+        %(platform)s? %(s)s \d{6}\d*$|
+        %(platform)s %(s)s (\d+(?!\.))|
+        %(build)s %(s)s? %(ver)s?|
+        %(ver)s|
+        (%(phase_full)s %(s)s)? %(platform)s (%(s)s %(ver)s %(phase)s?)?|
         ([ _-]|\b)gog([ _-]|\b)
-    )""", re.IGNORECASE | re.VERBOSE)
+    )""" % fname_re_fragments, re.IGNORECASE | re.VERBOSE)
 fname_whitespace_re = re.compile(r"[ _-]")
 fname_whitespace_nodash_re = re.compile(r"[ _]")
+fname_numspacing_re = re.compile(r'([a-zA-Z])(\d)')
+fname_subtitle_start_re = re.compile(r"(\d)(\s\w)")
 
 # TODO: Find some way to do a coverage test for this.
 # TODO: Split this out into a shared constants module
@@ -44,6 +56,7 @@ PROGRAM_EXTS = (
 )
 
 # Overrides for common places where the L{filename_to_name} heuristic breaks
+# TODO: Make sure I'm testing all of these cases
 # TODO: Find some way to do a coverage test for this.
 WHITESPACE_OVERRIDES = {
     r' - ': ': ',
@@ -69,6 +82,7 @@ WHITESPACE_OVERRIDES = {
     r' I V': 'IV',
     r' V I': 'VI',
     r' V M': 'VM',
+    r'\bYS\b': 'Ys',
 }
 
 # Workaround for limitations in my current approach to generating
@@ -125,12 +139,25 @@ def filename_to_name(fname):
             # Make sure things like "X-Com Collection" are handled properly
             name = fname_whitespace_nodash_re.sub(' ', name)
         else:
+            # ...but also handle names using dashes as separators properly
             name = fname_whitespace_re.sub(' ', name)
     else:
+        # ...and names using CamelCase
         name = camelcase_re.sub(r' \1', name)
 
     # Titlecase... but only in one direction so things like "FTL" remain
     name = titlecase_up(name)
+
+    # Ensure numbers are preceeded by a space (eg. "Trine2" -> "Trine 2")
+    name = fname_numspacing_re.sub(r'\1 \2', name)
+
+    # Assume that a number followed by a space and more text marks the
+    # beginning of a subtitle and add a colon
+    name = fname_subtitle_start_re.sub(r"\1:\2", name)
+
+    # Assume that it's either an acronym or Ys, which is handled by overrides
+    if len(name) < 3:
+        name = name.upper()
 
     # Fix capitalization anomalies broken by whitespace conversion
     name = re.sub('|'.join(WHITESPACE_OVERRIDES), _apply_ws_overrides, name)
