@@ -13,9 +13,8 @@ from src.util.executables import Roles
 
 # TODO: unittest.TestCase for classify_executable()
 
-test_data_path = join(dirname(__file__), 'Roles_guess_data.json')
-
 def test_Roles_guess():
     """Test for sufficient accuracy of guesses by Roles.guess()"""
+    test_data_path = join(dirname(__file__), 'Roles_guess_data.json')
     return json_aggregate_harness(load_json_map(test_data_path), Roles.guess,
                                   lambda x: getattr(Roles, x, Ellipsis))

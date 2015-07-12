@@ -105,6 +105,7 @@ def _apply_ws_overrides(match):
             return match_str
     return result
 
+# TODO: Make sure I'm properly testing all branches of this
 def filename_to_name(fname):
     """A heuristic transform to produce pretty good titles from filenames
     without relying on out-of-band information.
@@ -121,6 +122,7 @@ def filename_to_name(fname):
     # Convert whitespace cues
     if fname_whitespace_re.search(name):
         if ' ' in name or '_' in name:
+            # Make sure things like "X-Com Collection" are handled properly
             name = fname_whitespace_nodash_re.sub(' ', name)
         else:
             name = fname_whitespace_re.sub(' ', name)

@@ -14,14 +14,14 @@ def load_json_map(json_path):
         test_map = json.load(fobj)
 
     for key, val in test_map.items():
-        if 'ideal' not in val:
+        if 'ideal' not in val:         # pragma: nocover
             raise ValueError("Missing ideal value for %s in " %
                              key, json_path)
         try:
-            if val.get('MUST_AUDIT'):
+            if val.get('MUST_AUDIT'):  # pragma: nocover
                 raise ValueError("%s contains MUST_AUDIT values" %
                                  json_path)
-        except AttributeError:
+        except AttributeError:         # pragma: nocover
             raise ValueError("Value for %s is not a dict" % key)
 
     return test_map
@@ -47,7 +47,7 @@ def json_aggregate_harness(test_map, test_cb, resolve_cb=lambda x: x):
 
         result = test_cb(key)
 
-        if result != best and result == ideal:
+        if result != best and result == ideal:  # pragma: nocover
             print("Exceeded Expectations with \"%s\"" % key)
             this_score = 2
         elif result in valid_results:
