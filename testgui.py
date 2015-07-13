@@ -203,6 +203,9 @@ class Application(object):  # pylint: disable=C0111,R0902
         popup = gtk.Menu()
         entry = self.entries[self.data[pos][3]]
 
+        # TODO: If there's more than one install prefix detected, group and
+        #  provide section headers.
+        #  (eg. multiple versions of the same game installed in parallel)
         default_cmd = entry.default_launcher
         for cmd in sorted(entry.commands,
                           key=lambda x: (x != default_cmd, x.role, x.name)):
