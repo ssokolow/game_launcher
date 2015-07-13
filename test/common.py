@@ -26,23 +26,28 @@ def load_json_map(json_path):
 
     return test_map
 
-def json_aggregate_harness(test_map, test_cb, resolve_cb=lambda x: x):
+def json_aggregate_harness(test_map, test_cb,
+                           resolve_result_cb=lambda x: x,
+                           resolve_key_cb=lambda x: x):
     """
-    @param resolve_cb: Callback for resolving custom data types from JSON
+    @param resolve_result_cb: Callback for resolving custom datatypes from JSON
+    @param resolve_key_cb: Callback for deserializing keys not directly
+        supported by JSON or Python dicts.
     """
     score = 0
-    failures = {}
+    failures = []
 
     for key, params in test_map.items():
+        key = resolve_key_cb(key)
         best = params.get('attainable') or params.get('ideal')
         valid_results = [best] + params.get('acceptable', [])
 
         # Ellipsis used as a value which cannot occur in Roles.guess's output
-        valid_results = [(resolve_cb(x) if x is not None else x)
+        valid_results = [(resolve_result_cb(x) if x is not None else x)
                          for x in valid_results]
 
-        best = resolve_cb(best) if best is not None else best
-        ideal = (resolve_cb(params.get('ideal'))
+        best = resolve_result_cb(best) if best is not None else best
+        ideal = (resolve_result_cb(params.get('ideal'))
                  if isinstance(best, basestring) else best)
 
         result = test_cb(key)
@@ -57,12 +62,15 @@ def json_aggregate_harness(test_map, test_cb, resolve_cb=lambda x: x):
 
         score += this_score
         if this_score < 0:
-            failures[key] = (key, result, valid_results[0])
+            failures.append((key, result, valid_results[0]))
 
     fail_count, total_count = len(failures), len(test_map)
-    message = "\nFailed to attainably guess %s of %s titles (%.2f%%):\n" % (
+    message = "\nFailed to attainably guess %s of %s values (%.2f%%):\n" % (
                 fail_count, total_count, (fail_count / total_count * 100))
-    for val in failures.values():
+    for val in failures:
+        val = list(val)
+        val[0] = str(val[0])[:60]
+        val = tuple(val)
         message += "\t%-60s-> %-40s (not %s)\n" % val
     message += "Final accuracy score: %s" % score
     print(message)

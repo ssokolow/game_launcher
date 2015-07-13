@@ -1,0 +1,241 @@
+{
+    "[[\"._icon128x128.png\", \"._icon32x32.png\", \"icon48x48.xpm\", \"icon48x48.png\", \"icon32x32.png\", \"icon128x128.png\", \"._icon64x64.png\", \"icon64x64.png\"], \"/games/nihilumbra\"]": {
+        "acceptable": [
+            "/games/nihilumbra/icon128x128.png",
+            "/games/nihilumbra/._icon128x128.png"
+        ],
+        "ideal": "/games/nihilumbra/icon128x128.png"
+    },
+    "[[\"/opt/hobl_linux64/hobl_Data/Resources/UnityPlayer.png\"], \"/opt/hobl_linux64\"]": {
+        "ideal": "/opt/hobl_linux64/hobl_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/Aaaaa_Awesome_x64_Linux/Awesome_Data/Resources/UnityPlayer.png\"], \"/games/Aaaaa_Awesome_x64_Linux\"]": {
+        "ideal": "/games/Aaaaa_Awesome_x64_Linux/Awesome_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/Ascendant/v1.2.0_64_Data/Resources/UnityPlayer.png\"], \"/games/Ascendant\"]": {
+        "ideal": "/games/Ascendant/v1.2.0_64_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/Beatbuddy/Beatbuddy_Data/Resources/UnityPlayer.png\"], \"/games/Beatbuddy\"]": {
+        "ideal": "/games/Beatbuddy/Beatbuddy_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/BravadaLinux/Bravada_Data/Resources/UnityPlayer.png\"], \"/games/BravadaLinux\"]": {
+        "ideal": "/games/BravadaLinux/Bravada_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/CardCityNights/ccn_Data/Resources/UnityPlayer.png\"], \"/games/CardCityNights\"]": {
+        "ideal": "/games/CardCityNights/ccn_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/Continue/Continue_LINUX_1_4_Data/Resources/UnityPlayer.png\"], \"/games/Continue\"]": {
+        "ideal": "/games/Continue/Continue_LINUX_1_4_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/Cube and Star Linux/Cube and Star An Arbitrary Love_Data/Resources/UnityPlayer.png\"], \"/games/Cube and Star Linux\"]": {
+        "ideal": "/games/Cube and Star Linux/Cube and Star An Arbitrary Love_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/Hexcells Infinite - Linux/Hexcells Infinite_Data/Resources/UnityPlayer.png\"], \"/games/Hexcells Infinite - Linux\"]": {
+        "ideal": "/games/Hexcells Infinite - Linux/Hexcells Infinite_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/Influent/Influent_Data/Resources/UnityPlayer.png\"], \"/games/Influent\"]": {
+        "ideal": "/games/Influent/Influent_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/IttleDewLinux/IttleDew_1.1_Data/Resources/UnityPlayer.png\"], \"/games/IttleDewLinux\"]": {
+        "ideal": "/games/IttleDewLinux/IttleDew_1.1_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/Not the Robots_Linux/Not the Robots_Data/Resources/UnityPlayer.png\"], \"/games/Not the Robots_Linux\"]": {
+        "ideal": "/games/Not the Robots_Linux/Not the Robots_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/PaperSorcerer2.3Linux/PaperSorcererLinux_Data/Resources/UnityPlayer.png\"], \"/games/PaperSorcerer2.3Linux\"]": {
+        "ideal": "/games/PaperSorcerer2.3Linux/PaperSorcererLinux_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/RaceTheSunLinux_1.42/RaceTheSun_Data/Resources/UnityPlayer.png\"], \"/games/RaceTheSunLinux_1.42\"]": {
+        "ideal": "/games/RaceTheSunLinux_1.42/RaceTheSun_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/RaceTheSun_1.10_LINUX/RaceTheSun_Data/Resources/UnityPlayer.png\"], \"/games/RaceTheSun_1.10_LINUX\"]": {
+        "ideal": "/games/RaceTheSun_1.10_LINUX/RaceTheSun_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/Shadowrun Returns/Shadowrun_Data/Resources/UnityPlayer.png\"], \"/games/Shadowrun Returns\"]": {
+        "ideal": "/games/Shadowrun Returns/Shadowrun_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/SnakeBlocks_Linux/SnakeBlocks_Data/Resources/UnityPlayer.png\"], \"/games/SnakeBlocks_Linux\"]": {
+        "ideal": "/games/SnakeBlocks_Linux/SnakeBlocks_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/SpyChameleon/Spy Chameleon - RGB Agent_Data/Resources/UnityPlayer.png\"], \"/games/SpyChameleon\"]": {
+        "ideal": "/games/SpyChameleon/Spy Chameleon - RGB Agent_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/TheBridge/TheBridge_Data/Resources/UnityPlayer.png\"], \"/games/TheBridge\"]": {
+        "ideal": "/games/TheBridge/TheBridge_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/TypeRider/TypeRider_Data/Resources/UnityPlayer.png\"], \"/games/TypeRider\"]": {
+        "ideal": "/games/TypeRider/TypeRider_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/beatblastersiii/BeatBlastersIII_Data/Resources/UnityPlayer.png\"], \"/games/beatblastersiii\"]": {
+        "ideal": "/games/beatblastersiii/BeatBlastersIII_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/dynablaster_revenge_v1_0_2/data/icons/dynablaster_revenge-256.ico\"], \"/games/dynablaster_revenge_v1_0_2\"]": {
+        "ideal": "/games/dynablaster_revenge_v1_0_2/data/icons/dynablaster_revenge-256.ico"
+    },
+    "[[\"/games/knightspp_linux_209/knightspp_Data/Resources/UnityPlayer.png\"], \"/games/knightspp_linux_209\"]": {
+        "ideal": "/games/knightspp_linux_209/knightspp_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"/games/railyard/railyardm3e_Data/Resources/UnityPlayer.png\"], \"/games/railyard\"]": {
+        "ideal": "/games/railyard/railyardm3e_Data/Resources/UnityPlayer.png"
+    },
+    "[[\"A Virus Named TOM.bmp\"], \"/games/avirusnamedtom\"]": {
+        "ideal": "/games/avirusnamedtom/A Virus Named TOM.bmp"
+    },
+    "[[\"AntichamberIcon.bmp\", \"AntichamberIcon.png\"], \"/games/Antichamber\"]": {
+        "ideal": "/games/Antichamber/AntichamberIcon.bmp"
+    },
+    "[[\"Avadon.png\", \"icon.bmp\"], \"/games/avadon\"]": {
+        "ideal": "/games/avadon/icon.bmp"
+    },
+    "[[\"Capsized.bmp\"], \"/games/capsized\"]": {
+        "ideal": "/games/capsized/Capsized.bmp"
+    },
+    "[[\"CostumeQuest.png\"], \"/games/CostumeQuest\"]": {
+        "ideal": "/games/CostumeQuest/CostumeQuest.png"
+    },
+    "[[\"Escape Goat 2.bmp\"], \"/games/escapegoat2\"]": {
+        "ideal": "/games/escapegoat2/Escape Goat 2.bmp"
+    },
+    "[[\"GSB.png\"], \"/games/GSB\"]": {
+        "ideal": "/games/GSB/GSB.png"
+    },
+    "[[\"Guacamelee.png\"], \"/games/Guacamelee\"]": {
+        "ideal": "/games/Guacamelee/Guacamelee.png"
+    },
+    "[[\"Icon.bmp\", \"loading.png\", \"Icon.png\"], \"/games/LaMulana\"]": {
+        "acceptable": [
+            "/games/LaMulana/Icon.png",
+            "/games/LaMulana/Icon.bmp"
+        ],
+        "ideal": "/games/LaMulana/Icon.png"
+    },
+    "[[\"Reus.bmp\"], \"/games/reus\"]": {
+        "ideal": "/games/reus/Reus.bmp"
+    },
+    "[[\"SPAZ.png\", \"icon.bmp\"], \"/games/spaz\"]": {
+        "acceptable": [
+            "/games/spaz/icon.bmp"
+        ],
+        "ideal": "/games/spaz/SPAZ.png"
+    },
+    "[[\"Shipwreck.bmp\"], \"/games/shipwreck\"]": {
+        "ideal": "/games/shipwreck/Shipwreck.bmp"
+    },
+    "[[\"ToGIcon.bmp\", \"TowerOfGunsIcon.png\"], \"/games/TowerOfGuns\"]": {
+        "ideal": "/games/TowerOfGuns/TowerOfGunsIcon.png"
+    },
+    "[[\"ToTheMoon.png\"], \"/games/ToTheMoon\"]": {
+        "ideal": "/games/ToTheMoon/ToTheMoon.png"
+    },
+    "[[\"Vessel.bmp\"], \"/games/vessel\"]": {
+        "ideal": "/games/vessel/Vessel.bmp"
+    },
+    "[[\"ZenBound2.png\"], \"/games/zenbound2\"]": {
+        "ideal": "/games/zenbound2/ZenBound2.png"
+    },
+    "[[\"assets/icon.png\"], \"/games/MalditaCastilla\"]": {
+        "ideal": "/games/MalditaCastilla/assets/icon.png"
+    },
+    "[[\"assets/icon.png\"], \"/games/Ultionus\"]": {
+        "ideal": "/games/Ultionus/assets/icon.png"
+    },
+    "[[\"assets/platform_01.png\", \"assets/openfl.svg\", \"assets/Sheet2.png\", \"assets/Sheet.png\", \"assets/titleOuyaIcon.png\", \"assets/timeswapIcon.png\", \"assets/platform_00.png\", \"assets/icon.svg\", \"assets/background_01.png\", \"assets/nme.svg\", \"assets/tilesheet.png\", \"assets/object_keyCard.png\", \"assets/OUYA_BUTTONS.png\", \"assets/background_00.png\", \"assets/Characters.png\"], \"/games/time-swap\"]": {
+        "acceptable": [
+            "/games/time-swap/assets/icon.svg"
+        ],
+        "ideal": "/games/time-swap/assets/timeswapIcon.png"
+    },
+    "[[\"assets/splash.png\", \"assets/icon.png\"], \"/games/RiskOfRain\"]": {
+        "ideal": "/games/RiskOfRain/assets/icon.png"
+    },
+    "[[\"assets/splash.png\", \"assets/icon.png\"], \"/games/VirusJigglinFever\"]": {
+        "ideal": "/games/VirusJigglinFever/assets/icon.png"
+    },
+    "[[\"braid.png\"], \"/games/braid\"]": {
+        "ideal": "/games/braid/braid.png"
+    },
+    "[[\"darwinian.png\"], \"/games/darwinia\"]": {
+        "ideal": "/games/darwinia/darwinian.png"
+    },
+    "[[\"data/NpcMaze.bmp\", \"data/icon.png\", \"data/icon.bmp\"], \"/games/CaveStory+\"]": {
+        "ideal": "/games/CaveStory+/data/icon.png"
+    },
+    "[[\"data/Rogue Legacy.bmp\"], \"/games/RogueLegacyLinux_v120a\"]": {
+        "ideal": "/games/RogueLegacyLinux_v120a/data/Rogue Legacy.bmp"
+    },
+    "[[\"data/exe_icon.bmp\"], \"/games/FTL\"]": {
+        "ideal": "/games/FTL/data/exe_icon.bmp"
+    },
+    "[[\"data/supertuxkart_32.png\", \"data/supertuxkart_128.png\"], \"/games/supertuxkart-0.9-linux\"]": {
+        "ideal": "/games/supertuxkart-0.9-linux/data/supertuxkart_128.png"
+    },
+    "[[\"dearesther.png\"], \"/games/dearesther\"]": {
+        "ideal": "/games/dearesther/dearesther.png"
+    },
+    "[[\"defcon.png\"], \"/games/defcon\"]": {
+        "ideal": "/games/defcon/defcon.png"
+    },
+    "[[\"eets2.xpm\", \"kleientertainment-eets2.png\"], \"/games/eets2\"]": {
+        "ideal": "/games/eets2/eets2.xpm"
+    },
+    "[[\"icon-256x256.png\", \"icon-160x160.png\", \"icon-128x128.png\"], \"/games/BOH\"]": {
+        "ideal": "/games/BOH/icon-256x256.png"
+    },
+    "[[\"icon.png\"], \"/games/DesktopDungeons\"]": {
+        "ideal": "/games/DesktopDungeons/icon.png"
+    },
+    "[[\"icon.png\"], \"/games/Volgarr\"]": {
+        "ideal": "/games/Volgarr/icon.png"
+    },
+    "[[\"icon_512x512.png\"], \"/games/Octodad Dadliest Catch\"]": {
+        "ideal": "/games/Octodad Dadliest Catch/icon_512x512.png"
+    },
+    "[[\"icons/updater.png\"], \"/opt/fennec-4.0.1\"]": {
+        "expected": [
+            "/opt/fennec-4.0.1/icons/updater.png"
+        ],
+        "ideal": "TODO: Decide what to do here"
+    },
+    "[[\"jamestown.png\"], \"/games/jamestown\"]": {
+        "ideal": "/games/jamestown/jamestown.png"
+    },
+    "[[\"lexaloffle-choc.png\"], \"/games/chocolate-castle\"]": {
+        "ideal": "/games/chocolate-castle/lexaloffle-choc.png"
+    },
+    "[[\"lexaloffle-jasper.png\"], \"/games/jaspers-journeys\"]": {
+        "ideal": "/games/jaspers-journeys/lexaloffle-jasper.png"
+    },
+    "[[\"lexaloffle-vox.png\"], \"/games/voxatron\"]": {
+        "ideal": "/games/voxatron/lexaloffle-vox.png"
+    },
+    "[[\"lexaloffle-zen.png\"], \"/games/zen-puzzle-garden\"]": {
+        "ideal": "/games/zen-puzzle-garden/lexaloffle-zen.png"
+    },
+    "[[\"limbo.png\", \"limbo.bmp\"], \"/games/limbo\"]": {
+        "ideal": "/games/limbo/limbo.png"
+    },
+    "[[\"supermeatboy.png\"], \"/games/supermeatboy\"]": {
+        "ideal": "/games/supermeatboy/supermeatboy.png"
+    },
+    "[[\"terrain.png\", \"items.png\", \"special.png\"], \"/opt/INVedit\"]": {
+        "ideal": "/opt/INVedit/INVedit.exe"
+    },
+    "[[\"titanattacks.png\"], \"/games/titanattacks\"]": {
+        "ideal": "/games/titanattacks/titanattacks.png"
+    },
+    "[[\"trauma_data/trauma.ico\"], \"/games/Trauma\"]": {
+        "ideal": "/games/Trauma/trauma_data/trauma.ico"
+    },
+    "[[\"trine2.png\"], \"/games/trine2_complete_story_v2_01_build_425_humble_linux\"]": {
+        "ideal": "/games/trine2_complete_story_v2_01_build_425_humble_linux/trine2.png"
+    },
+    "[[\"ultratron.png\"], \"/games/ultratron\"]": {
+        "ideal": "/games/ultratron/ultratron.png"
+    },
+    "[[\"unepic.png\"], \"/games/unepic\"]": {
+        "ideal": "/games/unepic/unepic.png"
+    },
+    "[[\"uplink.png\"], \"/games/uplink-x64\"]": {
+        "ideal": "/games/uplink-x64/uplink.png"
+    }
+}
