@@ -12,6 +12,10 @@ complete, comprehensive, and reliable, so this is what the test GUI looks like:
 
 ![Test GUI](testgui_screenshot.png)
 
+(The blurry Crayon Physics and Delve Deeper icons will be fixed when I bypass
+the scaled icon caches used by PlayOnLinux and the Desura client and read
+straight from the source files. The undersized DOSBox icon issue is already
+fixed.)
 
 At the moment, it supports the following backends:
 
@@ -45,9 +49,9 @@ If you want to run the test suite, you'll also need:
 * [Nose](https://pypi.python.org/pypi/nose)
 * [coverage](https://pypi.python.org/pypi/coverage)
 
-**NOTE:** Until I decide on a permanent name, I can't write a `setup.py` and,
-thus, can't test in a virtualenv with tox. As such, I can't guarantee my list
-of required dependencies is complete.
+**NOTE:** Until I decide on a permanent name, I can't produce an installable
+package name and, thus, can't test in a virtualenv with tox. As such, I can't
+ guarantee my list of required dependencies is complete.
 
 Also, the test suite doesn't yet exercise the code branches for things like
 "PlayOnLinux not found".
