@@ -19,7 +19,7 @@ from __future__ import (absolute_import, division, print_function,
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
-import errno, logging, os, subprocess
+import errno, logging, os, subprocess, sys
 from functools import total_ordering
 
 from ..util.common import which
@@ -31,6 +31,9 @@ from ..util.executables import Roles
 TERMINAL_CMD = ['xterm', '-e']
 
 log = logging.getLogger(__name__)
+
+if sys.version_info.major >= 3:
+    basestring = str
 
 # --- Entry Classes ---
 
@@ -336,7 +339,7 @@ class GameLauncher(GameSubentry):
             return subprocess.Popen(self.argv, cwd=self.path).pid
             # TODO: Rework so I can capture output and display it on unclean
             #       exit (eg. error while loading shared libraries: ...)
-        except OSError, err:
+        except OSError as err:
             if err.errno != errno.ENOEXEC:
                 raise
             if not self.argv[0].endswith('.sh'):

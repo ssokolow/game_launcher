@@ -136,7 +136,7 @@ def inspect(path):
                          provider=BACKEND_NAME,
                          role=Roles.play)
             for x in exes[Roles.play])
-    elif len(exes) == 1 and len(exes.values()[0]) == 1:
+    elif len(exes) == 1 and len(list(exes.values())[0]) == 1:
         # TODO: bit.trip.runner and Runner 2 have everything in a folder and
         #       only "install" and related files are at the top level. We'll
         #       need to detect and recurse somehow.
@@ -144,11 +144,14 @@ def inspect(path):
         #        .desktop files that are hard-coded to the install location)
         # TODO: Games like EufloriaHD also express a similar pattern but with
         #       the mojosetup uninstall stuff being the top-level thing.
-        exe = exes.values()[0][0]
+        # TODO: Use a more proper solution than list() for working around
+        #       .values() and .keys() returning lists in Python 2.x and views
+        #       in Python 3.x. (A first() wrapper defined differently in each?)
+        exe = list(exes.values())[0][0]
         result['commands'].append(
             GameLauncher(name=exe, icon=icon, argv=[os.path.join(path, exe)],
                          provider=BACKEND_NAME,
-                         role=exes.keys()[0]))
+                         role=list(exes.keys())[0]))
 
     return result if result['commands'] else None
 
