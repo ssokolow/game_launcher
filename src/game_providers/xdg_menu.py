@@ -32,6 +32,7 @@ BACKEND_NAME = "XDG"
 
 import logging, os, re
 import xdg.Menu
+from xdg.IconTheme import getIconPath
 
 from .common import InstalledGameEntry, GameLauncher
 from ..util.common import resolve_exec
@@ -98,7 +99,7 @@ def get_games(root_folder='Games'):
 
         # TODO: Find a way to hint that one of the copies of this is generated
         name = (dentry.getName() or dentry.DesktopFileID).strip()
-        icon = dentry.getIcon().strip()
+        icon = getIconPath(dentry.getIcon().strip())
         path = dentry.getPath()
         tryexec = dentry.getTryExec()
 
