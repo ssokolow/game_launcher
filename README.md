@@ -38,12 +38,15 @@ options in the test GUI do work, they won't be remembered across restarts.
 ## Dependencies
 
 * A POSIX-compliant operating system
-* Python 2.7 (3.x may work but isn't currently tested)
-* [enum34](https://pypi.python.org/pypi/enum34) (Unless you're trying it on Python 3.4+)
 * [PyXDG](https://pypi.python.org/pypi/pyxdg)
-* [PyGTK](http://packages.ubuntu.com/trusty/python-gtk2) (For the temporary
-  test GUI. I'll probably use Qt for the real one but I'm used to the GTK+ API
-  and don't want GTK+ 3.x)
+* One of...
+
+  * Python 2.7, [PyGTK](http://packages.ubuntu.com/trusty/python-gtk2),
+    and [enum34](https://pypi.python.org/pypi/enum34)
+    (For the more advanced test GUI, since it's what I'm used to and I don't
+    like GTK+ 3.x)
+  * Python 3.4 and [PyQt5](http://www.riverbankcomputing.com/software/pyqt/download5)
+    (For the test GUI which may form the base for something permanent)
 
 If you want to run the test suite, you'll also need:
 * [Nose](https://pypi.python.org/pypi/nose)
@@ -62,8 +65,10 @@ Also, the test suite doesn't yet exercise the code branches for things like
 2. Run one of the following:
 
    * `test_providers.py` for a quick, bare test of what the backends find
-   * `testgui.py` for the simple GTK+ test GUI which exercises the full range
-     of functionality currently implemented.
+   * `testgui.py` for the GTK+ 2.x test GUI which exercises the full range of
+     functionality currently implemented.
+   * `testgui_qt.py` for the Qt5 test GUI which I'm using to drive frontend
+     agnostic refactoring and to identify warts in a Qt implementation.
    * `nosetests` to run the test suite
 
 ## Ideas (Incomplete)
