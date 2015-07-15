@@ -98,8 +98,10 @@ def get_games(root_folder='Games'):
         cmd = re.sub('%[a-zA-Z]', '', dentry.getExec())
 
         # TODO: Find a way to hint that one of the copies of this is generated
+        # TODO: Think of a better way to let the frontend ask for a specific
+        #       icon size.
         name = (dentry.getName() or dentry.DesktopFileID).strip()
-        icon = getIconPath(dentry.getIcon().strip())
+        icon = getIconPath((dentry.getIcon() or '').strip(), 128)
         path = dentry.getPath()
         tryexec = dentry.getTryExec()
 
@@ -110,6 +112,7 @@ def get_games(root_folder='Games'):
         if base_path and base_path in COMMON_DIRS:
             base_path = None
 
+        # TODO: Rework
         results.append(InstalledGameEntry(
             name=name,
             icon=icon,

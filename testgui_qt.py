@@ -46,14 +46,11 @@ class GameListModel(QAbstractListModel):
             return self.games[index].name
         elif role == Qt.DecorationRole:
             icon_name = self.games[index].icon
-            if icon_name and 'race' in icon_name.lower():
-                print(icon_name)
             if not icon_name:
                 return None
             elif os.path.isfile(icon_name):
                 return QIcon(icon_name)
             else:
-                print(icon_name)
                 return QIcon.fromTheme(icon_name,
                                        QIcon.fromTheme(FALLBACK_ICON))
         elif role == Qt.ToolTipRole:
