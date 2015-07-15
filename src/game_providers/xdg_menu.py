@@ -35,7 +35,7 @@ import xdg.Menu
 from xdg.IconTheme import getIconPath
 
 from .common import InstalledGameEntry, GameLauncher
-from ..util.common import resolve_exec
+from ..util.common import resolve_exec, which
 from ..util.executables import Roles
 
 log = logging.getLogger(__name__)
@@ -103,7 +103,12 @@ def get_games(root_folder='Games'):
         name = (dentry.getName() or dentry.DesktopFileID).strip()
         icon = getIconPath((dentry.getIcon() or '').strip(), 128)
         path = dentry.getPath()
+
+        # Replicate the findTryExec() method on pre-0.26 PyXDG versions
+        # TODO: Audit uses elsewhere and then guarantee that
+        # GameLauncher.tryexec will be a path or None
         tryexec = dentry.getTryExec()
+        tryexec = which(tryexec) if tryexec else None
 
         # resolve_cmd needed to work around Desura .desktop quoting bug
         argv = resolve_exec(cmd)
@@ -125,7 +130,7 @@ def get_games(root_folder='Games'):
                 path=path,
                 icon=icon,
                 description=dentry.getComment(),
-                tryexec=dentry.getTryExec(),
+                tryexec=tryexec,
                 categories=dentry.getCategories(),
                 keywords=dentry.getKeywords(),
                 use_terminal=dentry.getTerminal())
