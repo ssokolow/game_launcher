@@ -26,6 +26,15 @@ if sys.version_info.major >= 3:
 else:
     cmp = cmp  # Ensure that cmp is importable as a member of this module
 
+def humansort_key(strng):
+    """Human/natural sort key-gathering function for sorted()
+    Source: http://stackoverflow.com/a/1940105
+    """
+    if isinstance(strng, tuple):
+        strng = strng[0]
+    return [w.isdigit() and int(w) or w.lower()
+            for w in re.split(r'(\d+)', strng)]
+
 def which(exec_name, execpath=None):
     """Like the UNIX which command, this function attempts to find the given
     executable in the system's search path. Returns C{None} if it cannot find

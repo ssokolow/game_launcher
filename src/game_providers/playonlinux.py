@@ -28,6 +28,7 @@ __license__ = "GNU GPL 3.0 or later"
 
 import logging, os, re
 from .common import InstalledGameEntry, GameLauncher
+from ..util.common import humansort_key
 from ..util.executables import Roles
 from ..util.shlexing import lex_shellscript, make_metadata_mapper
 
@@ -39,15 +40,6 @@ POL_PREFIX = os.path.expanduser('~/.PlayOnLinux')
 DEFAULT_ICON = "playonlinux"
 
 log = logging.getLogger(__name__)
-
-def humansort_key(strng):
-    """Human/natural sort key-gathering function for sorted()
-    Source: http://stackoverflow.com/a/1940105
-    """
-    if isinstance(strng, tuple):
-        strng = strng[0]
-    return [w.isdigit() and int(w) or w.lower()
-            for w in re.split(r'(\d+)', strng)]
 
 # TODO: There should be a way for a scraper to suppress entries like the
 #       PlayOnLinux XDG launcher from appearing and, instead, expose it
