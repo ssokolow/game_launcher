@@ -6,12 +6,12 @@ __license__ = "GNU GPL 3.0 or later"
 import logging
 from itertools import chain
 
-from . import xdg_menu, desura, playonlinux, fallback
+from . import desura, fallback, playonlinux, scummvm, residualvm, xdg_menu
 
 log = logging.getLogger(__name__)
 
 # TODO: Move priority ordering control into backend metadata
-PROVIDERS = [xdg_menu, desura, playonlinux, fallback]
+PROVIDERS = [xdg_menu, desura, scummvm, residualvm, playonlinux, fallback]
 # TODO: Add backends based on `residualvm -t` and `scummvm -t`
 #       (And support jumping straight to a save via
 #        context menu, --list-saves, and --save-slot)

@@ -22,6 +22,8 @@ At the moment, it supports the following backends:
 * [XDG .desktop files](http://standards.freedesktop.org/desktop-entry-spec/latest/)
   installed into the [launcher system](http://standards.freedesktop.org/menu-spec/menu-spec-latest.html)
 * The [Desura](http://desura.com/) client when using `~/.desura/`
+* Games configured in a system-wide install of [ScummVM](http://scummvm.org/)
+  or [ResidualVM](http://residualvm.org/).
 * Windows applications via [PlayOnLinux](http://playonlinux.com/)
 * A fallback option which can use (in descending priority order):
 
@@ -73,12 +75,12 @@ Also, the test suite doesn't yet exercise the code branches for things like
 
 ## Ideas (Incomplete)
 
-1. Support for moving things with backends like PlayOnLinux and Desura/Desurium
-   out of the list of games (where the XDG backend put them) and into either
-   the context menu for the things they provided or a menu bar.
-1. Backends for [ScummVM](http://scummvm.org/),
-   [ResidualVM](http://residualvm.org/), and anything else I use which can be
-   both reliably scraped and launched directly into a specific game.
+1. Support for moving things like PlayOnLinux, Desura/Desurium, ScummVM, and
+   ResidualVM out of the list of games (where the XDG backend put them) and
+   into either the context menu for the things their game_providers returned
+   or a menu bar.
+1. Backends for anything ScummVM-like which both reliably scraped and launched
+   directly into a specific game.
 1. Look into merging with [Lutris](https://lutris.net/). They've got a GUI and
    plans for more backends. I'm writing more backends and may be satisfied with
    their GUI.
