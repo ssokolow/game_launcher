@@ -17,7 +17,7 @@ FALLBACK_ICON = "applications-games"
 import logging, os, sys
 log = logging.getLogger(__name__)
 
-from PyQt5.QtCore import QAbstractListModel, Qt
+from PyQt5.QtCore import QAbstractListModel, QSortFilterProxyModel, Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication
 from PyQt5.uic import loadUi
@@ -62,7 +62,15 @@ def main():
 
     with open(os.path.join(os.path.dirname(__file__), 'testgui.ui')) as fobj:
         window = loadUi(fobj)
-    window.view_games.setModel(GameListModel(get_games()))
+
+    model = GameListModel(get_games())
+    model_sorted = QSortFilterProxyModel()
+    model_sorted.setDynamicSortFilter(True)
+    model_sorted.setSortCaseSensitivity(Qt.CaseInsensitive)
+    model_sorted.setSourceModel(model)
+    model_sorted.sort(0, Qt.AscendingOrder)
+
+    window.view_games.setModel(model_sorted)
     window.show()
 
     sys.exit(app.exec_())
