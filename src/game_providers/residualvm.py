@@ -89,6 +89,11 @@ def get_games():
         #       data source for the system ResidualVM and reset the base path
         #       one level up)
 
+        # TODO: Deduplicate based on .get(game_id, 'gameid') once I figure out
+        #       how to make sure that things like gameid=sci don't cause false
+        #       positives. (Common name prefix won't be enough because of
+        #       things like the King's Quest series. Maybe name sans brackets?)
+
         # TODO: Consider integrating scraping sufficient to allow launching
         #       directly into a safe file via the context menu.
 

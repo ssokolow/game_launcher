@@ -45,6 +45,7 @@ DEFAULT_ICON = getIconPath("scummvm", 128)
 
 log = logging.getLogger(__name__)
 
+# TODO: Deduplicate all of this stuff with residualvm.py
 def _get_games_list():
     """Parse C{scummvm --list-targets} for a list of available games"""
     try:
@@ -88,6 +89,11 @@ def get_games():
         # TODO: Look for an icon (Also, Recognize GOG games being used as a
         #       data source for the system ScummVM and reset the base path one
         #       level up)
+
+        # TODO: Deduplicate based on .get(game_id, 'gameid') once I figure out
+        #       how to make sure that things like gameid=sci don't cause false
+        #       positives. (Common name prefix won't be enough because of
+        #       things like the King's Quest series. Maybe name sans brackets?)
 
         # TODO: Consider integrating scraping sufficient to allow launching
         #       directly into a safe file via the context menu.

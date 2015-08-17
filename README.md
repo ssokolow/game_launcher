@@ -79,6 +79,12 @@ Also, the test suite doesn't yet exercise the code branches for things like
    ResidualVM out of the list of games (where the XDG backend put them) and
    into either the context menu for the things their game_providers returned
    or a menu bar.
+1. Support for launching as a separate user somehow as one way to protect my
+   `$HOME` from getting doodled on by Wine apps, MojoSetup, and games which use
+   `getpwuid()` to write non-hidden folders.
+1. Look into ways to make "separate out save/config/log files for backup using
+   OverlayFS" a more officially supported option, given that it's been in
+   Ubuntu kernels since 11.10 and was mainlined in 3.18.
 1. Backends for anything ScummVM-like which both reliably scraped and launched
    directly into a specific game.
 1. Look into merging with [Lutris](https://lutris.net/). They've got a GUI and
