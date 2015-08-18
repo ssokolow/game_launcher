@@ -22,12 +22,14 @@ from __future__ import (absolute_import, division, print_function,
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
-import os
+import logging, os
 from ..common import GameLauncher
 from ...util.naming import titlecase_up
 from ...util.executables import Roles
 from ...util.shlexing import (script_precheck, lex_shellscript,
                               make_metadata_mapper)
+
+log = logging.getLogger(__name__)
 
 BACKEND_NAME = "GOG.com"
 
@@ -54,25 +56,63 @@ def detect_gogishness(token_list, fields):
         fields.setdefault('commands', []).append(
             (titlecase_up(token_list[3]), token_list[2]))
 
+def _inspect_mojo(path):
+    """Extract metadata from the gameinfo file in a MojoSetup install."""
+    gameinfo_path = os.path.join(path, 'gameinfo')
+    if not os.path.isfile(gameinfo_path):
+        log.debug("not os.path.isfile(%r)", gameinfo_path)
+        return {}
 
-def inspect(path):
-    """Try to extract GOG.com tarball metadata from the given folder"""
+    with open(gameinfo_path, 'rU') as fobj:
+        lines = fobj.read().strip().split('\n')
+        if len(lines) < 3:
+            log.debug("len(gameinfo) < 3 for %s", gameinfo_path)
+            return {}
+
+    return {
+        'name': lines[0],
+        'version': lines[2]
+    }
+
+def _inspect_script(path):
+    """Extract metadata from an older GOG start.sh"""
     start_path = os.path.join(path, 'start.sh')
     if not script_precheck(start_path):
-        return None
+        log.debug("Fails script precheck: %s", start_path)
+        return {}
 
-    fields = lex_shellscript(start_path, make_metadata_mapper({
+    return lex_shellscript(start_path, make_metadata_mapper({
         'GAME_NAME': 'name',
         'PACKAGE_NAME': 'game_id'
     }, detect_gogishness))
+
+def inspect(path):
+    """Try to extract GOG.com tarball metadata from the given folder"""
+
+    fields = _inspect_script(path)
+    fields.update(_inspect_mojo(path))
+    if not fields:
+        return None  # Couldn't find GOG metadata
+
+    for key in ('name', 'game_id'):
+        assert not fields.get(key, '').startswith('$(')
+
     fields['base_path'] = path
 
-    icon_path = os.path.join(path, 'support', fields['game_id'] + '.png')
+    # TODO: Hook in the icon-finding code once I've encapsulated it.
+    #       (And extend the icon-finding code to prefer Game-provided icons
+    #        over GOG-provided icons. I much prefer Terraria's ACTUAL icon.)
+    if 'game_id' in fields:
+        icon_path = os.path.join(path, 'support', fields['game_id'] + '.png')
+    else:
+        icon_path = os.path.join(path, 'support', 'icon.png')
+
     if os.path.isfile(icon_path):
         fields['icon'] = icon_path
 
     # TODO: Detect and offer start.sh subcommands
     # TODO: Detect things like Manual.pdf and generate subcommands
+    start_path = os.path.join(path, 'start.sh')
     fields['commands'] = [GameLauncher(
         argv=[start_path, x[1]],
         name=x[0],
