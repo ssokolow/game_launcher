@@ -46,16 +46,22 @@ DEFAULT_ICON = getIconPath("scummvm", 128)
 log = logging.getLogger(__name__)
 
 # TODO: Deduplicate all of this stuff with residualvm.py
-def _get_games_list():
+def _parse_list(args):
     """Parse C{scummvm --list-targets} for a list of available games"""
     try:
-        rows = subprocess.check_output(['scummvm', '--list-targets'])
+        rows = subprocess.check_output(['scummvm'] + args)
 
         if isinstance(rows, bytes):
             rows = rows.decode('utf-8')
 
         rows = rows.strip().split('\n')[2:]
-        return dict(row.split(None, 1) for row in rows)
+
+        result = {}
+        for row in rows:
+            game_id, name = row.split(None, 1)
+            result[game_id.strip()] = name.strip()
+        return result
+
     except subprocess.CalledProcessError:
         log.info("Could not retrieve list of games from ScummVM")
         return {}
@@ -75,9 +81,7 @@ def get_games():
         log.error("Could not parse ScummVM RC file: %s", err)
 
     results = []
-    for game_id, name in _get_games_list().items():
-        game_id, name = game_id.strip(), name.strip()
-
+    for game_id, name in _parse_list(['--list-targets']).items():
         try:
             base_path = rc_parser.get(game_id, 'path')
         except CP_Error as err:
