@@ -246,6 +246,8 @@ class Application(object):  # pylint: disable=C0111,R0902
         self.data.set_default_sort_func(lambda *args: -1)
         self.data.set_sort_column_id(-1,
                                 gtk.SORT_ASCENDING)
+        # TODO: Common humansort code shared between all frontends.
+        # (eg. GTK+ doesn't sort roman numerals properly.)
 
         try:
             for pos, entry in enumerate(src_list):
