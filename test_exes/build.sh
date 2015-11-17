@@ -116,6 +116,7 @@ echo " * Compiling for DOS with DJGPP (Protected Mode)"; (
 #   - Only non-UPX mention I've found so far:
 #     http://board.flatassembler.net/topic.php?p=179760
 # - Determine whether any of these generate usefully different EXE files
+#   - http://v3.sk/~lkundrak/dev86/
 #   - http://freedos.sourceforge.net/software/?prog=cc386
 #   - http://ladsoft.tripod.com/orange_c_compiler.html
 #   - http://www.desmet-c.com/
