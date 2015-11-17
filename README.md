@@ -95,7 +95,11 @@ Also, the test suite doesn't yet exercise the code branches for things like
 1. Play time tracking incorporating
    [input idle-based](https://coderrr.wordpress.com/2008/04/20/getting-idle-time-in-unix/)
    AFK detection
-1. [Antimicro](https://github.com/Ryochan7/antimicro) integration, if possible
+1. [xboxdrv](http://pingus.seul.org/~grumbel/xboxdrv/) integration for games
+   like Towerfall Ascension which only recognize XBox 360 controllers and need
+   other joysticks to lie about their identity.
+1. [Antimicro](https://github.com/Ryochan7/antimicro) integration for games
+   like Cave Story which don't support joysticks at all.
 1. Support for taking a "local GOG backups" folder and providing a Steam-like
    ability to batch-select and install .deb and/or .tar.gz games from it.
    (At minimum as a proof of concept.
