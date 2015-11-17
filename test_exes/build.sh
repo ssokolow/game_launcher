@@ -11,6 +11,11 @@
 #   mono-dev
 #   upx-ucl
 #
+# Dev86 cross-compiler
+#   Obtain from: http://v3.sk/~lkundrak/dev86/
+#     (Must compile from source or bcc-cpp will be missing)
+#   Install to ~/opt/dev86 OR set $DEV86_ROOT OR install in $PATH
+#
 # DJGPP cross-compiler
 #   Obtain from: https://github.com/andrewwutw/build-djgpp
 #   Install to ~/opt/djgpp/ OR set $DJGPP_ROOT OR install in $PATH
@@ -33,11 +38,13 @@
 #
 # You may override the following variables outside this script and they will
 # be obeyed:
+#   DEV86_ROOT    Path to the --prefix where Dev86 was installed
 #   DOSEMU_DRIVE  Path to the folder DOSEmu will mount as C:
 #   DJGPP_ROOT    Path to your DJGPP cross-compiler root folder
 #   PACC          DOS-format path to Pacific C from within DOSEmu
 #   WATCOM        Path to your Open Watcom installation
 
+DEV86_ROOT="${DEV86_ROOT:-$HOME/opt/dev86}"
 DOSEMU_DRIVE="${DOSEMU_DRIVE:-$HOME/.dosemu/drive_c}"
 DJGPP_ROOT="${DJGPP_ROOT:-$HOME/opt/djgpp}"
 PACC="${PACC:-c:\\pacific\\bin\\pacc.exe}"
@@ -104,10 +111,17 @@ upx_pack() {
     upx -qq "$1" -o"${1%.*}.upx$2.${1##*.}" $3
 }
 
+echo " * Compiling for DOS with Dev86 (Real Mode)"; (
+    # shellcheck disable=SC2030,2031
+    export PATH="$PATH:$DEV86_ROOT/bin/"
+    bcc -Md hello_dev86.c -o hello_dev86.com
+)
+
 echo " * Compiling for DOS with Pacific C (Real Mode)"
 dosemu_build "$PACC -Q -W9" hello_pacific.exe
 
 echo " * Compiling for DOS with DJGPP (Protected Mode)"; (
+    # shellcheck disable=SC2031
     export PATH="$PATH:$DJGPP_ROOT/bin/"
     # shellcheck disable=SC2086
     i586-pc-msdosdjgpp-gcc $GCC_COMMON_ARGS -o hello_djgpp.exe
@@ -118,7 +132,6 @@ echo " * Compiling for DOS with DJGPP (Protected Mode)"; (
 #   - Only non-UPX mention I've found so far:
 #     http://board.flatassembler.net/topic.php?p=179760
 # - Determine whether any of these generate usefully different EXE files
-#   - http://v3.sk/~lkundrak/dev86/
 #   - http://freedos.sourceforge.net/software/?prog=cc386
 #   - http://ladsoft.tripod.com/orange_c_compiler.html
 #   - http://www.desmet-c.com/
