@@ -88,6 +88,7 @@ openwatcom_build() {
             outfile="hello_owatcom_$1"
             # shellcheck disable=SC2086
             wcl386 -q -bt=windows -l=win386 "$SRC_FILE" -fe="$outfile".rex $3
+            # TODO: Figure out how to stop wbind from segfaulting on success
             wbind "$outfile".exe -nq -s "$WATCOM/binw/win386.ext"
             rm "$outfile".rex ;;
         *)
@@ -133,8 +134,7 @@ openwatcom_build dos4gnz "$WATCOM/h"
 openwatcom_build os2 "$WATCOM/h:$WATCOM/h/os21x"
 openwatcom_build os2v2 "$WATCOM/h:$WATCOM/h/os2"
 openwatcom_build windows "$WATCOM/h:$WATCOM/h/win"
-# TODO: Figure out how to stop wbind from segfaulting
-#openwatcom_build win386 "$WATCOM/h:$WATCOM/h/win"
+openwatcom_build win386 "$WATCOM/h:$WATCOM/h/win"
 openwatcom_build win95 "$WATCOM/h:$WATCOM/h/win"
 openwatcom_build nt "$WATCOM/h:$WATCOM/h/nt"
 
