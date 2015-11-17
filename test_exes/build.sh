@@ -73,28 +73,30 @@ openwatcom_build() {
     export WIPFC="$WATCOM/wipfc"
     export INCLUDE="$2"
 
-    case "$1" in  # Workaround for broken 16-bit support in owcc
-        com)
-            # shellcheck disable=SC2086
-            wcl -q -bcl="$1" "$SRC_FILE" -fe="hello_owatcom16.com" $3 ;;
-        dos|os2|windows)
-            # shellcheck disable=SC2086
-            wcl -q -bcl="$1" "$SRC_FILE" -fe="hello_owatcom16_$1.exe" $3 ;;
-        win386)
-            # Resources used:
-            # http://www.os2museum.com/wp/watcom-win386/
-            # http://openwatcom.contributors.narkive.com/dAgYeOP9/win386-question-for-tutorial
-            outfile="hello_owatcom_$1"
-            # shellcheck disable=SC2086
-            wcl386 -q -bt=windows -l=win386 "$SRC_FILE" -fe="$outfile".rex $3
-            # TODO: Figure out how to stop wbind from segfaulting on success
-            wbind "$outfile".exe -nq -s "$WATCOM/binw/win386.ext"
-            rm "$outfile".rex ;;
-        *)
-            # shellcheck disable=SC2086
-            owcc -b"$1" "$SRC_FILE" -o "hello_owatcom_$1.exe" $3 ;;
+    # Minimal duplication in naming
+    outname="hello_owatcom_$1"
+    case "$1" in
+        com) outfile="$outname".com ;;
+        *)   outfile="$outname".exe ;;
+    esac
+
+    # Workaround for broken 16-bit support in released owcc
+    case "$1" in
+        com|dos|os2|windows) wcl -w4 -q -bcl="$1" "$SRC_FILE" -fe="$outfile" ;;
+        *) owcc -Wall -b"$1" "$SRC_FILE" -o "$outfile" ;;
     esac
     rm hello.o
+
+    # Support Win386
+    # Resources used:
+    # http://www.os2museum.com/wp/watcom-win386/
+    # http://openwatcom.contributors.narkive.com/dAgYeOP9/win386-question-for-tutorial
+    # TODO: Figure out how to stop wbind from segfaulting on success
+    if [ "$1" = "win386" ]; then
+        mv "$outfile" "$outname".rex
+        wbind "$outfile" -nq -s "$WATCOM/binw/win386.ext"
+        rm "$outname".rex
+    fi
 }
 
 upx_pack() {
