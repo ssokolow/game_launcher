@@ -5,47 +5,46 @@
 #  set up OpenWatcom since it generates the majority of the test files and
 #  one of each format under test)
 #
-# DOSEmu DOS Emulator
-#   Just install the dosemu package in the Debian/Ubuntu repositories
+# The following packages:
+#   dosemu
+#   mingw-w64
+#   mono-dev
+#   upx-ucl
 #
 # DJGPP cross-compiler
 #   Obtain from: https://github.com/andrewwutw/build-djgpp
-#   Install to:  ~/opt/djgpp/
+#   Install to ~/opt/djgpp/ OR set $DJGPP_ROOT OR install in $PATH
 #
-# MinGW-W64 cross-compiler
-#   Just install the mingw-w64 package in the Debian/Ubuntu repositories
-#
-# Mono C# compiler
-#   Just install the mono-dev package in the Debian/Ubuntu repositories
+# OpenWatcom cross-compiler
+#   Obtain from: https://github.com/open-watcom/open-watcom-v2
+#   Installation:
+#    1. Download a binary build for Linux
+#    2. mkdir -p ~/opt/openwatcom
+#    3. unzip path/to/openwatcom/installer -d ~/opt/openwatcom
+#       (On my system, attempting to run the installer causes it to crash)
+#    4. file ~/opt/openwatcom/binl/* | grep ELF | cut -d: -f1 | xargs chmod +x
 #
 # Pacific C
 #   Obtain from: http://www.freedos.org/software/?prog=pacific-c
 #   Installation:
 #    1. Run `dosemu` and then type `exitemu` in the resulting window
-#    2. Install Pacific C to ~/.dosemu/drive_c/
+#    2. Unzip Pacific C such that C:\pacific\bin\pacc.exe exists
+#       (If not using pacificx.zip, unzip pacific.exe and add pacc.exe)
 #
-# OpenWatcom cross-compiler
-#   Obtain from: https://github.com/open-watcom/open-watcom-v2
-#   Installation:
-#    1. Download the binary build for Linux
-#    2. mkdir -p ~/opt/openwatcom
-#    3. cd ~/opt/openwatcom
-#    4. unzip path/to/openwatcom/installer
-#    5. cd binl
-#    6. file * | grep ELF | cut -d: -f1 | xargs chmod +x
-#
-#   (On my system, attempting to run the installer causes it to crash)
-#
-# UPX executable packer
-#   Just install the upx-ucl package in the Debian/Ubuntu repositories
-#
+# You may override the following variables outside this script and they will
+# be obeyed:
+#   DOSEMU_DRIVE  Path to the folder DOSEmu will mount as C:
+#   DJGPP_ROOT    Path to your DJGPP cross-compiler root folder
+#   PACC          DOS-format path to Pacific C from within DOSEmu
+#   WATCOM        Path to your Open Watcom installation
+
+DOSEMU_DRIVE="${DOSEMU_DRIVE:-$HOME/.dosemu/drive_c}"
+DJGPP_ROOT="${DJGPP_ROOT:-$HOME/opt/djgpp}"
+PACC="${PACC:-c:\\pacific\\bin\\pacc.exe}"
+WATCOM="${WATCOM:-$HOME/opt/openwatcom}"
 
 SRC_FILE="hello.c"
-DOSEMU_DRIVE=~/.dosemu/drive_c
-DJGPP_ROOT=~/opt/djgpp
 GCC_COMMON_ARGS="-Wall -pedantic $SRC_FILE"
-PACC="c:\\pacific\\bin\\pacc.exe"
-WATCOM=~/opt/openwatcom
 
 cd "$(dirname "$0")"
 rm -f ./*.exe ./*.com
@@ -107,7 +106,7 @@ echo " * Compiling for DOS with Pacific C (Real Mode)"
 dosemu_build "$PACC -Q -W9" hello_pacific.exe
 
 echo " * Compiling for DOS with DJGPP (Protected Mode)"; (
-    export PATH="$DJGPP_ROOT/bin/:$PATH"
+    export PATH="$PATH:$DJGPP_ROOT/bin/"
     # shellcheck disable=SC2086
     i586-pc-msdosdjgpp-gcc $GCC_COMMON_ARGS -o hello_djgpp.exe
 )
