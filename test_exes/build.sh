@@ -101,7 +101,7 @@ openwatcom_build() {
     # TODO: Figure out how to stop wbind from segfaulting on success
     if [ "$1" = "win386" ]; then
         mv "$outfile" "$outname".rex
-        wbind "$outfile" -nq -s "$WATCOM/binw/win386.ext"
+        wbind "$outfile" -nq
         rm "$outname".rex
     fi
 }
