@@ -172,8 +172,10 @@ echo " * Generating UPX-compressed copies"
 for X in *.exe *.com; do
     upx_pack "$X"
 done
-upx_pack hello_owatcom_dos4g.exe .le --le
 upx_pack hello_djgpp.exe .coff --coff
+
+# TODO: Decide which stubs to bind this to
+#upx_pack hello_owatcom_dos4g.exe .le --le
 
 echo " * Removing unnecessary execute bits"
 chmod -x ./*.exe ./*.com
