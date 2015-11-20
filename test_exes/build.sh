@@ -7,6 +7,7 @@
 #
 # The following packages:
 #   dosemu
+#   haxe
 #   mingw-w64
 #   mono-dev
 #   openjdk-7-jdk (or another provider of javac)
@@ -55,7 +56,7 @@ SRC_FILE="hello.c"
 GCC_COMMON_ARGS="-Wall -pedantic $SRC_FILE"
 
 cd "$(dirname "$0")"
-rm -f ./*.o ./*.exe ./*.com ./*.class ./*.jar ./hello_gcc.*
+rm -f ./*.o ./*.exe ./*.com ./*.class ./*.jar ./hello_gcc.* ./*.swf
 
 dosemu_build() {
     cp "$SRC_FILE" "$DOSEMU_DRIVE"
@@ -173,6 +174,9 @@ echo " * Building test JAR file"
 javac hello.java
 jar cfe hello.jar hello hello.class
 rm hello.class
+
+echo " * Building test SWF file"
+haxe -main Hello -swf hello_c.swf
 
 echo " * Compiling native ELF64 binary with GCC for comparison"
 gcc hello.c -ohello_gcc.x86_64

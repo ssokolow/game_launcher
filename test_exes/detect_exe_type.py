@@ -23,6 +23,9 @@ filetypes = [
     # http://www.delorie.com/djgpp/doc/coff/filhdr.html
     # http://wiki.osdev.org/COFF
     (b'\x4c\x01', ['.exe'], 'Bare i386 COFF (DJGPP?)'),
+    # TODO: Need a test file for the following
+    (b'FWS', ['.swf'], 'Adobe Flash'),
+    (b'CWS', ['.swf'], 'Adobe Flash (zlib-compressed)'),
     # TODO: Decide how to make the .bat/.cmd detection more stringent
     (None, ['.bat'], "DOS Batch file"),
     # Note: .btm isn't recognized because no game would use it for the launcher
