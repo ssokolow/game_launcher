@@ -10,7 +10,7 @@ __appname__ = "Test GUI for game_launcher"
 __version__ = "0.0pre0"
 __license__ = "GNU GPL 3.0 or later"
 
-import logging, os, sys
+import logging, os, sys, threading
 log = logging.getLogger(__name__)
 
 RES_DIR = os.path.dirname(__file__)
@@ -25,6 +25,7 @@ from xml.sax.saxutils import escape as xmlescape
 
 # TODO: Decide on a name for the project and rename "src"
 from src.game_providers import get_games
+from src.util.icons import BaseIconWrapper
 
 try:
     import pygtk
@@ -33,7 +34,7 @@ except ImportError:
     pass  # Apparently some PyGTK installs are missing this but still work
 
 try:
-    import gtk, gtk.gdk, glib, pango
+    import gtk, gtk.gdk, glib, gobject, pango
 except ImportError:
     sys.stderr.write("Missing PyGTK! Exiting.\n")
     sys.exit(1)
@@ -43,49 +44,76 @@ except ImportError:
 # from lgogd_uri import gtkexcepthook
 # gtkexcepthook.enable()
 
-# ---=== Begin Application Class ===---
+# ---=== Begin Classes ===---
 
-class Application(object):  # pylint: disable=C0111,R0902
-    def __init__(self):
-        self.builder = gtk.Builder()
-        self.icon_theme = gtk.icon_theme_get_default()
+class AsyncModelPopulate(threading.Thread):
+    def __init__(self, app):
+        super(AsyncModelPopulate, self).__init__()
+        self.app = app
+        self.daemon = True
 
-        """Parts of __init__ that should only run in the single instance."""
-        # Check for some deps late enough to display a GUI error message
-        self.gtkbuilder_load('testgui.glade')
-        self.data = self.builder.get_object('store_games')
+    def add_row(self, row):
+        self.app.data.append(row)
+        return False
 
-        self.view = self.builder.get_object("view_games")
-        self.view.set_selection_mode(
-            gtk.SELECTION_MULTIPLE)
+    def run(self):
+        entries = self.app.entries
+        if not entries:
+            entries = get_games()
+            gobject.idle_add(self.app.set_entries, entries)
 
-        # Apparently Glade doesn't let you set these in the XML for IconView
-        self.view.set_text_column(1)
-        self.view.set_pixbuf_column(0)
+        for pos, entry in enumerate(entries):
+            row = (
+                GtkIconWrapper.get_scaled_icon(entry.icon, ICON_SIZE),
+                entry.name,
+                xmlescape(entry.summarize()),
+                pos
+            )
+            log.debug("Adding row: %s", row)
+            gobject.idle_add(self.add_row, row)
 
-        self.entries = get_games()
-        self.populate_model(self.entries)
+class GtkIconWrapper(BaseIconWrapper):
+    icon_cache = {}
 
-        self.mainwin = self.builder.get_object('mainwin')
-        self.mainwin.set_title('%s %s' %
-                               (self.mainwin.get_title(), __version__))
-        self.mainwin.show_all()
+    # -- Class Methods --
+    @classmethod
+    def init_cls(cls):
+        """Class-level init which must be done after GUI library init"""
+        cls.icon_theme = gtk.icon_theme_get_default()
 
-    def gtkbuilder_load(self, path):
-        """Shorthand wrapper for all steps of loading a GtkBuilder file"""
-        path = os.path.join(RES_DIR, path)
-        self.builder.add_from_file(os.path.join(RES_DIR, path))
-        self.builder.connect_signals(self)
+    @classmethod
+    def _from_name_direct(cls, name_or_path, requested_size):
+        # TODO: Decide on a policy for how this should handle Exceptions
+        # TODO: Swap these arms so the disk path is preferred once I've got
+        #       from_name_closest completed.
+        if os.path.exists(name_or_path):
+            return cls(gtk.gdk.pixbuf_new_from_file(name_or_path))
+        elif cls.icon_theme.has_icon(name_or_path):
+            return cls(cls.icon_theme.load_icon(name_or_path, size, 0))
+        else:
+            return None
 
-    def _ensure_good_upscales(self, icon_name, target_size):
+    @classmethod
+    def _lookup_actual_dims(cls, name_or_path, requested_size):
+        # TODO: Make sure this works with raw paths
+        iinfo = cls.icon_theme.lookup_icon(name_or_path, requested_size,
+                        gtk.ICON_LOOKUP_USE_BUILTIN)
+        return iinfo.get_base_size() if iinfo else None
+
+    # -- Instance Methods --
+    def get_dims(self):
+        return self._raw.get_width(), self._raw.get_height()
+
+    # -- Unsorted Methods --
+
+    @classmethod
+    def _ensure_good_upscales(cls, icon_name, target_size):
         """Mitigate scaling blur for icons smaller than 32px
         (By using pixel doubling/tripling to give them a more retro look)
         """
-        iinfo = self.icon_theme.lookup_icon(icon_name, target_size,
-                        gtk.ICON_LOOKUP_USE_BUILTIN)
-        if iinfo is None:
+        base_size = cls._lookup_actual_dims(icon_name, target_size)
+        if base_size is None:
             return None
-        base_size = iinfo.get_base_size()
 
         # For icons smaller than 32px use pixel doubling to add some upscales
         # (Otherwise, 16px icons are unacceptably blurry)
@@ -93,8 +121,8 @@ class Application(object):  # pylint: disable=C0111,R0902
         # scale to force scaling.
         # TODO: I'll have to figure out how to workaround PlayOnLinux's
         #       crappy 16->32 upscaling
-        icon = self.icon_theme.load_icon(icon_name, base_size, 0)
-        w, h = icon.get_width(), icon.get_height()
+        icon = cls._from_name_direct(icon_name, base_size)
+        w, h = icon.get_dims()
 
         # Inject larger versions using INTERP_NEAREST at integer scales up to
         # but not including the target size (but at least once for any icons
@@ -106,7 +134,7 @@ class Application(object):  # pylint: disable=C0111,R0902
             log.debug("%s: %s -> %s", icon_name, isize, base_size * scale)
 
             gtk.icon_theme_add_builtin_icon(icon_name, isize * scale,
-                icon.scale_simple(w * scale, h * scale,
+                icon.unwrap().scale_simple(w * scale, h * scale,
                     gtk.gdk.INTERP_NEAREST))
             scale += 1
 
@@ -131,7 +159,8 @@ class Application(object):  # pylint: disable=C0111,R0902
         else:
             return icon
 
-    def get_scaled_icon(self, path, size):
+    @classmethod
+    def get_scaled_icon(cls, path, size):
         """Interpret a raw Icon value from a .desktop and return a good icon
 
         (Employs L{_ensure_good_upscales} to minimize blurrying tiny icons)
@@ -143,8 +172,14 @@ class Application(object):  # pylint: disable=C0111,R0902
         if path is None:
             return None
 
+        cache_key = (path, size)
+        if cache_key in cls.icon_cache:
+            return cls.icon_cache[cache_key]
+
+        #icon = cls._from_name_direct(path, ICON_SIZE).unwrap()
+
         # Inject non-theme icon paths as builtins for consistent lookup
-        if os.path.exists(path) and not self.icon_theme.has_icon(path):
+        if os.path.exists(path) and not cls.icon_theme.has_icon(path):
             icon = gtk.gdk.pixbuf_new_from_file(path)
             w, h = icon.get_width(), icon.get_height()
             isize = max(w, h)
@@ -152,21 +187,65 @@ class Application(object):  # pylint: disable=C0111,R0902
             gtk.icon_theme_add_builtin_icon(path, isize, icon)
 
         # TODO: Deduplicate this code as much as possible
+        result = None
         try:
-            self._ensure_good_upscales(path, size)
-            icon = self.icon_theme.load_icon(path, size, 0)
+            cls._ensure_good_upscales(path, size)
+            icon = cls.icon_theme.load_icon(path, size, 0)
             if not (size == icon.get_width() == icon.get_height()):
                 log.debug("%s: %s != %s != %s" %
                       (path, size, icon.get_width(), icon.get_height()))
-            return self._ensure_dimensions(icon, size)
+            result = cls._ensure_dimensions(icon, size)
         except (AttributeError, glib.GError):
             log.error("BAD ICON: %s", path)
             try:
-                return self._ensure_dimensions(
-                    self.icon_theme.load_icon(FALLBACK_ICON, size, 0))
             except glib.GError, err:
+                result = cls._ensure_dimensions(
+                    cls.icon_theme.load_icon(FALLBACK_ICON, size, 0),
+                    ICON_SIZE)
                 log.error("Error while loading fallback icon: %s", err)
-        return None
+
+        if result:
+            cls.icon_cache[cache_key] = result
+        return result
+
+
+class Application(object):  # pylint: disable=C0111,R0902
+    def __init__(self):
+        gobject.threads_init()
+        GtkIconWrapper.init_cls()
+        self.builder = gtk.Builder()
+        self.icon_theme = gtk.icon_theme_get_default()
+
+        """Parts of __init__ that should only run in the single instance."""
+        # Check for some deps late enough to display a GUI error message
+        self.gtkbuilder_load('testgui.glade')
+        self.data = self.builder.get_object('store_games')
+
+        self.view = self.builder.get_object("view_games")
+        self.view.set_selection_mode(
+            gtk.SELECTION_MULTIPLE)
+
+        # Apparently Glade doesn't let you set these in the XML for IconView
+        self.view.set_text_column(1)
+        self.view.set_pixbuf_column(0)
+
+        self.entries = []
+        self.data.set_sort_column_id(1, gtk.SORT_ASCENDING)
+        # TODO: Common humansort code shared between all frontends.
+        # (eg. GTK+ doesn't sort roman numerals properly.)
+        AsyncModelPopulate(self).start()
+        #self.populate_model(self.entries)
+
+        self.mainwin = self.builder.get_object('mainwin')
+        self.mainwin.set_title('%s %s' %
+                               (self.mainwin.get_title(), __version__))
+        self.mainwin.show_all()
+
+    def gtkbuilder_load(self, path):
+        """Shorthand wrapper for all steps of loading a GtkBuilder file"""
+        path = os.path.join(RES_DIR, path)
+        self.builder.add_from_file(os.path.join(RES_DIR, path))
+        self.builder.connect_signals(self)
 
     # TODO: The popup menu should include:
     #       - A submenu for selecting which subentry is default (double-click)
@@ -263,7 +342,7 @@ class Application(object):  # pylint: disable=C0111,R0902
         try:
             for pos, entry in enumerate(src_list):
                 self.data.append((
-                    self.get_scaled_icon(entry.icon, ICON_SIZE),
+                    GtkIconWrapper.get_scaled_icon(entry.icon, ICON_SIZE),
                     entry.name,
                     xmlescape(entry.summarize()),
                     pos
@@ -277,6 +356,9 @@ class Application(object):  # pylint: disable=C0111,R0902
     def gtk_main_quit(self, widget, event):  # pylint: disable=R0201,W0613
         """Helper for Builder.connect_signals"""
         gtk.main_quit()
+
+    def set_entries(self, entries):
+        self.entries = entries
 
     def on_mi_rename_activate(self, _, pos):
         """Callback for the 'Rename...' context menu entry.

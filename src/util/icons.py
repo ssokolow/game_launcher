@@ -29,11 +29,23 @@ NON_ICON_NAMES = (
 NON_ICON_NAMES_RE = multiglob_compile(NON_ICON_NAMES, re_flags=re.I)
 
 
+# TODO: Is there a way to inject an icon into Qt's icon store similar to
+#       gtk_icon_theme_add_builtin_icon so I don't have to reimplement the
+#       process of loading different icons as the widget's scaling properties
+#       are changed?
+# TODO: Rework the internals of this once I've got it actually functional
+class BaseIconWrapper(object):
 
     """
 
+    def __init__(self, raw_obj):
+        self._raw = raw_obj
 
 
+
+    def unwrap(self):
+        """Return the raw toolkit object being wrapped."""
+        return self._raw
 
 def calculate_icon_score(filename):
     # TODO: Prefer square images so we don't wind up using Time Swap's Ouya
