@@ -82,7 +82,7 @@
         "ideal": "/games/avirusnamedtom/A Virus Named TOM.bmp"
     },
     "[[\"AntichamberIcon.bmp\", \"AntichamberIcon.png\"], \"/games/Antichamber\"]": {
-        "ideal": "/games/Antichamber/AntichamberIcon.bmp"
+        "ideal": "/games/Antichamber/AntichamberIcon.png"
     },
     "[[\"Avadon.png\", \"icon.bmp\"], \"/games/avadon\"]": {
         "ideal": "/games/avadon/icon.bmp"
@@ -176,7 +176,7 @@
         "ideal": "/games/defcon/defcon.png"
     },
     "[[\"eets2.xpm\", \"kleientertainment-eets2.png\"], \"/games/eets2\"]": {
-        "ideal": "/games/eets2/eets2.xpm"
+        "ideal": "/games/eets2/kleientertainment-eets2.png"
     },
     "[[\"icon-256x256.png\", \"icon-160x160.png\", \"icon-128x128.png\"], \"/games/BOH\"]": {
         "ideal": "/games/BOH/icon-256x256.png"
