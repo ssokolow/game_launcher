@@ -228,6 +228,17 @@ class Application(object):  # pylint: disable=C0111,R0902
 
         popup.add(gtk.SeparatorMenuItem())
 
+        def open_folder(_, entry=entry):
+            path = entry.base_path
+            if isinstance(entry.base_path, unicode):
+                path = path.encode(sys.getfilesystemencoding())
+            glib.spawn_async([b'xdg-open', path], flags=glib.SPAWN_SEARCH_PATH)
+
+        mi_folder = gtk.MenuItem("Open Install Folder")
+        mi_folder.connect('activate', open_folder)
+        mi_folder.set_sensitive(bool(entry.base_path))
+        popup.add(mi_folder)
+
         mi_rename = gtk.MenuItem("Rename...")
         mi_rename.connect('activate', self.on_mi_rename_activate, pos)
         popup.add(mi_rename)
