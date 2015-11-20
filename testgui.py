@@ -36,8 +36,11 @@ except ImportError:
 try:
     import gtk, gtk.gdk, glib, gobject, pango
 except ImportError:
-    sys.stderr.write("Missing PyGTK! Exiting.\n")
-    sys.exit(1)
+    if __name__ == '__main__':
+        sys.stderr.write("Missing PyGTK! Exiting.\n")
+        sys.exit(1)
+    else:
+        raise
 
 # TODO: Uncomment this once I'm no longer debugging
 # Present tracebacks as non-fatal errors in the GUI for more user-friendliness
@@ -198,10 +201,10 @@ class GtkIconWrapper(BaseIconWrapper):
         except (AttributeError, glib.GError):
             log.error("BAD ICON: %s", path)
             try:
-            except glib.GError, err:
                 result = cls._ensure_dimensions(
                     cls.icon_theme.load_icon(FALLBACK_ICON, size, 0),
                     ICON_SIZE)
+            except glib.GError as err:
                 log.error("Error while loading fallback icon: %s", err)
 
         if result:

@@ -6,7 +6,9 @@ from __future__ import (absolute_import, division, print_function,
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "MIT"
 
-import json
+import json, sys
+if sys.version_info.major > 2:
+    basestring = str  # pylint: disable=redefined-builtin,invalid-name
 
 def load_json_map(json_path):
     """Load a validate a JSON definition of a set of subtests."""
