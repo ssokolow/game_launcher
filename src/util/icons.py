@@ -23,16 +23,10 @@ ICON_EXTS = {
     '.jpeg': 1,
 }
 
-NON_ICON_NAMES = (
-    '*background*', 'bg*',
-    'character*',
-    'sheet*',
-    'tile*',
-    # TODO: Should really be regex'd with \d* to be less case-specific
-    'items.*',
-    'terrain.*',
-)
-NON_ICON_NAMES_RE = multiglob_compile(NON_ICON_NAMES, re_flags=re.I)
+NON_ICON_NAMES_RE = re.compile("""
+    (.*background|character|.*sheet|tile|items|terrain)\d*\..*|
+    (bg|special)[_-]*\d*.*
+    """, re.IGNORECASE | re.VERBOSE)
 
 
 # TODO: Is there a way to inject an icon into Qt's icon store similar to
@@ -88,11 +82,8 @@ def calculate_icon_score(filename):
 def pick_icon(icons, parent_path):
     """Choose the best icon from a set of detected image files.
 
-    @todo: Maybe redesign this on a score-based system?
     @todo: Support multiple sizes
     @todo: Return a fallback list so a failed load can fall back.
-
-    @todo: Write a unit test suite as I did for the name guesser.
     """
     if not icons:
         return None

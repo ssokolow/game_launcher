@@ -237,5 +237,11 @@
     },
     "[[\"uplink.png\"], \"/games/uplink-x64\"]": {
         "ideal": "/games/uplink-x64/uplink.png"
+    },
+    "[[\"icon_background.png\", \"bg.png\", \"bg002.png\", \"character2.svg\", \".thing.jpg\"], \"/non-icon_names_re\"]": {
+        "ideal": "/non-icon_names_re/.thing.jpg"
+    },
+    "[[], \"/empty_icon_list_test\"]": {
+        "ideal": null
     }
 }
