@@ -1,2 +1,4 @@
-*.exe
 *.com
+*.exe
+*.jar
+hello_gcc.x86*

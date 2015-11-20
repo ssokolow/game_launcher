@@ -9,6 +9,7 @@
 #   dosemu
 #   mingw-w64
 #   mono-dev
+#   openjdk-7-jdk (or another provider of javac)
 #   upx-ucl
 #
 # Dev86 cross-compiler
@@ -54,7 +55,7 @@ SRC_FILE="hello.c"
 GCC_COMMON_ARGS="-Wall -pedantic $SRC_FILE"
 
 cd "$(dirname "$0")"
-rm -f ./*.exe ./*.com
+rm -f ./*.o ./*.exe ./*.com ./*.class ./*.jar ./hello_gcc.*
 
 dosemu_build() {
     cp "$SRC_FILE" "$DOSEMU_DRIVE"
@@ -168,8 +169,18 @@ for platform in x86 x64 itanium arm; do
     #mono_build winexe x86
 done
 
+echo " * Building test JAR file"
+javac hello.java
+jar cfe hello.jar hello hello.class
+rm hello.class
+
+echo " * Compiling native ELF64 binary with GCC for comparison"
+gcc hello.c -ohello_gcc.x86_64
+echo " * Compiling native ELF32 binary with GCC for comparison"
+gcc hello.c -m32 -ohello_gcc.x86
+
 echo " * Generating UPX-compressed copies"
-for X in *.exe *.com; do
+for X in *.exe *.com hello_gcc.*; do
     upx_pack "$X"
 done
 upx_pack hello_djgpp.exe .coff --coff
