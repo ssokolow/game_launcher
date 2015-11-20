@@ -17,7 +17,7 @@ log = logging.getLogger(__name__)
 filetypes = [
     # https://en.wikipedia.org/wiki/Executable_and_Linkable_Format
     # TODO: Decide what to do with the execute bits, if anything
-    (b'\x7fELF', ['.x86', '.x86_64'], 'TODO: Identify ELF target'),
+    (b'\x7fELF', ['.x86', '.x86_64', '.bin'], 'TODO: Identify ELF target'),
     # TODO: Decide how to make the shell detector more stringent
     (b'#!', ['.sh', '.py', '.pl', '.rb'], 'UNIX Script'),
     # TODO: http://www.delphidabbler.com/articles?article=8
