@@ -73,6 +73,7 @@ class Roles(enum.IntEnum):
             name = name.lower()
 
             # Used to ensure a misclassification is as failsafe as possible
+            # (By making ambiguous executables resolve to the scarier label)
             resolution_order = [
                 cls.uninstall,
                 cls.install,
