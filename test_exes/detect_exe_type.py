@@ -51,7 +51,8 @@ def filter_names(paths):
     return [x for x in paths if os.path.splitext(x)[1].lower() in exts]
     # TODO: Also support inferring the notability of "foo" from the existence
     #       of "foo.x86" and/or "foo.x86_64"
-    # TODO: Decide what to do with the execute bits, if anything
+    # TODO: When stat() is considered an acceptable burden, the execute bits
+    #       can be a useful cue after applying util.executable.NON_BINARY_EXTS
 
 # TODO: The whole point of this is to be more specific than the mimetypes
 # returned by libmagic's machine-readable mode, so design a proper return API

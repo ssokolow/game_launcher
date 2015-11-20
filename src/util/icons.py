@@ -10,12 +10,18 @@ import os, re
 from .common import multiglob_compile
 
 # Files which should be heuristically considered to identify a program's icon
-ICON_EXTS = (
-    '.png', '.xpm',
-    '.svg', '.svgz', '.svg.gz',
-    '.jpg', '.jpe', '.jpeg',
-    '.bmp', '.ico',
-)
+ICON_EXTS = {
+    '.svg': 5,
+    '.svgz': 5,
+    '.svg.gz': 5,
+    '.png': 4,
+    '.ico': 4,
+    '.xpm': 3,
+    '.bmp': 2,
+    '.jpg': 1,
+    '.jpe': 1,
+    '.jpeg': 1,
+}
 
 NON_ICON_NAMES = (
     '*background*', 'bg*',
@@ -66,17 +72,10 @@ def calculate_icon_score(filename):
     # TODO: Try to find a way to prefer timeswapIcon.png over icon.svg
     #        without resorting to rendering the SVG and picking the one
     #        that's colour rather than sepia-toned grayscale.
-    formats = {
-        '.svg': 5,
-        '.png': 4,
-        '.xpm': 3,
-        '.bmp': 2,
-        '.jpg': 1,
-    }
 
     base, ext = [x.lower() for x in os.path.splitext(filename)]
     score = (
-        formats.get(ext, 0) +
+        ICON_EXTS.get(ext, 0) +
         (2 if 'icon' in base else 0) +
         (2 if base == 'icon' else 0) +
         (-1 if filename.startswith('.') else 0)
