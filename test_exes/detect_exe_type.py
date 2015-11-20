@@ -11,6 +11,8 @@ import itertools, logging, os, zipfile
 log = logging.getLogger(__name__)
 
 # IMPORTANT: Headers override extensions but ordering still encodes precedence.
+# (If a type has a header definition, its extensions are only used to inform
+# the filter_names() function)
 # TODO: Need support for subtests (eg. for EXE)
 filetypes = [
     # https://en.wikipedia.org/wiki/Executable_and_Linkable_Format
@@ -66,7 +68,13 @@ def identify_file(path):
                 elif callable(magic_pat) and magic_pat(fobj, ext):
                     return result
     # ...and then extension checks for things with none like .BAT
-    for _, exts, result in filetypes:
+    for magic_pat, exts, result in filetypes:
+        if magic_pat:
+            # If it didn't match the header, don't let the extension pull it
+            # back into consideration.
+            # TODO: Write unit tests which verify this behaviour
+            #       (eg. text_file.exe shouldn't match EXE)
+            continue
         for ext_pat in exts:
             if ext == ext_pat:
                 return 'Possibly %s' % result
