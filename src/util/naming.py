@@ -20,8 +20,8 @@ fname_re_fragments = {
     's': '([ _-])',  # Whitespace
     'ver': '(v?\d+([._]\d+)+([a-zA-Z])*|v\d+)',
     'phase_full': '(alpha|beta|(?![a-zA-Z])rc|build[ _-]\d+)',
-    'build': '(full|standalone|humble)',
-    'platform': '(lin(ux?)(32|64)?|x64)',
+    'build': '(full|standalone|humble|glibc\d+)',
+    'platform': '(lin(ux?)(32|64)?|x64|x86_64)',
 }
 fname_re_fragments['phase'] = ('(a|b(?!uild)|%(phase_full)s)'
                                % fname_re_fragments)

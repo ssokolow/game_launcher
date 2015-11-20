@@ -40,6 +40,9 @@
       "Bit.trip.runner"
     ]
   },
+  "blender-2.76b-linux-glibc211-x86_64": {
+    "ideal": "Blender"
+  },
   "Not the Robots_Linux": {
     "ideal": "Not the Robots",
     "acceptable": [
