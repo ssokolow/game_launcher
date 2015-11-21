@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Name=Hello World
+Exec=echo Hello World

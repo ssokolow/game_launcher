@@ -29,6 +29,10 @@ filetypes = [
     # TODO: Need a test file for uncompressed Flash
     (b'FWS', ['.swf'], 'Adobe Flash'),
     (b'CWS', ['.swf'], 'Adobe Flash (zlib-compressed)'),
+    # TODO: Decide how to support header matches for .desktop files using a
+    #       a regex something like this such that it helps rather than hurts:
+    #       re.compile(r"\s*|^#[^\n]*\n)+\[Desktop Entry\]")
+    (None, ['.desktop'], "XDG Desktop Entry"),
     # TODO: Decide how to make the .bat/.cmd detection more stringent
     (None, ['.bat'], "DOS Batch file"),
     # Note: .btm isn't recognized because no game would use it for the launcher
