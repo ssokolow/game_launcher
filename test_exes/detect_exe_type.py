@@ -15,10 +15,9 @@ log = logging.getLogger(__name__)
 # the filter_names() function)
 # TODO: Need support for subtests (eg. for EXE)
 filetypes = [
-    # https://en.wikipedia.org/wiki/Executable_and_Linkable_Format
+    # TODO: https://en.wikipedia.org/wiki/Executable_and_Linkable_Format
     # TODO: Decide what to do with the execute bits, if anything
     (b'\x7fELF', ['.x86', '.x86_64', '.bin'], 'TODO: Identify ELF target'),
-    # TODO: Decide how to make the shell detector more stringent
     (b'#!', ['.sh', '.py', '.pl', '.rb'], 'UNIX Script'),
     # TODO: http://www.delphidabbler.com/articles?article=8
     (b'MZ', ['.exe'], 'TODO: Identify EXE Type'),
@@ -29,23 +28,36 @@ filetypes = [
     # TODO: Need a test file for uncompressed Flash
     (b'FWS', ['.swf'], 'Adobe Flash'),
     (b'CWS', ['.swf'], 'Adobe Flash (zlib-compressed)'),
+    (lambda fobj, ext: zipfile.is_zipfile(fobj) and ext == '.jar',
+        ['.jar'], "Java JAR archive"),
     # TODO: Decide how to support header matches for .desktop files using a
     #       a regex something like this such that it helps rather than hurts:
     #       re.compile(r"\s*|^#[^\n]*\n)+\[Desktop Entry\]")
     (None, ['.desktop'], "XDG Desktop Entry"),
     # TODO: Decide how to make the .bat/.cmd detection more stringent
+    #       At the very least, do an advisory check with a regex like this:
+    #         re.compile(r"\s*(rem|set|@?echo off)", re.I)
     (None, ['.bat'], "DOS Batch file"),
     # Note: .btm isn't recognized because no game would use it for the launcher
     (None, ['.cmd'], "OS/2 or Windows NT batch file"),
     (None, ['.com'], "COM binary"),
-    (lambda fobj, ext: zipfile.is_zipfile(fobj) and ext == '.jar',
-        ['.jar'], "Java JAR archive"),
     # http://www.smsoft.ru/en/pifdoc.htm
     # TODO: Verify that the file begins with a null byte but don't let a null
     #       byte be interpreted as proof of a PIF file
     # TODO: Subtype based on length, then check headers at 0x171 and beyond
     (None, ['.pif'], "PIF file"),
 ]
+
+# NOTE: For a stricter mode or pass, I need to do the following:
+# - Verify that ELF files are for a compatible arch and platform
+# - Verify that UNIX script shebangs point to valid interpreters
+#   and do a basic interpreter<->extension matching sanity check.
+# - Identify the subtype of EXE file in the greatest detail possible
+# - Check that LNK files have valid, local targets
+# - Verify that JARs have manifests which point to existing entry point classes
+# - Parse .desktop files and check whether they point to a usable target
+# - Look up how libmagic identifies probable .COM files
+# - Parse .PIF files and check whether they point to a usable target
 
 def filter_names(paths):
     """Helper for identifying candidates when it's not feasible to inspect
