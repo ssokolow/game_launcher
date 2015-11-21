@@ -1,5 +1,6 @@
 *.com
 *.exe
 *.jar
+*.lnk
 *.swf
 hello_gcc.x86*

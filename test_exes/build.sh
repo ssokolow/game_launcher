@@ -38,6 +38,11 @@
 #    2. Unzip Pacific C such that C:\pacific\bin\pacc.exe exists
 #       (If not using pacificx.zip, unzip pacific.exe and add pacc.exe)
 #
+# PyLNK (optional)
+#   Used to build a known clean .lnk file for test purposes
+#   If you want to rebuild rather than using the included .lnk file, run:
+#     sudo pip install pylnk
+#
 # You may override the following variables outside this script and they will
 # be obeyed:
 #   DEV86_ROOT    Path to the --prefix where Dev86 was installed
@@ -169,6 +174,20 @@ for platform in x86 x64 itanium arm; do
     #       and, if so, generate more variations from OpenWatcom and MinGW
     #mono_build winexe x86
 done
+
+echo " * Attempting to rebuild test .lnk file"
+python2 - << EOF
+import pylnk, os
+
+# If we got this far, PyLNK is installed
+if os.path.exists('hello.lnk'):
+    os.remove('hello.lnk')
+
+lnk_file = pylnk.Lnk()
+lnk_file.specify_local_location('C:\\\\')
+with open('hello.lnk', 'wb') as fobj:
+    lnk_file.save(fobj)
+EOF
 
 echo " * Building test JAR file"
 javac hello.java

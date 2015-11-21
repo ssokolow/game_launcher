@@ -25,7 +25,8 @@ filetypes = [
     # http://www.delorie.com/djgpp/doc/coff/filhdr.html
     # http://wiki.osdev.org/COFF
     (b'\x4c\x01', ['.exe'], 'Bare i386 COFF (DJGPP?)'),
-    # TODO: Need a test file for the following
+    (b'\x4c\0\0\0', ['.lnk'], "Windows Shortcut"),
+    # TODO: Need a test file for uncompressed Flash
     (b'FWS', ['.swf'], 'Adobe Flash'),
     (b'CWS', ['.swf'], 'Adobe Flash (zlib-compressed)'),
     # TODO: Decide how to make the .bat/.cmd detection more stringent
@@ -47,7 +48,6 @@ def filter_names(paths):
     the headers on every single file in a partition.
     """
     exts = list(itertools.chain.from_iterable(x[1] for x in filetypes))
-    print(exts)
     return [x for x in paths if os.path.splitext(x)[1].lower() in exts]
     # TODO: Also support inferring the notability of "foo" from the existence
     #       of "foo.x86" and/or "foo.x86_64"
