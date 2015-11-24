@@ -107,9 +107,10 @@ openwatcom_build() {
     # http://openwatcom.contributors.narkive.com/dAgYeOP9/win386-question-for-tutorial
     # TODO: Figure out how to stop wbind from segfaulting on success
     if [ "$1" = "win386" ]; then
-        mv "$outfile" "$outname".rex
-        wbind "$outfile" -nq
-        rm "$outname".rex
+        mv "$outfile" "tmp_w386".rex
+        wbind "tmp_w386.exe" -nq
+        mv "tmp_w386.exe" "$outfile"
+        rm tmp_w386.rex
     fi
 }
 
