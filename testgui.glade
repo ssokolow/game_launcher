@@ -18,7 +18,6 @@
           <object class="GtkIconView" id="view_games">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="model">store_games</property>
             <property name="item_width">96</property>
             <property name="row_spacing">2</property>
             <property name="column_spacing">2</property>
@@ -30,17 +29,5 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkListStore" id="store_games">
-    <columns>
-      <!-- column-name icon -->
-      <column type="GdkPixbuf"/>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name description -->
-      <column type="gchararray"/>
-      <!-- column-name entry_id -->
-      <column type="guint"/>
-    </columns>
   </object>
 </interface>

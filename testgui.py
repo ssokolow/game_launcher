@@ -50,6 +50,12 @@ except ImportError:
 # ---=== Begin Classes ===---
 
 class AsyncModelPopulate(threading.Thread):
+    """Helper for offloading the heavy bits of populating the model to another
+    thread.
+    References used:
+        - http://faq.pygtk.org/index.py?req=show&file=faq20.006.htp
+        - https://docs.python.org/2/library/threading.html
+    """
     def __init__(self, app):
         super(AsyncModelPopulate, self).__init__()
         self.app = app
@@ -74,6 +80,94 @@ class AsyncModelPopulate(threading.Thread):
             )
             log.debug("Adding row: %s", row)
             gobject.idle_add(self.add_row, row)
+
+class GtkTreeModelAdapter(gtk.GenericTreeModel):
+    """Adapter to let the frontend-agnostic data to be used as a GtkTreeModel
+    without needing to copy it.
+
+    TODO: Do batched, deferred loading of icons
+     - http://www.pygtk.org/pygtk2reference/class-gtktreemodel.html#signal-gtktreemodel--row-changed
+     - https://stackoverflow.com/questions/3164262/lazy-loaded-list-view-in-gtk
+
+    References used:
+        - http://www.pygtk.org/pygtk2tutorial/sec-GenericTreeModel.html
+        - http://www.pygtk.org/pygtk2tutorial/examples/filelisting-gtm.py
+        - http://scentric.net/tutorial/sec-custom-models.html
+    """
+    column_types = (gtk.gdk.Pixbuf, str, str)
+    column_names = ('Icon', 'Name', 'Description')
+
+    def __init__(self, entries=None):
+        gtk.GenericTreeModel.__init__(self)
+        self.entries = entries or get_games()
+        # TODO: Make get_games return an iterator and rely on a sorted dict
+        #       to handle ordering incrementally loaded content.
+        # TODO: Need to humansort the results
+
+    def get_column_names(self):
+        return self.column_names[:]
+
+    def on_get_flags(self):
+        return gtk.TREE_MODEL_LIST_ONLY|gtk.TREE_MODEL_ITERS_PERSIST
+
+    def on_get_n_columns(self):
+        return len(self.column_types)
+
+    def on_get_column_type(self, n):
+        return self.column_types[n]
+
+    def on_get_iter(self, path):
+        return (path[0], self.entries[path[0]])
+
+    def on_get_path(self, rowref):
+        rowref = rowref[0]
+        return rowref[0]
+
+    def on_get_value(self, rowref, column):
+        entry = rowref[1]
+        if column is 0:
+            if hasattr(entry, 'icon_pixmap'):
+                return entry.icon_pixmap
+            else:
+                # TODO: Enqueue
+                #  entry.icon_pixmap = GtkIconWrapper.get_scaled_icon(entry.icon, ICON_SIZE)
+                return None
+        elif column is 1:
+            return entry.name
+        elif column is 2:
+            return xmlescape(entry.summarize())
+
+    def on_iter_next(self, rowref):
+        try:
+            i = rowref[0] + 1
+            return (i, self.entries[i])
+        except IndexError:
+            return None
+
+    def on_iter_children(self, rowref):
+        if rowref:
+            return None
+        return (0, self.entries[0])
+
+    def on_iter_has_child(self, rowref):
+        return False
+
+    def on_iter_n_children(self, rowref):
+        if rowref:
+            return 0
+        return len(self.entries)
+
+    def on_iter_nth_child(self, rowref, n):
+        if rowref:
+            return None
+        try:
+            return (n, self.entries[n])
+        except IndexError:
+            return None
+
+    def on_iter_parent(child):
+        return None
+
 
 class GtkIconWrapper(BaseIconWrapper):
     icon_cache = {}
@@ -208,6 +302,7 @@ class GtkIconWrapper(BaseIconWrapper):
                 log.error("Error while loading fallback icon: %s", err)
 
         if result:
+            log.debug("Adding icon to cache: %s", cache_key)
             cls.icon_cache[cache_key] = result
         return result
 
@@ -222,7 +317,6 @@ class Application(object):  # pylint: disable=C0111,R0902
         """Parts of __init__ that should only run in the single instance."""
         # Check for some deps late enough to display a GUI error message
         self.gtkbuilder_load('testgui.glade')
-        self.data = self.builder.get_object('store_games')
 
         self.view = self.builder.get_object("view_games")
         self.view.set_selection_mode(
@@ -232,17 +326,22 @@ class Application(object):  # pylint: disable=C0111,R0902
         self.view.set_text_column(1)
         self.view.set_pixbuf_column(0)
 
-        self.entries = []
-        self.data.set_sort_column_id(1, gtk.SORT_ASCENDING)
+        #self.data.set_sort_column_id(1, gtk.SORT_ASCENDING)
         # TODO: Common humansort code shared between all frontends.
         # (eg. GTK+ doesn't sort roman numerals properly.)
-        AsyncModelPopulate(self).start()
+        #AsyncModelPopulate(self).start()
         #self.populate_model(self.entries)
 
         self.mainwin = self.builder.get_object('mainwin')
         self.mainwin.set_title('%s %s' %
                                (self.mainwin.get_title(), __version__))
         self.mainwin.show_all()
+        # Show the window first, then set the model
+        gobject.idle_add(self._set_model)
+
+    def _set_model(self):
+        self.view.set_model(GtkTreeModelAdapter())
+        return False
 
     def gtkbuilder_load(self, path):
         """Shorthand wrapper for all steps of loading a GtkBuilder file"""
@@ -283,7 +382,7 @@ class Application(object):  # pylint: disable=C0111,R0902
     def make_popup_for(self, pos):
         """Generate and return a context menu for the given entry index"""
         popup = gtk.Menu()
-        entry = self.entries[self.data[pos][3]]
+        entry = self.view.get_model().entries[pos[0]]
 
         # TODO: If there's more than one install prefix detected, group and
         #  provide section headers.
@@ -397,7 +496,7 @@ class Application(object):  # pylint: disable=C0111,R0902
 
     def on_view_games_item_activated(self, _, path):
         """Handler to launch games on double-click"""
-        cmd = self.entries[self.data[path][3]].default_launcher
+        cmd = self.view.get_model().entries[path[0]].default_launcher
 
         if cmd:
             cmd.run()
