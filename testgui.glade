@@ -9,23 +9,68 @@
     <property name="default_height">400</property>
     <signal name="delete-event" handler="gtk_main_quit" swapped="no"/>
     <child>
-      <object class="GtkScrolledWindow" id="scrollw_games">
+      <object class="GtkNotebook" id="notebook1">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="hscrollbar_policy">automatic</property>
-        <property name="vscrollbar_policy">automatic</property>
         <child>
-          <object class="GtkIconView" id="view_games">
+          <object class="GtkScrolledWindow" id="scrollw_games_iconview">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="item_width">96</property>
-            <property name="row_spacing">2</property>
-            <property name="column_spacing">2</property>
-            <property name="margin">2</property>
-            <property name="tooltip_column">2</property>
-            <signal name="button-press-event" handler="on_view_games_button_press_event" swapped="no"/>
-            <signal name="item-activated" handler="on_view_games_item_activated" swapped="no"/>
+            <property name="hscrollbar_policy">automatic</property>
+            <property name="vscrollbar_policy">automatic</property>
+            <child>
+              <object class="GtkIconView" id="view_games_icons">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="selection_mode">multiple</property>
+                <property name="item_width">96</property>
+                <property name="row_spacing">2</property>
+                <property name="column_spacing">2</property>
+                <property name="margin">2</property>
+                <property name="tooltip_column">2</property>
+                <signal name="button-press-event" handler="on_view_games_button_press_event" swapped="no"/>
+                <signal name="item-activated" handler="on_view_games_item_activated" swapped="no"/>
+              </object>
+            </child>
           </object>
+        </child>
+        <child type="tab">
+          <object class="GtkLabel" id="label_iconview">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">As Icons</property>
+          </object>
+          <packing>
+            <property name="tab_fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow" id="scrollw_games_treeview">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">automatic</property>
+            <property name="vscrollbar_policy">automatic</property>
+            <child>
+              <object class="GtkTreeView" id="view_games_tree">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child type="tab">
+          <object class="GtkLabel" id="label_listview">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">As List</property>
+          </object>
+          <packing>
+            <property name="position">1</property>
+            <property name="tab_fill">False</property>
+          </packing>
         </child>
       </object>
     </child>

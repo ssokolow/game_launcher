@@ -126,12 +126,13 @@ class GtkTreeModelAdapter(gtk.GenericTreeModel):
     def on_get_value(self, rowref, column):
         entry = rowref[1]
         if column is 0:
-            if hasattr(entry, 'icon_pixmap'):
-                return entry.icon_pixmap
-            else:
+            return GtkIconWrapper.get_scaled_icon(entry.icon, ICON_SIZE)
+            #if hasattr(entry, 'icon_pixmap'):
+                #return entry.icon_pixmap
+            #else:
                 # TODO: Enqueue
                 #  entry.icon_pixmap = GtkIconWrapper.get_scaled_icon(entry.icon, ICON_SIZE)
-                return None
+                #return None
         elif column is 1:
             return entry.name
         elif column is 2:
@@ -318,19 +319,38 @@ class Application(object):  # pylint: disable=C0111,R0902
         # Check for some deps late enough to display a GUI error message
         self.gtkbuilder_load('testgui.glade')
 
-        self.view = self.builder.get_object("view_games")
-        self.view.set_selection_mode(
-            gtk.SELECTION_MULTIPLE)
+        self.model = None
 
-        # Apparently Glade doesn't let you set these in the XML for IconView
-        self.view.set_text_column(1)
-        self.view.set_pixbuf_column(0)
+        self.iconview = self.builder.get_object("view_games_icons")
+        # Apparently Glade won't let you set these in the XML for IconView
+        self.iconview.set_text_column(1)
+        self.iconview.set_pixbuf_column(0)
 
-        #self.data.set_sort_column_id(1, gtk.SORT_ASCENDING)
-        # TODO: Common humansort code shared between all frontends.
-        # (eg. GTK+ doesn't sort roman numerals properly.)
-        #AsyncModelPopulate(self).start()
-        #self.populate_model(self.entries)
+        self.treeview = self.builder.get_object("view_games_tree")
+
+        for label, col_idx, renderer, attr in (
+                (None, 0, gtk.CellRendererPixbuf, 'pixbuf'),
+                ("Name", 1, gtk.CellRendererText, 'text')):
+            col = gtk.TreeViewColumn(label)
+            cell = renderer()
+            col.pack_start(cell, True)
+            col.add_attribute(cell, attr, col_idx)
+            self.treeview.append_column(col)
+
+        self.treeview.set_search_column(1)
+        #self.treeview.set_sort_column_id(1)
+        #self.treeview.set_reorderable(True)
+
+        self.views = [self.iconview, self.treeview]
+
+
+        for view in self.views:
+            pass
+            #self.data.set_sort_column_id(1, gtk.SORT_ASCENDING)
+            # TODO: Common humansort code shared between all frontends.
+            # (eg. GTK+ doesn't sort roman numerals properly.)
+            #AsyncModelPopulate(self).start()
+            #self.populate_model(self.entries)
 
         self.mainwin = self.builder.get_object('mainwin')
         self.mainwin.set_title('%s %s' %
@@ -340,7 +360,9 @@ class Application(object):  # pylint: disable=C0111,R0902
         gobject.idle_add(self._set_model)
 
     def _set_model(self):
-        self.view.set_model(GtkTreeModelAdapter())
+        self.model = GtkTreeModelAdapter()
+        for view in self.views:
+            view.set_model(self.model)
         return False
 
     def gtkbuilder_load(self, path):
@@ -382,7 +404,7 @@ class Application(object):  # pylint: disable=C0111,R0902
     def make_popup_for(self, pos):
         """Generate and return a context menu for the given entry index"""
         popup = gtk.Menu()
-        entry = self.view.get_model().entries[pos[0]]
+        entry = self.model.entries[pos[0]]
 
         # TODO: If there's more than one install prefix detected, group and
         #  provide section headers.
@@ -430,31 +452,6 @@ class Application(object):  # pylint: disable=C0111,R0902
         popup.show_all()
         return popup
 
-    def populate_model(self, src_list):
-        """Populate store_games."""
-        # Source: http://faq.pygtk.org/index.py?req=show&file=faq13.043.htp
-        self.view.freeze_child_notify()
-        self.view.set_model(None)
-        self.data.set_default_sort_func(lambda *args: -1)
-        self.data.set_sort_column_id(-1,
-                                gtk.SORT_ASCENDING)
-        # TODO: Common humansort code shared between all frontends.
-        # (eg. GTK+ doesn't sort roman numerals properly.)
-
-        try:
-            for pos, entry in enumerate(src_list):
-                self.data.append((
-                    GtkIconWrapper.get_scaled_icon(entry.icon, ICON_SIZE),
-                    entry.name,
-                    xmlescape(entry.summarize()),
-                    pos
-                ))
-        finally:
-            self.data.set_sort_column_id(1,
-                                gtk.SORT_ASCENDING)
-            self.view.set_model(self.data)
-            self.view.thaw_child_notify()
-
     def gtk_main_quit(self, widget, event):  # pylint: disable=R0201,W0613
         """Helper for Builder.connect_signals"""
         gtk.main_quit()
@@ -496,7 +493,7 @@ class Application(object):  # pylint: disable=C0111,R0902
 
     def on_view_games_item_activated(self, _, path):
         """Handler to launch games on double-click"""
-        cmd = self.view.get_model().entries[path[0]].default_launcher
+        cmd = self.model.entries[path[0]].default_launcher
 
         if cmd:
             cmd.run()
