@@ -33,6 +33,11 @@ IGNORED_BINARIES = (
 )
 IGNORED_BINARIES_RE = multiglob_compile(IGNORED_BINARIES, re_flags=re.I)
 
+INSTALLER_EXTS = ('.zip', '.rar',
+                  '.tar', '.gz', '.tgz', '.bz2', '.tbz2', '.xz', '.txz',
+                  '.sh',  '.run', '.bin',
+                  '.deb', '.rpm')
+
 def classify_executable(fname):
     """High-level wrapper for Roles.guess() which supports ignoring files."""
     fname_pat, fext = os.path.splitext(fname)
