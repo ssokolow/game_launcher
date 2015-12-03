@@ -120,7 +120,8 @@ class GtkTreeModelAdapter(gtk.GenericTreeModel):
         return (path[0], self.entries[path[0]])
 
     def on_get_path(self, rowref):
-        rowref = rowref[0]
+        if not isinstance(rowref, int):
+            rowref = rowref[0]
         return rowref[0]
 
     def on_get_value(self, rowref, column):
@@ -516,32 +517,40 @@ class Application(object):  # pylint: disable=C0111,R0902
     #             model.remove(model.get_iter(ref.get_path()))
 
     # pylint: disable=invalid-name
-    def on_view_games_button_press_event(self, _, event=None):
+    def on_view_games_button_press_event(self, widget, event=None):
         """Right-click and Menu button handler for the IconView.
 
         Source: http://faq.pygtk.org/index.py?req=show&file=faq13.017.htp
         """
-        iconview = self.builder.get_object('view_games')
         if event and event.button == 3:  # Right Click
             evt_btn, evt_time = event.button, event.time
         elif event:                      # Non-right Click
             return None
         elif not event:                  # Menu key on the keyboard
             evt_btn, evt_time = None, None  # TODO: Make sure this works
-            cursor = iconview.get_cursor()
+            cursor = widget.get_cursor()
             if cursor[0] is None:
                 return None
 
         # Code to handle right-clicking on a non-selected entry
         # Source: http://www.daa.com.au/pipermail/pygtk/2005-June/010465.html
-        path = iconview.get_path_at_pos(int(event.x), int(event.y))
+        path = widget.get_path_at_pos(int(event.x), int(event.y))
         if not path:
             return True
 
-        rows = iconview.get_selected_items()
+        if hasattr(widget, 'get_selected_items'):
+            rows = widget.get_selected_items()  # iconview
+            selection = widget
+        else:
+            selection = widget.get_selection()       # treeview
+            rows = selection.get_selected_rows()[1]
+
         if not rows or path[0] != rows[0]:
-            iconview.unselect_all()
-            iconview.select_path(path[0])
+            selection.unselect_all()
+            selection.select_path(path[0])
+
+        if isinstance(path[0], tuple):
+            path = path[0]
 
         self.make_popup_for(path).popup(
             None, None, None, evt_btn, evt_time)

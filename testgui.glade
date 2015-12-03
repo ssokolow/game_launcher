@@ -54,6 +54,7 @@
               <object class="GtkTreeView" id="view_games_tree">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <signal name="button-press-event" handler="on_view_games_button_press_event" swapped="no"/>
               </object>
             </child>
           </object>
