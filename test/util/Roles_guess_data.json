@@ -166,7 +166,7 @@
   },
   "run-mozilla.sh": { "ideal": "play" },
   "JDownloader 2 Update & Rescue.desktop": {
-    "ideal": "TODO: Decide what this should be"
+    "ideal": "update"
   },
   "setup.exe": { "ideal": "configure" },
   "start.sh": { "ideal": "play" },
@@ -250,7 +250,7 @@
     "ideal": "play"
   },
   "JDownloader2Update": {
-    "ideal": "TODO: Decide what this should be"
+    "ideal": "update"
   },
   "Delve Deeper": {
     "attainable": "unknown",
@@ -731,7 +731,7 @@
     "ideal": "play"
   },
   "updater": {
-    "ideal": "TODO: Decide what this should be"
+    "ideal": "update"
   },
   "Not the Robots": {
     "attainable": "unknown",

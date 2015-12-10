@@ -68,8 +68,9 @@ class Roles(enum.IntEnum):
     play = -2
     configure = -1
     unknown = 0
-    install = 1
-    uninstall = 2
+    update = 1
+    install = 2
+    uninstall = 3
 
     @classmethod
     def guess(cls, name):
@@ -82,6 +83,7 @@ class Roles(enum.IntEnum):
             resolution_order = [
                 cls.uninstall,
                 cls.install,
+                cls.update,
                 cls.configure,
                 cls.play
             ]
@@ -91,6 +93,7 @@ class Roles(enum.IntEnum):
                 cls.play: ('run', 'play', 'start', 'game', 'launcher',
                            'addon', 'client', 'server'),
                 cls.configure: ('config', 'setup', 'settings'),
+                cls.update: ('update',),
                 cls.install: ('install', 'extract', 'unpack'),
                 cls.uninstall: ('uninst', 'remove'),
             }
