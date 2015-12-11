@@ -8,7 +8,8 @@ __license__ = "MIT"
 
 import json, sys
 if sys.version_info.major > 2:
-    basestring = str  # pylint: disable=redefined-builtin,invalid-name
+    # pylint: disable=redefined-builtin,invalid-name
+    basestring = str  # pragma: nocover
 
 def load_json_map(json_path):
     """Load a validate a JSON definition of a set of subtests."""
