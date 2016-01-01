@@ -2,8 +2,8 @@
 Experiment in Steam-less Game Launching
 =======================================
 
-.. warning:: This project doesn't yet have a permanent name, so this URL isn't
-             permanent. I merely uploaded this on request.
+**WARNING:** This project doesn't yet have a permanent name, so this URL isn't
+permanent. I merely uploaded this on request.
 
 This is a very Work-In-Progress experiment in how far I can go to produce
 something Steam-like for DRM-free games without depending on an external
@@ -43,8 +43,8 @@ At the moment, it supports the following backends:
 .. _system launcher: http://standards.freedesktop.org/menu-spec/menu-spec-latest.html
 .. _XDG .desktop files: http://standards.freedesktop.org/desktop-entry-spec/latest/
 
-.. note:: Currently, it preserves no state. While the "Rename..." and "Hide"
-    options in the test GUI do work, they won't be remembered across restarts.
+**NOTE:** Currently, it preserves no state. While the "Rename..." and "Hide"
+options in the test GUI do work, they won't be remembered across restarts.
 
 Dependencies
 ============
@@ -70,9 +70,9 @@ If you want to run the test suite, you'll also need:
 .. _PyQt5: http://www.riverbankcomputing.com/software/pyqt/download5
 .. _PyXDG: https://pypi.python.org/pypi/pyxdg
 
-.. note:: Until I decide on a permanent name, I can't produce an installable
-  package name and, thus, can't test in a virtualenv with tox. As such, I can't
-  guarantee my list of required dependencies is complete.
+**NOTE** Until I decide on a permanent name, I can't produce an installable
+package name and, thus, can't test in a virtualenv with tox. As such, I can't
+guarantee my list of required dependencies is complete.
 
 Also, the test suite doesn't yet exercise the code branches for things like
 "PlayOnLinux not found".
