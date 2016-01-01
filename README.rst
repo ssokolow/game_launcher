@@ -29,11 +29,11 @@ At the moment, it supports the following backends:
 * Windows applications via PlayOnLinux_
 * A fallback option which can use (in descending priority order):
 
-    * Metadata scraped from GOG.com's ``start.sh`` scripts
-    * Metadata scraped from my `install.sh`_ script
-    * Names, icons, and executables heuristically inferred from filesystem
-      paths (eg. ``trine2_complete_story_v2_01_build_425_humble_linux``
-      becomes "Trine 2: Complete Story")
+  * Metadata scraped from GOG.com's ``start.sh`` scripts
+  * Metadata scraped from my `install.sh`_ script
+  * Names, icons, and executables heuristically inferred from filesystem
+    paths (eg. ``trine2_complete_story_v2_01_build_425_humble_linux``
+    becomes "Trine 2: Complete Story")
 
 .. _Desura: http://desura.com/
 .. _install.sh: https://gist.github.com/ssokolow/7010485
@@ -163,32 +163,32 @@ Ideas: Per-game Workarounds for Broken Games
    `[2] <http://www.catonmat.net/blog/simple-ld-preload-tutorial-part-2/>`__
    hooks to do things like:
 
-  * Wrapping X11 APIs to change resolution and create new windows so that games
-    can be forced to windowed operation without realizing it.
-    (Especially under LXDE since Openbox is terrible about remembering window
-    positions and I dread launching new games because they might default to
-    fullscreen operation and trash my desktop layout)
-  * Wrapping POSIX APIs like `getpwnam(3)`_ and `open(2)`_ to force games like
-    Draw a Stickman and Wizorb to write their non-hidden folders somewhere
-    other than directly in ``$HOME`` even if they ignore ``$HOME``.
-  * Wrapping SDL calls so games like Dungeons of Dredmor will still offer
-    sane windowed-mode resolutions if the nVidia TwinView
-    MetaModes_ option is used to lock the desktop at 2560x1024.
-  * Lying to games about the available set of joysticks to...
+   * Wrapping X11 APIs to change resolution and create new windows so that games
+     can be forced to windowed operation without realizing it.
+     (Especially under LXDE since Openbox is terrible about remembering window
+     positions and I dread launching new games because they might default to
+     fullscreen operation and trash my desktop layout)
+   * Wrapping POSIX APIs like `getpwnam(3)`_ and `open(2)`_ to force games like
+     Draw a Stickman and Wizorb to write their non-hidden folders somewhere
+     other than directly in ``$HOME`` even if they ignore ``$HOME``.
+   * Wrapping SDL calls so games like Dungeons of Dredmor will still offer
+     sane windowed-mode resolutions if the nVidia TwinView
+     MetaModes_ option is used to lock the desktop at 2560x1024.
+   * Lying to games about the available set of joysticks to...
 
-    * ...prevent games like Wizorb from crashing with more than 4 joysticks
-      connected.
-    * ...provide `joystick selection`_ for games like Rogue Legacy which insist
-      on using joystick #1, despite Linux having no Joystick Control Panel to
-      mark your 3DConnexion Space Navigator's dud joystick endpoint (it's
-      `not a joystick at all <http://www.3dconnexion.com/products/spacemouse/spacenavigator.html>`__
-      as non-default.
-    * Redirect games which prefer evdev over joydev through some kind of
-      uinput_- or CUSE_-based proxy to reverse the deprecation of the ability
-      to calibrate devices with broken defaults like the Saitek Cyborg 3D USB
-      Gold (currently useless in Strike Suit Zero).
+     * ...prevent games like Wizorb from crashing with more than 4 joysticks
+       connected.
+     * ...provide `joystick selection`_ for games like Rogue Legacy which insist
+       on using joystick #1, despite Linux having no Joystick Control Panel to
+       mark your 3DConnexion Space Navigator's dud joystick endpoint (it's
+       `not a joystick at all <http://www.3dconnexion.com/products/spacemouse/spacenavigator.html>`__
+       as non-default.
+     * Redirect games which prefer evdev over joydev through some kind of
+       uinput_- or CUSE_-based proxy to reverse the deprecation of the ability
+       to calibrate devices with broken defaults like the Saitek Cyborg 3D USB
+       Gold (currently useless in Strike Suit Zero).
 
-5. Support for launching as a separate user somehow as one way to protect my
+#. Support for launching as a separate user somehow as one way to protect my
    ``$HOME`` from getting doodled on by Wine apps, MojoSetup, and games which
    use ``getpwuid()`` to write non-hidden folders.
 
