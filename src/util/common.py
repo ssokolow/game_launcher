@@ -32,7 +32,7 @@ def humansort_key(strng):
     """
     if isinstance(strng, tuple):
         strng = strng[0]
-    return [w.isdigit() and int(w) or w.lower()
+    return [int(w) if w.isdigit() else w.lower()
             for w in re.split(r'(\d+)', strng)]
 
 def which(exec_name, execpath=None):
