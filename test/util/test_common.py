@@ -65,18 +65,27 @@ humansort_key_map = (
     #       so further tests can be written to test its suitability before
     #       I potentially reinvent the wheel.
     # TODO: Ignore punctuation
+    # TODO: Unicode
 
     # XXX: Stuff that GTK+ file managers can't do below this point
     #     (Separate functions for titles and filename sorting to be intuitive?)
-    # TODO: Sort roman numerals 1-19 equivalently to numbers
-    #     (A compromise based on observation of Japanese game titles)
+    # TODO: Sort roman numerals 1-20 equivalently to numbers
+    #     (A compromise between complexity and observation of Japanese game
+    #      titles. I at least need to ensure that names like "Guilty Gear X"
+    #      and "Guilty Gear XX" sort properly)
     # TODO: Sort "Foo" and "Foo: The Bar" before "Foo 2: The Bazzing"
     #     (Will require a robust test corpus prior to implementation)
     # TODO: Ignore "The" prefixes (And within titles?)
-    # TODO: Unicode
     #   http://python3porting.com/problems.html#sorting-unicode
     #   http://stackoverflow.com/q/1097908
 
+    # XXX: Is the risk of accidental mis-sorting low enough to recognize
+    #      "zero" through "nine" as numbers for sorting purposes?
+    #      (eg. sorting "Earthbound Zero" before "Earthbound")
+    #  (Perhaps only if it's the last token in the string and follows
+    #   some heuristically-determined string of non-number tokens?)
+    #  http://pastebin.com/DG1CsVXk (WARNING: LONG PAGE)
+    #  https://en.wikipedia.org/wiki/Lists_of_video_games
     # XXX: Do I want to support non-string values?
 )
 
