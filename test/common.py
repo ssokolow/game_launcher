@@ -12,7 +12,7 @@ if sys.version_info.major > 2:
     basestring = str  # pragma: nocover
 
 def load_json_map(json_path):
-    """Load a validate a JSON definition of a set of subtests."""
+    """Load and validate a JSON definition of a set of subtests."""
     with open(json_path) as fobj:
         test_map = json.load(fobj)
 
@@ -28,6 +28,33 @@ def load_json_map(json_path):
             raise ValueError("Value for %s is not a dict" % key)
 
     return test_map
+
+def format_failure_triple(val):
+    """Formatter for C{assert_aggregate} for (input, result, expected)
+       triples.
+    """
+    return "%-60.60s-> %-40.40s (not %s)" % val
+
+
+def assert_aggregate(total_count, score, failures,
+                     row_formatter_cb=lambda x: (x,),
+                     min_score=-10):
+    """A pretty-printing assert wrapper for score-based aggregate tests.
+
+    (Tests for things where the most appropriate approach is to calculate
+     and accuracy score across a corpus of test data)
+
+    @type failures: C{list} of C{(input, result, expected)}
+    """
+    fail_count = len(failures)
+    message = "\nFailed to attainably guess %s of %s values (%.2f%%):\n" % (
+                fail_count, total_count, (fail_count / total_count * 100))
+    for val in failures:
+        message += "\t%s\n" % row_formatter_cb(val)
+    message += "Final accuracy score: %s" % score
+    print(message)
+
+    assert score > min_score
 
 def json_aggregate_harness(test_map, test_cb,
                            resolve_result_cb=lambda x: x,
@@ -67,15 +94,5 @@ def json_aggregate_harness(test_map, test_cb,
         if this_score < 0:
             failures.append((key, result, valid_results[0]))
 
-    fail_count, total_count = len(failures), len(test_map)
-    message = "\nFailed to attainably guess %s of %s values (%.2f%%):\n" % (
-                fail_count, total_count, (fail_count / total_count * 100))
-    for val in failures:
-        val = list(val)
-        val[0] = str(val[0])[:60]
-        val = tuple(val)
-        message += "\t%-60s-> %-40s (not %s)\n" % val
-    message += "Final accuracy score: %s" % score
-    print(message)
-
-    assert score > -10
+    assert_aggregate(len(test_map), score, failures,
+                     row_formatter_cb=format_failure_triple)
