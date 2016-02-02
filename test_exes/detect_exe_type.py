@@ -16,6 +16,7 @@ log = logging.getLogger(__name__)
 # TODO: Need support for subtests (eg. for EXE)
 filetypes = [
     # TODO: https://en.wikipedia.org/wiki/Executable_and_Linkable_Format
+    # TODO: https://web.archive.org/web/20140129182035/http://robinhoksbergen.com/papers/howto_elf.html
     # TODO: Decide what to do with the execute bits, if anything
     (b'\x7fELF', ['.x86', '.x86_64', '.bin'], 'TODO: Identify ELF target'),
     (b'#!', ['.sh', '.py', '.pl', '.rb'], 'UNIX Script'),

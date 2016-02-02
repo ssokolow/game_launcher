@@ -16,10 +16,10 @@ complete, comprehensive, and reliable, so this is what the test GUI looks like:
    :alt: Test GUI
    :align: center
 
-(The blurry Crayon Physics and Delve Deeper icons will be fixed when I bypass
-the scaled icon caches used by PlayOnLinux and the Desura client and read
-straight from the source files. The undersized DOSBox icon issue is already
-fixed.)
+(The blurry Crayon Physics, Darwinia, and Delve Deeper icons will be fixed when
+I bypass the scaled icon caches used by PlayOnLinux and the Desura client and
+read straight from the source files. The undersized DOSBox icon issue is
+already fixed.)
 
 At the moment, it supports the following backends:
 
@@ -158,6 +158,10 @@ Ideas: Per-game Workarounds for Broken Games
 #. Option to specify an Antimicro_ profile to automatically load so joystick
    can be transparently added to games like Cave Story+ which don't natively
    support joysticks at all.
+#. Checkbox to toggle on/off nVidia's anti-tearing workaround which may cause
+   performance problems.
+   `[1] <https://github.com/chjj/compton/issues/227>`__
+   `[2] <https://www.reddit.com/r/linux_gaming/comments/3i2kop/remove_screen_tearing_from_you_nvidia_setup/>`__
 #. LD_PRELOAD_
    `[1] <http://www.catonmat.net/blog/simple-ld-preload-tutorial/>`__
    `[2] <http://www.catonmat.net/blog/simple-ld-preload-tutorial-part-2/>`__
