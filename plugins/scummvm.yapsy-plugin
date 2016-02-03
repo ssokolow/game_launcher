@@ -1,0 +1,9 @@
+[Core]
+Name = ScummVM Game Provider
+Module = scummvm
+
+[Documentation]
+Author = Stephan Sokolow
+Version = 0.1
+Website = https://github.com/ssokolow/game_launcher
+Description = Merges games from ScummVM into your launcher

@@ -6,15 +6,13 @@ __license__ = "GNU GPL 3.0 or later"
 import logging
 from itertools import chain
 
-from . import desura, fallback, playonlinux, scummvm, residualvm, xdg_menu
+from yapsy.PluginManager import PluginManagerSingleton
+
+from . import desura, fallback, playonlinux, residualvm, xdg_menu
 
 log = logging.getLogger(__name__)
 
-# TODO: Move priority ordering control into backend metadata
-PROVIDERS = [xdg_menu, desura, scummvm, residualvm, playonlinux, fallback]
-# TODO: Add backends based on `residualvm -t` and `scummvm -t`
-#       (And support jumping straight to a save via
-#        context menu, --list-saves, and --save-slot)
+
 
 # TODO: Audit all backends to ensure that they meet minimum acceptable
 #       standards for explaining what inputs they ignored and why when
@@ -25,6 +23,13 @@ PROVIDERS = [xdg_menu, desura, scummvm, residualvm, playonlinux, fallback]
 def get_games():
     """Use all available backends to retrieve a deduplicated list of games"""
     results_raw, results = [], []
+
+    plugs = [x.plugin_object for x in
+             PluginManagerSingleton.get().getPluginsOfCategory("Game Provider")
+             ]
+
+    # TODO: Move priority ordering control into backend metadata
+    PROVIDERS = [xdg_menu, desura] + plugs + [playonlinux, fallback]
 
     # Get raw results
     for entry in sorted(chain(*[x.get_games() for x in PROVIDERS])):

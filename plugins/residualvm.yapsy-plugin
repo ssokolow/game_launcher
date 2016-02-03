@@ -1,0 +1,9 @@
+[Core]
+Name = ResidualVM Game Provider
+Module = residualvm
+
+[Documentation]
+Author = Stephan Sokolow
+Version = 0.1
+Website = https://github.com/ssokolow/game_launcher
+Description = Merges games from ResidualVM into your launcher

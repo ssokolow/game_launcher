@@ -42,6 +42,9 @@ except ImportError:
     else:
         raise
 
+from src.interfaces import PLUGIN_TYPES
+from yapsy.PluginManager import PluginManagerSingleton
+
 # TODO: Uncomment this once I'm no longer debugging
 # Present tracebacks as non-fatal errors in the GUI for more user-friendliness
 # from lgogd_uri import gtkexcepthook
@@ -589,6 +592,10 @@ def main():
     logging.basicConfig(level=log_levels[opts.verbose],
                         format='%(levelname)s: %(message)s')
 
+    pluginManager = PluginManagerSingleton.get()
+    pluginManager.setPluginPlaces(['plugins']) # TODO: Explicit __file__-rel.
+    pluginManager.setCategoriesFilter({x.plugin_type: x for x in PLUGIN_TYPES})
+    pluginManager.collectPlugins()
     Application()
     gtk.main()
     gtk.gdk.notify_startup_complete()
