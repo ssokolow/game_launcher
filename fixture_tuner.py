@@ -12,7 +12,8 @@ __license__ = "GNU GPL 3.0 or later"
 __version__ = '0.0pre0'
 
 import json, logging, os, sys
-from src.game_providers.fallback import get_games, GAMES_DIRS
+from src.interfaces import GAMES_DIRS
+from src.game_providers.fallback import get_games
 log = logging.getLogger(__name__)
 
 # pylint: disable=import-error

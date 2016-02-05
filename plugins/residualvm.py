@@ -29,7 +29,6 @@ import logging, os, subprocess
 
 # TODO: Decide on a name for the program and rename "src"
 from src import interfaces
-from src.game_providers.common import InstalledGameEntry, GameLauncher
 from src.util.executables import Roles
 
 try:                 # Python 3.x
@@ -39,15 +38,13 @@ except ImportError:  # Python 2.x
     from ConfigParser import RawConfigParser
     from ConfigParser import Error as CP_Error
 
-from xdg.IconTheme import getIconPath
-
-RC_PATH = os.path.expanduser('~/.residualvmrc')
-
 log = logging.getLogger(__name__)
 
 class ResidualVMProvider(interfaces.IGameProvider):
     backend_name = "ResidualVM"
-    default_icon = getIconPath("residualvm", 128)
+    default_icon = "residualvm"
+
+    rc_path = os.path.expanduser('~/.residualvmrc')
 
     @staticmethod
     def _parse_list(args):
@@ -75,13 +72,13 @@ class ResidualVMProvider(interfaces.IGameProvider):
     #       (context menu, maybe?)
     def get_games(self):
         """Retrieve a list of games configured for play via ResidualVM."""
-        if not os.path.exists(RC_PATH):
-            log.info("Could not find ResidualVM RC file at %s", RC_PATH)
+        if not os.path.exists(self.rc_path):
+            log.info("Could not find ResidualVM RC file at %s", self.rc_path)
             return {}  # TODO: Do I really NEED base_path?
 
         try:
             rc_parser = RawConfigParser()
-            rc_parser.read(RC_PATH)
+            rc_parser.read(self.rc_path)
         except CP_Error as err:
             log.error("Could not parse ResidualVM RC file: %s", err)
 
@@ -109,16 +106,16 @@ class ResidualVMProvider(interfaces.IGameProvider):
             # TODO: Consider integrating scraping sufficient to allow launching
             #       directly into a save file via the context menu.
 
-            results.append(InstalledGameEntry(
+            results.append(interfaces.InstalledGameEntry(
                 name=name,
-                icon=self.default_icon,
+                icon=self.get_default_icon(),
                 base_path=base_path,
-                commands=[GameLauncher(
+                commands=[interfaces.GameLauncher(
                     argv=["residualvm", game_id],
                     provider=self.backend_name,
                     role=Roles.play,
                     name=name,
-                    icon=self.default_icon,
+                    icon=self.get_default_icon(),
                     use_terminal=False)
                 ]))
         return results

@@ -1,0 +1,9 @@
+[Core]
+Name = GOG.com Fallback Game Provider
+Module = fallback_gog
+
+[Documentation]
+Author = Stephan Sokolow
+Version = 0.1
+Website = https://github.com/ssokolow/game_launcher
+Description = Identifies and extracts GOG.com game metadata

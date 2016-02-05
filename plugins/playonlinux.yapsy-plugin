@@ -1,0 +1,9 @@
+[Core]
+Name = PlayOnLinux Game Provider
+Module = playonlinux
+
+[Documentation]
+Author = Stephan Sokolow
+Version = 0.1
+Website = https://github.com/ssokolow/game_launcher
+Description = Merges games from PlayOnLinux into your launcher

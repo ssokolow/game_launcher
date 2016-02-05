@@ -80,8 +80,7 @@ Also, the test suite doesn't yet exercise the code branches for things like
 Usage
 =====
 
-#. Edit the ``GAMES_DIRS`` constant in
-   ``src/game_providers/fallback/__init__.py``
+#. Edit the ``GAMES_DIRS`` constant in ``src/interfaces.py``
 #. Run one of the following:
 
    * ``test_providers.py`` for a quick, bare test of what the backends find

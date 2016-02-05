@@ -1,0 +1,9 @@
+[Core]
+Name = XDG Game Provider
+Module = xdg_menu
+
+[Documentation]
+Author = Stephan Sokolow
+Version = 0.1
+Website = https://github.com/ssokolow/game_launcher
+Description = Merges in games from your system launcher

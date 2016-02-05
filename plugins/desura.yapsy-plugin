@@ -1,0 +1,9 @@
+[Core]
+Name = Desura Game Provider
+Module = desura
+
+[Documentation]
+Author = Stephan Sokolow
+Version = 0.1
+Website = https://github.com/ssokolow/game_launcher
+Description = Merges games from Desura into your launcher

@@ -6,13 +6,10 @@ __license__ = "GNU GPL 3.0 or later"
 import logging
 from itertools import chain
 
-from yapsy.PluginManager import PluginManagerSingleton
-
-from . import desura, fallback, playonlinux, residualvm, xdg_menu
+# TODO: Decide on a name for the program and rename "src"
+from src import interfaces
 
 log = logging.getLogger(__name__)
-
-
 
 # TODO: Audit all backends to ensure that they meet minimum acceptable
 #       standards for explaining what inputs they ignored and why when
@@ -24,15 +21,10 @@ def get_games():
     """Use all available backends to retrieve a deduplicated list of games"""
     results_raw, results = [], []
 
-    plugs = [x.plugin_object for x in
-             PluginManagerSingleton.get().getPluginsOfCategory("Game Provider")
-             ]
-
-    # TODO: Move priority ordering control into backend metadata
-    PROVIDERS = [xdg_menu, desura] + plugs + [playonlinux, fallback]
+    providers = interfaces.IGameProvider.get_all()
 
     # Get raw results
-    for entry in sorted(chain(*[x.get_games() for x in PROVIDERS])):
+    for entry in sorted(chain(*[x.get_games() for x in providers])):
         if not entry.is_executable():
             log.info("Skipping entry %s from %s. Not executable:\n\t%s",
                      entry,

@@ -1,0 +1,9 @@
+[Core]
+Name = Last-Resort Fallback Game Provider
+Module = fallback_guesser
+
+[Documentation]
+Author = Stephan Sokolow
+Version = 0.1
+Website = https://github.com/ssokolow/game_launcher
+Description = Heuristically infers game metadata from the filesystem structure

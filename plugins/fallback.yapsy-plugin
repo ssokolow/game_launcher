@@ -1,0 +1,9 @@
+[Core]
+Name = Fallback Game Provider
+Module = fallback
+
+[Documentation]
+Author = Stephan Sokolow
+Version = 0.1
+Website = https://github.com/ssokolow/game_launcher
+Description = Attempts to gather games missed by other plugins

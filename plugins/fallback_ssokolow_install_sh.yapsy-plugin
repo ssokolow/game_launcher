@@ -1,0 +1,9 @@
+[Core]
+Name = Fallback Game Provider for ssokolow's install.sh
+Module = fallback_ssokolow_install_sh
+
+[Documentation]
+Author = Stephan Sokolow
+Version = 0.1
+Website = https://github.com/ssokolow/game_launcher
+Description = Identify and extract metadata when games use my install.sh script
