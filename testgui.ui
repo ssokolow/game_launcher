@@ -39,6 +39,59 @@
     </item>
    </layout>
   </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>true</bool>
+   </attribute>
+   <addaction name="actionIcon_View"/>
+   <addaction name="actionList_View"/>
+  </widget>
+  <action name="actionIcon_View">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="view-list-icons-symbolic"/>
+   </property>
+   <property name="text">
+    <string>Icon View</string>
+   </property>
+   <property name="toolTip">
+    <string>Icon View</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+1</string>
+   </property>
+  </action>
+  <action name="actionList_View">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="view-list-details-symbolic"/>
+   </property>
+   <property name="text">
+    <string>List View</string>
+   </property>
+   <property name="toolTip">
+    <string>List View</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+4</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
