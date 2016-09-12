@@ -19,7 +19,8 @@ log = logging.getLogger(__name__)
 
 from PyQt5.QtCore import QAbstractListModel, QSortFilterProxyModel, Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QAction, QActionGroup, QApplication, QListView
+from PyQt5.QtWidgets import (QAction, QActionGroup, QApplication, QListView,
+                             QStackedWidget)
 from PyQt5.uic import loadUi
 
 from xdg.IconTheme import getIconPath
@@ -85,6 +86,11 @@ class GameListModel(QAbstractListModel):
         self.icon_cache[icon_name] = icon
         return icon
 
+    # TODO: Rewrite to subclass QAbstractTableModel instead
+    def headerData(self, section, orientation, role):
+        if role == Qt.DisplayRole:
+            return "Title"
+
     def data(self, index, role):
         if (not index.isValid()) or index.row() >= len(self.games):
             return None
@@ -131,29 +137,40 @@ def main():
 
 
     # Work around Qt Designer shortcomings
-    unbotch_icons(window, {
+    view_buttons = {
         (QAction, 'actionIcon_View'): 'view-list-icons-symbolic',
-        (QAction, 'actionList_View'): 'view-list-details-symbolic'
-    })
-    makeActionGroup(window, ['actionIcon_View', 'actionList_View'])
+        (QAction, 'actionList_View'): 'view-list-compact-symbolic',
+        (QAction, 'actionDetailed_List_View'): 'view-list-details-symbolic'
+    }
+    unbotch_icons(window, view_buttons)
+    makeActionGroup(window, [x[1] for x in view_buttons.keys()])
 
     # Hook up the signals
     # TODO: Un-bodge this
+    stackedwidget = window.findChild(QStackedWidget, 'stack_view_games')
     listview = window.findChild(QListView, 'view_games')
+    tableview = window.findChild(QListView, 'view_games_detailed')
     def set_listview_mode(mode, checked):
         if checked:
+            stackedwidget.setCurrentIndex(0)
             listview.setViewMode(mode)
 
-    for action_name, viewmode in (
-                ('actionIcon_View', QListView.IconMode),
-                ('actionList_View', QListView.ListMode),
-            ):
-        window.findChild(QAction, action_name).triggered.connect(
-            lambda checked, viewmode=viewmode: set_listview_mode(
-                viewmode, checked))
+    def set_tableview_mode(checked):
+        if checked:
+            stackedwidget.setCurrentIndex(1)
+
+    for action, viewmode in (
+                (window.actionIcon_View, QListView.IconMode),
+                (window.actionList_View, QListView.ListMode),
+                                  ):
+        action.triggered.connect(lambda checked, viewmode=viewmode:
+                                 set_listview_mode(viewmode, checked))
+    window.actionDetailed_List_View.triggered.connect(set_tableview_mode)
 
     model = GameListModel(get_games())
     window.view_games.setModel(model.as_sorted())
+    window.view_games_detailed.setModel(model.as_sorted())
+    stackedwidget.setCurrentIndex(0)
     window.show()
 
     sys.exit(app.exec_())
