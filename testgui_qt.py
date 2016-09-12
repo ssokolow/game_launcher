@@ -12,7 +12,7 @@ __license__ = "GNU GPL 3.0 or later"
 
 # TODO: Support per-backend fallback icons (eg. GOG and PlayOnLinux)
 FALLBACK_ICON = "applications-games"
-
+ICON_SIZE = 64
 
 import logging, os, sys
 log = logging.getLogger(__name__)
@@ -21,6 +21,8 @@ from PyQt5.QtCore import QAbstractListModel, QSortFilterProxyModel, Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction, QActionGroup, QApplication, QListView
 from PyQt5.uic import loadUi
+
+from xdg.IconTheme import getIconPath
 
 from src.interfaces import PLUGIN_TYPES
 from yapsy.PluginManager import PluginManagerSingleton
@@ -36,6 +38,8 @@ def makeActionGroup(parent, action_names):
 class GameListModel(QAbstractListModel):
     def __init__(self, data_list):
         self.games = data_list
+        self.icon_cache = {}  # TODO: Do this properly
+
         super(GameListModel, self).__init__()
 
     def as_sorted(self):
@@ -48,6 +52,38 @@ class GameListModel(QAbstractListModel):
 
     def rowCount(self, _):
         return len(self.games)
+
+    # TODO: Do this properly
+    def get_icon(self, icon_name):
+        """Workaround for Qt not implementing a fallback chain in fromTheme"""
+        # Always let the cache service requests first
+        if icon_name in self.icon_cache:
+            return self.icon_cache[icon_name]
+
+        # Skip right to the fallback if it's None or an empty string
+        if icon_name:
+            # Give Qt the opportunity to make a fool out of itself
+            if os.path.isfile(icon_name):
+                icon = QIcon(icon_name)
+            else:
+                icon = QIcon.fromTheme(icon_name,
+                                       QIcon.fromTheme(FALLBACK_ICON))
+
+            # Resort to PyXDG to walk the fallback chain properly
+            # TODO: Better resolution handling
+            icon = QIcon(getIconPath(icon_name, ICON_SIZE,
+                                     theme=QIcon.themeName()))
+        else:
+            icon = None
+
+        # If we still couldn't get a result, retrieve the fallback icon in a
+        # way which will allow a cache entry here without duplication
+        if not icon or icon.isNull() and icon_name != FALLBACK_ICON:
+            icon = self.get_icon(FALLBACK_ICON)
+
+        # Populate the cache
+        self.icon_cache[icon_name] = icon
+        return icon
 
     def data(self, index, role):
         if (not index.isValid()) or index.row() >= len(self.games):
@@ -62,14 +98,7 @@ class GameListModel(QAbstractListModel):
         if role == Qt.DisplayRole:
             return self.games[index].name
         elif role == Qt.DecorationRole:
-            icon_name = self.games[index].icon
-            if not icon_name:
-                return None
-            elif os.path.isfile(icon_name):
-                return QIcon(icon_name)
-            else:
-                return QIcon.fromTheme(icon_name,
-                                       QIcon.fromTheme(FALLBACK_ICON))
+            return self.get_icon(self.games[index].icon)
         elif role == Qt.ToolTipRole:
             return self.games[index].summarize()
 
@@ -100,12 +129,6 @@ def main():
     with open(os.path.join(os.path.dirname(__file__), 'testgui.ui')) as fobj:
         window = loadUi(fobj)
 
-    model = GameListModel(get_games())
-    model_sorted = QSortFilterProxyModel()
-    model_sorted.setDynamicSortFilter(True)
-    model_sorted.setSortCaseSensitivity(Qt.CaseInsensitive)
-    model_sorted.setSourceModel(model)
-    model_sorted.sort(0, Qt.AscendingOrder)
 
     # Work around Qt Designer shortcomings
     unbotch_icons(window, {
