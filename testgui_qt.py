@@ -22,6 +22,9 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication
 from PyQt5.uic import loadUi
 
+from src.interfaces import PLUGIN_TYPES
+from yapsy.PluginManager import PluginManagerSingleton
+
 from src.game_providers import get_games
 
 class GameListModel(QAbstractListModel):
@@ -58,6 +61,16 @@ class GameListModel(QAbstractListModel):
 
 def main():
     """The main entry point, compatible with setuptools entry points."""
+
+    pluginManager = PluginManagerSingleton.get()
+    pluginManager.setPluginPlaces(['plugins']) # TODO: Explicit __file__-rel.
+    pluginManager.setCategoriesFilter({x.plugin_type: x for x in PLUGIN_TYPES})
+    pluginManager.collectPlugins()
+
+    print('Plugins Found:\n\t{}'.format('\n\t'.join(str(x.plugin_object)
+        for x in sorted(pluginManager.getAllPlugins(),
+               key=lambda x: x.plugin_object.precedence))))
+
     app = QApplication(sys.argv)
 
     with open(os.path.join(os.path.dirname(__file__), 'testgui.ui')) as fobj:
