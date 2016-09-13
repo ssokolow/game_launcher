@@ -206,6 +206,10 @@ def main():
                                  set_listview_mode(viewmode, checked))
     window.actionDetailed_List_View.triggered.connect(set_tableview_mode)
 
+    # Needed so the first click on the header with the default sort order
+    # doesn't behave like a no-op.
+    tableview.sortByColumn(0, Qt.AscendingOrder)
+
     # Qt Designer has a bug which resets this in the file (without resetting
     # the checkbox in the property editor) whenever I switch focus away in the
     # parent QStackedWidget, so I have to force it here.
