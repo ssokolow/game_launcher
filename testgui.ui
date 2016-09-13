@@ -158,6 +158,48 @@
    <addaction name="actionIcon_View"/>
    <addaction name="actionList_View"/>
    <addaction name="actionDetailed_List_View"/>
+   <addaction name="separator"/>
+   <addaction name="actionShow_categories_pane"/>
+  </widget>
+  <widget class="QDockWidget" name="dock_categories">
+   <property name="features">
+    <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetMovable</set>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Categories</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QTreeView" name="view_categories">
+       <property name="uniformRowHeights">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <action name="actionIcon_View">
    <property name="checkable">
@@ -215,7 +257,58 @@
     <string>Ctrl+4</string>
    </property>
   </action>
+  <action name="actionShow_categories_pane">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="view-split-left-right">
+     <normaloff>gui_qt/view-split-left-right.png</normaloff>gui_qt/view-split-left-right.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show categories pane</string>
+   </property>
+   <property name="toolTip">
+    <string>Show categories pane</string>
+   </property>
+  </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>dock_categories</sender>
+   <signal>visibilityChanged(bool)</signal>
+   <receiver>actionShow_categories_pane</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>127</x>
+     <y>207</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionShow_categories_pane</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>dock_categories</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>127</x>
+     <y>207</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
