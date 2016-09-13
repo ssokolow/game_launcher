@@ -144,7 +144,7 @@
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
-    <string>toolBar</string>
+    <string>Main Toolbar</string>
    </property>
    <property name="floatable">
     <bool>false</bool>
@@ -169,7 +169,7 @@
     <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
-    <string>Categories</string>
+    <string>Category Pane</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
