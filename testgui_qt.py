@@ -17,7 +17,7 @@ ICON_SIZE = 64
 import logging, os, sys
 log = logging.getLogger(__name__)
 
-from PyQt5.QtCore import QAbstractListModel, QSortFilterProxyModel, Qt
+from PyQt5.QtCore import QAbstractTableModel, QSortFilterProxyModel, QSize, Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import (QAction, QActionGroup, QApplication, QListView,
                              QStackedWidget)
@@ -36,7 +36,7 @@ def makeActionGroup(parent, action_names):
     for action_name in action_names:
         group.addAction(parent.findChild(QAction, action_name))
 
-class GameListModel(QAbstractListModel):
+class GameListModel(QAbstractTableModel):
     def __init__(self, data_list):
         self.games = data_list
         self.icon_cache = {}  # TODO: Do this properly
@@ -51,8 +51,16 @@ class GameListModel(QAbstractListModel):
         model_sorted.sort(0, Qt.AscendingOrder)
         return model_sorted
 
-    def rowCount(self, _):
+    def rowCount(self, parent):
+        if parent and parent.isValid():
+            # Not tree-structured
+            return 0
         return len(self.games)
+
+    def columnCount(self, parent):
+        if parent and parent.isValid():
+            return 0
+        return 2
 
     # TODO: Do this properly
     def get_icon(self, icon_name):
@@ -88,8 +96,12 @@ class GameListModel(QAbstractListModel):
 
     # TODO: Rewrite to subclass QAbstractTableModel instead
     def headerData(self, section, orientation, role):
+        # TODO: Can Qt provide automatic hide/show-able column support?
         if role == Qt.DisplayRole:
-            return "Title"
+            if section == 0:
+                return "Title"
+            elif section == 1:
+                return "Provider"
 
     def data(self, index, role):
         if (not index.isValid()) or index.row() >= len(self.games):
@@ -100,13 +112,18 @@ class GameListModel(QAbstractListModel):
         #       (Python 2.x with GTK+ finds 1.42 first and Python 3.x with Qt
         #        finds 1.10 first and the two versions have different icons
         #        so that's how I noticed.)
-        index = index.row()
-        if role == Qt.DisplayRole:
-            return self.games[index].name
-        elif role == Qt.DecorationRole:
-            return self.get_icon(self.games[index].icon)
-        elif role == Qt.ToolTipRole:
-            return self.games[index].summarize()
+        row = index.row()
+        col = index.column()
+
+        if col == 0:
+            if role == Qt.DisplayRole:
+                return self.games[row].name
+            elif role == Qt.DecorationRole:
+                return self.get_icon(self.games[row].icon)
+            elif role == Qt.ToolTipRole:
+                return self.games[row].summarize()
+        elif col == 1 and role == Qt.DisplayRole:
+            return ', '.join(self.games[row].provider)
 
 def unbotch_icons(root, mappings):
     """Fix 'pyuic seems to not load Qt Designer-specified theme icons'
@@ -165,9 +182,9 @@ def main():
 
     # Hook up the signals
     # TODO: Un-bodge this
-    stackedwidget = window.findChild(QStackedWidget, 'stack_view_games')
-    listview = window.findChild(QListView, 'view_games')
-    tableview = window.findChild(QListView, 'view_games_detailed')
+    stackedwidget = window.stack_view_games
+    listview = window.view_games
+    tableview = window.view_games_detailed
     def set_listview_mode(mode, checked):
         if checked:
             stackedwidget.setCurrentIndex(0)
@@ -185,10 +202,25 @@ def main():
                                  set_listview_mode(viewmode, checked))
     window.actionDetailed_List_View.triggered.connect(set_tableview_mode)
 
+    # Qt Designer has a bug which resets this in the file (without resetting
+    # the checkbox in the property editor) whenever I switch focus away in the
+    # parent QStackedWidget, so I have to force it here.
+    tableview.horizontalHeader().setVisible(True)
+
+    # It's *FAR* too easy to switch this to the wrong value in Qt Designer.
+    # TODO: Set up robusy sync between this and the button group
+    stackedwidget.setCurrentIndex(0)
+
     model = GameListModel(get_games())
     window.view_games.setModel(model.as_sorted())
     window.view_games_detailed.setModel(model.as_sorted())
-    stackedwidget.setCurrentIndex(0)
+
+    # Prevent the columns from bunching up in the detail view
+    # TODO: Figure out how to make the title column the stretchy one rather
+    #       than the last one.
+    # TODO: Figure out how to set a reasonable default AND remember the user's
+    #       preferred dimensions.
+    window.view_games_detailed.resizeColumnsToContents()
     window.show()
 
     sys.exit(app.exec_())
