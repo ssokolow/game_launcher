@@ -150,6 +150,10 @@ def unbotch_icons(root, mappings):
 
         widget = root.findChild(wid_tuple[0], wid_tuple[1]).setIcon(icon)
 
+# Help prevent crashes on exit
+# Source: http://pyqt.sourceforge.net/Docs/PyQt5/gotchas.html
+app = None
+
 def main():
     """The main entry point, compatible with setuptools entry points."""
 
