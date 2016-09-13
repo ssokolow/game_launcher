@@ -206,6 +206,23 @@
     </layout>
    </widget>
   </widget>
+  <widget class="SearchToolbar" name="searchBar">
+   <property name="windowTitle">
+    <string>Search Bar</string>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::BottomToolBarArea|Qt::TopToolBarArea</set>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
   <action name="actionIcon_View">
    <property name="checkable">
     <bool>true</bool>
@@ -297,6 +314,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SearchToolbar</class>
+   <extends>QToolBar</extends>
+   <header>gui_qt/searchtoolbar.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
