@@ -152,7 +152,8 @@ def main():
 
     # Work around Qt Designer shortcomings
     unbotch_icons(window, {
-        (QAction, 'actionShow_categories_pane'): 'view-split-left-right'
+        (QAction, 'actionShow_categories_pane'): 'view-split-left-right',
+        (QAction, 'actionRescan'): 'reload',
     })
     view_buttons = {
         (QAction, 'actionIcon_View'): 'view-list-icons-symbolic',

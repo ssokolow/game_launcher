@@ -155,6 +155,8 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionRescan"/>
+   <addaction name="separator"/>
    <addaction name="actionIcon_View"/>
    <addaction name="actionList_View"/>
    <addaction name="actionDetailed_List_View"/>
@@ -274,6 +276,21 @@
    </property>
    <property name="toolTip">
     <string>Show categories pane</string>
+   </property>
+  </action>
+  <action name="actionRescan">
+   <property name="icon">
+    <iconset theme="view-refresh">
+     <normaloff>gui_qt/view-refresh.png</normaloff>gui_qt/view-refresh.png</iconset>
+   </property>
+   <property name="text">
+    <string>Rescan</string>
+   </property>
+   <property name="toolTip">
+    <string>Scan for new games</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
    </property>
   </action>
  </widget>
