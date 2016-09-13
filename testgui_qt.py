@@ -67,13 +67,13 @@ class GameListModel(QAbstractListModel):
             if os.path.isfile(icon_name):
                 icon = QIcon(icon_name)
             else:
-                icon = QIcon.fromTheme(icon_name,
-                                       QIcon.fromTheme(FALLBACK_ICON))
+                icon = QIcon.fromTheme(icon_name)
 
             # Resort to PyXDG to walk the fallback chain properly
             # TODO: Better resolution handling
-            icon = QIcon(getIconPath(icon_name, ICON_SIZE,
-                                     theme=QIcon.themeName()))
+            if not icon or icon.isNull():
+                icon = QIcon(getIconPath(icon_name, ICON_SIZE,
+                                         theme=QIcon.themeName()))
         else:
             icon = None
 
@@ -124,11 +124,12 @@ def unbotch_icons(root, mappings):
         if icon.isNull():
             path_base = os.path.join(os.path.dirname(__file__),
                                      'gui_qt', mappings[wid_tuple])
-            for ext in ('svg', 'png'):
+            for ext in ('svgz', 'svg' 'png'):
                 icon_path = '{}.{}'.format(path_base, ext)
                 if os.path.exists(icon_path):
                     icon = QIcon(os.path.join(icon_path))
-                    break
+                    if not icon.isNull():
+                        break
 
         widget = root.findChild(wid_tuple[0], wid_tuple[1]).setIcon(icon)
 
