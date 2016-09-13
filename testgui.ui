@@ -66,6 +66,9 @@
             <height>64</height>
            </size>
           </property>
+          <property name="resizeMode">
+           <enum>QListView::Adjust</enum>
+          </property>
           <property name="spacing">
            <number>6</number>
           </property>
