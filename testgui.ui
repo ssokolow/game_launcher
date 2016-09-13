@@ -209,7 +209,8 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset theme="view-list-icons-symbolic"/>
+    <iconset theme="view-list-icons-symbolic">
+     <normaloff>gui_qt/view-list-icons-symbolic.png</normaloff>gui_qt/view-list-icons-symbolic.png</iconset>
    </property>
    <property name="text">
     <string>Icon View</string>
@@ -226,7 +227,8 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset theme="view-list-compact-symbolic"/>
+    <iconset theme="view-list-compact-symbolic">
+     <normaloff>gui_qt/view-list-compact-symbolic.png</normaloff>gui_qt/view-list-compact-symbolic.png</iconset>
    </property>
    <property name="text">
     <string>List View</string>
@@ -244,8 +246,7 @@
    </property>
    <property name="icon">
     <iconset theme="view-list-details-symbolic">
-     <normaloff/>
-    </iconset>
+     <normaloff>gui_qt/view-list-details-symbolic.png</normaloff>gui_qt/view-list-details-symbolic.png</iconset>
    </property>
    <property name="text">
     <string>Detailed List View</string>
