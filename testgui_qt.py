@@ -116,6 +116,20 @@ def unbotch_icons(root, mappings):
 
     for wid_tuple in mappings:
         icon = QIcon.fromTheme(mappings[wid_tuple])
+
+        # Support fallback to more than one filename
+        # TODO: Decide on a way to use the Qt fallback mechanism
+        #       and support multiple icon resolutions.
+        #       (Possibly amending the theme search path somehow?)
+        if icon.isNull():
+            path_base = os.path.join(os.path.dirname(__file__),
+                                     'gui_qt', mappings[wid_tuple])
+            for ext in ('svg', 'png'):
+                icon_path = '{}.{}'.format(path_base, ext)
+                if os.path.exists(icon_path):
+                    icon = QIcon(os.path.join(icon_path))
+                    break
+
         widget = root.findChild(wid_tuple[0], wid_tuple[1]).setIcon(icon)
 
 def main():
@@ -135,8 +149,10 @@ def main():
     with open(os.path.join(os.path.dirname(__file__), 'testgui.ui')) as fobj:
         window = loadUi(fobj)
 
-
     # Work around Qt Designer shortcomings
+    unbotch_icons(window, {
+        (QAction, 'actionShow_categories_pane'): 'view-split-left-right'
+    })
     view_buttons = {
         (QAction, 'actionIcon_View'): 'view-list-icons-symbolic',
         (QAction, 'actionList_View'): 'view-list-compact-symbolic',
