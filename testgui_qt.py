@@ -227,7 +227,11 @@ def main():
     window.view_games_detailed.resizeColumnsToContents()
     window.show()
 
-    sys.exit(app.exec_())
+    # Prevent crash-on-exit behaviour
+    # Source: http://stackoverflow.com/a/12457209/435253
+    retval = app.exec_()
+    app.deleteLater()
+    sys.exit(retval)
 
 if __name__ == '__main__':
     main()
