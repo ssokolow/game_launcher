@@ -197,7 +197,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QTreeView" name="view_categories">
+      <widget class="NarrowerTreeView" name="view_categories">
        <property name="uniformRowHeights">
         <bool>true</bool>
        </property>
@@ -318,7 +318,16 @@
   <customwidget>
    <class>SearchToolbar</class>
    <extends>QToolBar</extends>
-   <header>gui_qt/searchtoolbar.h</header>
+   <header>gui_qt/tweaked_widgets.h</header>
+   <slots>
+    <signal>textChanged(QString)</signal>
+    <slot>clear()</slot>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>NarrowerTreeView</class>
+   <extends>QTreeView</extends>
+   <header>gui_qt/tweaked_widgets.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
