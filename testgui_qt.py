@@ -19,8 +19,8 @@ log = logging.getLogger(__name__)
 
 from PyQt5.QtCore import QAbstractTableModel, QSortFilterProxyModel, QSize, Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import (QAction, QActionGroup, QApplication, QListView,
-                             QStackedWidget)
+from PyQt5.QtWidgets import (QAction, QActionGroup, QApplication, QHeaderView,
+                             QListView, QStackedWidget)
 from PyQt5.uic import loadUi
 
 from xdg.IconTheme import getIconPath
@@ -224,11 +224,15 @@ def main():
     window.view_games_detailed.setModel(model.as_sorted())
 
     # Prevent the columns from bunching up in the detail view
-    # TODO: Figure out how to make the title column the stretchy one rather
-    #       than the last one.
+    # http://www.qtcentre.org/threads/3417-QTableWidget-stretch-a-column-other-than-the-last-one?p=18624#post18624
+    header = tableview.horizontalHeader()
+    header.setStretchLastSection(False)
+    header.setSectionResizeMode(QHeaderView.Interactive)
+    tableview.resizeColumnsToContents()
+    header.setSectionResizeMode(0, QHeaderView.Stretch)
     # TODO: Figure out how to set a reasonable default AND remember the user's
-    #       preferred dimensions.
-    window.view_games_detailed.resizeColumnsToContents()
+    #       preferred dimensions for interactive columns.
+
     window.show()
 
     # Prevent crash-on-exit behaviour
