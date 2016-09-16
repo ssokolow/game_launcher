@@ -220,8 +220,13 @@ def main():
     stackedwidget.setCurrentIndex(0)
 
     model = GameListModel(get_games())
-    window.view_games.setModel(model.as_sorted())
-    window.view_games_detailed.setModel(model.as_sorted())
+    sorted_model = model.as_sorted()
+    window.view_games.setModel(sorted_model)
+    window.view_games_detailed.setModel(sorted_model)
+
+    # Synchronize selection behaviour between the two views
+    window.view_games.setSelectionModel(
+        window.view_games_detailed.selectionModel())
 
     # Prevent the columns from bunching up in the detail view
     # http://www.qtcentre.org/threads/3417-QTableWidget-stretch-a-column-other-than-the-last-one?p=18624#post18624
