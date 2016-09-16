@@ -10,20 +10,13 @@ __appname__ = "Qt Test GUI for game launcher experiment"
 __version__ = "0.0pre0"
 __license__ = "GNU GPL 3.0 or later"
 
-# TODO: Support per-backend fallback icons (eg. GOG and PlayOnLinux)
-FALLBACK_ICON = "applications-games"
-ICON_SIZE = 64
-
 import logging, os, sys
 log = logging.getLogger(__name__)
 
-from PyQt5.QtCore import QAbstractTableModel, QSortFilterProxyModel, QSize, Qt
+from PyQt5.QtCore import QAbstractTableModel, QSortFilterProxyModel, Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import (QAction, QActionGroup, QApplication, QHeaderView,
-                             QListView, QStackedWidget)
+from PyQt5.QtWidgets import (QAction, QActionGroup, QApplication, QListView)
 from PyQt5.uic import loadUi
-
-from xdg.IconTheme import getIconPath
 
 from src.interfaces import PLUGIN_TYPES
 from yapsy.PluginManager import PluginManagerSingleton
@@ -187,56 +180,10 @@ def main():
     # Hook up the signals
     # TODO: Un-bodge this
     stackedwidget = window.stack_view_games
-    listview = window.view_games
-    tableview = window.view_games_detailed
-    def set_listview_mode(mode, checked):
-        if checked:
-            stackedwidget.setCurrentIndex(0)
-            listview.setViewMode(mode)
-
-    def set_tableview_mode(checked):
-        if checked:
-            stackedwidget.setCurrentIndex(1)
-
-    for action, viewmode in (
-                (window.actionIcon_View, QListView.IconMode),
-                (window.actionList_View, QListView.ListMode),
-                                  ):
-        action.triggered.connect(lambda checked, viewmode=viewmode:
-                                 set_listview_mode(viewmode, checked))
-    window.actionDetailed_List_View.triggered.connect(set_tableview_mode)
-
-    # Needed so the first click on the header with the default sort order
-    # doesn't behave like a no-op.
-    tableview.sortByColumn(0, Qt.AscendingOrder)
-
-    # Qt Designer has a bug which resets this in the file (without resetting
-    # the checkbox in the property editor) whenever I switch focus away in the
-    # parent QStackedWidget, so I have to force it here.
-    tableview.horizontalHeader().setVisible(True)
-
-    # It's *FAR* too easy to switch this to the wrong value in Qt Designer.
-    # TODO: Set up robusy sync between this and the button group
-    stackedwidget.setCurrentIndex(0)
+    stackedwidget.configure_children()
 
     model = GameListModel(get_games())
-    sorted_model = model.as_sorted()
-    window.view_games.setModel(sorted_model)
-    window.view_games_detailed.setModel(sorted_model)
-
-    # Synchronize selection behaviour between the two views
-    window.view_games.setSelectionModel(
-        window.view_games_detailed.selectionModel())
-
-    # Prevent the columns from bunching up in the detail view
-    # http://www.qtcentre.org/threads/3417-QTableWidget-stretch-a-column-other-than-the-last-one?p=18624#post18624
-    header = tableview.horizontalHeader()
-    header.setStretchLastSection(False)
-    header.setSectionResizeMode(QHeaderView.Interactive)
-    tableview.resizeColumnsToContents()
-    header.setSectionResizeMode(0, QHeaderView.Stretch)
-    # TODO: Figure out how to set a reasonable default AND remember the user's
-    #       preferred dimensions for interactive columns.
+    stackedwidget.setModel(model.as_sorted())
 
     window.show()
 

@@ -31,14 +31,14 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QStackedWidget" name="stack_view_games">
+     <widget class="GamesView" name="stack_view_games">
       <property name="lineWidth">
        <number>0</number>
       </property>
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="page">
+      <widget class="QWidget" name="page_list">
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <property name="spacing">
          <number>0</number>
@@ -88,7 +88,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page_3">
+      <widget class="QWidget" name="page_table">
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <property name="spacing">
          <number>0</number>
@@ -332,6 +332,20 @@
    <extends>QTreeView</extends>
    <header>gui_qt/tweaked_widgets.h</header>
   </customwidget>
+  <customwidget>
+   <class>GamesView</class>
+   <extends>QStackedWidget</extends>
+   <header>gui_qt/tweaked_widgets.h</header>
+   <container>1</container>
+   <slots>
+    <slot>setIconViewMode()</slot>
+    <slot>setIconViewMode(bool)</slot>
+    <slot>setListViewMode()</slot>
+    <slot>setListViewMode(bool)</slot>
+    <slot>setTableViewMode()</slot>
+    <slot>setTableViewMode(bool)</slot>
+   </slots>
+  </customwidget>
  </customwidgets>
  <resources/>
  <connections>
@@ -364,6 +378,54 @@
     <hint type="destinationlabel">
      <x>127</x>
      <y>207</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionIcon_View</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>stack_view_games</receiver>
+   <slot>setIconViewMode(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>454</x>
+     <y>224</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionList_View</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>stack_view_games</receiver>
+   <slot>setListViewMode(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>454</x>
+     <y>224</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDetailed_List_View</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>stack_view_games</receiver>
+   <slot>setTableViewMode(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>454</x>
+     <y>224</y>
     </hint>
    </hints>
   </connection>
