@@ -13,7 +13,6 @@ __license__ = "GNU GPL 3.0 or later"
 import logging, os, sys
 log = logging.getLogger(__name__)
 
-from PyQt5.QtCore import QAbstractTableModel, QSortFilterProxyModel, Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import (QAction, QActionGroup, QApplication, QListView)
 from PyQt5.uic import loadUi
@@ -23,100 +22,13 @@ from yapsy.PluginManager import PluginManagerSingleton
 
 from src.game_providers import get_games
 
+from gui_qt.model import GameListModel
+
 def makeActionGroup(parent, action_names):
     """Helper for cleanly grouping actions by name"""
     group = QActionGroup(parent)
     for action_name in action_names:
         group.addAction(parent.findChild(QAction, action_name))
-
-class GameListModel(QAbstractTableModel):
-    def __init__(self, data_list):
-        self.games = data_list
-        self.icon_cache = {}  # TODO: Do this properly
-
-        super(GameListModel, self).__init__()
-
-    def as_sorted(self):
-        model_sorted = QSortFilterProxyModel()
-        model_sorted.setDynamicSortFilter(True)
-        model_sorted.setSortCaseSensitivity(Qt.CaseInsensitive)
-        model_sorted.setSourceModel(self)
-        model_sorted.sort(0, Qt.AscendingOrder)
-        return model_sorted
-
-    def rowCount(self, parent):
-        if parent and parent.isValid():
-            # Not tree-structured
-            return 0
-        return len(self.games)
-
-    def columnCount(self, parent):
-        if parent and parent.isValid():
-            return 0
-        return 2
-
-    # TODO: Do this properly
-    def get_icon(self, icon_name):
-        """Workaround for Qt not implementing a fallback chain in fromTheme"""
-        # Always let the cache service requests first
-        if icon_name in self.icon_cache:
-            return self.icon_cache[icon_name]
-
-        # Skip right to the fallback if it's None or an empty string
-        if icon_name:
-            # Give Qt the opportunity to make a fool out of itself
-            if os.path.isfile(icon_name):
-                icon = QIcon(icon_name)
-            else:
-                icon = QIcon.fromTheme(icon_name)
-
-            # Resort to PyXDG to walk the fallback chain properly
-            # TODO: Better resolution handling
-            if not icon or icon.isNull():
-                icon = QIcon(getIconPath(icon_name, ICON_SIZE,
-                                         theme=QIcon.themeName()))
-        else:
-            icon = None
-
-        # If we still couldn't get a result, retrieve the fallback icon in a
-        # way which will allow a cache entry here without duplication
-        if not icon or icon.isNull() and icon_name != FALLBACK_ICON:
-            icon = self.get_icon(FALLBACK_ICON)
-
-        # Populate the cache
-        self.icon_cache[icon_name] = icon
-        return icon
-
-    # TODO: Rewrite to subclass QAbstractTableModel instead
-    def headerData(self, section, orientation, role):
-        # TODO: Can Qt provide automatic hide/show-able column support?
-        if role == Qt.DisplayRole:
-            if section == 0:
-                return "Title"
-            elif section == 1:
-                return "Provider"
-
-    def data(self, index, role):
-        if (not index.isValid()) or index.row() >= len(self.games):
-            return None
-
-        # TODO: Make the game resolution order deterministic between the two
-        #       copies of Race The Sun that I have installed.
-        #       (Python 2.x with GTK+ finds 1.42 first and Python 3.x with Qt
-        #        finds 1.10 first and the two versions have different icons
-        #        so that's how I noticed.)
-        row = index.row()
-        col = index.column()
-
-        if col == 0:
-            if role == Qt.DisplayRole:
-                return self.games[row].name
-            elif role == Qt.DecorationRole:
-                return self.get_icon(self.games[row].icon)
-            elif role == Qt.ToolTipRole:
-                return self.games[row].summarize()
-        elif col == 1 and role == Qt.DisplayRole:
-            return ', '.join(self.games[row].provider)
 
 def unbotch_icons(root, mappings):
     """Fix 'pyuic seems to not load Qt Designer-specified theme icons'
