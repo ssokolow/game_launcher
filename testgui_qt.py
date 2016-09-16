@@ -53,7 +53,7 @@ def unbotch_icons(root, mappings):
                     if not icon.isNull():
                         break
 
-        widget = root.findChild(wid_tuple[0], wid_tuple[1]).setIcon(icon)
+        root.findChild(wid_tuple[0], wid_tuple[1]).setIcon(icon)
 
 # Help prevent crashes on exit
 # Source: http://pyqt.sourceforge.net/Docs/PyQt5/gotchas.html
@@ -62,13 +62,13 @@ app = None
 def main():
     """The main entry point, compatible with setuptools entry points."""
 
-    pluginManager = PluginManagerSingleton.get()
-    pluginManager.setPluginPlaces(['plugins'])  # TODO: Explicit __file__-rel.
-    pluginManager.setCategoriesFilter({x.plugin_type: x for x in PLUGIN_TYPES})
-    pluginManager.collectPlugins()
+    plugin_mgr = PluginManagerSingleton.get()
+    plugin_mgr.setPluginPlaces(['plugins'])  # TODO: Explicit __file__-rel.
+    plugin_mgr.setCategoriesFilter({x.plugin_type: x for x in PLUGIN_TYPES})
+    plugin_mgr.collectPlugins()
 
     print('Plugins Found:\n\t{}'.format('\n\t'.join(str(x.plugin_object)
-        for x in sorted(pluginManager.getAllPlugins(),
+        for x in sorted(plugin_mgr.getAllPlugins(),
                key=lambda x: x.plugin_object.precedence))))
 
     app = QApplication(sys.argv)
