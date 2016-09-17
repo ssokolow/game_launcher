@@ -81,13 +81,6 @@ class BugFixTableView(QTableView):
         # TODO: Figure out how to set a reasonable default AND remember the
         #       user's preferred dimensions for interactive columns.
 
-    def keyPressEvent(self, event):
-        """Filter out Tab so it behaves like a QListView for focus cycling"""
-        if event.key() == Qt.Key_Tab:
-            event.ignore()
-        else:
-            super(BugFixTableView, self).keyPressEvent(event)
-
     @pyqtSlot()
     def selectFirst(self):
         """Reset selection to the first item"""
