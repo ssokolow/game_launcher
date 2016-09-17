@@ -96,7 +96,9 @@ class GameListModel(QAbstractTableModel):
         row = index.row()
         col = index.column()
 
-        if col == 0:
+        if role == Qt.UserRole:
+            return self.games[row]
+        elif col == 0:
             if role == Qt.DisplayRole:
                 return self.games[row].name
             elif role == Qt.DecorationRole:

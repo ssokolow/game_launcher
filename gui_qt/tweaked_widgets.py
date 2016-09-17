@@ -42,6 +42,10 @@ class GamesView(QStackedWidget):
         # TODO: Set up robust sync between this and the button group
         self.setCurrentIndex(0)
 
+        # Hook up double-click/enter handlers
+        self.listview.activated.connect(self.entry_activated)
+        self.tableview.activated.connect(self.entry_activated)
+
     def setModel(self, model):
         """Set the model on both views within the compound object.
 
@@ -79,6 +83,13 @@ class GamesView(QStackedWidget):
             return self.listview
         elif idx == 1:
             return self.tableview
+
+    def entry_activated(self, index):
+        """Handler to launch games on double-click"""
+        # TODO: Make this not a stop-gap solution
+        cmd = self.model.data(index, Qt.UserRole).default_launcher
+        if cmd:
+            cmd.run()
 
     @pyqtSlot()
     def focus(self):
