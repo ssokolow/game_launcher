@@ -241,7 +241,7 @@
     <string>Icon View</string>
    </property>
    <property name="toolTip">
-    <string>Icon View</string>
+    <string>Icon View (Ctrl+1)</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+1</string>
@@ -259,7 +259,7 @@
     <string>List View</string>
    </property>
    <property name="toolTip">
-    <string>List View</string>
+    <string>List View (Ctrl+2)</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+2</string>
@@ -277,7 +277,7 @@
     <string>Detailed List View</string>
    </property>
    <property name="toolTip">
-    <string>Detailed List View</string>
+    <string>Detailed List View (Ctrl+4)</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+4</string>
@@ -298,7 +298,10 @@
     <string>Show categories pane</string>
    </property>
    <property name="toolTip">
-    <string>Show categories pane</string>
+    <string>Show categories pane (F9)</string>
+   </property>
+   <property name="shortcut">
+    <string>F9</string>
    </property>
   </action>
   <action name="actionRescan">
@@ -310,7 +313,7 @@
     <string>Rescan</string>
    </property>
    <property name="toolTip">
-    <string>Scan for new games</string>
+    <string>Scan for new games (F5)</string>
    </property>
    <property name="shortcut">
     <string>F5</string>
