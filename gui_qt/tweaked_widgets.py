@@ -126,22 +126,26 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
     def __init__(self, *args, **kwargs):
         super(SearchToolbar, self).__init__(*args, **kwargs)
 
+        # Use a spacer to right-align the size-limited field
         spacer = QWidget(self)
         spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.addWidget(spacer)
 
-        hotkey = QKeySequence(QKeySequence.Find)
+        # Do this early so we can use it with setPlaceholderText
+        focus_hotkey = QKeySequence(QKeySequence.Find)
 
+        # Actually define and configure the field
         self.filter_box = QLineEdit(self)
         self.filter_box.setPlaceholderText("Search... ({})".format(
-            hotkey.toString()))
+            focus_hotkey.toString()))
         self.filter_box.setClearButtonEnabled(True)
         self.filter_box.setMaximumSize(self.DESIRED_WIDTH,
             self.filter_box.maximumSize().height())
         self.addWidget(self.filter_box)
 
-        shortcut = QShortcut(hotkey, self)
-        shortcut.activated.connect(lambda:
+        # Hook up Ctrl+F or equivalent
+        focus_shortcut = QShortcut(focus_hotkey, self)
+        focus_shortcut.activated.connect(lambda:
             self.filter_box.setFocus(Qt.ShortcutFocusReason))
 
         # Proxy the returnPressed signal up to where Qt Designer can handle it
