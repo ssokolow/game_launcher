@@ -118,14 +118,17 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.addWidget(spacer)
 
+        hotkey = QKeySequence(QKeySequence.Find)
+
         self.filter_box = QLineEdit(self)
-        self.filter_box.setPlaceholderText("Search...")
+        self.filter_box.setPlaceholderText("Search... ({})".format(
+            hotkey.toString()))
         self.filter_box.setClearButtonEnabled(True)
         self.filter_box.setMaximumSize(self.DESIRED_WIDTH,
             self.filter_box.maximumSize().height())
         self.addWidget(self.filter_box)
 
-        shortcut = QShortcut(QKeySequence.Find, self)
+        shortcut = QShortcut(hotkey, self)
         shortcut.activated.connect(lambda:
             self.filter_box.setFocus(Qt.ShortcutFocusReason))
 
