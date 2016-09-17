@@ -102,7 +102,11 @@ def main():
     stackedwidget.setModel(model)
 
     # Hook the filter box up to the model filter
+    # (We connect ensureSelection and ensureVisible here rather than in Qt
+    #  Designer to make all three slots run in the right order)
     window.searchBar.textChanged.connect(model.setFilterFixedString)
+    window.searchBar.textChanged.connect(stackedwidget.ensureSelection)
+    window.searchBar.textChanged.connect(stackedwidget.ensureVisible)
 
     def rescan():
         model.setSourceModel(get_model())
