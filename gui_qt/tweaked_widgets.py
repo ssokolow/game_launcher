@@ -148,6 +148,12 @@ class GamesView(QStackedWidget):
         self.listview.setSelectionModel(self.selectionmodel)
 
     @pyqtSlot()
+    def ensureSelection(self):
+        """Select the first item if nothing is currently selected"""
+        if not self.selectionmodel.hasSelection():
+            self.selectFirst()
+
+    @pyqtSlot()
     def ensureVisible(self):
         """Scroll to ensure that the selected item is visible in the viewport
         of the currently selected view."""
@@ -174,6 +180,19 @@ class GamesView(QStackedWidget):
             cmd.run()
 
     @pyqtSlot()
+    def selectNext(self):
+        self.ensureSelection()
+        next_row = self.tableview.currentIndex().row() + 1
+        if next_row < self.model.rowCount():
+            self.tableview.setCurrentIndex(self.model.index(next_row, 0))
+
+    @pyqtSlot()
+    def selectPrevious(self):
+        self.ensureSelection()
+        prev_row = self.tableview.currentIndex().row() - 1
+        if prev_row >= 0:
+            self.tableview.setCurrentIndex(self.model.index(prev_row, 0))
+
     @pyqtSlot(bool)
     def setIconViewMode(self, checked=True):
         """Slot which can be directly bound by QAction::toggled(bool)"""
@@ -223,6 +242,8 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
     """
     DESIRED_WIDTH = 150
 
+    nextPressed = pyqtSignal()
+    previousPressed = pyqtSignal()
     returnPressed = pyqtSignal()
     textChanged = pyqtSignal('QString')
 
@@ -252,6 +273,14 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         # Proxy relevant signals up to where Qt Designer can handle them
         self.filter_box.returnPressed.connect(self.returnPressed.emit)
         self.filter_box.textChanged.connect(self.textChanged.emit)
+
+        # Hook up signals for previous/next result requests (Up/Down arrows)
+        bind_all_standard_keys(QKeySequence.MoveToPreviousLine,
+                               self.previousPressed.emit, self,
+                               Qt.WidgetWithChildrenShortcut)
+        bind_all_standard_keys(QKeySequence.MoveToNextLine,
+                               self.nextPressed.emit, self,
+                               Qt.WidgetWithChildrenShortcut)
 
     @pyqtSlot()
     def clear(self):
