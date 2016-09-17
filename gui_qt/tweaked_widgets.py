@@ -12,6 +12,46 @@ from PyQt5.QtWidgets import (QHeaderView, QLineEdit, QListView, QTableView,
                              QToolBar, QSizePolicy, QStackedWidget, QTreeView,
                              QWidget)
 
+class BugFixTableView(QTableView):
+    """A subclass of QTableView which fixes various papercut issues.
+
+    - Counter Qt Designer bug which forces horizontal header visibility off
+    - Ensure the header sort indicator actually works properly on first click
+    - Implement stretch for the first column rather than the last
+    """
+
+    def setModel(self, model):
+        """Set the model view, with fixes for papercut bugs"""
+        super(BugFixTableView, self).setModel(model)
+
+        # Qt Designer has a bug which resets this in the file (without
+        # resetting the checkbox in the property editor) whenever I switch
+        # focus away in the parent QStackedWidget, so I have to force it here.
+        # TODO: Figure out how to run this after actions that would be done in
+        #       setupUi when translating the .ui file dynamically where there's
+        #       no setupUi to wrap.
+        self.horizontalHeader().setVisible(True)
+
+        # Explicitly set the view's sorting state to work around a bug where
+        # the first click on the header has no effect.
+        if hasattr(model, 'sortColumn') and hasattr(model, 'sortOrder'):
+            self.sortByColumn(model.sortColumn(), model.sortOrder())
+
+        # Prevent the columns from bunching up in the detail view
+        # http://www.qtcentre.org/threads/3417-QTableWidget-stretch-a-column-other-than-the-last-one?p=18624#post18624
+        header = self.horizontalHeader()
+        header.setStretchLastSection(False)
+        header.setSectionResizeMode(QHeaderView.Interactive)
+        header.setSectionResizeMode(0, QHeaderView.Stretch)
+        self.resizeColumnsToContents()
+        # TODO: Figure out how to set a reasonable default AND remember the
+        #       user's preferred dimensions for interactive columns.
+
+    @pyqtSlot()
+    def selectFirst(self):
+        """Reset selection to the first item"""
+        self.setCurrentIndex(self.model().index(0, 0))
+
 class GamesView(QStackedWidget):
     """Encapsulation for the stuff that ties together stack_view_games and its
     children in testgui.ui"""
@@ -33,11 +73,6 @@ class GamesView(QStackedWidget):
         self.listview = self.findChild(QListView, 'view_games')
         self.tableview = self.findChild(QTableView, 'view_games_detailed')
 
-        # Qt Designer has a bug which resets this in the file (without
-        # resetting the checkbox in the property editor) whenever I switch
-        # focus away in the parent QStackedWidget, so I have to force it here.
-        self.tableview.horizontalHeader().setVisible(True)
-
         # It's *FAR* too easy to switch this to the wrong value in Qt Designer.
         # TODO: Set up robust sync between this and the button group
         self.setCurrentIndex(0)
@@ -52,11 +87,6 @@ class GamesView(QStackedWidget):
         (Also ensures the table view's header will properly reflect the sort
         order and sets the views up to share a common selection model.)
         """
-        # Explicitly set the view's sorting state to work around a bug where
-        # the first click on the header has no effect.
-        if hasattr(model, 'sortColumn') and hasattr(model, 'sortOrder'):
-            self.tableview.sortByColumn(model.sortColumn(), model.sortOrder())
-
         # Actually hook up the model
         self.model = model
         self.listview.setModel(model)
@@ -65,16 +95,6 @@ class GamesView(QStackedWidget):
         # Synchronize selection behaviour between the two views
         self.selectionmodel = self.tableview.selectionModel()
         self.listview.setSelectionModel(self.selectionmodel)
-
-        # Prevent the columns from bunching up in the detail view
-        # http://www.qtcentre.org/threads/3417-QTableWidget-stretch-a-column-other-than-the-last-one?p=18624#post18624
-        header = self.tableview.horizontalHeader()
-        header.setStretchLastSection(False)
-        header.setSectionResizeMode(QHeaderView.Interactive)
-        header.setSectionResizeMode(0, QHeaderView.Stretch)
-        self.tableview.resizeColumnsToContents()
-        # TODO: Figure out how to set a reasonable default AND remember the
-        #       user's preferred dimensions for interactive columns.
 
     def currentView(self):
         """Retrieve a reference to the currently visible view"""
@@ -122,7 +142,7 @@ class GamesView(QStackedWidget):
     @pyqtSlot()
     def selectFirst(self):
         """Reset selection to the first item"""
-        self.tableview.setCurrentIndex(self.model.index(0, 0))
+        self.tableview.selectFirst()
 
 class NarrowerTreeView(QTreeView):  # pylint: disable=no-init,R0903
     """A subclass of QTreeView which works around Qt Designer's inability to

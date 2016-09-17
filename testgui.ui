@@ -112,7 +112,7 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QTableView" name="view_games_detailed">
+         <widget class="BugFixTableView" name="view_games_detailed">
           <property name="lineWidth">
            <number>0</number>
           </property>
@@ -363,6 +363,11 @@
     <slot>focus()</slot>
     <slot>selectFirst()</slot>
    </slots>
+  </customwidget>
+  <customwidget>
+   <class>BugFixTableView</class>
+   <extends>QTableView</extends>
+   <header>gui_qt/tweaked_widgets.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
