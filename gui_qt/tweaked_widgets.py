@@ -46,13 +46,13 @@ class BugFixTableView(QTableView):
         super(BugFixTableView, self).__init__(*args, **kwargs)
 
 
+        # Fix the behaviour of the Home and End keys
         bind_all_standard_keys(QKeySequence.MoveToStartOfLine,
                                self.selectFirst, self,
                                Qt.WidgetWithChildrenShortcut)
-        bind_all_standard_keys(QKeySequence.MoveToEndOfLine, lambda:
-            self.setCurrentIndex(self.model().index(
-                self.model().rowCount() - 1, 0)),
-            self, Qt.WidgetWithChildrenShortcut)
+        bind_all_standard_keys(QKeySequence.MoveToEndOfLine,
+                               self.selectLast, self,
+                               Qt.WidgetWithChildrenShortcut)
 
     def setModel(self, model):
         """Set the model view, with fixes for papercut bugs"""
@@ -83,8 +83,18 @@ class BugFixTableView(QTableView):
 
     @pyqtSlot()
     def selectFirst(self):
-        """Reset selection to the first item"""
+        """Reset selection to the first item
+
+        (Used to implement Home key fix)"""
         self.setCurrentIndex(self.model().index(0, 0))
+
+    @pyqtSlot()
+    def selectLast(self):
+        """Reset selection to the last item
+
+        (Used to implement End key fix)"""
+        self.setCurrentIndex(self.model().index(
+                self.model().rowCount() - 1, 0))
 
 class GamesView(QStackedWidget):
     """Encapsulation for the stuff that ties together stack_view_games and its
@@ -216,6 +226,11 @@ class GamesView(QStackedWidget):
     def selectFirst(self):
         """Reset selection to the first item"""
         self.tableview.selectFirst()
+
+    @pyqtSlot()
+    def selectLast(self):
+        """Reset selection to the first item"""
+        self.tableview.selectLast()
 
 class NarrowerTreeView(QTreeView):  # pylint: disable=no-init,R0903
     """A subclass of QTreeView which works around Qt Designer's inability to

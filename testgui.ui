@@ -373,6 +373,7 @@
     <slot>selectPrevious()</slot>
     <slot>ensureSelection()</slot>
     <slot>ensureVisible()</slot>
+    <slot>selectLast()</slot>
    </slots>
   </customwidget>
   <customwidget>
