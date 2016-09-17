@@ -12,6 +12,27 @@ from PyQt5.QtWidgets import (QHeaderView, QLineEdit, QListView, QTableView,
                              QToolBar, QSizePolicy, QStackedWidget, QTreeView,
                              QWidget)
 
+def bind_all_standard_keys(standard_key, handler_cb, parent=None,
+                           context=Qt.WindowShortcut):
+    """Workaround for Qt apparently only binding the first StandardKey
+    when it's fed into QShortcut
+
+    @type standard_key: C{QtGui.QKeySequence.StandardKey}
+    @type handler_cb: C{function}
+    @type parent: C{QObject}
+    @type context: C{QtCore.Qt.ShortcutContext}
+
+    @rtype: C{[QtWidgets.QShortcut]}
+    """
+
+    results = []
+    for hotkey in QKeySequence.keyBindings(standard_key):
+        shortcut = QShortcut(hotkey, parent)
+        shortcut.setContext(context)
+        shortcut.activated.connect(handler_cb)
+        results.append(shortcut)
+    return results
+
 class BugFixTableView(QTableView):
     """A subclass of QTableView which fixes various papercut issues.
 
@@ -189,22 +210,20 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.addWidget(spacer)
 
-        # Do this early so we can use it with setPlaceholderText
-        focus_hotkey = QKeySequence(QKeySequence.Find)
-
         # Define and configure the actual search field
         self.filter_box = QLineEdit(self)
-        self.filter_box.setPlaceholderText("Search... ({})".format(
-            focus_hotkey.toString()))
         self.filter_box.setClearButtonEnabled(True)
         self.filter_box.setMaximumSize(self.DESIRED_WIDTH,
             self.filter_box.maximumSize().height())
         self.addWidget(self.filter_box)
 
         # Hook up Ctrl+F or equivalent
-        focus_shortcut = QShortcut(focus_hotkey, self)
-        focus_shortcut.activated.connect(lambda:
-            self.filter_box.setFocus(Qt.ShortcutFocusReason))
+        hotkeys = bind_all_standard_keys(QKeySequence.Find, lambda:
+                self.filter_box.setFocus(Qt.ShortcutFocusReason), self)
+
+        # Set the placeholder text, including keybinding hints
+        self.filter_box.setPlaceholderText("Search... ({})".format(
+            ', '.join(x.key().toString() for x in hotkeys)))
 
         # Proxy relevant signals up to where Qt Designer can handle them
         self.filter_box.returnPressed.connect(self.returnPressed.emit)
