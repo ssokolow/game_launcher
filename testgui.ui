@@ -364,6 +364,8 @@
     <slot>setTableViewMode(bool)</slot>
     <slot>focus()</slot>
     <slot>selectFirst()</slot>
+    <slot>launchEntry()</slot>
+    <slot>launchEntry(QModelIndex)</slot>
     <slot>selectNext()</slot>
     <slot>selectPrevious()</slot>
     <slot>ensureSelection()</slot>
@@ -462,7 +464,17 @@
    <sender>searchBar</sender>
    <signal>returnPressed()</signal>
    <receiver>stack_view_games</receiver>
-   <slot>focus()</slot>
+   <slot>launchEntry()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>426</x>
+     <y>18</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>454</x>
+     <y>224</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>searchBar</sender>
