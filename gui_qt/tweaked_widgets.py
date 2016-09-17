@@ -5,7 +5,7 @@ to keep the code's structure clean.
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
-from PyQt5.QtCore import QSize, Qt, pyqtSlot
+from PyQt5.QtCore import QSize, Qt, pyqtSignal, pyqtSlot
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QShortcut
 from PyQt5.QtWidgets import (QHeaderView, QLineEdit, QListView, QTableView,
@@ -70,6 +70,15 @@ class GamesView(QStackedWidget):
         #       user's preferred dimensions for interactive columns.
 
     @pyqtSlot()
+    def focus(self):
+        """Focus the correct inner widget"""
+        idx = self.currentIndex()
+        if idx == 0:
+            self.listview.setFocus(Qt.OtherFocusReason)
+        elif idx == 1:
+            self.tableview.setFocus(Qt.OtherFocusReason)
+
+    @pyqtSlot()
     @pyqtSlot(bool)
     def setIconViewMode(self, checked=True):
         """Slot which can be directly bound by QAction::toggled(bool)"""
@@ -111,6 +120,8 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
     """
     DESIRED_WIDTH = 150
 
+    returnPressed = pyqtSignal()
+
     def __init__(self, *args, **kwargs):
         super(SearchToolbar, self).__init__(*args, **kwargs)
 
@@ -132,4 +143,6 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         shortcut.activated.connect(lambda:
             self.filter_box.setFocus(Qt.ShortcutFocusReason))
 
+        # Proxy the returnPressed signal up to where Qt Designer can handle it
+        self.filter_box.returnPressed.connect(self.returnPressed.emit)
         # TODO: Implement the clear() slot and textChanged(QString) signal

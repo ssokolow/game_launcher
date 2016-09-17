@@ -330,6 +330,7 @@
    <header>gui_qt/tweaked_widgets.h</header>
    <slots>
     <signal>textChanged(QString)</signal>
+    <signal>returnPressed()</signal>
     <slot>clear()</slot>
    </slots>
   </customwidget>
@@ -350,6 +351,7 @@
     <slot>setListViewMode(bool)</slot>
     <slot>setTableViewMode()</slot>
     <slot>setTableViewMode(bool)</slot>
+    <slot>focus()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -428,6 +430,22 @@
     <hint type="sourcelabel">
      <x>-1</x>
      <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>454</x>
+     <y>224</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>searchBar</sender>
+   <signal>returnPressed()</signal>
+   <receiver>stack_view_games</receiver>
+   <slot>focus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>426</x>
+     <y>18</y>
     </hint>
     <hint type="destinationlabel">
      <x>454</x>
