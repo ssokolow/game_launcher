@@ -28,6 +28,7 @@ class GameListModel(QAbstractTableModel):
         model_sorted = QSortFilterProxyModel()
         model_sorted.setDynamicSortFilter(True)
         model_sorted.setSortCaseSensitivity(Qt.CaseInsensitive)
+        model_sorted.setFilterCaseSensitivity(Qt.CaseInsensitive)
         model_sorted.setSourceModel(self)
         model_sorted.sort(0, Qt.AscendingOrder)
         return model_sorted

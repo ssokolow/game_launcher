@@ -16,8 +16,10 @@ class GamesView(QStackedWidget):
     """Encapsulation for the stuff that ties together stack_view_games and its
     children in testgui.ui"""
 
+    model = None
     listview = None
     tableview = None
+    selectionmodel = None
 
     def __init__(self, *args, **kwargs):
         super(GamesView, self).__init__(*args, **kwargs)
@@ -52,12 +54,13 @@ class GamesView(QStackedWidget):
             self.tableview.sortByColumn(model.sortColumn(), model.sortOrder())
 
         # Actually hook up the model
+        self.model = model
         self.listview.setModel(model)
         self.tableview.setModel(model)
 
         # Synchronize selection behaviour between the two views
-        self.listview.setSelectionModel(
-            self.tableview.selectionModel())
+        self.selectionmodel = self.tableview.selectionModel()
+        self.listview.setSelectionModel(self.selectionmodel)
 
         # Prevent the columns from bunching up in the detail view
         # http://www.qtcentre.org/threads/3417-QTableWidget-stretch-a-column-other-than-the-last-one?p=18624#post18624
@@ -69,14 +72,18 @@ class GamesView(QStackedWidget):
         # TODO: Figure out how to set a reasonable default AND remember the
         #       user's preferred dimensions for interactive columns.
 
-    @pyqtSlot()
-    def focus(self):
-        """Focus the correct inner widget"""
+    def currentView(self):
+        """Retrieve a reference to the currently visible view"""
         idx = self.currentIndex()
         if idx == 0:
-            self.listview.setFocus(Qt.OtherFocusReason)
+            return self.listview
         elif idx == 1:
-            self.tableview.setFocus(Qt.OtherFocusReason)
+            return self.tableview
+
+    @pyqtSlot()
+    def focus(self):
+        """Focus the currently visible inner widget"""
+        self.currentView().setFocus(Qt.OtherFocusReason)
 
     @pyqtSlot()
     @pyqtSlot(bool)
@@ -100,6 +107,11 @@ class GamesView(QStackedWidget):
         """Slot which can be directly bound by QAction::toggled(bool)"""
         if checked:
             self.setCurrentIndex(1)
+
+    @pyqtSlot()
+    def selectFirst(self):
+        """Reset selection to the first item"""
+        self.tableview.setCurrentIndex(self.model.index(0, 0))
 
 class NarrowerTreeView(QTreeView):  # pylint: disable=no-init,R0903
     """A subclass of QTreeView which works around Qt Designer's inability to
@@ -148,10 +160,9 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         focus_shortcut.activated.connect(lambda:
             self.filter_box.setFocus(Qt.ShortcutFocusReason))
 
-        # Proxy the returnPressed signal up to where Qt Designer can handle it
+        # Proxy relevant signals up to where Qt Designer can handle them
         self.filter_box.returnPressed.connect(self.returnPressed.emit)
         self.filter_box.textChanged.connect(self.textChanged.emit)
-        # TODO: Test these
 
     @pyqtSlot()
     def clear(self):
