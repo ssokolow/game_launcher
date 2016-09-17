@@ -61,25 +61,35 @@ class GamesView(QStackedWidget):
     tableview = None
     selectionmodel = None
 
-    def __init__(self, *args, **kwargs):
-        super(GamesView, self).__init__(*args, **kwargs)
-
     def configure_children(self):
         """Call this to finish initializing after child widgets are added
 
         (Basically looking up references to the children and then applying a
          bag of fixes for Qt Designer bugs)
-        """
-        self.listview = self.findChild(QListView, 'view_games')
-        self.tableview = self.findChild(QTableView, 'view_games_detailed')
 
+        TODO: Figure out how to automate the process of running this after
+              actions that would be done in setupUi when translating the .ui
+              file dynamically where there's no setupUi to wrap.
+        """
         # It's *FAR* too easy to switch this to the wrong value in Qt Designer.
         # TODO: Set up robust sync between this and the button group
         self.setCurrentIndex(0)
 
+        # Cache simple references to the views
+        self.listview = self.findChild(QListView, 'view_games')
+        self.tableview = self.findChild(QTableView, 'view_games_detailed')
+
         # Hook up double-click/enter handlers
-        self.listview.activated.connect(self.entry_activated)
-        self.tableview.activated.connect(self.entry_activated)
+        self.listview.activated.connect(self.launchEntry)
+        self.tableview.activated.connect(self.launchEntry)
+
+    def currentView(self):
+        """Retrieve a reference to the currently visible view"""
+        idx = self.currentIndex()
+        if idx == 0:
+            return self.listview
+        elif idx == 1:
+            return self.tableview
 
     def setModel(self, model):
         """Set the model on both views within the compound object.
@@ -96,25 +106,23 @@ class GamesView(QStackedWidget):
         self.selectionmodel = self.tableview.selectionModel()
         self.listview.setSelectionModel(self.selectionmodel)
 
-    def currentView(self):
-        """Retrieve a reference to the currently visible view"""
-        idx = self.currentIndex()
-        if idx == 0:
-            return self.listview
-        elif idx == 1:
-            return self.tableview
-
-    def entry_activated(self, index):
-        """Handler to launch games on double-click"""
-        # TODO: Make this not a stop-gap solution
-        cmd = self.model.data(index, Qt.UserRole).default_launcher
-        if cmd:
-            cmd.run()
-
     @pyqtSlot()
     def focus(self):
         """Focus the currently visible inner widget"""
         self.currentView().setFocus(Qt.OtherFocusReason)
+
+    @pyqtSlot()
+    @pyqtSlot('QModelIndex')
+    def launchEntry(self, index=None):
+        """Handler to launch games on double-click"""
+        index = index or self.selectionmodel.currentIndex()
+        if not (index and index.isValid()):
+            return
+
+        # TODO: Make this not a stop-gap solution
+        cmd = self.model.data(index, Qt.UserRole).default_launcher
+        if cmd:
+            cmd.run()
 
     @pyqtSlot()
     @pyqtSlot(bool)
@@ -177,7 +185,7 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         # Do this early so we can use it with setPlaceholderText
         focus_hotkey = QKeySequence(QKeySequence.Find)
 
-        # Actually define and configure the field
+        # Define and configure the actual search field
         self.filter_box = QLineEdit(self)
         self.filter_box.setPlaceholderText("Search... ({})".format(
             focus_hotkey.toString()))
