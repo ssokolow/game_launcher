@@ -31,12 +31,6 @@ class GamesView(QStackedWidget):
         self.listview = self.findChild(QListView, 'view_games')
         self.tableview = self.findChild(QTableView, 'view_games_detailed')
 
-        # Needed so the first click on the header with the default sort order
-        # doesn't behave like a no-op.
-        # TODO: Figure out how to do this just prior to hooking up the model
-        # and how to read the sort order from the proxy model, if present.
-        self.tableview.sortByColumn(0, Qt.AscendingOrder)
-
         # Qt Designer has a bug which resets this in the file (without
         # resetting the checkbox in the property editor) whenever I switch
         # focus away in the parent QStackedWidget, so I have to force it here.
@@ -52,6 +46,10 @@ class GamesView(QStackedWidget):
         (Also ensures the table view's header will properly reflect the sort
         order and sets the views up to share a common selection model.)
         """
+        # Explicitly set the view's sorting state to work around a bug where
+        # the first click on the header has no effect.
+        if hasattr(model, 'sortColumn') and hasattr(model, 'sortOrder'):
+            self.tableview.sortByColumn(model.sortColumn(), model.sortOrder())
 
         # Actually hook up the model
         self.listview.setModel(model)
