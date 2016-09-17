@@ -89,12 +89,11 @@ def main():
     unbotch_icons(window, view_buttons)
     makeActionGroup(window, [x[1] for x in view_buttons.keys()])
 
-    # Hook up the signals
-    # TODO: Un-bodge this
-    stackedwidget = window.stack_view_games
-    stackedwidget.configure_children()
-
     model = GameListModel(get_games())
+
+    # Hook up the signals
+    stackedwidget = window.stack_view_games
+    stackedwidget.configure_children()  # TODO: More automatic way to do this?
     stackedwidget.setModel(model.as_sorted())
 
     window.show()

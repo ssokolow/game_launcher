@@ -1,3 +1,10 @@
+"""Widget subclasses used in conjunction with Qt Designer's widget promotion
+to keep the code's structure clean.
+"""
+
+__author__ = "Stephan Sokolow (deitarion/SSokolow)"
+__license__ = "GNU GPL 3.0 or later"
+
 from PyQt5.QtCore import QSize, Qt, pyqtSlot
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QShortcut
@@ -8,6 +15,10 @@ from PyQt5.QtWidgets import (QHeaderView, QLineEdit, QListView, QTableView,
 class GamesView(QStackedWidget):
     """Encapsulation for the stuff that ties together stack_view_games and its
     children in testgui.ui"""
+
+    listview = None
+    tableview = None
+
     def __init__(self, *args, **kwargs):
         super(GamesView, self).__init__(*args, **kwargs)
 
@@ -36,6 +47,13 @@ class GamesView(QStackedWidget):
         self.setCurrentIndex(0)
 
     def setModel(self, model):
+        """Set the model on both views within the compound object.
+
+        (Also ensures the table view's header will properly reflect the sort
+        order and sets the views up to share a common selection model.)
+        """
+
+        # Actually hook up the model
         self.listview.setModel(model)
         self.tableview.setModel(model)
 
@@ -48,14 +66,15 @@ class GamesView(QStackedWidget):
         header = self.tableview.horizontalHeader()
         header.setStretchLastSection(False)
         header.setSectionResizeMode(QHeaderView.Interactive)
-        self.tableview.resizeColumnsToContents()
         header.setSectionResizeMode(0, QHeaderView.Stretch)
+        self.tableview.resizeColumnsToContents()
         # TODO: Figure out how to set a reasonable default AND remember the
         #       user's preferred dimensions for interactive columns.
 
     @pyqtSlot()
     @pyqtSlot(bool)
     def setIconViewMode(self, checked=True):
+        """Slot which can be directly bound by QAction::toggled(bool)"""
         if checked:
             self.setCurrentIndex(0)
             self.listview.setViewMode(QListView.IconMode)
@@ -63,6 +82,7 @@ class GamesView(QStackedWidget):
     @pyqtSlot()
     @pyqtSlot(bool)
     def setListViewMode(self, checked=True):
+        """Slot which can be directly bound by QAction::toggled(bool)"""
         if checked:
             self.setCurrentIndex(0)
             self.listview.setViewMode(QListView.ListMode)
@@ -70,17 +90,19 @@ class GamesView(QStackedWidget):
     @pyqtSlot()
     @pyqtSlot(bool)
     def setTableViewMode(self, checked=True):
+        """Slot which can be directly bound by QAction::toggled(bool)"""
         if checked:
             self.setCurrentIndex(1)
 
-class NarrowerTreeView(QTreeView):
+class NarrowerTreeView(QTreeView):  # pylint: disable=no-init,R0903
     """A subclass of QTreeView which works around Qt Designer's inability to
     set default sizes for QDockWidget.
 
     Source:
         http://stackoverflow.com/a/13715893
     """
-    def sizeHint(self):
+    def sizeHint(self):  # pylint: disable=no-self-use
+        """Set a more reasonable starting width for the parent dock widget."""
         return QSize(150, 75)
 
 class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
