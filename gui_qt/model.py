@@ -44,6 +44,10 @@ class GameListModel(QAbstractTableModel):
             return 0
         return 2
 
+    def flags(self, index):
+        """Add ItemNeverHasChildren to the default flags for optimization"""
+        return Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemNeverHasChildren
+
     # TODO: Do this properly
     def get_icon(self, icon_name):
         """Workaround for Qt not implementing a fallback chain in fromTheme"""
