@@ -193,6 +193,7 @@ class GamesView(QStackedWidget):
         if prev_row >= 0:
             self.tableview.setCurrentIndex(self.model.index(prev_row, 0))
 
+    @pyqtSlot()
     @pyqtSlot(bool)
     def setIconViewMode(self, checked=True):
         """Slot which can be directly bound by QAction::toggled(bool)"""
