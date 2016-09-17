@@ -39,7 +39,20 @@ class BugFixTableView(QTableView):
     - Counter Qt Designer bug which forces horizontal header visibility off
     - Ensure the header sort indicator actually works properly on first click
     - Implement stretch for the first column rather than the last
+    - Set up QListView-like Home/End behaviour
     """
+
+    def __init__(self, *args, **kwargs):
+        super(BugFixTableView, self).__init__(*args, **kwargs)
+
+
+        bind_all_standard_keys(QKeySequence.MoveToStartOfLine,
+                               self.selectFirst, self,
+                               Qt.WidgetWithChildrenShortcut)
+        bind_all_standard_keys(QKeySequence.MoveToEndOfLine, lambda:
+            self.setCurrentIndex(self.model().index(
+                self.model().rowCount() - 1, 0)),
+            self, Qt.WidgetWithChildrenShortcut)
 
     def setModel(self, model):
         """Set the model view, with fixes for papercut bugs"""
