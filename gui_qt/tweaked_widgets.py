@@ -121,6 +121,7 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
     DESIRED_WIDTH = 150
 
     returnPressed = pyqtSignal()
+    textChanged = pyqtSignal('QString')
 
     def __init__(self, *args, **kwargs):
         super(SearchToolbar, self).__init__(*args, **kwargs)
@@ -145,4 +146,11 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
 
         # Proxy the returnPressed signal up to where Qt Designer can handle it
         self.filter_box.returnPressed.connect(self.returnPressed.emit)
-        # TODO: Implement the clear() slot and textChanged(QString) signal
+        self.filter_box.textChanged.connect(self.textChanged.emit)
+        # TODO: Test these
+
+    @pyqtSlot()
+    def clear(self):
+        """Proxy the clear() slot up to where Qt Designer can work with it"""
+        self.filter_box.clear()
+        # TODO: Test this
