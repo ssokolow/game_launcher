@@ -148,6 +148,14 @@ class GamesView(QStackedWidget):
         self.listview.setSelectionModel(self.selectionmodel)
 
     @pyqtSlot()
+    def ensureVisible(self):
+        """Scroll to ensure that the selected item is visible in the viewport
+        of the currently selected view."""
+        if self.selectionmodel.hasSelection():
+            # Rely on the default "EnsureVisible" hint for scrollTo()
+            self.currentView().scrollTo(self.selectionmodel.currentIndex())
+
+    @pyqtSlot()
     def focus(self):
         """Focus the currently visible inner widget"""
         self.currentView().setFocus(Qt.OtherFocusReason)
@@ -172,6 +180,7 @@ class GamesView(QStackedWidget):
         if checked:
             self.setCurrentIndex(0)
             self.listview.setViewMode(QListView.IconMode)
+            self.ensureVisible()
 
     @pyqtSlot()
     @pyqtSlot(bool)
@@ -180,6 +189,7 @@ class GamesView(QStackedWidget):
         if checked:
             self.setCurrentIndex(0)
             self.listview.setViewMode(QListView.ListMode)
+            self.ensureVisible()
 
     @pyqtSlot()
     @pyqtSlot(bool)
@@ -187,6 +197,7 @@ class GamesView(QStackedWidget):
         """Slot which can be directly bound by QAction::toggled(bool)"""
         if checked:
             self.setCurrentIndex(1)
+            self.ensureVisible()
 
     @pyqtSlot()
     def selectFirst(self):

@@ -362,6 +362,7 @@
     <slot>setTableViewMode(bool)</slot>
     <slot>focus()</slot>
     <slot>selectFirst()</slot>
+    <slot>ensureVisible()</slot>
    </slots>
   </customwidget>
   <customwidget>
