@@ -59,6 +59,11 @@ def unbotch_icons(root, mappings):
 # Source: http://pyqt.sourceforge.net/Docs/PyQt5/gotchas.html
 app = None
 
+def get_model():
+    """Placeholder for 'Rescan' until I'm ready to do it properly"""
+    # TODO: Do this in the background with some kind of progress indicator
+    return GameListModel(get_games())
+
 def main():
     """The main entry point, compatible with setuptools entry points."""
 
@@ -89,7 +94,7 @@ def main():
     unbotch_icons(window, view_buttons)
     makeActionGroup(window, [x[1] for x in view_buttons.keys()])
 
-    model = GameListModel(get_games()).as_sorted()
+    model = get_model().as_sorted()
 
     # Hook up the signals
     stackedwidget = window.stack_view_games
@@ -98,6 +103,11 @@ def main():
 
     # Hook the filter box up to the model filter
     window.searchBar.textChanged.connect(model.setFilterFixedString)
+
+    def rescan():
+        model.setSourceModel(get_model())
+        window.searchBar.clear()
+    window.actionRescan.triggered.connect(rescan)
 
     window.show()
 
