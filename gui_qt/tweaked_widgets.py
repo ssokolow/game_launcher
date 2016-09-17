@@ -1,4 +1,6 @@
 from PyQt5.QtCore import QSize, Qt, pyqtSlot
+from PyQt5.QtGui import QKeySequence
+from PyQt5.QtWidgets import QShortcut
 from PyQt5.QtWidgets import (QHeaderView, QLineEdit, QListView, QTableView,
                              QToolBar, QSizePolicy, QStackedWidget, QTreeView,
                              QWidget)
@@ -81,7 +83,7 @@ class NarrowerTreeView(QTreeView):
     def sizeHint(self):
         return QSize(150, 75)
 
-class SearchToolbar(QToolBar):
+class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
     """Search toolbar with a few tweaks not possible in pure Qt Designer
 
     Sources:
@@ -98,8 +100,13 @@ class SearchToolbar(QToolBar):
 
         self.filter_box = QLineEdit(self)
         self.filter_box.setPlaceholderText("Search...")
+        self.filter_box.setClearButtonEnabled(True)
         self.filter_box.setMaximumSize(self.DESIRED_WIDTH,
             self.filter_box.maximumSize().height())
         self.addWidget(self.filter_box)
+
+        shortcut = QShortcut(QKeySequence.Find, self)
+        shortcut.activated.connect(lambda:
+            self.filter_box.setFocus(Qt.ShortcutFocusReason))
 
         # TODO: Implement the clear() slot and textChanged(QString) signal
