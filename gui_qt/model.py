@@ -11,7 +11,7 @@ ICON_SIZE = 64
 
 import os
 
-from PyQt5.QtCore import QAbstractTableModel, QSortFilterProxyModel, Qt
+from PyQt5.QtCore import QAbstractTableModel, QSize, QSortFilterProxyModel, Qt
 from PyQt5.QtGui import QIcon
 
 from xdg.IconTheme import getIconPath
@@ -20,6 +20,7 @@ class GameListModel(QAbstractTableModel):
     """Qt model class to adapt game-handling backend to Qt Views"""
     def __init__(self, data_list):
         self.games = data_list
+        self.icon_size = QSize(ICON_SIZE, ICON_SIZE)  # TODO: Do this properly
         self.icon_cache = {}  # TODO: Do this properly
 
         super(GameListModel, self).__init__()
@@ -47,6 +48,31 @@ class GameListModel(QAbstractTableModel):
     def flags(self, index):
         """Add ItemNeverHasChildren to the default flags for optimization"""
         return Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemNeverHasChildren
+
+    # TODO: Move icon-related stuff into its own provider class
+    def ensure_icon_size(self, icon):
+        """Workaround to QIcon not offering an upscale to match' mode"""
+        if not icon:
+            return
+
+        desired = self.icon_size
+        offered = icon.actualSize(desired)
+
+        if (offered.width() < desired.width() and
+                offered.height() < desired.height()):
+            # TODO: Port over smart upscaling algorithm
+            pixmap = icon.pixmap(desired).scaled(desired,
+                Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            icon.addPixmap(pixmap)
+
+            # Hack around fromTheme producing a QIcon which ignores addPixmap
+            if icon and icon.actualSize(desired) != desired:
+                old_icon = icon
+                icon = QIcon(pixmap)
+                for size in old_icon.availableSizes():
+                    icon.addPixmap(old_icon.pixmap(size))
+
+        return icon
 
     # TODO: Do this properly
     def get_icon(self, icon_name):
@@ -77,6 +103,7 @@ class GameListModel(QAbstractTableModel):
             icon = self.get_icon(FALLBACK_ICON)
 
         # Populate the cache
+        icon = self.ensure_icon_size(icon)
         self.icon_cache[icon_name] = icon
         return icon
 
