@@ -40,30 +40,21 @@ class BugFixListView(QListView):
       scroll-wheel steps) rather than by lines, which fails with large icons.
     """
 
-    def wheelEvent(self, event):
-        """Work around shortcomings of QListView's naive wheel handling.
+    def updateGeometries(self):
+        """Fix Qt 5.2.1's broken decision to map the OS "1 step = X lines"
+        scrolling setting without accounting for very tall lines.
 
-        (It just maps the OS's default ("one detent = 3 lines" on my system)
-        to model rows... but that doesn't work out very well when the icons
-        are large enough for three lines to be taller than the viewport.)
+        (Here, "1 step = 3 lines" makes `singleStep` so close to `pageStep`
+        that I don't see a difference.)
 
-        This solution either maps raw trackpad pixels to screen pixels (if
-        available) or maps wheel steps to pixels at a 2:1 ratio that I've found
-        to feel similar to "one detent = 3 lines" in the rest of the system
-        I develop on.
+        Replace it with the "1 QWheelEvent unit = 1px" decision that has
+        served GTK+ 2.x well and appears to be what `QTableView` winds up
+        with thanks to capping icons at roughly the same height as the text.
 
-        I welcome advice on how to (portably) take OS input settings into
-        account here.
+        Source: http://stackoverflow.com/a/2036242 and trial-and-error tuning
         """
-        distance = event.pixelDelta()
-        if distance.isNull():
-            distance = event.angleDelta() / 2
-        distance = distance.y()
-
-        vsb = self.verticalScrollBar()
-        vsb.setValue(vsb.value() - distance)
-
-        event.accept()
+        super(BugFixListView, self).updateGeometries()
+        self.verticalScrollBar().setSingleStep(15)
 
 class BugFixTableView(QTableView):
     """A subclass of QTableView which fixes various papercut issues.
