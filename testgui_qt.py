@@ -109,14 +109,6 @@ def main():
     window.searchBar.textChanged.connect(stackedwidget.ensureSelection)
     window.searchBar.textChanged.connect(stackedwidget.ensureVisible)
 
-    # Call again through a QTimer because, otherwise, it doesn't work with very
-    # short filters. (I think Qt is doing deferred layout to remain responsive
-    # and that's throwing off scrollTo() with large result sets)
-    # FIXME: Do this properly (maybe a verticalScrollBar().rangeChanged()
-    #        wrapper in stackedwidget and then connect it to ensureVisible?)
-    window.searchBar.textChanged.connect(lambda:
-        QTimer.singleShot(100, stackedwidget.ensureVisible))
-
     def rescan():
         model.setSourceModel(get_model())
         window.searchBar.clear()
