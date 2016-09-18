@@ -183,7 +183,7 @@ class GamesView(QStackedWidget):
     def ensureVisible(self):
         """Scroll to ensure that the selected item is visible in the viewport
         of the currently selected view."""
-        if self.selectionmodel.hasSelection():
+        if self.selectionmodel and self.selectionmodel.hasSelection():
             # Rely on the default "EnsureVisible" hint for scrollTo()
             self.currentView().scrollTo(self.selectionmodel.currentIndex())
 
