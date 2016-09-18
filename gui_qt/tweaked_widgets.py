@@ -33,6 +33,38 @@ def bind_all_standard_keys(standard_key, handler_cb, parent=None,
         results.append(shortcut)
     return results
 
+class BugFixListView(QListView):
+    """A subclass of QListView which fixes various papecut issues.
+
+    - Scroll by pixel (or by a reasonable approximation of traditional clicky
+      scroll-wheel steps) rather than by lines, which fails with large icons.
+    """
+
+    def wheelEvent(self, event):
+        """Work around shortcomings of QListView's naive wheel handling.
+
+        (It just maps the OS's default ("one detent = 3 lines" on my system)
+        to model rows... but that doesn't work out very well when the icons
+        are large enough for three lines to be taller than the viewport.)
+
+        This solution either maps raw trackpad pixels to screen pixels (if
+        available) or maps wheel steps to pixels at a 2:1 ratio that I've found
+        to feel similar to "one detent = 3 lines" in the rest of the system
+        I develop on.
+
+        I welcome advice on how to (portably) take OS input settings into
+        account here.
+        """
+        distance = event.pixelDelta()
+        if distance.isNull():
+            distance = event.angleDelta() / 2
+        distance = distance.y()
+
+        vsb = self.verticalScrollBar()
+        vsb.setValue(vsb.value() - distance)
+
+        event.accept()
+
 class BugFixTableView(QTableView):
     """A subclass of QTableView which fixes various papercut issues.
 

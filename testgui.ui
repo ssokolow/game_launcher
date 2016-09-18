@@ -56,9 +56,12 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QListView" name="view_games">
+         <widget class="BugFixListView" name="view_games">
           <property name="lineWidth">
            <number>0</number>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
           </property>
           <property name="selectionMode">
            <enum>QAbstractItemView::ExtendedSelection</enum>
@@ -71,6 +74,9 @@
             <width>64</width>
             <height>64</height>
            </size>
+          </property>
+          <property name="verticalScrollMode">
+           <enum>QAbstractItemView::ScrollPerPixel</enum>
           </property>
           <property name="resizeMode">
            <enum>QListView::Adjust</enum>
@@ -379,6 +385,11 @@
   <customwidget>
    <class>BugFixTableView</class>
    <extends>QTableView</extends>
+   <header>gui_qt/tweaked_widgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>BugFixListView</class>
+   <extends>QListView</extends>
    <header>gui_qt/tweaked_widgets.h</header>
   </customwidget>
  </customwidgets>
