@@ -13,9 +13,10 @@ __license__ = "GNU GPL 3.0 or later"
 import logging, os, sys
 log = logging.getLogger(__name__)
 
-from PyQt5.QtCore import QTimer
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import (QAction, QActionGroup, QApplication, QListView)
+from PyQt5.QtCore import QTimer, Qt
+from PyQt5.QtGui import QIcon, QKeySequence
+from PyQt5.QtWidgets import (QAction, QActionGroup, QApplication, QListView,
+                             QShortcut)
 from PyQt5.uic import loadUi
 
 from src.interfaces import PLUGIN_TYPES
@@ -113,6 +114,11 @@ def main():
         model.setSourceModel(get_model())
         window.searchBar.clear()
     window.actionRescan.triggered.connect(rescan)
+
+    # Bind a placeholder to Ctrl+3 so it won't result in a spurious 3 being
+    # typed into the filter box if a user hits it by accident.
+    QShortcut(QKeySequence(Qt.CTRL + Qt.Key_3), window).activated.connect(
+        lambda: log.error("Thumbnail view not yet implemented"))
 
     window.show()
 
