@@ -7,9 +7,12 @@ __license__ = "GNU GPL 3.0 or later"
 
 from PyQt5.QtCore import QSize, Qt, pyqtSignal, pyqtSlot
 from PyQt5.QtGui import QKeySequence
-from PyQt5.QtWidgets import (QHeaderView, QLineEdit, QListView, QShortcut,
-                             QTableView, QToolBar, QSizePolicy, QStackedWidget,
-                             QTreeView, QWidget)
+from PyQt5.QtWidgets import (QAction, QActionGroup, QHeaderView,
+                             QLineEdit, QListView, QMenu, QShortcut,
+                             QSizePolicy, QStackedWidget, QStyle, QTableView,
+                             QToolBar, QToolButton, QTreeView, QWidget)
+
+from .helpers import set_action_icon
 
 def bind_all_standard_keys(standard_key, handler_cb, parent=None,
                            context=Qt.WindowShortcut):
@@ -287,32 +290,74 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.addWidget(spacer)
 
+        # Define and configure the settings dropdown
+        self.dropdown = self._init_settings_dropdown()
+        self.addWidget(self.dropdown)
+
         # Define and configure the actual search field
-        self.filter_box = QLineEdit(self)
-        self.filter_box.setClearButtonEnabled(True)
-        self.filter_box.setMaximumSize(self.DESIRED_WIDTH,
-            self.filter_box.maximumSize().height())
+        self.filter_box = self._init_search_widget()
         self.addWidget(self.filter_box)
+
+    def _init_search_widget(self):
+        """Initialize the QLineEdit to be used as the actual search box"""
+        # Define and configure the actual search field
+        filter_box = QLineEdit(self)
+        filter_box.setClearButtonEnabled(True)
+        filter_box.setMaximumSize(self.DESIRED_WIDTH,
+                                  filter_box.maximumSize().height())
+
+        # Proxy relevant signals up to where Qt Designer can handle them
+        filter_box.returnPressed.connect(self.returnPressed.emit)
+        filter_box.textChanged.connect(self.textChanged.emit)
 
         # Hook up Ctrl+F or equivalent
         hotkeys = bind_all_standard_keys(QKeySequence.Find, lambda:
-                self.filter_box.setFocus(Qt.ShortcutFocusReason), self)
+                filter_box.setFocus(Qt.ShortcutFocusReason), self)
 
         # Set the placeholder text, including keybinding hints
-        self.filter_box.setPlaceholderText("Search... ({})".format(
+        filter_box.setPlaceholderText("Search... ({})".format(
             ', '.join(x.key().toString() for x in hotkeys)))
-
-        # Proxy relevant signals up to where Qt Designer can handle them
-        self.filter_box.returnPressed.connect(self.returnPressed.emit)
-        self.filter_box.textChanged.connect(self.textChanged.emit)
 
         # Hook up signals for previous/next result requests (Up/Down arrows)
         bind_all_standard_keys(QKeySequence.MoveToPreviousLine,
-                               self.previousPressed.emit, self,
+                               self.previousPressed.emit, filter_box,
                                Qt.WidgetWithChildrenShortcut)
         bind_all_standard_keys(QKeySequence.MoveToNextLine,
-                               self.nextPressed.emit, self,
+                               self.nextPressed.emit, filter_box,
                                Qt.WidgetWithChildrenShortcut)
+        return filter_box
+
+    def _init_settings_dropdown(self):
+        """Initialize the dropdown button for configuring search"""
+        # Set up the action for displaying the menu
+        action = QAction('Filter Options', self)
+        set_action_icon(action, 'search')
+        action.setToolTip("Configure filter behaviour")
+        action.setShortcut(QKeySequence(Qt.CTRL + Qt.SHIFT + Qt.Key_F))
+
+        # Build the menu
+        menu = QMenu("Filter Settings", self)
+        menu.addSection("Filter by...")
+        modeGroup = QActionGroup(menu)
+        modeGroup.setExclusive(True)
+        for title, handler in (
+                ('Prefix', None),
+                ('Keywords', None),
+                ('Substring', None)):
+            item = modeGroup.addAction(title)
+            item.setCheckable(True)
+            menu.addAction(item)
+
+        # Set "Prefix" as default
+        modeGroup.actions()[0].setChecked(True)
+
+        # Wrap it in a QToolButton so we can setPopupMode
+        button = QToolButton(self)
+        button.setDefaultAction(action)
+        button.setPopupMode(QToolButton.InstantPopup)
+        button.setMenu(menu)
+
+        return button
 
     @pyqtSlot()
     def clear(self):

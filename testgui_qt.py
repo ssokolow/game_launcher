@@ -14,7 +14,7 @@ __license__ = "GNU GPL 3.0 or later"
 import logging, os, sys
 log = logging.getLogger(__name__)
 
-from PyQt5.QtCore import QTimer, Qt
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon, QKeySequence
 from PyQt5.QtWidgets import (QAction, QActionGroup, QApplication, QListView,
                              QShortcut)
@@ -26,37 +26,7 @@ from yapsy.PluginManager import PluginManagerSingleton
 from src.game_providers import get_games
 
 from gui_qt.model import GameListModel
-
-def makeActionGroup(parent, action_names):
-    """Helper for cleanly grouping actions by name"""
-    group = QActionGroup(parent)
-    for action_name in action_names:
-        group.addAction(parent.findChild(QAction, action_name))
-
-def unbotch_icons(root, mappings):
-    """Fix 'pyuic seems to not load Qt Designer-specified theme icons'
-
-    Basically, a helper to manually amend the config in the code.
-    """
-
-    for wid_tuple in mappings:
-        icon = QIcon.fromTheme(mappings[wid_tuple])
-
-        # Support fallback to more than one filename
-        # TODO: Decide on a way to use the Qt fallback mechanism
-        #       and support multiple icon resolutions.
-        #       (Possibly amending the theme search path somehow?)
-        if icon.isNull():
-            path_base = os.path.join(os.path.dirname(__file__),
-                                     'gui_qt', mappings[wid_tuple])
-            for ext in ('svgz', 'svg' 'png'):
-                icon_path = '{}.{}'.format(path_base, ext)
-                if os.path.exists(icon_path):
-                    icon = QIcon(os.path.join(icon_path))
-                    if not icon.isNull():
-                        break
-
-        root.findChild(wid_tuple[0], wid_tuple[1]).setIcon(icon)
+from gui_qt.helpers import makeActionGroup, unbotch_icons
 
 # Help prevent crashes on exit
 # Source: http://pyqt.sourceforge.net/Docs/PyQt5/gotchas.html
