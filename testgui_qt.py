@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""[application description here]"""
+"""Game Launcher with no dependencies on external services
+"""
 
 from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
