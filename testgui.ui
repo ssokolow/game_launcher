@@ -340,6 +340,17 @@
     <string>F5</string>
    </property>
   </action>
+  <action name="actionThumbnail_View">
+   <property name="text">
+    <string>Thumbnail View</string>
+   </property>
+   <property name="toolTip">
+    <string>Thumbnail View (Ctrl+3)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+3</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
