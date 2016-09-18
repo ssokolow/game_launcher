@@ -8,11 +8,6 @@ import os
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction, QActionGroup
 
-def makeActionGroup(parent, action_names):
-    """Helper for cleanly grouping actions by name"""
-    group = QActionGroup(parent)
-    for action_name in action_names:
-        group.addAction(parent.findChild(QAction, action_name))
 
 def set_action_icon(action, name):
     """Helper for working around Qt's broken QIcon::fromTheme"""
@@ -31,6 +26,13 @@ def set_action_icon(action, name):
                 if not icon.isNull():
                     break
     action.setIcon(icon)
+
+# XXX: Does it do more harm than good to dedupe this against the search code?
+def make_action_group(parent, action_names):
+    """Helper for cleanly grouping actions by name"""
+    group = QActionGroup(parent)
+    for action_name in action_names:
+        group.addAction(parent.findChild(QAction, action_name))
 
 def unbotch_icons(root, mappings):
     """Fix 'pyuic seems to not load Qt Designer-specified theme icons'

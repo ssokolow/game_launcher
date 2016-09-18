@@ -26,7 +26,7 @@ from yapsy.PluginManager import PluginManagerSingleton
 from src.game_providers import get_games
 
 from gui_qt.model import GameListModel
-from gui_qt.helpers import makeActionGroup, unbotch_icons
+from gui_qt.helpers import make_action_group, unbotch_icons
 
 # Help prevent crashes on exit
 # Source: http://pyqt.sourceforge.net/Docs/PyQt5/gotchas.html
@@ -65,7 +65,7 @@ def main():
         (QAction, 'actionDetailed_List_View'): 'view-list-details-symbolic'
     }
     unbotch_icons(window, view_buttons)
-    makeActionGroup(window, [x[1] for x in view_buttons.keys()])
+    make_action_group(window, [x[1] for x in view_buttons.keys()])
 
     model = get_model().as_sorted()
 
