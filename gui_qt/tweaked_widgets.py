@@ -190,6 +190,7 @@ class GamesView(QStackedWidget):
     def focus(self):
         """Focus the currently visible inner widget"""
         self.currentView().setFocus(Qt.OtherFocusReason)
+        self.ensureSelection()
 
     @pyqtSlot()
     @pyqtSlot('QModelIndex')

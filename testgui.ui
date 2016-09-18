@@ -534,5 +534,21 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>view_categories</sender>
+   <signal>activated(QModelIndex)</signal>
+   <receiver>stack_view_games</receiver>
+   <slot>focus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>127</x>
+     <y>237</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>454</x>
+     <y>224</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
 </ui>
