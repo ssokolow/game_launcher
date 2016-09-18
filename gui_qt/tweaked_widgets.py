@@ -5,7 +5,7 @@ to keep the code's structure clean.
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
-from PyQt5.QtCore import QSize, Qt, pyqtSignal, pyqtSlot
+from PyQt5.QtCore import QRegExp, QSize, Qt, pyqtSignal, pyqtSlot
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import (QAction, QActionGroup, QHeaderView,
                              QLineEdit, QListView, QMenu, QShortcut,
@@ -277,13 +277,22 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
     """
     DESIRED_WIDTH = 150
 
+    _text = ''
+    _state = {
+        'mode': 'substring',
+        'syntax': QRegExp.FixedString,
+    }
+    regexp = None
+
     nextPressed = pyqtSignal()
     previousPressed = pyqtSignal()
     returnPressed = pyqtSignal()
-    textChanged = pyqtSignal('QString')
+    regexpChanged = pyqtSignal('QRegExp')
 
     def __init__(self, *args, **kwargs):
         super(SearchToolbar, self).__init__(*args, **kwargs)
+        self._text = ''
+        self._state = self._state.copy()
 
         # Use a spacer to right-align the size-limited field
         spacer = QWidget(self)
@@ -298,6 +307,9 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         self.filter_box = self._init_search_widget()
         self.addWidget(self.filter_box)
 
+        # Initialize our regular expression
+        self.updateRegExp()
+
     def _init_search_widget(self):
         """Initialize the QLineEdit to be used as the actual search box"""
         # Define and configure the actual search field
@@ -308,7 +320,7 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
 
         # Proxy relevant signals up to where Qt Designer can handle them
         filter_box.returnPressed.connect(self.returnPressed.emit)
-        filter_box.textChanged.connect(self.textChanged.emit)
+        filter_box.textChanged.connect(self._updateString)
 
         # Hook up Ctrl+F or equivalent
         hotkeys = bind_all_standard_keys(QKeySequence.Find, lambda:
@@ -337,19 +349,14 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
 
         # Build the menu
         menu = QMenu("Filter Settings", self)
-        menu.addSection("Filter by...")
-        modeGroup = QActionGroup(menu)
-        modeGroup.setExclusive(True)
-        for title, handler in (
-                ('Prefix', None),
-                ('Keywords', None),
-                ('Substring', None)):
-            item = modeGroup.addAction(title)
-            item.setCheckable(True)
-            menu.addAction(item)
-
-        # Set "Prefix" as default
-        modeGroup.actions()[0].setChecked(True)
+        self._build_menu_group(menu, "Match Mode", (
+            ('Prefix', {'mode': 'prefix'}),
+            ('Keyword', {'mode': 'keyword'}),
+            ('Substring', {'mode': 'substring'})))
+        self._build_menu_group(menu, "Syntax", (
+            ('Literal', {'syntax': QRegExp.FixedString}),
+            ('Wildcard', {'syntax': QRegExp.Wildcard}),
+            ('RegExp', {'syntax': QRegExp.RegExp2})))
 
         # Wrap it in a QToolButton so we can setPopupMode
         button = QToolButton(self)
@@ -358,6 +365,55 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         button.setMenu(menu)
 
         return button
+
+    def _build_menu_group(self, menu, section, entries):
+        """Helper to simplify adding action groups"""
+        menu.addSection(section)
+        modeGroup = QActionGroup(menu)
+        modeGroup.setExclusive(True)
+        for title, state in entries:
+            item = modeGroup.addAction(title)
+            item.setCheckable(True)
+            menu.addAction(item)
+            item.toggled.connect(lambda chek, state=state:
+                self._updateState(chek, state))
+
+        # Set first entry as default
+        modeGroup.actions()[0].setChecked(True)
+
+    def _updateString(self, text):
+        """Handler for self.filter_box.textChanged"""
+        self._text = text
+        self.updateRegExp()
+
+    def _updateState(self, checked, state):
+        """Handler for _build_menu_group toggled signals"""
+        if checked:
+            self._state.update(state)
+            self.updateRegExp()
+
+    def updateRegExp(self):
+        """Common code for updating the QRegExp in response to changes"""
+        re_str = self._text
+        re_syntax = self._state['syntax']
+        re_mode = self._state['mode']
+
+        # Manually convert to RegExp so we can implement our fancy matching
+        if re_syntax == QRegExp.FixedString:
+            re_str = QRegExp.escape(re_str)
+        if re_syntax == QRegExp.Wildcard:
+            re_str = QRegExp.escape(re_str)
+            re_str = re_str.replace(r'\?', '.').replace(r'\*', '.*')
+
+        # Actually implement fancy matching
+        if re_mode == 'prefix':
+            re_str = '^' + re_str
+        elif re_mode == 'keyword':
+            re_str = r'\b' + re_str
+
+        self.regexp = QRegExp(re_str, Qt.CaseInsensitive, QRegExp.RegExp2)
+        self.regexpChanged.emit(self.regexp)
+
 
     @pyqtSlot()
     def clear(self):
