@@ -7,10 +7,9 @@ __license__ = "GNU GPL 3.0 or later"
 
 from PyQt5.QtCore import QSize, Qt, pyqtSignal, pyqtSlot
 from PyQt5.QtGui import QKeySequence
-from PyQt5.QtWidgets import QShortcut
-from PyQt5.QtWidgets import (QHeaderView, QLineEdit, QListView, QTableView,
-                             QToolBar, QSizePolicy, QStackedWidget, QTreeView,
-                             QWidget)
+from PyQt5.QtWidgets import (QHeaderView, QLineEdit, QListView, QShortcut,
+                             QTableView, QToolBar, QSizePolicy, QStackedWidget,
+                             QTreeView, QWidget)
 
 def bind_all_standard_keys(standard_key, handler_cb, parent=None,
                            context=Qt.WindowShortcut):
