@@ -10,6 +10,43 @@ from PyQt5.QtWidgets import (QAction, QActionGroup, QLineEdit, QMenu,
 
 from .helpers import bind_all_standard_keys, set_action_icon
 
+class SearchField(QLineEdit):
+    """Search field which allows Home/End to be delegated"""
+    topPressed = pyqtSignal()
+    bottomPressed = pyqtSignal()
+
+    ignored_keys = [
+        (Qt.Key_Home, 'topPressed'),
+        (QKeySequence.MoveToStartOfDocument, 'topPressed'),
+        (Qt.Key_End, 'bottomPressed'),
+        (QKeySequence.MoveToEndOfDocument, 'bottomPressed'),
+    ]
+
+    def __init__(self, *args, **kwargs):
+        super(SearchField, self).__init__(*args, **kwargs)
+        self.setClearButtonEnabled(True)
+
+        # Hook up Ctrl+F or equivalent
+        focus_hotkeys = bind_all_standard_keys(QKeySequence.Find, lambda:
+            self.setFocus(Qt.ShortcutFocusReason), self)
+
+        # Set the placeholder text, including keybinding hints
+        self.setPlaceholderText("Search... ({})".format(
+            ', '.join(x.key().toString() for x in focus_hotkeys)))
+
+    def keyPressEvent(self, event):
+        """Override Home/End (or equivalent) and emit as events"""
+        for key, signal in self.ignored_keys:
+            if (isinstance(key, QKeySequence.StandardKey) and
+                    event.matches(key)):
+                getattr(self, signal).emit()
+                break
+            elif event.key() == key and event.modifiers() == Qt.NoModifier:
+                getattr(self, signal).emit()
+                break
+        else:
+            return super(SearchField, self).keyPressEvent(event)
+
 class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
     """Search toolbar with a few tweaks not possible in pure Qt Designer
 
@@ -27,8 +64,11 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         'syntax': QRegExp.FixedString,
     }
 
+    escPressed = pyqtSignal()
+    topPressed = pyqtSignal()
     nextPressed = pyqtSignal()
     previousPressed = pyqtSignal()
+    bottomPressed = pyqtSignal()
     returnPressed = pyqtSignal()
     regexpChanged = pyqtSignal('QRegExp')
 
@@ -50,37 +90,42 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         self.filter_box = self._init_search_widget()
         self.addWidget(self.filter_box)
 
+        # Initialize the hotkeys
+        self._init_hotkeys()
+
         # Initialize our regular expression
         self.updateRegExp()
 
     def _init_search_widget(self):
-        """Initialize the QLineEdit to be used as the actual search box"""
+        """Initialize the SearchField to be used as the actual search box"""
         # Define and configure the actual search field
-        filter_box = QLineEdit(self)
-        filter_box.setClearButtonEnabled(True)
+        filter_box = SearchField(self)
         filter_box.setMaximumSize(self.DESIRED_WIDTH,
                                   filter_box.maximumSize().height())
 
         # Proxy relevant signals up to where Qt Designer can handle them
         filter_box.returnPressed.connect(self.returnPressed.emit)
         filter_box.textChanged.connect(self._updateString)
+        filter_box.topPressed.connect(self.topPressed.emit)
+        filter_box.bottomPressed.connect(self.bottomPressed.emit)
 
-        # Hook up Ctrl+F or equivalent
-        hotkeys = bind_all_standard_keys(QKeySequence.Find, lambda:
-                filter_box.setFocus(Qt.ShortcutFocusReason), self)
+        return filter_box
 
-        # Set the placeholder text, including keybinding hints
-        filter_box.setPlaceholderText("Search... ({})".format(
-            ', '.join(x.key().toString() for x in hotkeys)))
+    def _init_hotkeys(self):
+        """Bind all of the hotkeys to make keyboard navigation comfy"""
+
+        # Hook up signal for "focus main view without running selected" (Esc)
+        esc = getattr(QKeySequence, 'Cancel', Qt.Key_Escape)
+        bind_all_standard_keys(esc, self.escPressed.emit, self.filter_box,
+                               Qt.WidgetWithChildrenShortcut)
 
         # Hook up signals for previous/next result requests (Up/Down arrows)
         bind_all_standard_keys(QKeySequence.MoveToPreviousLine,
-                               self.previousPressed.emit, filter_box,
+                               self.previousPressed.emit, self.filter_box,
                                Qt.WidgetWithChildrenShortcut)
         bind_all_standard_keys(QKeySequence.MoveToNextLine,
-                               self.nextPressed.emit, filter_box,
+                               self.nextPressed.emit, self.filter_box,
                                Qt.WidgetWithChildrenShortcut)
-        return filter_box
 
     def _init_settings_dropdown(self):
         """Initialize the dropdown button for configuring search"""

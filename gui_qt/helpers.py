@@ -23,7 +23,12 @@ def bind_all_standard_keys(standard_key, handler_cb, parent=None,
     """
 
     results = []
-    for hotkey in QKeySequence.keyBindings(standard_key):
+    if isinstance(standard_key, QKeySequence.StandardKey):
+        hotkeys = QKeySequence.keyBindings(standard_key)
+    else:
+        hotkeys = [standard_key]
+
+    for hotkey in hotkeys:
         shortcut = QShortcut(hotkey, parent)
         shortcut.setContext(context)
         shortcut.activated.connect(handler_cb)

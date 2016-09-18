@@ -362,6 +362,9 @@
     <signal>returnPressed()</signal>
     <signal>nextPressed()</signal>
     <signal>previousPressed()</signal>
+    <signal>escPressed()</signal>
+    <signal>topPressed()</signal>
+    <signal>bottomPressed()</signal>
     <slot>clear()</slot>
    </slots>
   </customwidget>
@@ -543,6 +546,54 @@
     <hint type="sourcelabel">
      <x>127</x>
      <y>237</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>454</x>
+     <y>224</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>searchBar</sender>
+   <signal>escPressed()</signal>
+   <receiver>stack_view_games</receiver>
+   <slot>focus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>426</x>
+     <y>18</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>454</x>
+     <y>224</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>searchBar</sender>
+   <signal>topPressed()</signal>
+   <receiver>stack_view_games</receiver>
+   <slot>selectFirst()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>426</x>
+     <y>18</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>454</x>
+     <y>224</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>searchBar</sender>
+   <signal>bottomPressed()</signal>
+   <receiver>stack_view_games</receiver>
+   <slot>selectLast()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>426</x>
+     <y>18</y>
     </hint>
     <hint type="destinationlabel">
      <x>454</x>
