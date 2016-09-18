@@ -5,9 +5,30 @@ __license__ = "GNU GPL 3.0 or later"
 
 import os
 
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QAction, QActionGroup
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon, QKeySequence
+from PyQt5.QtWidgets import QAction, QActionGroup, QShortcut
 
+def bind_all_standard_keys(standard_key, handler_cb, parent=None,
+                           context=Qt.WindowShortcut):
+    """Workaround for Qt apparently only binding the first StandardKey
+    when it's fed into QShortcut
+
+    @type standard_key: C{QtGui.QKeySequence.StandardKey}
+    @type handler_cb: C{function}
+    @type parent: C{QObject}
+    @type context: C{QtCore.Qt.ShortcutContext}
+
+    @rtype: C{[QtWidgets.QShortcut]}
+    """
+
+    results = []
+    for hotkey in QKeySequence.keyBindings(standard_key):
+        shortcut = QShortcut(hotkey, parent)
+        shortcut.setContext(context)
+        shortcut.activated.connect(handler_cb)
+        results.append(shortcut)
+    return results
 
 def set_action_icon(action, name):
     """Helper for working around Qt's broken QIcon::fromTheme"""

@@ -356,7 +356,7 @@
   <customwidget>
    <class>SearchToolbar</class>
    <extends>QToolBar</extends>
-   <header>gui_qt/tweaked_widgets.h</header>
+   <header>gui_qt/searchtoolbar.h</header>
    <slots>
     <signal>textChanged(QString)</signal>
     <signal>returnPressed()</signal>
