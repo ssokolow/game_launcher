@@ -20,12 +20,12 @@ from .helpers import size_maxed
 
 class GameListModel(QAbstractTableModel):
     """Qt model class to adapt game-handling backend to Qt Views"""
-    def __init__(self, data_list):
+    def __init__(self, data_list, parent=None):
         self.games = data_list
         self.icon_size = QSize(ICON_SIZE, ICON_SIZE)  # TODO: Do this properly
         self.icon_cache = {}  # TODO: Do this properly
 
-        super(GameListModel, self).__init__()
+        super(GameListModel, self).__init__(parent)
 
     def as_sorted(self):
         model_sorted = QSortFilterProxyModel()
