@@ -7,6 +7,8 @@ from PyQt5.QtCore import QDir, QUrl, Qt, pyqtSlot
 from PyQt5.QtGui import QDesktopServices, QCursor
 from PyQt5.QtWidgets import QListView, QMenu, QStackedWidget, QTableView
 
+from src.util.executables import Roles
+
 class GameContextMenu(QMenu):
     """Context menu for an entry in the games list
     TODO: The popup menu should include:
@@ -50,6 +52,20 @@ class GameContextMenu(QMenu):
         self.addAction("Rename...").setEnabled(False)
         self.addAction("Hide").setEnabled(False)
 
+    def _add_action(self, cmd):
+        """Code split out of _add_launchers for clarity"""
+        # TODO: Accelerator keys
+        # TODO: Add an "Are you sure?" dialog for install/uninstall
+        # TODO: Use QProcess so we can have a throbber and the like
+        action = self.addAction(self._entry_launcher_name(self.entry, cmd),
+                                lambda triggered=None, cmd=cmd: cmd.run())
+
+        # TODO: Actually use a customizable default setting
+        if cmd == self.entry.default_launcher:
+            font = action.font()
+            font.setBold(True)
+            action.setFont(font)
+
     def _add_launchers(self):
         """Add the actions which vary from entry to entry
 
@@ -59,25 +75,31 @@ class GameContextMenu(QMenu):
         # TODO: If there's more than one install prefix detected, group and
         #  provide section headers.
         #  (eg. multiple versions of the same game installed in parallel)
+        play, other = [], []
         default_cmd = self.entry.default_launcher
-        for cmd in sorted(self.entry.commands,
-                          key=lambda x: (x != default_cmd, x.role, x.name)):
-            # TODO: Move this into the frontend agnostic code
-            # TODO: Use the role name, falling back to Play only if unknown
-            # TODO: Sort by role
-            # TODO: Put a separator between the Play links and the inst/uninst
-            # TODO: Accelerator keys for common roles
-            name = cmd.name if cmd.name != self.entry.name else 'Play'
+        for command in list(sorted(self.entry.commands,
+                            key=lambda x: (x != default_cmd, x.role, x.name))):
+            if command.role == Roles.play:
+                play.append(command)
+            else:
+                other.append(command)
 
-            # TODO: Add an "Are you sure?" dialog for install/uninstall
-            action = self.addAction(name,
-                                    lambda triggered=None, cmd=cmd: cmd.run())
+        for cmd in play:
+            self._add_action(cmd)
+        if play and other:
+            self.addSeparator()
+        for cmd in other:
+            self._add_action(cmd)
 
-            # TODO: Actually use a customizable default setting
-            if cmd == default_cmd:
-                font = action.font()
-                font.setBold(True)
-                action.setFont(font)
+    def _entry_launcher_name(self, entry, cmd):
+        # TODO: Move this into the frontend-agnostic launcher code where it
+        # belongs
+        if cmd.name != entry.name:
+            return cmd.name
+        elif cmd.role != Roles.unknown:
+            return cmd.role.name.title()
+        else:
+            return 'Play'
 
     @pyqtSlot()
     @pyqtSlot(bool)
