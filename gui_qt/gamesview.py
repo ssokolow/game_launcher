@@ -58,7 +58,7 @@ class GameContextMenu(QMenu):
         # TODO: Add an "Are you sure?" dialog for install/uninstall
         # TODO: Use QProcess so we can have a throbber and the like
         action = self.addAction(self._entry_launcher_name(self.entry, cmd),
-                                lambda triggered=None, cmd=cmd: cmd.run())
+            lambda triggered=None, cmd=cmd: self.run_cmd(cmd))
 
         # TODO: Actually use a customizable default setting
         if cmd == self.entry.default_launcher:
@@ -100,6 +100,15 @@ class GameContextMenu(QMenu):
             return cmd.role.name.title()
         else:
             return 'Play'
+
+    def run_cmd(self, launcher):
+        """Run the given program via QProcess"""
+        command = launcher.get_command()
+
+        # TODO: Hook up signals for better feedback
+        process = QProcess(self)
+        process.setWorkingDirectory(command['path'])
+        process.start(command['args'][0], command['args'][1:])
 
     @pyqtSlot()
     @pyqtSlot(bool)
