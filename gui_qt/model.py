@@ -16,6 +16,8 @@ from PyQt5.QtGui import QIcon
 
 from xdg.IconTheme import getIconPath
 
+from .helpers import size_maxed
+
 class GameListModel(QAbstractTableModel):
     """Qt model class to adapt game-handling backend to Qt Views"""
     def __init__(self, data_list):
@@ -51,26 +53,55 @@ class GameListModel(QAbstractTableModel):
 
     # TODO: Move icon-related stuff into its own provider class
     def ensure_icon_size(self, icon):
-        """Workaround to QIcon not offering an upscale to match' mode"""
+        """Workaround to QIcon not offering an upscale to match' mode
+
+        This implements the "smoothed nearest" upscaling algorithm that I've
+        found to be the best compromise for naively upscaling small icons
+        of varying aesthetics.
+        """
         if not icon:
             return
 
+        # TODO: Use availableSizes() and pick the closest size, regardless of
+        #       whether it's larger or smaller.
+        #       (I'll also want to cache the source images separately from the
+        #        calculated ones so errors don't compound)
         desired = self.icon_size
         offered = icon.actualSize(desired)
 
-        if (offered.width() < desired.width() and
-                offered.height() < desired.height()):
-            # TODO: Port over smart upscaling algorithm
-            pixmap = icon.pixmap(desired).scaled(desired,
-                Qt.KeepAspectRatio, Qt.SmoothTransformation)
-            icon.addPixmap(pixmap)
+        # If the desired size is already available, just return it
+        # TODO: Check whether oversized icons look better when we downscale
+        #       them here rather than letting the QPainter do it.
+        if size_maxed(offered, desired):
+            return icon
 
-            # Hack around fromTheme producing a QIcon which ignores addPixmap
-            if icon and icon.actualSize(desired) != desired:
-                old_icon = icon
-                icon = QIcon(pixmap)
-                for size in old_icon.availableSizes():
-                    icon.addPixmap(old_icon.pixmap(size))
+        pixmap = icon.pixmap(desired)
+
+        # Use nearest-neighbour rescaling to get to the closest smaller integer
+        # multiple before letting smooth scaling take over
+        # TODO: Does floor division or rounding produce better-looking output?
+        scale_factor = min(desired.width() // offered.width(),
+                           desired.height() // offered.height())
+        if size_maxed(offered * scale_factor, desired):
+            scale_factor -= 1
+        if scale_factor > 1:
+            pixmap = pixmap.scaled(offered * scale_factor,
+                Qt.KeepAspectRatio, Qt.FastTransformation)
+
+        # Then use smooth scaling to take the last step
+        pixmap = pixmap.scaled(desired,
+            Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        icon.addPixmap(pixmap)
+
+        # Hack around fromTheme producing a QIcon which ignores addPixmap
+        # TODO: Add a slot which GamesView can connect to in order to
+        #       specify a list of desired sizes, so we don't need to load
+        #       all of them.
+        if icon and icon.actualSize(desired) != desired:
+            old_icon = icon
+            icon = QIcon(pixmap)
+            for size in old_icon.availableSizes():
+                icon.addPixmap(old_icon.pixmap(size))
 
         return icon
 

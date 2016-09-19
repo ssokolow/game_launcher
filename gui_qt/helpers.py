@@ -3,7 +3,7 @@
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
-import os
+import os, operator
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon, QKeySequence
@@ -34,6 +34,17 @@ def bind_all_standard_keys(standard_key, handler_cb, parent=None,
         shortcut.activated.connect(handler_cb)
         results.append(shortcut)
     return results
+
+def size_maxed(inner, outer, exact=False):
+    """Return True if the inner QSize meets or exceeds the outer QSize in at
+    least one dimension.
+
+    If exact is True, return False if inner is larger than outer in at least
+    one dimension."""
+    oper = operator.eq if exact else operator.ge
+
+    return (oper(inner.width(), outer.width()) or
+            oper(inner.height(), outer.height()))
 
 def set_action_icon(action, name):
     """Helper for working around Qt's broken QIcon::fromTheme"""
