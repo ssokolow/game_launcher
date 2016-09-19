@@ -57,6 +57,9 @@
         </property>
         <item>
          <widget class="BugFixListView" name="view_games">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
           <property name="lineWidth">
            <number>0</number>
           </property>
@@ -119,6 +122,9 @@
         </property>
         <item>
          <widget class="BugFixTableView" name="view_games_detailed">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
           <property name="lineWidth">
            <number>0</number>
           </property>
