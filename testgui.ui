@@ -376,7 +376,7 @@
   <customwidget>
    <class>GamesView</class>
    <extends>QStackedWidget</extends>
-   <header>gui_qt/tweaked_widgets.h</header>
+   <header>gui_qt/gamesview.h</header>
    <container>1</container>
    <slots>
     <slot>setIconViewMode()</slot>
