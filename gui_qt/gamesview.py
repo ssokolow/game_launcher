@@ -198,7 +198,8 @@ class GamesView(QStackedWidget):
     def context_menu_for(self, pos):
         """Generate and return a context menu for the given position"""
         entry = self.model.data(self.currentView().indexAt(pos), Qt.UserRole)
-        GameContextMenu(self, entry).popup(QCursor.pos())
+        if entry:
+            GameContextMenu(self, entry).popup(QCursor.pos())
 
     @pyqtSlot()
     def ensureSelection(self):
