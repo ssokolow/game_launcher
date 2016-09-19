@@ -41,6 +41,21 @@ GAMES_DIRS = ['/mnt/buffalo_ext/games', os.path.expanduser('~/opt'),
               '/usr/games', '/usr/local/games',
               '/usr/games/bin', '/usr/local/games/bin']
 
+# A list of magic numbers which should overrule "It has a .sh extension!"
+# Source: https://en.wikipedia.org/wiki/List_of_file_signatures
+EXEC_MAGIC_NUMBERS = [
+    'MZ',                # DOS MZ
+    'PK',                # Zip (eg. JAR)
+    '\x7fELF',           # ELF (Linux et al)
+    '\xCA\xFE\xBA\xBE',  # Java Class, Mach-O Fat Binary
+    '\xFE\xED\xFA\xCE',  # Mach-O (32-bit)
+    '\xCE\xFA\xED\xFE',  # Mach-O (32-bit, byteswapped)
+    '\xFE\xED\xFA\xCF',  # Mach-O (64-bit)
+    '\xCF\xFA\xED\xFE',  # Mach-O (64-bit, byteswapped)
+    'dex\n035\x00',      # Dalvik Executable
+]
+LONGEST_MAGIC_NUMBER = max(len(x) for x in EXEC_MAGIC_NUMBERS)
+
 log = logging.getLogger(__name__)
 
 if sys.version_info.major >= 3:
@@ -377,34 +392,56 @@ class GameLauncher(GameSubentry):
             return False
         return bool(which(self.argv[0]))
 
+    def get_command(self):
+        """Return a dict of C{subprocess.Popen} arguments for running this"""
+        # TODO: Unit tests
+        cmd_path = which(self.argv[0])
+        args = [cmd_path] + self.argv[1:]
+
+        # Work around things like Desura expecting Windows-style PWD behaviour
+        if not self.path:
+            self.path = os.path.dirname(cmd_path)
+            if not os.path.exists(self.path):
+                # Fall back to using the user's home directory (POSIX-style)
+                log.error("Failed to generate valid $PWD (%s)", self.path)
+                self.path = os.path.expanduser("~")
+
+        # Workaround for in-the-wild .sh launchers without shebangs
+        # (They work from within a shell because of legacy shell assumptions)
+        if cmd_path.endswith('.sh') and os.access(cmd_path, os.X_OK):
+            try:
+                with open(cmd_path) as fobj:
+                    prefix = fobj.read(LONGEST_MAGIC_NUMBER)
+
+                # If the file starts with neither a shebang, nor any of the
+                # other magic numbers for common executable formats, assume
+                # it's a shell script, the way an actual shell would.
+                if not any(prefix.startswith(x) for x in EXEC_MAGIC_NUMBERS):
+                    args.insert(0, '/bin/sh')
+            except (OSError, IOError):
+                # If we don't have permission to read the file, assume that
+                # it's either nonexistent or a native binary with
+                # "execute but not read" permissions and let the normal error
+                # handler take responsibility.
+                pass
+
+        # Support things which must be launched in a terminal window
+        if self.use_terminal:
+            args = TERMINAL_CMD + args
+
+        return {
+            'args': args,
+            'cwd': self.path
+        }
+
     def run(self):
         """Launch this entry as a subprocess using the contained metadata"""
         # Work around things like Desura expecting Windows-style PWD behaviour
-        if not self.path:
-            self.path = os.path.dirname(which(self.argv[0]))
-            if not os.path.exists(self.path):
-                log.error("Failed to generate valid $PWD (%s)", self.path)
-                self.path = None
-
-        argv = self.argv
-        if self.use_terminal:
-            argv = TERMINAL_CMD + argv
-
-        log.info("Spawning %r with cwd=%r", self.argv, self.path)
-        try:
-            return subprocess.Popen(self.argv, cwd=self.path).pid
-            # TODO: Rework so I can capture output and display it on unclean
-            #       exit (eg. error while loading shared libraries: ...)
-        except OSError as err:
-            if err.errno != errno.ENOEXEC:
-                raise
-            if not self.argv[0].endswith('.sh'):
-                raise
-            with file(self.argv[0]) as fobj:
-                if fobj.read(2) == '#!':
-                    raise
-            # If we reach here, it's a shellscript with no shebang
-            return subprocess.Popen(['/bin/sh'] + self.argv, cwd=self.path).pid
+        cmd = self.get_command()
+        log.info("Spawning %r with cwd=%r", cmd['args'], cmd['cwd'])
+        return subprocess.Popen(**cmd).pid
+        # TODO: Rework so I can capture output and display it on unclean
+        #       exit (eg. error while loading shared libraries: ...)
 
 # -- Plugin System --
 
