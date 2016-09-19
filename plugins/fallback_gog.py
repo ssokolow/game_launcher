@@ -22,7 +22,7 @@ from __future__ import (absolute_import, division, print_function,
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
-import logging, os
+import logging, os, sys
 from src import interfaces
 from src.util.naming import titlecase_up
 from src.util.executables import Roles
@@ -66,7 +66,8 @@ class GOGFallbackGameProvider(interfaces.IFallbackGameProvider):
             log.debug("not os.path.isfile(%r)", gameinfo_path)
             return {}
 
-        with open(gameinfo_path, 'rU') as fobj:
+        mode = 'rU' if sys.version_info.major < 3 else 'r'
+        with open(gameinfo_path, mode) as fobj:
             lines = fobj.read().strip().split('\n')
             if len(lines) < 3:
                 log.debug("len(gameinfo) < 3 for %s", gameinfo_path)
