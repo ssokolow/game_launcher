@@ -5,7 +5,7 @@ __license__ = "GNU GPL 3.0 or later"
 
 import os, operator
 
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QModelIndex, Qt
 from PyQt5.QtGui import QIcon, QKeySequence
 from PyQt5.QtWidgets import QAction, QActionGroup, QShortcut
 
@@ -34,6 +34,25 @@ def bind_all_standard_keys(standard_key, handler_cb, parent=None,
         shortcut.activated.connect(handler_cb)
         results.append(shortcut)
     return results
+
+def iterate_model(model, parent_idx=None, topdown=True):
+    """A generator for depth-first iteration through a QAbstractItemModel.
+
+    Adapted from source at http://stackoverflow.com/q/26040977
+    with C{topdown} inspired by the C{os.walk} API.
+    """
+    if not parent_idx or not parent_idx.isValid():
+        parent_idx = QModelIndex()
+
+    if topdown:
+        yield parent_idx
+
+    for row in range(0, model.rowCount(parent_idx)):
+        for child_idx in iterate_model(model, model.index(row, 0, parent_idx)):
+            yield child_idx
+
+    if not topdown:
+        yield parent_idx
 
 def size_maxed(inner, outer, exact=False):
     """Return True if the inner QSize meets or exceeds the outer QSize in at
