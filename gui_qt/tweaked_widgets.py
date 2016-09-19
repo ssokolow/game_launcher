@@ -48,7 +48,6 @@ class BugFixTableView(QTableView):
     def __init__(self, *args, **kwargs):
         super(BugFixTableView, self).__init__(*args, **kwargs)
 
-
         # Fix the behaviour of the Home and End keys
         bind_all_standard_keys(QKeySequence.MoveToStartOfLine,
                                self.selectFirst, self,

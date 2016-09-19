@@ -15,9 +15,8 @@ import logging, os, sys
 log = logging.getLogger(__name__)
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon, QKeySequence
-from PyQt5.QtWidgets import (QAction, QActionGroup, QApplication, QListView,
-                             QShortcut)
+from PyQt5.QtGui import QKeySequence
+from PyQt5.QtWidgets import QAction, QApplication, QShortcut
 from PyQt5.uic import loadUi
 
 from src.interfaces import PLUGIN_TYPES
