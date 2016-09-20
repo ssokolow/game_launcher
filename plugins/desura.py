@@ -84,7 +84,7 @@ class DesuraProvider(interfaces.IGameProvider):
 
             entries[row[0]].commands.append(interfaces.GameLauncher(
                     argv=[row[4]] + shlex.split(row[5]) + shlex.split(row[6]),
-                    provider=self.backend_name,
+                    provider=self,
                     role=role,
                     name=row[2],
                     icon=row[3],

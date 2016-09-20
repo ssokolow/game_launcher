@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>649</width>
+    <width>675</width>
     <height>412</height>
    </rect>
   </property>
@@ -231,6 +231,9 @@
        <property name="uniformRowHeights">
         <bool>true</bool>
        </property>
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
       </widget>
      </item>
     </layout>

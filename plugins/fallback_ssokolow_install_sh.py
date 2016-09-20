@@ -61,7 +61,7 @@ class InstallShFallbackGameProvider(interfaces.IFallbackGameProvider):
 
         if all(x in fields for x in metadata_map.values()):
             # TODO: Decide how to support this
-            pass  # fields['sub_provider'] = self.backend_name
+            pass  # fields['sub_provider'] = self
         else:
             log.debug("Unrecognized install.sh: %s", install_path)
             return None
@@ -77,20 +77,20 @@ class InstallShFallbackGameProvider(interfaces.IFallbackGameProvider):
 
         fields.update({
             'role': Roles.play,
-            'provider': self.backend_name,
+            'provider': self,
             'tryexec': fields['argv'][0],
             'use_terminal': False
         })
         launcher = interfaces.GameLauncher(**fields)
         installer = interfaces.GameLauncher(name="Install",
                                             role=Roles.install,
-                                            provider=self.backend_name,
+                                            provider=self,
                                             argv=[install_path])
 
         return {
             'name': launcher.name,
             'icon': launcher.icon,
             'base_path': path,
-            'provider': self.backend_name,
+            'provider': self,
             'commands': [launcher, installer]
         }

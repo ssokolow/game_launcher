@@ -33,6 +33,7 @@ log = logging.getLogger(__name__)
 
 class GOGFallbackGameProvider(interfaces.IFallbackGameProvider):
     backend_name = "GOG.com"
+    default_icon = "gog"
     precedence = interfaces.Precedence.high
 
     def detect_gogishness(self, token_list, fields):
@@ -40,7 +41,7 @@ class GOGFallbackGameProvider(interfaces.IFallbackGameProvider):
            C{support/gog_com.shlib}"""
         if token_list and token_list[0] == 'source':
             if ''.join(token_list[1:]) == 'support/gog_com.shlib':
-                fields['sub_provider'] = self.backend_name
+                fields['sub_provider'] = self
 
         # TODO: Rework this so I can explicitly specify roles here
         if len(token_list) >= 5 and token_list[0] == 'define_option':
@@ -121,18 +122,18 @@ class GOGFallbackGameProvider(interfaces.IFallbackGameProvider):
         fields['commands'] = [interfaces.GameLauncher(
             argv=[start_path, x[1]],
             name=x[0],
-            provider=self.backend_name,
+            provider=self,
             tryexec=start_path,
             use_terminal=False) for x in fields['commands']]
 
         fields['commands'].extend([
             interfaces.GameLauncher(name="Install",
                          argv=[start_path, '--install-deb'],
-                         provider=self.backend_name,
+                         provider=self,
                          role=Roles.install),
             interfaces.GameLauncher(name="Uninstall",
                          argv=[start_path, '--uninstall'],
-                         provider=self.backend_name,
+                         provider=self,
                          role=Roles.uninstall)
         ])
 

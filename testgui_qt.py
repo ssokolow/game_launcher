@@ -24,7 +24,7 @@ from yapsy.PluginManager import PluginManagerSingleton
 
 from src.game_providers import get_games
 
-from gui_qt.model import GameListModel
+from gui_qt.model import CategoriesModel, GameListModel
 from gui_qt.helpers import make_action_group, unbotch_icons
 
 # Help prevent crashes on exit
@@ -72,6 +72,10 @@ def main():
     stackedwidget = window.stack_view_games
     stackedwidget.configure_children()  # TODO: More automatic way to do this?
     stackedwidget.setModel(model)
+
+    # Hook up the categories panel
+    cat_model = CategoriesModel(model)
+    window.view_categories.setModel(cat_model)
 
     # Hook the filter box up to the model filter
     # (We connect ensureSelection and ensureVisible here rather than in Qt

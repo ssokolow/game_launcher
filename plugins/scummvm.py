@@ -112,7 +112,7 @@ class ScummVMProvider(interfaces.IGameProvider):
                 base_path=base_path,
                 commands=[interfaces.GameLauncher(
                     argv=["scummvm", game_id],
-                    provider=self.backend_name,
+                    provider=self,
                     role=Roles.play,
                     name=name,
                     icon=self.get_default_icon(),

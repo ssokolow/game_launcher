@@ -85,7 +85,7 @@ class GameEntry(object):
         self._description = description
         self.commands = commands or []
 
-        if isinstance(self._provider, basestring):
+        if not isinstance(self._provider, (set, list, tuple)):
             self._provider = [self._provider]
         if not isinstance(self._provider, set):
             self._provider = set(self._provider)
@@ -127,7 +127,7 @@ class GameEntry(object):
         return {
             'name': self.name,
             'icon': self.icon,
-            'provider': list(self.provider),
+            'provider': list(x.backend_name for x in self.provider),
             'description': self.description,
             'commands': [x.dump() for x in self.commands],
         }
@@ -161,7 +161,8 @@ class GameEntry(object):
 
         @todo: Fix Don't Starve's description
         """
-        lines = ["%s (%s)" % (self.name, ', '.join(self.provider))]
+        lines = ["%s (%s)" % (self.name, ', '.join(
+            x.backend_name for x in self.provider))]
         if self.description and self.description != self.name:
             lines.extend(('', self.description))
         if any(x for x in self.categories if x != 'Game'):
@@ -311,7 +312,7 @@ class GameSubentry(object):
         return {
             'name': self.name,
             'icon': self.icon,
-            'provider': self.provider,
+            'provider': self.provider.backend_name,
             'role': self.role,
             'sort_key': self.sort_key,
         }

@@ -9,12 +9,81 @@ __license__ = "GNU GPL 3.0 or later"
 FALLBACK_ICON = "applications-games"
 ICON_SIZE = 64
 
-from PyQt5.QtCore import QAbstractTableModel, QSortFilterProxyModel, Qt)
+from PyQt5.QtCore import (QAbstractItemModel, QAbstractTableModel, QModelIndex,
+                          QSortFilterProxyModel, Qt)
 
 from .icon_provider import IconProvider
 
 icon_provider = IconProvider(FALLBACK_ICON)
 
+class CategoriesModel(QAbstractItemModel):
+    ICON_SIZE = 16
+
+    def __init__(self, sourceModel, parent=None):
+        super(CategoriesModel, self).__init__(parent)
+
+        self._source = sourceModel
+        self._regenerate()
+
+        for signal in ('dataChanged', 'layoutChanged', 'modelReset',
+                       'rowsInserted', 'rowsMoved', 'rowsRemoved'):
+            getattr(self._source, signal).connect(self._regenerate)
+
+    # TODO: Use a less sledgehammer-y approach
+    def _regenerate(self):
+        self.beginResetModel()
+        self.provider_by_name = {}
+        self.game_by_provider = {}
+
+        # Reverse the game->providers mapping for each game
+        for row in range(0, self._source.rowCount()):
+            # TODO: Write a custom delegate for the Provider column so I don't
+            # need to stringify the provider list before storing it in there
+            # and can use it from here.
+            index = self._source.index(row, 0)
+            entry = self._source.data(index, Qt.UserRole)
+
+            for provider in entry.provider:
+                self.provider_by_name[provider.backend_name] = provider
+                self.game_by_provider.setdefault(provider, set()).add(index)
+
+        self.ordering = list(sorted(self.provider_by_name.keys(),
+                                    key=lambda x: x.lower()))
+        self.endResetModel()
+
+    def columnCount(self, parent):
+        return 1
+
+    def data(self, index, role):
+        if (not index.isValid()) or index.row() >= len(self.ordering):
+            return None
+
+        name = self.ordering[index.row()]
+        provider = self.provider_by_name[name]
+        if role == Qt.UserRole:
+            return self.game_by_provider[provider]
+        elif index.column() == 0:
+            if role == Qt.DisplayRole:
+                return provider.backend_name
+            elif role == Qt.DecorationRole:
+                return icon_provider.get_icon(provider.default_icon,
+                                              self.ICON_SIZE)
+
+    def flags(self, index):
+        # TODO: Add ItemNeverHasChildren to leaf nodes
+        return Qt.ItemIsEnabled | Qt.ItemIsSelectable
+
+    def index(self, row, column, parent=None):  # pylint: disable=W0613
+        return self.createIndex(row, column)
+
+    def parent(self, index):  # pylint: disable=unused-argument,R0201
+        return QModelIndex()  # Top-level
+
+    def rowCount(self, parent):
+        if parent and parent.isValid():
+            # Not tree-structured (yet)
+            return 0
+        return len(self.ordering)
 
 class GameListModel(QAbstractTableModel):
     """Qt model class to adapt game-handling backend to Qt Views"""

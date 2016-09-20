@@ -107,4 +107,4 @@ class NarrowerTreeView(QTreeView):  # pylint: disable=no-init,R0903
     """
     def sizeHint(self):  # pylint: disable=no-self-use
         """Set a more reasonable starting width for the parent dock widget."""
-        return QSize(150, 75)
+        return QSize(175, 75)

@@ -126,7 +126,7 @@ class XDGMenuProvider(interfaces.IGameProvider):
                 base_path=base_path,
                 commands=[interfaces.GameLauncher(
                     argv=argv,
-                    provider=self.backend_name,
+                    provider=self,
                     role=Roles.play,
                     name=name,
                     path=path,

@@ -105,7 +105,7 @@ class DesuraProvider(interfaces.IGameProvider):
                 base_path=fields['base_path'],
                 commands=[interfaces.GameLauncher(
                     argv=["playonlinux", "--run", name],
-                    provider=self.backend_name,
+                    provider=self,
                     role=Roles.guess(name),
                     name=name,
                     icon=icon,

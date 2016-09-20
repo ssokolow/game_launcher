@@ -44,6 +44,7 @@ def pathjoin_if(parent, child):
 
 class HeuristicFilesystemGameProvider(interfaces.IFallbackGameProvider):
     backend_name = "filesystem heuristics"
+    default_icon = "folder"
     precedence = interfaces.Precedence.lowest
 
     @staticmethod
@@ -128,7 +129,7 @@ class HeuristicFilesystemGameProvider(interfaces.IFallbackGameProvider):
         result = {
             'name': name,
             'icon': icon,
-            'provider': self.backend_name,  # TODO: Allow this to be inferred
+            'provider': self,  # TODO: Allow this to be inferred
             'base_path': path,
             'commands': [],
         }
@@ -137,7 +138,7 @@ class HeuristicFilesystemGameProvider(interfaces.IFallbackGameProvider):
             result['commands'].extend(
                 interfaces.GameLauncher(name=x, icon=icon,
                                         argv=[os.path.join(path, x)],
-                                        provider=self.backend_name,
+                                        provider=self,
                                         role=Roles.play)
                 for x in exes[Roles.play])
         elif len(exes) == 1 and len(list(exes.values())[0]) == 1:
@@ -158,7 +159,7 @@ class HeuristicFilesystemGameProvider(interfaces.IFallbackGameProvider):
             result['commands'].append(
                 interfaces.GameLauncher(name=exe, icon=icon,
                                         argv=[os.path.join(path, exe)],
-                                        provider=self.backend_name,
+                                        provider=self,
                                         role=list(exes.keys())[0]))
 
         return result if result['commands'] else None

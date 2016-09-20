@@ -1,3 +1,8 @@
-All PNG- and SVG-format images inside "gui_qt" are licensed under the GNU LGPL v3.0 (see LICENSE.lgpl3) and are attributed to http://www.kde.org/
+With the following exceptions, all PNG- and SVG-format images inside "gui_qt"
+are licensed under the GNU LGPL v3.0 (see LICENSE.lgpl3) and are attributed
+to http://www.kde.org/
+
+    desura.svg  (Trademarked logo from a press kit, used in a non-competing way)
+    gog.png     (Hand-made replica of a trademarked logo, used a non-competing way)
 
 All other files are under the GNU GPL v3.0 (See LICENSE.gpl3) unless otherwise stated.
