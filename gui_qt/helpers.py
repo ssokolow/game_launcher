@@ -3,11 +3,11 @@
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
-import os, operator
-
 from PyQt5.QtCore import QModelIndex, Qt
 from PyQt5.QtGui import QIcon, QKeySequence
 from PyQt5.QtWidgets import QAction, QActionGroup, QShortcut
+
+from .icon_provider import size_maxed, IconProvider
 
 def bind_all_standard_keys(standard_key, handler_cb, parent=None,
                            context=Qt.WindowShortcut):
@@ -54,17 +54,7 @@ def iterate_model(model, parent_idx=None, topdown=True):
     if not topdown:
         yield parent_idx
 
-def size_maxed(inner, outer, exact=False):
-    """Return True if the inner QSize meets or exceeds the outer QSize in at
-    least one dimension.
-
-    If exact is True, return False if inner is larger than outer in at least
-    one dimension."""
-    oper = operator.eq if exact else operator.ge
-
-    return (oper(inner.width(), outer.width()) or
-            oper(inner.height(), outer.height()))
-
+# TODO: Finish merging this into IconProvider
 def set_action_icon(action, name):
     """Helper for working around Qt's broken QIcon::fromTheme"""
     icon = QIcon.fromTheme(name)
@@ -74,13 +64,7 @@ def set_action_icon(action, name):
     #       and support multiple icon resolutions.
     #       (Possibly amending the theme search path somehow?)
     if icon.isNull():
-        path_base = os.path.join(os.path.dirname(__file__), name)
-        for ext in ('svgz', 'svg' 'png'):
-            icon_path = '{}.{}'.format(path_base, ext)
-            if os.path.exists(icon_path):
-                icon = QIcon(os.path.join(icon_path))
-                if not icon.isNull():
-                    break
+        icon = IconProvider.lookup_local(name) or icon
     action.setIcon(icon)
 
 # XXX: Does it do more harm than good to dedupe this against the search code?
