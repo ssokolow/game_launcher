@@ -39,6 +39,7 @@ def get_model():
 def main():
     """The main entry point, compatible with setuptools entry points."""
 
+    # TODO: Unify this into a single file all frontends can import
     plugin_mgr = PluginManagerSingleton.get()
     plugin_mgr.setPluginPlaces(['plugins'])  # TODO: Explicit __file__-rel.
     plugin_mgr.setCategoriesFilter({x.plugin_type: x for x in PLUGIN_TYPES})

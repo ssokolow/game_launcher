@@ -33,6 +33,9 @@ __license__ = "GNU GPL 3.0 or later"
 import logging
 log = logging.getLogger(__name__)
 
+from src.interfaces import PLUGIN_TYPES
+from yapsy.PluginManager import PluginManagerSingleton
+
 # TODO: Decide on a name for the project and rename "src"
 from src.game_providers import get_games
 
@@ -62,7 +65,16 @@ def main():
     logging.basicConfig(level=log_levels[opts.verbose],
                         format='%(levelname)s: %(message)s')
 
-    print('\n'.join(repr(x) for x in get_games()))
+    # TODO: Unify this into a single file all frontends can import
+    plugin_mgr = PluginManagerSingleton.get()
+    plugin_mgr.setPluginPlaces(['plugins'])  # TODO: Explicit __file__-rel.
+    plugin_mgr.setCategoriesFilter({x.plugin_type: x for x in PLUGIN_TYPES})
+    plugin_mgr.collectPlugins()
+
+    #print('\n'.join(repr(x) for x in get_games()))
+
+    import json
+    print(json.dumps([x.dump() for x in get_games()], indent=2))
 
 if __name__ == '__main__':
     main()
