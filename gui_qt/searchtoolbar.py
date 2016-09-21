@@ -30,6 +30,11 @@ class SearchField(QLineEdit):
         focus_hotkeys = bind_all_standard_keys(QKeySequence.Find, lambda:
             self.setFocus(Qt.ShortcutFocusReason), self)
 
+        # Given its position and role in the workflow, intuition may label it
+        # as a navigation bar, so bind Ctrl+L too.
+        bind_all_standard_keys(Qt.CTRL + Qt.Key_L, lambda:
+            self.setFocus(Qt.ShortcutFocusReason), self)
+
         # Set the placeholder text, including keybinding hints
         self.setPlaceholderText("Search... ({})".format(
             ', '.join(x.key().toString() for x in focus_hotkeys)))
