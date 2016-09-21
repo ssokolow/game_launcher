@@ -52,7 +52,8 @@ COMMON_DIRS = [
 
 class XDGMenuProvider(interfaces.IGameProvider):
     precedence = interfaces.Precedence.highest
-    backend_name = "XDG"
+    backend_name = "System Launcher"
+    default_icon = "applications-games"
 
     def _process_menu(self, menu):
         """Recursive handler for getting games from menus.

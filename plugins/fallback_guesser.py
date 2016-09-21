@@ -43,7 +43,7 @@ def pathjoin_if(parent, child):
     return os.path.join(parent, child) if child else None
 
 class HeuristicFilesystemGameProvider(interfaces.IFallbackGameProvider):
-    backend_name = "filesystem heuristics"
+    backend_name = "Filesystem"
     default_icon = "folder"
     precedence = interfaces.Precedence.lowest
 
