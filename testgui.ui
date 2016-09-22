@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <widget class="MainWindow" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -362,6 +362,12 @@
   </action>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>MainWindow</class>
+   <extends>QMainWindow</extends>
+   <header>gui_qt/mainwindow.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>SearchToolbar</class>
    <extends>QToolBar</extends>

@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QKeySequence
-from PyQt5.QtWidgets import QAction, QApplication, QShortcut
+from PyQt5.QtWidgets import QApplication, QShortcut
 from PyQt5.uic import loadUi
 
 from src.interfaces import PLUGIN_TYPES
@@ -25,7 +25,7 @@ from yapsy.PluginManager import PluginManagerSingleton
 from src.game_providers import get_games
 
 from gui_qt.model import CategoriesModel, GameListModel
-from gui_qt.helpers import make_action_group, unbotch_icons
+from gui_qt.helpers import bind_all_standard_keys
 
 # Help prevent crashes on exit
 # Source: http://pyqt.sourceforge.net/Docs/PyQt5/gotchas.html
@@ -53,19 +53,7 @@ def main():
 
     with open(os.path.join(os.path.dirname(__file__), 'testgui.ui')) as fobj:
         window = loadUi(fobj)
-
-    # Work around Qt Designer shortcomings
-    unbotch_icons(window, {
-        (QAction, 'actionShow_categories_pane'): 'view-split-left-right',
-        (QAction, 'actionRescan'): 'reload',
-    })
-    view_buttons = {
-        (QAction, 'actionIcon_View'): 'view-list-icons-symbolic',
-        (QAction, 'actionList_View'): 'view-list-compact-symbolic',
-        (QAction, 'actionDetailed_List_View'): 'view-list-details-symbolic'
-    }
-    unbotch_icons(window, view_buttons)
-    make_action_group(window, [x[1] for x in view_buttons.keys()])
+    window.configure_children()
 
     model = get_model().as_sorted()
 
@@ -85,21 +73,19 @@ def main():
     window.searchBar.regexpChanged.connect(stackedwidget.ensureSelection)
     window.searchBar.regexpChanged.connect(stackedwidget.ensureVisible)
 
+    # Bind a placeholder to Ctrl+3 so it won't result in a spurious 3 being
+    # typed into the search box if a user hits it by accident.
+    QShortcut(QKeySequence(Qt.CTRL + Qt.Key_3), window).activated.connect(
+        lambda: log.error("Thumbnail view not yet implemented"))
+
     def rescan():
         model.setSourceModel(get_model())
         window.searchBar.clear()
     window.actionRescan.triggered.connect(rescan)
 
-    # TODO: Move this stuff into a promoted subclass of QMainWindow
-    # Bind standard hotkeys for closing the window or quitting the application
-    # (Not the same thing once I support minimizing to tray)
-    bind_all_standard_keys(QKeySequence.Quit, app.quit, window)
-    bind_all_standard_keys(QKeySequence.Close, window.close, window)
-
-    # Bind a placeholder to Ctrl+3 so it won't result in a spurious 3 being
-    # typed into the search box if a user hits it by accident.
-    QShortcut(QKeySequence(Qt.CTRL + Qt.Key_3), window).activated.connect(
-        lambda: log.error("Thumbnail view not yet implemented"))
+    # Hook up the quit hotkey
+    bind_all_standard_keys(QKeySequence.Quit, app.quit, window,
+                           Qt.ApplicationShortcut)
 
     window.show()
 
