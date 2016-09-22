@@ -78,7 +78,7 @@ def main():
     cat_model = CategoriesModel(model)
     window.view_categories.setModel(cat_model)
 
-    # Hook the filter box up to the model filter
+    # Hook the search box up to the model filter
     # (We connect ensureSelection and ensureVisible here rather than in Qt
     #  Designer to make all three slots run in the right order)
     window.searchBar.regexpChanged.connect(model.setFilterRegExp)
@@ -91,7 +91,7 @@ def main():
     window.actionRescan.triggered.connect(rescan)
 
     # Bind a placeholder to Ctrl+3 so it won't result in a spurious 3 being
-    # typed into the filter box if a user hits it by accident.
+    # typed into the search box if a user hits it by accident.
     QShortcut(QKeySequence(Qt.CTRL + Qt.Key_3), window).activated.connect(
         lambda: log.error("Thumbnail view not yet implemented"))
 

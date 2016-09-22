@@ -102,8 +102,8 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         self.addWidget(self.dropdown)
 
         # Define and configure the actual search field
-        self.filter_box = self._init_search_widget()
-        self.addWidget(self.filter_box)
+        self.search_box = self._init_search_widget()
+        self.addWidget(self.search_box)
 
         # Initialize the hotkeys
         self._init_hotkeys()
@@ -114,38 +114,38 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
     def _init_search_widget(self):
         """Initialize the SearchField to be used as the actual search box"""
         # Define and configure the actual search field
-        filter_box = SearchField(self)
-        filter_box.setMaximumSize(self.DESIRED_WIDTH,
-                                  filter_box.maximumSize().height())
+        search_box = SearchField(self)
+        search_box.setMaximumSize(self.DESIRED_WIDTH,
+                                  search_box.maximumSize().height())
 
         # Proxy relevant signals up to where Qt Designer can handle them
-        filter_box.returnPressed.connect(self.returnPressed.emit)
-        filter_box.textChanged.connect(self._updateString)
-        filter_box.topPressed.connect(self.topPressed.emit)
-        filter_box.bottomPressed.connect(self.bottomPressed.emit)
+        search_box.returnPressed.connect(self.returnPressed.emit)
+        search_box.textChanged.connect(self._updateString)
+        search_box.topPressed.connect(self.topPressed.emit)
+        search_box.bottomPressed.connect(self.bottomPressed.emit)
 
-        return filter_box
+        return search_box
 
     def _init_hotkeys(self):
         """Bind all of the hotkeys to make keyboard navigation comfy"""
 
         # Hook up signal for "focus main view without running selected" (Esc)
         esc = getattr(QKeySequence, 'Cancel', Qt.Key_Escape)
-        bind_all_standard_keys(esc, self.escPressed.emit, self.filter_box,
+        bind_all_standard_keys(esc, self.escPressed.emit, self.search_box,
                                Qt.WidgetWithChildrenShortcut)
 
         # Hook up signals for previous/next result requests (Up/Down arrows)
         bind_all_standard_keys(QKeySequence.MoveToPreviousLine,
-                               self.previousPressed.emit, self.filter_box,
+                               self.previousPressed.emit, self.search_box,
                                Qt.WidgetWithChildrenShortcut)
         bind_all_standard_keys(QKeySequence.MoveToNextLine,
-                               self.nextPressed.emit, self.filter_box,
+                               self.nextPressed.emit, self.search_box,
                                Qt.WidgetWithChildrenShortcut)
 
     def _init_settings_dropdown(self):
         """Initialize the dropdown button for configuring search"""
         # Build the menu
-        menu = QMenu("Filter Settings", self)
+        menu = QMenu("Search Options", self)
         self._build_menu_group(menu, "Match Mode", (
             ('&Prefix', {'mode': 'prefix'}),
             ('&Keyword', {'mode': 'keyword'}),
@@ -188,7 +188,7 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
                 self._updateState(chek, state))
 
     def _updateString(self, text):
-        """Handler for self.filter_box.textChanged"""
+        """Handler for self.search_box.textChanged"""
         self._text = text
         self.updateRegExp()
 
@@ -224,6 +224,6 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
     @pyqtSlot()
     def clear(self):
         """Proxy the clear() slot up to where Qt Designer can work with it"""
-        self.filter_box.clear()
+        self.search_box.clear()
         # TODO: Test this
 
