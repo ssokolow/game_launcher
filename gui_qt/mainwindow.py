@@ -21,8 +21,6 @@ class MainWindow(QMainWindow):
         # Bind standard hotkeys for closing the window
         bind_all_standard_keys(QKeySequence.Close, self.close, self)
 
-        # TODO: Load saved geometry
-
     def configure_children(self):
         """Call this to finish initializing after child widgets are added
 
@@ -46,7 +44,7 @@ class MainWindow(QMainWindow):
 
         # TODO: More automatic way for this
         self.stack_view_games.configure_children()
-        self.loadState()
+        self.loadWindowState()
 
     def _add_toolbar_buttons(self):
         # Hook up the toggle button for the categories pane
@@ -59,18 +57,10 @@ class MainWindow(QMainWindow):
     def closeEvent(self, event):
         """Save settings on exit"""
         # TODO: Display an "are you sure" dialog if not in trayable mode
-        settings = QSettings()
-        settings.beginGroup("mainwindow")
-        settings.setValue("geometry", self.saveGeometry())
-        settings.setValue("state", self.saveState())
-        settings.endGroup()
-
-        # Can't be called by stack_view_games.destroyed() for GC reasons
-        self.stack_view_games.saveState()
-
+        self.saveWindowState()
         super(MainWindow, self).closeEvent(event)
 
-    def loadState(self):
+    def loadWindowState(self):
         # Restore saved settings
         # (Cannot be called from __init__ because children aren't there yet)
         settings = QSettings()
@@ -79,10 +69,24 @@ class MainWindow(QMainWindow):
             data = settings.value(role)
             if data:
                 getattr(self, 'restore' + role.title())(data)
-        settings.endGroup()
 
         # Match view selector buttons to stacked widget state
-        # TODO: Fix this so it doesn't cause an unpredictable one to start
-        # checked
-        #currentIdx = self.stack_view_games.currentIndex()
-        #self.view_actions.actions()[currentIdx].setChecked(True)
+        current_mode = settings.value('view_mode')
+        for action in self.view_actions.actions():
+            if action.objectName() == current_mode:
+                action.setChecked(True)
+                break
+
+        settings.endGroup()
+
+    def saveWindowState(self):
+        settings = QSettings()
+        settings.beginGroup("mainwindow")
+        settings.setValue("geometry", self.saveGeometry())
+        settings.setValue("state", self.saveState())
+
+        for action in self.view_actions.actions():
+            if action.isChecked():
+                settings.setValue("view_mode", action.objectName())
+                break
+        settings.endGroup()

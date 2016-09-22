@@ -136,12 +136,6 @@ class GamesView(QStackedWidget):
               actions that would be done in setupUi when translating the .ui
               file dynamically where there's no setupUi to wrap.
         """
-        # Restore saved settings
-        settings = QSettings()
-        settings.beginGroup("gamesview")
-        self.setCurrentIndex(settings.value('selected_view_mode', 0, int))
-        settings.endGroup()
-
         # Cache simple references to the views
         self.listview = self.findChild(QListView, 'view_games')
         self.tableview = self.findChild(QTableView, 'view_games_detailed')
@@ -160,16 +154,6 @@ class GamesView(QStackedWidget):
             return self.listview
         elif idx == 1:
             return self.tableview
-
-    def saveState(self):
-        """Save the state of this view to disk
-
-        (Can't be called by the destroyed() signal for Python GC reasons)
-        """
-        settings = QSettings()
-        settings.beginGroup("gamesview")
-        settings.setValue('selected_view_mode', self.currentIndex())
-        settings.endGroup()
 
     def setModel(self, model):
         """Set the model on both views within the compound object.
