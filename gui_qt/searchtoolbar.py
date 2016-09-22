@@ -144,12 +144,6 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
 
     def _init_settings_dropdown(self):
         """Initialize the dropdown button for configuring search"""
-        # Set up the action for displaying the menu
-        action = QAction('Filter Options', self)
-        set_action_icon(action, 'search')
-        action.setToolTip("Configure filter behaviour")
-        action.setShortcut(QKeySequence(Qt.CTRL + Qt.SHIFT + Qt.Key_F))
-
         # Build the menu
         menu = QMenu("Filter Settings", self)
         self._build_menu_group(menu, "Match Mode", (
@@ -160,6 +154,13 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
             ('&Literal', {'syntax': QRegExp.FixedString}),
             ('&Wildcard', {'syntax': QRegExp.Wildcard}),
             ('&RegExp', {'syntax': QRegExp.RegExp2})))
+
+        # Set up the action for displaying the menu
+        action = QAction(menu.title(), self)
+        set_action_icon(action, 'search')
+        action.setToolTip("Configure search behaviour")
+        # TODO: Come up with a keyboard shortcut to trigger this menu which
+        # doesn't conflict with any QKeySequence:StandardKey bindings I want
 
         # Wrap it in a QToolButton so we can setPopupMode
         button = QToolButton(self)
