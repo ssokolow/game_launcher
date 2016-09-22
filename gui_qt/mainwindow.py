@@ -7,12 +7,12 @@ Based on this stack overflow QA pair:
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
-from PyQt5.QtCore import QSettings
+from PyQt5.QtCore import QSettings, Qt
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QAction, QMainWindow
 
 from .helpers import (bind_all_standard_keys, make_action_group,
-                      unbotch_icons)
+                      set_action_icon, unbotch_icons)
 
 class MainWindow(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -32,10 +32,7 @@ class MainWindow(QMainWindow):
         """
 
         # Work around Qt Designer shortcomings
-        unbotch_icons(self, {
-            (QAction, 'actionShow_categories_pane'): 'view-split-left-right',
-            (QAction, 'actionRescan'): 'reload',
-        })
+        unbotch_icons(self, {(QAction, 'actionRescan'): 'reload'})
         view_buttons = {
             (QAction, 'actionIcon_View'): 'view-list-icons-symbolic',
             (QAction, 'actionList_View'): 'view-list-compact-symbolic',
@@ -45,9 +42,19 @@ class MainWindow(QMainWindow):
         self.view_actions = make_action_group(self,
             [x[1] for x in view_buttons.keys()])
 
+        self._add_toolbar_buttons()
+
         # TODO: More automatic way for this
         self.stack_view_games.configure_children()
         self.loadState()
+
+    def _add_toolbar_buttons(self):
+        # Hook up the toggle button for the categories pane
+        cat_action = self.dock_categories.toggleViewAction()
+        cat_action.setToolTip("Show categories pane (F9)")
+        cat_action.setShortcut(QKeySequence(Qt.Key_F9))
+        set_action_icon(cat_action, 'view-split-left-right')
+        self.toolBar.addAction(cat_action)
 
     def loadState(self):
         # Restore saved settings
@@ -59,11 +66,6 @@ class MainWindow(QMainWindow):
             if data:
                 getattr(self, 'restore' + role.title())(data)
         settings.endGroup()
-
-        # Match dock toggle button to dock state
-        # TODO: Fix this so it doesn't cause hide the pane by default
-        #self.actionShow_categories_pane.setChecked(
-        #    self.dock_categories.isVisible())
 
         # Match view selector buttons to stacked widget state
         # TODO: Fix this so it doesn't cause an unpredictable one to start

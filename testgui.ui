@@ -194,7 +194,6 @@
    <addaction name="actionList_View"/>
    <addaction name="actionDetailed_List_View"/>
    <addaction name="separator"/>
-   <addaction name="actionShow_categories_pane"/>
   </widget>
   <widget class="QDockWidget" name="dock_categories">
    <property name="features">
@@ -313,27 +312,6 @@
     <string>Ctrl+4</string>
    </property>
   </action>
-  <action name="actionShow_categories_pane">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset theme="view-split-left-right">
-     <normaloff>gui_qt/view-split-left-right.png</normaloff>gui_qt/view-split-left-right.png</iconset>
-   </property>
-   <property name="text">
-    <string>Show categories pane</string>
-   </property>
-   <property name="toolTip">
-    <string>Show categories pane (F9)</string>
-   </property>
-   <property name="shortcut">
-    <string>F9</string>
-   </property>
-  </action>
   <action name="actionRescan">
    <property name="icon">
     <iconset theme="view-refresh">
@@ -424,38 +402,6 @@
  </customwidgets>
  <resources/>
  <connections>
-  <connection>
-   <sender>dock_categories</sender>
-   <signal>visibilityChanged(bool)</signal>
-   <receiver>actionShow_categories_pane</receiver>
-   <slot>setChecked(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>127</x>
-     <y>207</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionShow_categories_pane</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>dock_categories</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>127</x>
-     <y>207</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>actionIcon_View</sender>
    <signal>toggled(bool)</signal>
