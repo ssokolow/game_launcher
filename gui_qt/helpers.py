@@ -7,7 +7,7 @@ from PyQt5.QtCore import QModelIndex, Qt
 from PyQt5.QtGui import QIcon, QKeySequence
 from PyQt5.QtWidgets import QAction, QActionGroup, QShortcut
 
-from .icon_provider import size_maxed, IconProvider
+from .icon_provider import IconProvider
 
 def bind_all_standard_keys(standard_key, handler_cb, parent=None,
                            context=Qt.WindowShortcut):
