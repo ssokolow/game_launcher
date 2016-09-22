@@ -73,6 +73,7 @@ def make_action_group(parent, action_names):
     group = QActionGroup(parent)
     for action_name in action_names:
         group.addAction(parent.findChild(QAction, action_name))
+    return group
 
 def unbotch_icons(root, mappings):
     """Fix 'pyuic seems to not load Qt Designer-specified theme icons'

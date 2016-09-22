@@ -19,6 +19,13 @@ class Application(QApplication):
     def __init__(self, *args, **kwargs):
         super(Application, self).__init__(*args, **kwargs)
 
+        # Globally set values used by QSettings (rather than repeatedly)
+        self.setOrganizationName("ssokolow.com");
+        self.setOrganizationDomain("ssokolow.com");
+        self.setApplicationName("LazyGLaunch");
+
+        # Load the various widgets from the UI files
+        # (Must come after setting the org and app names for QSettings)
         with open(UI_FILE_PATH) as fobj:
             self.mainwin = loadUi(fobj)
 

@@ -7,6 +7,7 @@ Based on this stack overflow QA pair:
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
+from PyQt5.QtCore import QSettings
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QAction, QMainWindow
 
@@ -41,7 +42,45 @@ class MainWindow(QMainWindow):
             (QAction, 'actionDetailed_List_View'): 'view-list-details-symbolic'
         }
         unbotch_icons(self, view_buttons)
-        make_action_group(self, [x[1] for x in view_buttons.keys()])
+        self.view_actions = make_action_group(self,
+            [x[1] for x in view_buttons.keys()])
 
         # TODO: More automatic way for this
         self.stack_view_games.configure_children()
+        self.loadState()
+
+    def loadState(self):
+        # Restore saved settings
+        # (Cannot be called from __init__ because children aren't there yet)
+        settings = QSettings()
+        settings.beginGroup("mainwindow")
+        for role in ('geometry', 'state'):
+            data = settings.value(role)
+            if data:
+                getattr(self, 'restore' + role.title())(data)
+        settings.endGroup()
+
+        # Match dock toggle button to dock state
+        # TODO: Fix this so it doesn't cause hide the pane by default
+        #self.actionShow_categories_pane.setChecked(
+        #    self.dock_categories.isVisible())
+
+        # Match view selector buttons to stacked widget state
+        # TODO: Fix this so it doesn't cause an unpredictable one to start
+        # checked
+        #currentIdx = self.stack_view_games.currentIndex()
+        #self.view_actions.actions()[currentIdx].setChecked(True)
+
+    def closeEvent(self, event):
+        """Save settings on exit"""
+        # TODO: Display an "are you sure" dialog if not in trayable mode
+        settings = QSettings()
+        settings.beginGroup("mainwindow")
+        settings.setValue("geometry", self.saveGeometry())
+        settings.setValue("state", self.saveState())
+        settings.endGroup()
+
+        # Can't be called by stack_view_games.destroyed() for GC reasons
+        self.stack_view_games.saveState()
+
+        super(MainWindow, self).closeEvent(event)

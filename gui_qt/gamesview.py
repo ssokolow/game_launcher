@@ -3,7 +3,7 @@
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
-from PyQt5.QtCore import QDir, QUrl, Qt, pyqtSlot
+from PyQt5.QtCore import QDir, QSettings, QUrl, Qt, pyqtSlot
 from PyQt5.QtGui import QDesktopServices, QCursor
 from PyQt5.QtWidgets import QListView, QMenu, QStackedWidget, QTableView
 
@@ -136,9 +136,11 @@ class GamesView(QStackedWidget):
               actions that would be done in setupUi when translating the .ui
               file dynamically where there's no setupUi to wrap.
         """
-        # It's *FAR* too easy to switch this to the wrong value in Qt Designer.
-        # TODO: Set up robust sync between this and the button group
-        self.setCurrentIndex(0)
+        # Restore saved settings
+        settings = QSettings()
+        settings.beginGroup("gamesview")
+        self.setCurrentIndex(settings.value('selected_view_mode', 0, int))
+        settings.endGroup()
 
         # Cache simple references to the views
         self.listview = self.findChild(QListView, 'view_games')
@@ -158,6 +160,16 @@ class GamesView(QStackedWidget):
             return self.listview
         elif idx == 1:
             return self.tableview
+
+    def saveState(self):
+        """Save the state of this view to disk
+
+        (Can't be called by the destroyed() signal for Python GC reasons)
+        """
+        settings = QSettings()
+        settings.beginGroup("gamesview")
+        settings.setValue('selected_view_mode', self.currentIndex())
+        settings.endGroup()
 
     def setModel(self, model):
         """Set the model on both views within the compound object.
