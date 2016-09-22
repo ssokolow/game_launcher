@@ -143,13 +143,13 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         # Build the menu
         menu = QMenu("Filter Settings", self)
         self._build_menu_group(menu, "Match Mode", (
-            ('Prefix', {'mode': 'prefix'}),
-            ('Keyword', {'mode': 'keyword'}),
-            ('Substring', {'mode': 'substring'})))
+            ('&Prefix', {'mode': 'prefix'}),
+            ('&Keyword', {'mode': 'keyword'}),
+            ('&Substring', {'mode': 'substring'})))
         self._build_menu_group(menu, "Syntax", (
-            ('Literal', {'syntax': QRegExp.FixedString}),
-            ('Wildcard', {'syntax': QRegExp.Wildcard}),
-            ('RegExp', {'syntax': QRegExp.RegExp2})))
+            ('&Literal', {'syntax': QRegExp.FixedString}),
+            ('&Wildcard', {'syntax': QRegExp.Wildcard}),
+            ('&RegExp', {'syntax': QRegExp.RegExp2})))
 
         # Wrap it in a QToolButton so we can setPopupMode
         button = QToolButton(self)
