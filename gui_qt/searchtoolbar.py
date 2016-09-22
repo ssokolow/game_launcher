@@ -238,7 +238,6 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
     def clear(self):
         """Proxy the clear() slot up to where Qt Designer can work with it"""
         self.search_box.clear()
-        # TODO: Test this
 
     @pyqtSlot()
     def focus(self):
@@ -250,7 +249,8 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         self.search_box.focus()
 
     def lostFocus(self):
-        """Re-hide if we were hidden when a Ctrl+F or Ctrl+L arrived"""
+        """Clear and re-hide if we were hidden when a Ctrl+F or Ctrl+L arrived"""
         if self.transient:
+            self.clear()
             self.hide()
             self.transient = False
