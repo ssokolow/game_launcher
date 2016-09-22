@@ -26,19 +26,6 @@ class SearchField(QLineEdit):
         super(SearchField, self).__init__(*args, **kwargs)
         self.setClearButtonEnabled(True)
 
-        # Hook up Ctrl+F or equivalent
-        focuskeys = bind_all_standard_keys(QKeySequence.Find, self.focus, self)
-
-        # Given its position and role in the workflow, intuition may label it
-        # as a navigation bar, so bind Ctrl+L too.
-        bind_all_standard_keys(Qt.CTRL + Qt.Key_L, self.focus, self)
-
-        # Set the placeholder text, including keybinding hints
-        hotkey_list = ', '.join(x.key().toString() for x in focuskeys)
-        self.setPlaceholderText("Search... ({})".format(hotkey_list))
-        self.setToolTip("Type here to filter displayed results.\n\n"
-                        "Hotkeys: {}, Ctrl+L\n\n".format(hotkey_list))
-
     def keyPressEvent(self, event):
         """Override Home/End (or equivalent) and emit as events"""
         for key, signal in self.ignored_keys:
@@ -128,6 +115,22 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
 
     def _init_hotkeys(self):
         """Bind all of the hotkeys to make keyboard navigation comfy"""
+
+        # Hook up Ctrl+F or equivalent
+        self.focuskeys = bind_all_standard_keys(QKeySequence.Find, self.focus,
+                                                self.parent())
+
+        # Set the placeholder text, including keybinding hints
+        key_list = ', '.join(x.key().toString() for x in self.focuskeys)
+        self.search_box.setPlaceholderText("Search... ({})".format(key_list))
+        self.search_box.setToolTip("Type here to filter displayed results.\n\n"
+                        "Hotkeys: {}, Ctrl+L\n\n".format(key_list))
+
+
+        # Given its position and role in the workflow, intuition may label it
+        # as a navigation bar, so bind Ctrl+L too.
+        self.focuskeys += bind_all_standard_keys(Qt.CTRL + Qt.Key_L,
+                                                 self.focus, self.parent())
 
         # Hook up signal for "focus main view without running selected" (Esc)
         esc = getattr(QKeySequence, 'Cancel', Qt.Key_Escape)
@@ -220,10 +223,16 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         self.regexp = QRegExp(re_str, Qt.CaseInsensitive, QRegExp.RegExp2)
         self.regexpChanged.emit(self.regexp)
 
-
     @pyqtSlot()
     def clear(self):
         """Proxy the clear() slot up to where Qt Designer can work with it"""
         self.search_box.clear()
         # TODO: Test this
 
+    @pyqtSlot()
+    def focus(self):
+        """Proxy the focus() slot up and add a show()"""
+        self.show()
+        self.search_box.focus()
+        # TODO: If we weren't shown, set a flag so we can re-hide when we lose
+        #       focus.

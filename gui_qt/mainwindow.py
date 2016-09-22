@@ -54,6 +54,9 @@ class MainWindow(QMainWindow):
         set_action_icon(cat_action, 'view-split-left-right')
         self.toolBar.addAction(cat_action)
 
+        # Make the shortcut work even when the toolbar is hidden
+        self.addAction(cat_action)
+
     def closeEvent(self, event):
         """Save settings on exit"""
         # TODO: Display an "are you sure" dialog if not in trayable mode
