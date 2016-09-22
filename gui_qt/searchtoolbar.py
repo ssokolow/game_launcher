@@ -14,6 +14,7 @@ class SearchField(QLineEdit):
     """Search field which allows Home/End to be delegated"""
     topPressed = pyqtSignal()
     bottomPressed = pyqtSignal()
+    lostFocus = pyqtSignal()
 
     ignored_keys = [
         (Qt.Key_Home, 'topPressed'),
@@ -49,6 +50,9 @@ class SearchField(QLineEdit):
         # forwarded to the results view)
         self.setSelection(0, len(self.text()))
 
+    def focusOutEvent(self, event):
+        self.lostFocus.emit()
+
 class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
     """Search toolbar with a few tweaks not possible in pure Qt Designer
 
@@ -58,6 +62,7 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
 
     _text = ''
     regexp = None
+    transient = False
 
     # TODO: Move these to Qt Designer attributes
     DESIRED_WIDTH = 150
@@ -111,6 +116,9 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         search_box.topPressed.connect(self.topPressed.emit)
         search_box.bottomPressed.connect(self.bottomPressed.emit)
 
+        # Hook up the handler for hiding when shown transiently
+        search_box.lostFocus.connect(self.lostFocus)
+
         return search_box
 
     def _init_hotkeys(self):
@@ -124,7 +132,10 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         key_list = ', '.join(x.key().toString() for x in self.focuskeys)
         self.search_box.setPlaceholderText("Search... ({})".format(key_list))
         self.search_box.setToolTip("Type here to filter displayed results.\n\n"
-                        "Hotkeys: {}, Ctrl+L\n\n".format(key_list))
+                        "Hotkeys: {}, Ctrl+L\n\n"
+                        "Hotkeys will continue to work with this toolbar "
+                        "hidden\n and the toolbar will re-hide when it loses"
+                        "focus.".format(key_list))
 
 
         # Given its position and role in the workflow, intuition may label it
@@ -232,7 +243,14 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
     @pyqtSlot()
     def focus(self):
         """Proxy the focus() slot up and add a show()"""
-        self.show()
+        if not self.isVisible():
+            self.show()
+            self.transient = True
+
         self.search_box.focus()
-        # TODO: If we weren't shown, set a flag so we can re-hide when we lose
-        #       focus.
+
+    def lostFocus(self):
+        """Re-hide if we were hidden when a Ctrl+F or Ctrl+L arrived"""
+        if self.transient:
+            self.hide()
+            self.transient = False
