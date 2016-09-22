@@ -16,16 +16,15 @@ log = logging.getLogger(__name__)
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QKeySequence
-from PyQt5.QtWidgets import QApplication, QShortcut
-from PyQt5.uic import loadUi
+from PyQt5.QtWidgets import QShortcut
 
 from src.interfaces import PLUGIN_TYPES
 from yapsy.PluginManager import PluginManagerSingleton
 
 from src.game_providers import get_games
 
-from gui_qt.model import CategoriesModel, GameListModel
-from gui_qt.helpers import bind_all_standard_keys
+from gui_qt.application import Application
+from gui_qt.model import GameListModel
 
 # Help prevent crashes on exit
 # Source: http://pyqt.sourceforge.net/Docs/PyQt5/gotchas.html
@@ -49,51 +48,25 @@ def main():
         for x in sorted(plugin_mgr.getAllPlugins(),
                key=lambda x: x.plugin_object.precedence))))
 
-    app = QApplication(sys.argv)
-
-    with open(os.path.join(os.path.dirname(__file__), 'testgui.ui')) as fobj:
-        window = loadUi(fobj)
-    window.configure_children()
-
-    model = get_model().as_sorted()
-
-    # Hook up the signals
-    stackedwidget = window.stack_view_games
-    stackedwidget.configure_children()  # TODO: More automatic way to do this?
-    stackedwidget.setModel(model)
-
-    # Hook up the categories panel
-    cat_model = CategoriesModel(model)
-    window.view_categories.setModel(cat_model)
-
-    # Hook the search box up to the model filter
-    # (We connect ensureSelection and ensureVisible here rather than in Qt
-    #  Designer to make all three slots run in the right order)
-    window.searchBar.regexpChanged.connect(model.setFilterRegExp)
-    window.searchBar.regexpChanged.connect(stackedwidget.ensureSelection)
-    window.searchBar.regexpChanged.connect(stackedwidget.ensureVisible)
+    app = Application(sys.argv)
+    app.mainwin.configure_children()
 
     # Bind a placeholder to Ctrl+3 so it won't result in a spurious 3 being
     # typed into the search box if a user hits it by accident.
-    QShortcut(QKeySequence(Qt.CTRL + Qt.Key_3), window).activated.connect(
+    QShortcut(QKeySequence(Qt.CTRL + Qt.Key_3), app.mainwin).activated.connect(
         lambda: log.error("Thumbnail view not yet implemented"))
+
+    # Temporary binding point between model and app until I refactor the model
+    model = get_model().as_sorted()
+    app.set_model(model)
 
     def rescan():
         model.setSourceModel(get_model())
-        window.searchBar.clear()
-    window.actionRescan.triggered.connect(rescan)
+        app.mainwin.searchBar.clear()
+    app.mainwin.actionRescan.triggered.connect(rescan)
 
-    # Hook up the quit hotkey
-    bind_all_standard_keys(QKeySequence.Quit, app.quit, window,
-                           Qt.ApplicationShortcut)
-
-    window.show()
-
-    # Prevent crash-on-exit behaviour
-    # Source: http://stackoverflow.com/a/12457209/435253
-    retval = app.exec_()
-    app.deleteLater()
-    sys.exit(retval)
+    app.mainwin.show()
+    sys.exit(app.exec_())
 
 if __name__ == '__main__':
     main()

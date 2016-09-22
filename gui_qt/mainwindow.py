@@ -42,3 +42,6 @@ class MainWindow(QMainWindow):
         }
         unbotch_icons(self, view_buttons)
         make_action_group(self, [x[1] for x in view_buttons.keys()])
+
+        # TODO: More automatic way for this
+        self.stack_view_games.configure_children()
