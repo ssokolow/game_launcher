@@ -56,6 +56,20 @@ class MainWindow(QMainWindow):
         set_action_icon(cat_action, 'view-split-left-right')
         self.toolBar.addAction(cat_action)
 
+    def closeEvent(self, event):
+        """Save settings on exit"""
+        # TODO: Display an "are you sure" dialog if not in trayable mode
+        settings = QSettings()
+        settings.beginGroup("mainwindow")
+        settings.setValue("geometry", self.saveGeometry())
+        settings.setValue("state", self.saveState())
+        settings.endGroup()
+
+        # Can't be called by stack_view_games.destroyed() for GC reasons
+        self.stack_view_games.saveState()
+
+        super(MainWindow, self).closeEvent(event)
+
     def loadState(self):
         # Restore saved settings
         # (Cannot be called from __init__ because children aren't there yet)
@@ -72,17 +86,3 @@ class MainWindow(QMainWindow):
         # checked
         #currentIdx = self.stack_view_games.currentIndex()
         #self.view_actions.actions()[currentIdx].setChecked(True)
-
-    def closeEvent(self, event):
-        """Save settings on exit"""
-        # TODO: Display an "are you sure" dialog if not in trayable mode
-        settings = QSettings()
-        settings.beginGroup("mainwindow")
-        settings.setValue("geometry", self.saveGeometry())
-        settings.setValue("state", self.saveState())
-        settings.endGroup()
-
-        # Can't be called by stack_view_games.destroyed() for GC reasons
-        self.stack_view_games.saveState()
-
-        super(MainWindow, self).closeEvent(event)
