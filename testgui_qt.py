@@ -90,6 +90,12 @@ def main():
         window.searchBar.clear()
     window.actionRescan.triggered.connect(rescan)
 
+    # TODO: Move this stuff into a promoted subclass of QMainWindow
+    # Bind standard hotkeys for closing the window or quitting the application
+    # (Not the same thing once I support minimizing to tray)
+    bind_all_standard_keys(QKeySequence.Quit, app.quit, window)
+    bind_all_standard_keys(QKeySequence.Close, window.close, window)
+
     # Bind a placeholder to Ctrl+3 so it won't result in a spurious 3 being
     # typed into the search box if a user hits it by accident.
     QShortcut(QKeySequence(Qt.CTRL + Qt.Key_3), window).activated.connect(
