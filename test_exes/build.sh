@@ -195,7 +195,7 @@ javac hello.java
 jar cfe hello.jar hello hello.class
 rm hello.class
 
-echo " * Building test SWF file"
+echo " * Building test SWF file (compressed)"
 haxe -main Hello -swf hello_c.swf
 
 echo " * Compiling native ELF64 binary with GCC for comparison"
