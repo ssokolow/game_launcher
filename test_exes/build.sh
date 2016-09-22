@@ -146,6 +146,7 @@ echo " * Compiling for DOS with DJGPP (Protected Mode)"; (
 #   - https://github.com/alexfru/SmallerC
 #     + the various assemblers in the FreeDOS library
 #   - http://www.t3x.org/subc/
+#   - http://www.program-transformation.org/Transform/PcExeFormat
 
 # References used:
 #  ftp://ftp.openwatcom.org/pub/manuals/current/lguide.pdf#page=15
