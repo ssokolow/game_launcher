@@ -60,7 +60,7 @@ class SearchField(QLineEdit):
         # typing or jump to the beginning or end using the arrow keys.
         # (The latter being important since Home/End or equivalent are
         # forwarded to the results view)
-        self.setSelection(0, self.setFocus(Qt.ShortcutFocusReason))
+        self.setSelection(0, len(self.text()))
 
 class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
     """Search toolbar with a few tweaks not possible in pure Qt Designer
