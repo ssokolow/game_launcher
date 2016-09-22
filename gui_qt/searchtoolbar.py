@@ -27,17 +27,17 @@ class SearchField(QLineEdit):
         self.setClearButtonEnabled(True)
 
         # Hook up Ctrl+F or equivalent
-        focus_hotkeys = bind_all_standard_keys(QKeySequence.Find, lambda:
-            self.setFocus(Qt.ShortcutFocusReason), self)
+        focuskeys = bind_all_standard_keys(QKeySequence.Find, self.focus, self)
 
         # Given its position and role in the workflow, intuition may label it
         # as a navigation bar, so bind Ctrl+L too.
-        bind_all_standard_keys(Qt.CTRL + Qt.Key_L, lambda:
-            self.setFocus(Qt.ShortcutFocusReason), self)
+        bind_all_standard_keys(Qt.CTRL + Qt.Key_L, self.focus, self)
 
         # Set the placeholder text, including keybinding hints
-        self.setPlaceholderText("Search... ({})".format(
-            ', '.join(x.key().toString() for x in focus_hotkeys)))
+        hotkey_list = ', '.join(x.key().toString() for x in focuskeys)
+        self.setPlaceholderText("Search... ({})".format(hotkey_list))
+        self.setToolTip("Type here to filter displayed results.\n\n"
+                        "Hotkeys: {}, Ctrl+L\n\n".format(hotkey_list))
 
     def keyPressEvent(self, event):
         """Override Home/End (or equivalent) and emit as events"""
@@ -51,6 +51,16 @@ class SearchField(QLineEdit):
                 break
         else:
             return super(SearchField, self).keyPressEvent(event)
+
+    @pyqtSlot()
+    def focus(self):
+        self.setFocus(Qt.ShortcutFocusReason)
+
+        # Select any existing text so that users can replace it simply by
+        # typing or jump to the beginning or end using the arrow keys.
+        # (The latter being important since Home/End or equivalent are
+        # forwarded to the results view)
+        self.setSelection(0, self.setFocus(Qt.ShortcutFocusReason))
 
 class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
     """Search toolbar with a few tweaks not possible in pure Qt Designer
