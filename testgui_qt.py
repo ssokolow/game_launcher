@@ -65,6 +65,9 @@ def main():
         app.mainwin.searchBar.clear()
     app.mainwin.actionRescan.triggered.connect(rescan)
 
+    # Ensure F5 continues to work if the toolbar is hidden
+    app.mainwin.addAction(app.mainwin.actionRescan)
+
     app.mainwin.show()
     sys.exit(app.exec_())
 

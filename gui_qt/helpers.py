@@ -68,11 +68,18 @@ def set_action_icon(action, name):
     action.setIcon(icon)
 
 # XXX: Does it do more harm than good to dedupe this against the search code?
-def make_action_group(parent, action_names):
-    """Helper for cleanly grouping actions by name"""
+def make_action_group(parent, action_names, always_usable=False):
+    """Helper for cleanly grouping actions by name
+
+    If always_usable is True, also add them to C{parent} in case their toolbar
+    is hidden.
+    """
     group = QActionGroup(parent)
     for action_name in action_names:
-        group.addAction(parent.findChild(QAction, action_name))
+        action = parent.findChild(QAction, action_name)
+        group.addAction(action)
+        if always_usable:
+            parent.addAction(action)
     return group
 
 def unbotch_icons(root, mappings):

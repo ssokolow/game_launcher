@@ -38,7 +38,7 @@ class MainWindow(QMainWindow):
         }
         unbotch_icons(self, view_buttons)
         self.view_actions = make_action_group(self,
-            [x[1] for x in view_buttons.keys()])
+            [x[1] for x in view_buttons.keys()], True)
 
         self._add_toolbar_buttons()
 
