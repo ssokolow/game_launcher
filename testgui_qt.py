@@ -39,8 +39,13 @@ def main():
     """The main entry point, compatible with setuptools entry points."""
 
     # TODO: Unify this into a single file all frontends can import
+    # TODO: Use http://yapsy.sourceforge.net/ConfigurablePluginManager.html
+    #       to allow plugins to be enabled, disabled, and configured
+    # TODO: Can I use that and this at the same time? (subclassing both?)
+    #       http://yapsy.sourceforge.net/AutoInstallPluginManager.html
     plugin_mgr = PluginManagerSingleton.get()
     plugin_mgr.setPluginPlaces(['plugins'])  # TODO: Explicit __file__-rel.
+    # TODO: http://www.py2exe.org/index.cgi/WhereAmI
     plugin_mgr.setCategoriesFilter({x.plugin_type: x for x in PLUGIN_TYPES})
     plugin_mgr.collectPlugins()
 
