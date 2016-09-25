@@ -49,7 +49,6 @@ def main():
                key=lambda x: x.plugin_object.precedence))))
 
     app = Application(sys.argv)
-    app.mainwin.configure_children()
 
     # Bind a placeholder to Ctrl+3 so it won't result in a spurious 3 being
     # typed into the search box if a user hits it by accident.
