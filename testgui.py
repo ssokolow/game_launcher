@@ -10,6 +10,7 @@ __appname__ = "Test GUI for game_launcher"
 __version__ = "0.0pre0"
 __license__ = "GNU GPL 3.0 or later"
 
+# pylint: disable=multiple-imports
 import logging, os, sys, threading
 log = logging.getLogger(__name__)
 
@@ -21,6 +22,7 @@ FALLBACK_ICON = "applications-games"
 
 # ---=== Begin Imports ===---
 
+# pylint: disable=wrong-import-position
 from xml.sax.saxutils import escape as xmlescape
 
 # TODO: Decide on a name for the project and rename "src"
@@ -110,33 +112,34 @@ class GtkTreeModelAdapter(gtk.GenericTreeModel):
     def get_column_names(self):
         return self.column_names[:]
 
-    def on_get_flags(self):
-        return gtk.TREE_MODEL_LIST_ONLY|gtk.TREE_MODEL_ITERS_PERSIST
+    def on_get_flags(self):  # pylint: disable=no-self-use
+        return gtk.TREE_MODEL_LIST_ONLY | gtk.TREE_MODEL_ITERS_PERSIST
 
     def on_get_n_columns(self):
         return len(self.column_types)
 
-    def on_get_column_type(self, n):
-        return self.column_types[n]
+    def on_get_column_type(self, col_num):
+        return self.column_types[col_num]
 
     def on_get_iter(self, path):
         return (path[0], self.entries[path[0]])
 
-    def on_get_path(self, rowref):
+    def on_get_path(self, rowref):  # pylint: disable=no-self-use
         if not isinstance(rowref, int):
             rowref = rowref[0]
         return rowref[0]
 
-    def on_get_value(self, rowref, column):
+    def on_get_value(self, rowref, column):  # pylint: disable=no-self-use
         entry = rowref[1]
         if column is 0:
             return GtkIconWrapper.get_scaled_icon(entry.icon, ICON_SIZE)
             #if hasattr(entry, 'icon_pixmap'):
-                #return entry.icon_pixmap
+            #    return entry.icon_pixmap
             #else:
-                # TODO: Enqueue
-                #  entry.icon_pixmap = GtkIconWrapper.get_scaled_icon(entry.icon, ICON_SIZE)
-                #return None
+            #    # TODO: Enqueue
+            #    entry.icon_pixmap = GtkIconWrapper.get_scaled_icon(entry.icon,
+            #                                                       ICON_SIZE)
+            #    return None
         elif column is 1:
             return entry.name
         elif column is 2:
@@ -154,7 +157,7 @@ class GtkTreeModelAdapter(gtk.GenericTreeModel):
             return None
         return (0, self.entries[0])
 
-    def on_iter_has_child(self, rowref):
+    def on_iter_has_child(self, rowref):  # pylint: disable=no-self-use
         return False
 
     def on_iter_n_children(self, rowref):
@@ -170,7 +173,7 @@ class GtkTreeModelAdapter(gtk.GenericTreeModel):
         except IndexError:
             return None
 
-    def on_iter_parent(child):
+    def on_iter_parent(self, child):  # pylint: disable=no-self-use
         return None
 
 
@@ -191,7 +194,8 @@ class GtkIconWrapper(BaseIconWrapper):
         if os.path.exists(name_or_path):
             return cls(gtk.gdk.pixbuf_new_from_file(name_or_path))
         elif cls.icon_theme.has_icon(name_or_path):
-            return cls(cls.icon_theme.load_icon(name_or_path, size, 0))
+            return cls(cls.icon_theme.load_icon(name_or_path,
+                                                requested_size, 0))
         else:
             return None
 
@@ -293,9 +297,9 @@ class GtkIconWrapper(BaseIconWrapper):
         try:
             cls._ensure_good_upscales(path, size)
             icon = cls.icon_theme.load_icon(path, size, 0)
-            if not (size == icon.get_width() == icon.get_height()):
-                log.debug("%s: %s != %s != %s" %
-                      (path, size, icon.get_width(), icon.get_height()))
+            if not size == icon.get_width() == icon.get_height():
+                log.debug("%s: %s != %s != %s",
+                      path, size, icon.get_width(), icon.get_height())
             result = cls._ensure_dimensions(icon, size)
         except (AttributeError, glib.GError):
             log.error("BAD ICON: %s", path)
@@ -313,6 +317,8 @@ class GtkIconWrapper(BaseIconWrapper):
 
 
 class Application(object):  # pylint: disable=C0111,R0902
+    entries = None
+
     def __init__(self):
         gobject.threads_init()
         GtkIconWrapper.init_cls()
@@ -346,7 +352,6 @@ class Application(object):  # pylint: disable=C0111,R0902
         #self.treeview.set_reorderable(True)
 
         self.views = [self.iconview, self.treeview]
-
 
         for view in self.views:
             pass
@@ -593,7 +598,7 @@ def main():
                         format='%(levelname)s: %(message)s')
 
     pluginManager = PluginManagerSingleton.get()
-    pluginManager.setPluginPlaces(['plugins']) # TODO: Explicit __file__-rel.
+    pluginManager.setPluginPlaces(['plugins'])  # TODO: Explicit __file__-rel.
     pluginManager.setCategoriesFilter({x.plugin_type: x for x in PLUGIN_TYPES})
     pluginManager.collectPlugins()
 
