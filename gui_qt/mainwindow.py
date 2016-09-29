@@ -7,6 +7,7 @@ Based on this stack overflow QA pair:
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
+# pylint: disable=no-name-in-module
 from PyQt5.QtCore import QSettings, Qt
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QAction, QMainWindow
@@ -15,6 +16,8 @@ from .helpers import (bind_all_standard_keys, make_action_group,
                       set_action_icon, unbotch_icons)
 
 class MainWindow(QMainWindow):
+    view_actions = None
+
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
 

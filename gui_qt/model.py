@@ -9,6 +9,7 @@ __license__ = "GNU GPL 3.0 or later"
 FALLBACK_ICON = "applications-games"
 ICON_SIZE = 64
 
+# pylint: disable=no-name-in-module,wrong-import-position
 from PyQt5.QtCore import (QAbstractItemModel, QAbstractTableModel, QModelIndex,
                           QSortFilterProxyModel, Qt)
 
@@ -51,7 +52,8 @@ class CategoriesModel(QAbstractItemModel):
                                     key=lambda x: x.lower()))
         self.endResetModel()
 
-    def columnCount(self, parent):
+    def columnCount(self, _):  # pylint: disable=no-self-use
+        """This model always has one column"""
         return 1
 
     def data(self, index, role):

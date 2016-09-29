@@ -11,9 +11,9 @@ __appname__ = "Qt Test GUI for game launcher experiment"
 __version__ = "0.0pre0"
 __license__ = "GNU GPL 3.0 or later"
 
-import logging, os, sys
-log = logging.getLogger(__name__)
+import logging, sys
 
+# pylint: disable=no-name-in-module
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QShortcut
@@ -25,6 +25,8 @@ from src.game_providers import get_games
 
 from gui_qt.application import Application
 from gui_qt.model import GameListModel
+
+log = logging.getLogger(__name__)
 
 # Help prevent crashes on exit
 # Source: http://pyqt.sourceforge.net/Docs/PyQt5/gotchas.html

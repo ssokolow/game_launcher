@@ -3,6 +3,7 @@
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
+# pylint: disable=no-name-in-module
 from PyQt5.QtCore import QRegExp, Qt, pyqtSignal, pyqtSlot
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import (QAction, QActionGroup, QLineEdit, QMenu,
@@ -50,7 +51,7 @@ class SearchField(QLineEdit):
         # forwarded to the results view)
         self.setSelection(0, len(self.text()))
 
-    def focusOutEvent(self, event):
+    def focusOutEvent(self, _):
         self.lostFocus.emit()
 
 class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
@@ -136,7 +137,6 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
                         "Hotkeys will continue to work with this toolbar "
                         "hidden\n and the toolbar will re-hide when it loses"
                         "focus.".format(key_list))
-
 
         # Given its position and role in the workflow, intuition may label it
         # as a navigation bar, so bind Ctrl+L too.
@@ -249,7 +249,7 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         self.search_box.focus()
 
     def lostFocus(self):
-        """Clear and re-hide if we were hidden when a Ctrl+F or Ctrl+L arrived"""
+        """Clear and re-hide if we were hidden when a Ctrl+F/Ctrl+L arrived"""
         if self.transient:
             self.clear()
             self.hide()

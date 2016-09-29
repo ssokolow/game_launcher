@@ -3,6 +3,7 @@
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
+# pylint: disable=no-name-in-module
 from PyQt5.QtCore import QDir, QProcess, QUrl, pyqtSlot
 from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtWidgets import QMenu
@@ -18,7 +19,7 @@ def run_cmd(parent_qobject, launcher):
     process.setWorkingDirectory(command['cwd'])
     process.start(command['args'][0], command['args'][1:])
 
-class GameContextMenu(QMenu):
+class GameContextMenu(QMenu):  # pylint: disable=too-few-public-methods
     """Context menu for an entry in the games list
     TODO: The popup menu should include:
           - A submenu for selecting which subentry is default (double-click)

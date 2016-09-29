@@ -3,8 +3,10 @@
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
+# pylint: disable=multiple-imports
 import os, operator
 
+# pylint: disable=no-name-in-module
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QIcon
 
@@ -94,7 +96,6 @@ class IconProvider(object):
                     if not icon.isNull():
                         return icon
         return None
-
 
     # TODO: Do this properly
     def get_icon(self, icon_name, icon_size):

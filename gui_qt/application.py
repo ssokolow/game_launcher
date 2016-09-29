@@ -2,6 +2,7 @@
 
 import os
 
+# pylint: disable=no-name-in-module
 from PyQt5.QtCore import Qt, pyqtSlot
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QApplication
@@ -20,9 +21,9 @@ class Application(QApplication):
         super(Application, self).__init__(*args, **kwargs)
 
         # Globally set values used by QSettings (rather than repeatedly)
-        self.setOrganizationName("ssokolow.com");
-        self.setOrganizationDomain("ssokolow.com");
-        self.setApplicationName("LazyGLaunch");
+        self.setOrganizationName("ssokolow.com")
+        self.setOrganizationDomain("ssokolow.com")
+        self.setApplicationName("LazyGLaunch")
 
         # Load the various widgets from the UI files
         # (Must come after setting the org and app names for QSettings)

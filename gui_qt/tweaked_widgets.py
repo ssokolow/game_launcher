@@ -5,6 +5,7 @@ to keep the code's structure clean.
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
+# pylint: disable=no-name-in-module
 from PyQt5.QtCore import QSize, Qt, pyqtSlot
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import (QHeaderView, QListView,
@@ -13,7 +14,7 @@ from PyQt5.QtWidgets import (QHeaderView, QListView,
 from .helpers import bind_all_standard_keys
 
 
-class BugFixListView(QListView):
+class BugFixListView(QListView):  # pylint: disable=too-few-public-methods
     """A subclass of QListView which fixes various papecut issues.
 
     - Scroll by pixel (or by a reasonable approximation of traditional clicky

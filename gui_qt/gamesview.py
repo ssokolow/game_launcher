@@ -3,6 +3,7 @@
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
+# pylint: disable=no-name-in-module
 from PyQt5.QtCore import Qt, pyqtSlot
 from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import QListView, QStackedWidget, QTableView
