@@ -15,7 +15,7 @@ def run_cmd(parent_qobject, launcher):
 
     # TODO: Hook up signals for better feedback
     process = QProcess(parent_qobject)
-    process.setWorkingDirectory(command['path'])
+    process.setWorkingDirectory(command['cwd'])
     process.start(command['args'][0], command['args'][1:])
 
 class GameContextMenu(QMenu):
