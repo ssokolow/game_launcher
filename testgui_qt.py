@@ -24,7 +24,7 @@ from yapsy.PluginManager import PluginManagerSingleton
 from src.game_providers import get_games
 
 from gui_qt.application import Application
-from gui_qt.model import GameListModel
+from gui_qt.model import BasicSortFilterProxyModel, GameListModel
 
 log = logging.getLogger(__name__)
 
@@ -63,7 +63,7 @@ def main():
         lambda: log.error("Thumbnail view not yet implemented"))
 
     # Temporary binding point between model and app until I refactor the model
-    model = get_model().as_sorted()
+    model = BasicSortFilterProxyModel.wrap(get_model())
     app.set_model(model)
 
     def rescan():

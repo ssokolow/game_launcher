@@ -17,6 +17,35 @@ from .icon_provider import IconProvider
 
 icon_provider = IconProvider(FALLBACK_ICON)
 
+# -- Proxy Models --
+
+class FunctionalInitMixin(object):
+    """Mixin to provide a wrap(sourceModel) class method to proxy models"""
+    @classmethod
+    def wrap(cls, sourceModel):
+        """Wrapper for a more functional init style"""
+        model = cls()
+        model.setSourceModel(sourceModel)
+        return model
+
+class BasicSortFilterProxyModel(QSortFilterProxyModel, FunctionalInitMixin):
+    """A subclass which encapsulates the desired configuration tweaks"""
+    def __init__(self, *args, **kwargs):
+        super(BasicSortFilterProxyModel, self).__init__(*args, **kwargs)
+        self.setDynamicSortFilter(True)
+        self.setSortCaseSensitivity(Qt.CaseInsensitive)
+        self.setFilterCaseSensitivity(Qt.CaseInsensitive)
+
+    def setSourceModel(self, model):
+        """A wrapper for setSourceModel which ensures proper sort indication"""
+        super(BasicSortFilterProxyModel, self).setSourceModel(model)
+
+        # Force the header sort indicator to match the data so the initial
+        # click won't be a no-op.
+        self.sort(0, Qt.AscendingOrder)
+
+# -- Non-Proxy Models --
+
 class CategoriesModel(QAbstractItemModel):
     ICON_SIZE = 16
 
@@ -95,15 +124,6 @@ class GameListModel(QAbstractTableModel):
         self.games = data_list
         self.icon_size = ICON_SIZE  # TODO: Do this properly
         self.icon_cache = {}  # TODO: Do this properly
-
-    def as_sorted(self):
-        model_sorted = QSortFilterProxyModel()
-        model_sorted.setDynamicSortFilter(True)
-        model_sorted.setSortCaseSensitivity(Qt.CaseInsensitive)
-        model_sorted.setFilterCaseSensitivity(Qt.CaseInsensitive)
-        model_sorted.setSourceModel(self)
-        model_sorted.sort(0, Qt.AscendingOrder)
-        return model_sorted
 
     def columnCount(self, parent):  # pylint: disable=R0201
         if parent and parent.isValid():
