@@ -7,7 +7,7 @@ from PyQt5.QtCore import Qt, pyqtSlot
 from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import QListView, QStackedWidget, QTableView
 
-from .gamecontextmenu import GameContextMenu
+from .gamecontextmenu import GameContextMenu, run_cmd
 
 class GamesView(QStackedWidget):
     """Encapsulation for the stuff that ties together stack_view_games and its
@@ -128,8 +128,7 @@ class GamesView(QStackedWidget):
 
         # TODO: Make this not a stop-gap solution
         cmd = self.model.data(index, Qt.UserRole).default_launcher
-        if cmd:
-            cmd.run()
+        run_cmd(self, cmd)
 
     @pyqtSlot()
     def selectNext(self):

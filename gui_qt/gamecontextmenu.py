@@ -9,6 +9,15 @@ from PyQt5.QtWidgets import QMenu
 
 from src.util.executables import Roles
 
+def run_cmd(parent_qobject, launcher):
+    """Run the program associated with the given Launcher entry via QProcess"""
+    command = launcher.get_command()
+
+    # TODO: Hook up signals for better feedback
+    process = QProcess(parent_qobject)
+    process.setWorkingDirectory(command['path'])
+    process.start(command['args'][0], command['args'][1:])
+
 class GameContextMenu(QMenu):
     """Context menu for an entry in the games list
     TODO: The popup menu should include:
@@ -58,7 +67,7 @@ class GameContextMenu(QMenu):
         # TODO: Add an "Are you sure?" dialog for install/uninstall
         # TODO: Use QProcess so we can have a throbber and the like
         action = self.addAction(self._entry_launcher_name(self.entry, cmd),
-            lambda triggered=None, cmd=cmd: self.run_cmd(cmd))
+            lambda triggered=None, cmd=cmd: run_cmd(self, cmd))
 
         # TODO: Actually use a customizable default setting
         if cmd == self.entry.default_launcher:
@@ -101,17 +110,11 @@ class GameContextMenu(QMenu):
         else:
             return 'Play'
 
-    def run_cmd(self, launcher):
-        """Run the given program via QProcess"""
-        command = launcher.get_command()
-
-        # TODO: Hook up signals for better feedback
-        process = QProcess(self)
-        process.setWorkingDirectory(command['path'])
-        process.start(command['args'][0], command['args'][1:])
-
     @pyqtSlot()
     def open_folder(self):
         """Callback to open the game's install folder in their file manager"""
+        # TODO: Decouple the meat of this slot from the UI code
+        # (ie. Move the actual QDesktopServices call into a separate module
+        #  alongside the code for run_cmd)
         QDesktopServices.openUrl(QUrl.fromLocalFile(
             QDir(self.entry.base_path).absolutePath()))
