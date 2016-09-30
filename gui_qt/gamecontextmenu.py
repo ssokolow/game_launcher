@@ -3,6 +3,8 @@
 __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "GNU GPL 3.0 or later"
 
+import shlex
+
 # pylint: disable=no-name-in-module
 from PyQt5.QtCore import QDir, QProcess, QUrl, pyqtSlot
 from PyQt5.QtGui import QDesktopServices
@@ -54,11 +56,15 @@ class GameContextMenu(QMenu):  # pylint: disable=too-few-public-methods
     def __init__(self, parent, entry):
         super(GameContextMenu, self).__init__(parent)
         self.entry = entry
+        self.setToolTipsVisible(True)
 
         self._add_launchers()
         self.addSeparator()
-        self.addAction("Open Install Folder", self.open_folder).setEnabled(
-            bool(entry.base_path))
+        open_folder = self.addAction("Open Install Folder", self.open_folder)
+        open_folder.setEnabled(bool(entry.base_path))
+        open_folder.setToolTip("Open the folder containing the game in the "
+                               "system's default file manager.")
+
         self.addAction("Rename...").setEnabled(False)
         self.addAction("Hide").setEnabled(False)
 
@@ -69,6 +75,18 @@ class GameContextMenu(QMenu):  # pylint: disable=too-few-public-methods
         # TODO: Use QProcess so we can have a throbber and the like
         action = self.addAction(self._entry_launcher_name(self.entry, cmd),
             lambda triggered=None, cmd=cmd: run_cmd(self, cmd))
+
+        # TODO: Move this formatting into the frontend-agnostic backend
+        command = cmd.get_command()
+        fields = [
+            ('Command', ' '.join(shlex.quote(x) for x in command['args'])),
+            ('Working Directory', command['cwd']),
+        ]
+        pad = max(len(x[0]) for x in fields)
+        # TODO: Also incorporate the role
+        action.setToolTip("Run the following command:\n\n" +
+                          '\n'.join("{}:\n\t{}".format(x, y, pad=pad)
+                                    for x, y in fields))
 
         # TODO: Actually use a customizable default setting
         if cmd == self.entry.default_launcher:
