@@ -68,7 +68,7 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
     # TODO: Move these to Qt Designer attributes
     DESIRED_WIDTH = 150
     _state = {
-        'mode': 'keyword',
+        'mode': 'prefix_word',
         'syntax': QRegExp.FixedString,
     }
 
@@ -162,7 +162,7 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         menu = QMenu("Search Options", self)
         self._build_menu_group(menu, "Match Mode", (
             ('&Prefix', {'mode': 'prefix'}),
-            ('&Keyword', {'mode': 'keyword'}),
+            ('Prefix (&Any Word)', {'mode': 'prefix_word'}),
             ('&Substring', {'mode': 'substring'})))
         self._build_menu_group(menu, "Syntax", (
             ('&Literal', {'syntax': QRegExp.FixedString}),
@@ -228,7 +228,7 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         # Actually implement fancy matching
         if re_mode == 'prefix':
             re_str = '^' + re_str
-        elif re_mode == 'keyword':
+        elif re_mode == 'prefix_word':
             re_str = r'\b' + re_str
 
         self.regexp = QRegExp(re_str, Qt.CaseInsensitive, QRegExp.RegExp2)
