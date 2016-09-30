@@ -160,14 +160,26 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         """Initialize the dropdown button for configuring search"""
         # Build the menu
         menu = QMenu("Search Options", self)
+        menu.setToolTipsVisible(True)
         self._build_menu_group(menu, "Match Mode", (
-            ('&Prefix', {'mode': 'prefix'}),
-            ('Prefix (&Any Word)', {'mode': 'prefix_word'}),
-            ('&Substring', {'mode': 'substring'})))
+            ('&Prefix', {'mode': 'prefix'},
+                'Match titles beginning with the given string'),
+            ('Prefix (&Any Word)', {'mode': 'prefix_word'},
+                'Match titles where the given string appears '
+                'either at the beginning or after a space'),
+            ('&Substring', {'mode': 'substring'},
+                'Match titles where the given string appears '
+                'anywhere... even within a word.')))
         self._build_menu_group(menu, "Syntax", (
-            ('&Literal', {'syntax': QRegExp.FixedString}),
-            ('&Wildcard', {'syntax': QRegExp.Wildcard}),
-            ('&RegExp', {'syntax': QRegExp.RegExp2})))
+            ('&Literal', {'syntax': QRegExp.FixedString},
+                'Match search text as-is'),
+            ('&Wildcard', {'syntax': QRegExp.Wildcard},
+                'Treat the following characters as placeholders:\n\n'
+                '? will match exactly one character\n'
+                '* will match zero or more characters'),
+            ('&RegExp', {'syntax': QRegExp.RegExp2},
+                'Treat the search string as a regular expression '
+                'using the QRegExp syntax.')))
 
         # Set up the action for displaying the menu
         action = QAction(menu.title(), self)
@@ -189,8 +201,9 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         menu.addSection(section)
         modeGroup = QActionGroup(menu)
         modeGroup.setExclusive(True)
-        for title, state in entries:
+        for title, state, tooltip in entries:
             item = modeGroup.addAction(title)
+            item.setToolTip(tooltip)
             item.setCheckable(True)
             menu.addAction(item)
 
