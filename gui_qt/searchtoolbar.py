@@ -17,6 +17,7 @@ class SearchField(QLineEdit):
     bottomPressed = pyqtSignal()
     lostFocus = pyqtSignal()
 
+    override_motion_keys = False
     ignored_keys = [
         (Qt.Key_Home, 'topPressed'),
         (QKeySequence.MoveToStartOfDocument, 'topPressed'),
@@ -30,16 +31,16 @@ class SearchField(QLineEdit):
 
     def keyPressEvent(self, event):
         """Override Home/End (or equivalent) and emit as events"""
-        for key, signal in self.ignored_keys:
-            if (isinstance(key, QKeySequence.StandardKey) and
-                    event.matches(key)):
-                getattr(self, signal).emit()
-                break
-            elif event.key() == key and event.modifiers() == Qt.NoModifier:
-                getattr(self, signal).emit()
-                break
-        else:
-            return super(SearchField, self).keyPressEvent(event)
+        if self.override_motion_keys:
+            for key, signal in self.ignored_keys:
+                if (isinstance(key, QKeySequence.StandardKey) and
+                        event.matches(key)):
+                    getattr(self, signal).emit()
+                    return
+                elif event.key() == key and event.modifiers() == Qt.NoModifier:
+                    getattr(self, signal).emit()
+                    return
+        return super(SearchField, self).keyPressEvent(event)
 
     @pyqtSlot()
     def focus(self):
@@ -53,6 +54,10 @@ class SearchField(QLineEdit):
 
     def focusOutEvent(self, _):
         self.lostFocus.emit()
+
+    @pyqtSlot(bool)
+    def setOverrideMotionKeys(self, enabled):
+        self.override_motion_keys = enabled
 
 class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
     """Search toolbar with a few tweaks not possible in pure Qt Designer
@@ -90,12 +95,14 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.addWidget(spacer)
 
+        # Initialize the search field first for _init_settings_dropdown()
+        self.search_box = self._init_search_widget()
+
         # Define and configure the settings dropdown
         self.dropdown = self._init_settings_dropdown()
         self.addWidget(self.dropdown)
 
-        # Define and configure the actual search field
-        self.search_box = self._init_search_widget()
+        # Add the search field to the toolbar
         self.addWidget(self.search_box)
 
         # Initialize the hotkeys
@@ -180,6 +187,15 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
             ('&RegExp', {'syntax': QRegExp.RegExp2},
                 'Treat the search string as a regular expression '
                 'using the QRegExp syntax.')))
+
+        menu.addSeparator()
+        nav_keys = menu.addAction("Use Home/End/etc. for &navigation")
+        nav_keys.setToolTip("Override the default 'text field' behaviour for\n"
+                            "navigation keys and feed them to the results list"
+                            "\n to streamline keyboard-only use.")
+        nav_keys.setCheckable(True)
+        nav_keys.toggled.connect(self.search_box.setOverrideMotionKeys)
+        nav_keys.setChecked(True)
 
         # Set up the action for displaying the menu
         action = QAction(menu.title(), self)
