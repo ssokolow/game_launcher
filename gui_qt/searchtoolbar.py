@@ -52,7 +52,9 @@ class SearchField(QLineEdit):
         # forwarded to the results view)
         self.setSelection(0, len(self.text()))
 
-    def focusOutEvent(self, _):
+    def focusOutEvent(self, event):
+        """Emit focusOutEvent as a signal so we can connect it"""
+        super(SearchField, self).focusOutEvent(event)
         self.lostFocus.emit()
 
     @pyqtSlot(bool)
