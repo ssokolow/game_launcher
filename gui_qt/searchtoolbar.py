@@ -84,6 +84,9 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
     bottomPressed = pyqtSignal()
     returnPressed = pyqtSignal()
     regexpChanged = pyqtSignal('QRegExp')
+    resetFilters = pyqtSignal()
+
+    reset_filters_on_text_change = False
 
     def __init__(self, *args, **kwargs):
         super(SearchToolbar, self).__init__(*args, **kwargs)
@@ -197,6 +200,13 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         nav_keys.toggled.connect(self.search_box.setOverrideMotionKeys)
         nav_keys.setChecked(True)
 
+        all_cats = menu.addAction("Typing clears &category filter")
+        all_cats.setToolTip("Unset any category filters when the title search "
+                            "text is changed")
+        all_cats.setCheckable(True)
+        all_cats.toggled.connect(self.setResetFiltersOnTextChange)
+        all_cats.setChecked(True)
+
         # Set up the action for displaying the menu
         action = QAction(menu.title(), self)
         set_action_icon(action, 'search')
@@ -234,6 +244,9 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         """Handler for self.search_box.textChanged"""
         self._text = text
         self.updateRegExp()
+
+        if self.reset_filters_on_text_change:
+            self.resetFilters.emit()
 
     def _updateState(self, checked, state):
         """Handler for _build_menu_group toggled signals"""
@@ -283,3 +296,7 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
             self.clear()
             self.hide()
             self.transient = False
+
+    @pyqtSlot(bool)
+    def setResetFiltersOnTextChange(self, enabled):
+        self.reset_filters_on_text_change = enabled
