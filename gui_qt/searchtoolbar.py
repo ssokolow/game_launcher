@@ -258,7 +258,7 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
         if re_mode == 'prefix':
             re_str = '^' + re_str
         elif re_mode == 'prefix_word':
-            re_str = r'\b' + re_str
+            re_str = r'(^|\b|\s)' + re_str
 
         self.regexp = QRegExp(re_str, Qt.CaseInsensitive, QRegExp.RegExp2)
         self.regexpChanged.emit(self.regexp)
