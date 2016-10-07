@@ -36,6 +36,16 @@ def bind_all_standard_keys(standard_key, handler_cb, parent=None,
         results.append(shortcut)
     return results
 
+def get_keys_hint(shortcuts):
+    """Generate hint text to be used in tooltips from a list of QShortcut
+
+    @note: It's convention to put this between parentheses in single-line
+        tooltips, but it's left to be done by the caller since that may not
+        be the case in longer tooltips and this can also be used after \\t to
+        display more than one shortcut hint in a QMenu entry.
+    """
+    return ', '.join(x.key().toString() for x in shortcuts)
+
 def iterate_model(model, parent_idx=None, topdown=True):
     """A generator for depth-first iteration through a QAbstractItemModel.
 

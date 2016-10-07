@@ -9,7 +9,7 @@ from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import (QAction, QActionGroup, QLineEdit, QMenu,
                              QSizePolicy, QToolBar, QToolButton, QWidget)
 
-from .helpers import bind_all_standard_keys, set_action_icon
+from .helpers import bind_all_standard_keys, get_keys_hint, set_action_icon
 
 class SearchField(QLineEdit):
     """Search field which allows Home/End to be delegated"""
@@ -142,18 +142,18 @@ class SearchToolbar(QToolBar):  # pylint: disable=too-few-public-methods
                                                 self.parent())
 
         # Set the placeholder text, including keybinding hints
-        key_list = ', '.join(x.key().toString() for x in self.focuskeys)
-        self.search_box.setPlaceholderText("Search... ({})".format(key_list))
-        self.search_box.setToolTip("Type here to filter displayed results.\n\n"
-                        "Hotkeys: {}, Ctrl+L\n\n"
-                        "Hotkeys will continue to work with this toolbar "
-                        "hidden\n and the toolbar will re-hide when it loses"
-                        "focus.".format(key_list))
+        self.search_box.setPlaceholderText("Search... ({})".format(
+            get_keys_hint(self.focuskeys)))
 
         # Given its position and role in the workflow, intuition may label it
         # as a navigation bar, so bind Ctrl+L too.
         self.focuskeys += bind_all_standard_keys(Qt.CTRL + Qt.Key_L,
                                                  self.focus, self.parent())
+        self.search_box.setToolTip("Type here to filter displayed results.\n\n"
+                        "Hotkeys: {}\n\n"
+                        "Hotkeys will continue to work with this toolbar "
+                        "hidden\n and the toolbar will re-hide when it loses"
+                        "focus.".format(get_keys_hint(self.focuskeys)))
 
         # Hook up signal for "focus main view without running selected" (Esc)
         esc = getattr(QKeySequence, 'Cancel', Qt.Key_Escape)
