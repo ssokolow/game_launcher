@@ -136,9 +136,25 @@ echo " * Compiling for DOS with DJGPP (Protected Mode)"; (
 )
 
 # TODO:
-# - Look for a way to generate the i386-dos32.tmt.adam format UPX supports
-#   - Only non-UPX mention I've found so far:
+# - Look for a way to generate the "rtm32/pe" variant of PE from `man upx`.
+#   Apparently, it's used by the Borland Turbo C/Pascal DOS extenders:
+#   - http://www.vogons.org/viewtopic.php?t=25997
+# - Find a copy of TMT Pascal Lite for DOS version 3.90d so I can generate
+#   the i386-dos32.tmt.adam format mentioned in `man upx`:
+#   - http://wiki.freepascal.org/Hello%2C_World
+#   - http://www.edm2.com/index.php/TMT_Pascal
+#   - http://www.frameworkpascal.com/download.htm
+#   - http://pascal.sources.ru/tmt/download.htm
+#   - Possibly related:
 #     http://board.flatassembler.net/topic.php?p=179760
+#   - "Hello, world!
+#
+#      This program was compiled with TMT Pascal Lite for DOS
+#      for the purpose of testing code which detects or manipulates
+#      the i386-dos32.tmt.adam file format.
+#
+#      In accordance with the terms of the TMT Pascal Lite license agreement,
+#      you may not charge money for this binary."
 # - Determine whether any of these generate usefully different EXE files
 #   - http://freedos.sourceforge.net/software/?prog=cc386
 #   - http://ladsoft.tripod.com/orange_c_compiler.html
