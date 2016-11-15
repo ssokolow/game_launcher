@@ -3,9 +3,11 @@
 #
 # (Though it won't fail if some are missing. If you just want convenience,
 #  set up OpenWatcom since it generates the majority of the test files and
-#  one of each format under test)
+#  one of almost every format under test)
+#
 #
 # The following packages:
+#   build-essential
 #   dosemu
 #   haxe
 #   mingw-w64
@@ -31,7 +33,7 @@
 #       (On my system, attempting to run the installer causes it to crash)
 #    4. file ~/opt/openwatcom/binl/* | grep ELF | cut -d: -f1 | xargs chmod +x
 #
-# Pacific C
+# Pacific C (because /usr/bin/file sees its output as different from others)
 #   Obtain from: http://www.freedos.org/software/?prog=pacific-c
 #   Installation:
 #    1. Run `dosemu` and then type `exitemu` in the resulting window
@@ -105,7 +107,6 @@ openwatcom_build() {
     # Resources used:
     # http://www.os2museum.com/wp/watcom-win386/
     # http://openwatcom.contributors.narkive.com/dAgYeOP9/win386-question-for-tutorial
-    # TODO: Figure out how to stop wbind from segfaulting on success
     if [ "$1" = "win386" ]; then
         mv "$outfile" "tmp_w386".rex
         wbind "tmp_w386.exe" -nq
