@@ -58,7 +58,7 @@ PACC="${PACC:-c:\\pacific\\bin\\pacc.exe}"
 WATCOM="${WATCOM:-$HOME/opt/openwatcom}"
 
 SRC_FILE="hello.c"
-GCC_COMMON_ARGS="-Wall -pedantic $SRC_FILE"
+GCC_COMMON_ARGS="-Wall -Wextra -pedantic $SRC_FILE"
 
 cd "$(dirname "$0")"
 rm -f ./*.o ./*.exe ./*.com ./*.class ./*.jar ./hello_gcc.* ./*.swf
@@ -200,10 +200,13 @@ echo " * Building test SWF file (compressed)"
 haxe -main Hello -swf hello_c.swf
 
 echo " * Compiling native ELF64 binary with GCC for comparison"
-gcc hello.c -ohello_gcc.x86_64
+# shellcheck disable=SC2086
+gcc $GCC_COMMON_ARGS -ohello_gcc.x86_64
 echo " * Compiling native ELF32 binary with GCC for comparison"
-gcc hello.c -m32 -ohello_gcc.x86
+# shellcheck disable=SC2086
+gcc $GCC_COMMON_ARGS -m32 -ohello_gcc.x86
 
+# TODO: Adjust ELF GCC output to avoid NotCompressibleException
 echo " * Generating UPX-compressed copies"
 for X in *.exe *.com hello_gcc.*; do
     upx_pack "$X"
