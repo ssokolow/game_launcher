@@ -155,6 +155,10 @@ echo " * Compiling for DOS with DJGPP (Protected Mode)"; (
 #
 #      In accordance with the terms of the TMT Pascal Lite license agreement,
 #      you may not charge money for this binary."
+#   - For compressed Win31 and OS/2 test EXEs, use a new enough OpenWatcom, and
+#     LxLite in forced mode. hello.c shouldn't trip any of the remaining
+#     incompatibilities.
+#     - http://www.edm2.com/index.php/LxLite
 # - Determine whether any of these generate usefully different EXE files
 #   - http://freedos.sourceforge.net/software/?prog=cc386
 #   - http://ladsoft.tripod.com/orange_c_compiler.html
