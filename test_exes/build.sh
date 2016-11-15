@@ -167,6 +167,12 @@ echo " * Compiling for DOS with DJGPP (Protected Mode)"; (
 #     + the various assemblers in the FreeDOS library
 #   - http://www.t3x.org/subc/
 #   - http://www.program-transformation.org/Transform/PcExeFormat
+#   - https://github.com/madebits/msnet-netz-compressor
+#   - gzexe for ELF
+#   - UPX's -8086 compression mode for DOS targets
+#   - LxLite-compressed DOS/Win31 programs instead of UPX-compressed
+# - Decide whether there's enough PlayStation homebrew to justify generating
+#   a PlayStation test EXE plus associated UPX-compressed version.
 
 # References used:
 #  ftp://ftp.openwatcom.org/pub/manuals/current/lguide.pdf#page=15
