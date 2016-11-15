@@ -194,6 +194,8 @@ EOF
 echo " * Building test JAR file"
 javac hello.java
 jar cfe hello.jar hello hello.class
+echo " * Building test .pack.gz from JAR file"
+pack200 hello.pack.gz hello.jar
 rm hello.class
 
 echo " * Building test SWF file (compressed)"
