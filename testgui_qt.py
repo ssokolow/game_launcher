@@ -11,7 +11,7 @@ __appname__ = "Qt Test GUI for game launcher experiment"
 __version__ = "0.0pre0"
 __license__ = "GNU GPL 3.0 or later"
 
-import logging, sys
+import logging, os, sys
 
 # pylint: disable=no-name-in-module
 from PyQt5.QtCore import Qt
@@ -25,6 +25,8 @@ from src.game_providers import get_games
 
 from gui_qt.application import Application
 from gui_qt.model import BasicSortFilterProxyModel, GameListModel
+
+from PyQt5_fixes.icon_provider import IconProvider
 
 log = logging.getLogger(__name__)
 
@@ -54,6 +56,9 @@ def main():
     print('Plugins Found:\n\t{}'.format('\n\t'.join(str(x.plugin_object)
         for x in sorted(plugin_mgr.getAllPlugins(),
                key=lambda x: x.plugin_object.precedence))))
+
+    IconProvider.icon_dirs.append(os.path.join(
+        os.path.abspath(os.path.dirname(__file__)), 'gui_qt'))
 
     app = Application(sys.argv)
 

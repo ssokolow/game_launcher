@@ -13,7 +13,7 @@ ICON_SIZE = 64
 from PyQt5.QtCore import (QAbstractItemModel, QAbstractTableModel, QModelIndex,
                           QSortFilterProxyModel, Qt)
 
-from .icon_provider import IconProvider
+from PyQt5_fixes.icon_provider import IconProvider
 
 icon_provider = IconProvider(FALLBACK_ICON)
 

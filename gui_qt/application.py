@@ -8,7 +8,7 @@ from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QApplication
 from PyQt5.uic import loadUi
 
-from .helpers import bind_all_standard_keys
+from PyQt5_fixes.helpers import bind_all_standard_keys
 from .model import CategoriesModel
 
 UI_FILE_PATH = os.path.join(os.path.dirname(__file__), os.pardir, 'testgui.ui')

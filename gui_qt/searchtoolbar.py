@@ -9,7 +9,8 @@ from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import (QAction, QActionGroup, QLineEdit, QMenu,
                              QSizePolicy, QToolBar, QToolButton, QWidget)
 
-from .helpers import bind_all_standard_keys, get_keys_hint, set_action_icon
+from PyQt5_fixes.helpers import (bind_all_standard_keys, get_keys_hint,
+                                 set_action_icon)
 
 class SearchField(QLineEdit):
     """Search field which allows Home/End to be delegated"""

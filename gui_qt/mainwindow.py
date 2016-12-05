@@ -12,8 +12,10 @@ from PyQt5.QtCore import QSettings, Qt
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QAction, QMainWindow
 
-from .helpers import (bind_all_standard_keys, make_action_group,
-                      set_action_icon, unbotch_icons)
+from PyQt5_fixes.helpers import (bind_all_standard_keys, make_action_group,
+                                 set_action_icon, unbotch_icons)
+
+# TODO: Migrate as much of this as is feasible to PyQt5_fixes
 
 class MainWindow(QMainWindow):
     view_actions = None

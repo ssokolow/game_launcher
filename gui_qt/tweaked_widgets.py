@@ -11,7 +11,9 @@ from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import (QHeaderView, QListView,
                              QTableView, QTreeView)
 
-from .helpers import bind_all_standard_keys
+from PyQt5_fixes.helpers import bind_all_standard_keys
+
+# TODO: Migrate as much of this as is feasible to PyQt5_fixes
 
 
 class BugFixListView(QListView):  # pylint: disable=too-few-public-methods
