@@ -58,7 +58,7 @@ def main():
                key=lambda x: x.plugin_object.precedence))))
 
     IconProvider.icon_dirs.append(os.path.join(
-        os.path.abspath(os.path.dirname(__file__)), 'gui_qt'))
+        os.path.abspath(os.path.dirname(__file__)), 'gui_qt', 'icons'))
 
     app = Application(sys.argv)
 
