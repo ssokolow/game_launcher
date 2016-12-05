@@ -120,6 +120,10 @@ upx_pack() {
     upx -qq "$1" -o"${1%.*}.upx$2.${1##*.}" $3
 }
 
+echo "----------------------------------"
+echo " Compiling test files from source "
+echo "----------------------------------"
+
 echo " * Compiling for DOS with Dev86 (Real Mode)"; (
     # shellcheck disable=SC2030,2031
     export PATH="$PATH:$DEV86_ROOT/bin/"
@@ -236,7 +240,10 @@ echo " * Compiling native ELF32 binary with GCC for comparison"
 gcc $GCC_COMMON_ARGS -m32 -ohello_gcc.x86
 
 # TODO: Adjust ELF GCC output to avoid NotCompressibleException
-echo " * Generating UPX-compressed copies"
+echo ""
+echo "----------------------------------"
+echo " Generating UPX-compressed copies "
+echo "----------------------------------"
 for X in *.exe *.com hello_gcc.*; do
     upx_pack "$X"
 done
@@ -245,5 +252,12 @@ upx_pack hello_djgpp.exe .coff --coff
 # TODO: Decide which stubs to bind this to
 #upx_pack hello_owatcom_dos4g.exe .le --le
 
-echo " * Removing unnecessary execute bits"
+echo
+echo "====================================="
+echo
+
+echo " * Removing unnecessary execute bits "
 chmod -x ./*.exe ./*.com
+
+echo
+echo "Done."
