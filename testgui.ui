@@ -358,6 +358,7 @@
     <signal>escPressed()</signal>
     <signal>topPressed()</signal>
     <signal>bottomPressed()</signal>
+    <signal>resetFilters()</signal>
     <slot>clear()</slot>
    </slots>
   </customwidget>
@@ -559,6 +560,22 @@
     <hint type="destinationlabel">
      <x>454</x>
      <y>224</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>searchBar</sender>
+   <signal>resetFilters()</signal>
+   <receiver>view_categories</receiver>
+   <slot>clearSelection()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>422</x>
+     <y>18</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>127</x>
+     <y>237</y>
     </hint>
    </hints>
   </connection>
