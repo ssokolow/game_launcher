@@ -3,4 +3,7 @@ cover
 html
 htmlcov
 .tox
-SnakeByte.egg-info
+/game_launcher.egg-info
+/game_launcher_core/target
+/build
+/src/core.cpython-*.so

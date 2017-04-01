@@ -1,0 +1,12 @@
+[package]
+name = "game_launcher_core"
+version = "0.1.0"
+authors = ["Stephan Sokolow <http://www.ssokolow.com/ContactMe>"]
+
+[lib]
+name = "core"
+crate-type = ["cdylib"]
+
+[dependencies.cpython]
+version = "0.1"
+features = ["extension-module"]
