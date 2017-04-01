@@ -7,14 +7,13 @@ __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "MIT"
 
 import fnmatch, os, re, shlex, sys
+
+# TODO: Build a better http://stackoverflow.com/a/37499032/435253
+# (Perhaps using code from https://github.com/rust-lang/rust/issues/37380)
 from distutils.spawn import find_executable as which
 
-RESOURCE_DIRS = (
-    'assets',
-    'data', '*_data',
-    'resources',
-    'icons',
-)
+import src.core
+RESOURCE_DIRS = src.core.util.constants.RESOURCE_DIRS
 
 # Ensure cmp is available to Python 3 for cases where it's the cleanest option
 if sys.version_info.major >= 3:
@@ -27,6 +26,7 @@ if sys.version_info.major >= 3:
 else:
     cmp = cmp  # Ensure that cmp is importable as a member of this module
 
+# TODO: Use https://crates.io/crates/natord in rusty-core
 def humansort_key(strng):
     """Human/natural sort key-gathering function for sorted()
     Source: http://stackoverflow.com/a/1940105
@@ -38,6 +38,7 @@ def humansort_key(strng):
 
 def resolve_exec(cmd, rel_to=None):
     """Disambiguate spaces in a string which may or may not be shell-quoted"""
+    # TODO: Use https://crates.io/crates/shlex in rusty-core
     split_cmd = shlex.split(cmd)
 
     if rel_to:

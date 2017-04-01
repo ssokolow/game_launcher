@@ -8,9 +8,8 @@ __license__ = "MIT"
 
 import os, shlex
 
-# Don't search for metadata inside scripts like "start.sh" if they're bigger
-# than this size.
-MAX_SCRIPT_SIZE = 1024 ** 2  # 1 MiB
+import src.core
+MAX_SCRIPT_SIZE = src.core.util.constants.MAX_SCRIPT_SIZE
 
 def script_precheck(path):
     """Basic checks which should be run before inspecting any script."""

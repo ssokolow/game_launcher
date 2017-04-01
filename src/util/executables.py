@@ -9,34 +9,14 @@ __license__ = "MIT"
 import enum, os, re
 from .common import multiglob_compile
 
-# Files which shouldn't be considered as executables even when marked +x
-NON_BINARY_EXTS = (
-    '.dll', '.so', '.dso', '.shlib', '.o', '.dylib'
-    '.ini', '.xml', '.txt',
-    '.assets', '.u', '.frag', '.vert', '.fxg', '.xnb', '.xsb', '.xwb', '.xgs',
-    '.usf', '.msf', '.asi', '.fsb', '.fev', '.mdd', '.lbx', '.zmp',
-    '.as', '.cpp', '.c', '.h', '.java',
-    '.ogg', '.mp3', '.wav', '.spc', '.mid', '.midi', '.rmi',
-    '.png', '.bmp', '.gif', '.jpg', '.jpeg', '.svg', '.tga', '.pcx',
-    '.pdf',
-    '.ttf', '.crt',
-    '.dl_', '.sc_', '.ex_',
-)
-# .mojosetup/*, uninstall-*, java/, node_modules, xdg-*, Shaders, *~, Mono
+# Stop-gap until all this has been ported over
+import src.core
+for name in ('IGNORED_BINARIES', 'INSTALLER_EXTS', 'NON_BINARY_EXTS'):
+    globals()[name] = getattr(src.core.util.constants, name)
+
+# TODO: Use https://crates.io/crates/regex to replace these in Rust-only code
 NON_BINARY_EXTS_RE = multiglob_compile(NON_BINARY_EXTS, re_flags=re.I)
-
-IGNORED_BINARIES = (
-    'xdg-*', 'flashplayer',
-    'Data.*',
-    'lib*.so.*',
-    'README*',
-)
 IGNORED_BINARIES_RE = multiglob_compile(IGNORED_BINARIES, re_flags=re.I)
-
-INSTALLER_EXTS = ('.zip', '.rar',
-                  '.tar', '.gz', '.tgz', '.bz2', '.tbz2', '.xz', '.txz',
-                  '.sh',  '.run', '.bin',
-                  '.deb', '.rpm')
 
 def classify_executable(fname):
     """High-level wrapper for Roles.guess() which supports ignoring files."""

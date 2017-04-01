@@ -42,18 +42,8 @@ fname_whitespace_nodash_re = re.compile(r"[ _]")
 fname_numspacing_re = re.compile(r'([a-zA-Z])(\d)')
 fname_subtitle_start_re = re.compile(r"(\d)(\s\w)")
 
-# TODO: Find some way to do a coverage test for this.
-# TODO: Split this out into a shared constants module
-PROGRAM_EXTS = (
-    '.air', '.swf', '.jar',
-    '.sh', '.py', '.pl',
-    '.exe', '.bat', '.cmd', '.pif',
-    '.bin',
-    '.desktop',
-    # Note: .com is intentionally excluded because they're so rare outside of
-    #       DOSBox and I worry about the potential for false positives caused
-    #       by it showing up in some game's clever title.
-)
+import src.core
+PROGRAM_EXTS = src.core.util.constants.PROGRAM_EXTS
 
 # Overrides for common places where the L{filename_to_name} heuristic breaks
 # TODO: Make sure I'm testing all of these cases
