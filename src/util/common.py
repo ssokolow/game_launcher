@@ -7,6 +7,7 @@ __author__ = "Stephan Sokolow (deitarion/SSokolow)"
 __license__ = "MIT"
 
 import fnmatch, os, re, shlex, sys
+from distutils.spawn import find_executable as which
 
 RESOURCE_DIRS = (
     'assets',
@@ -34,44 +35,6 @@ def humansort_key(strng):
         strng = strng[0]
     return [int(w) if w.isdigit() else w.lower()
             for w in re.split(r'(\d+)', strng)]
-
-def which(exec_name, execpath=None):
-    """Like the UNIX which command, this function attempts to find the given
-    executable in the system's search path. Returns C{None} if it cannot find
-    anything.
-
-    @todo: Find the copy I extended with win32all and use it here.
-    @todo: Figure out how to "pragma: no cover" conditional on os.name.
-    """
-    if 'nt' in os.name:
-        def test(path):
-            """@todo: Is there a more thorough way to do this on Windows?"""
-            return os.path.exists(path)
-
-        # TODO: Figure out how to retrieve this list from the OS.
-        # (We can't just use PATHEXT according to
-        #  http://bugs.python.org/issue2200#msg131532 because spawnv doesn't
-        #  support all extensions)
-        suffixes = ['.exe', '.com', '.bat', '.cmd']  # pragma: no cover
-    else:
-        def test(path):
-            """@todo: Is there a more thorough way to check this?"""
-            return os.access(path, os.X_OK)
-        suffixes = []
-
-    if isinstance(execpath, basestring):
-        execpath = execpath.split(os.pathsep)
-    elif not execpath:
-        execpath = os.environ.get('PATH', os.defpath).split(os.pathsep)
-
-    for path in execpath:
-        full_path = os.path.join(os.path.expanduser(path), exec_name)
-        if test(full_path):
-            return full_path
-        for suffix in suffixes:
-            if test(full_path + suffix):  # pragma: no cover
-                return full_path + suffix
-    return None  # Couldn't find anything.
 
 def resolve_exec(cmd, rel_to=None):
     """Disambiguate spaces in a string which may or may not be shell-quoted"""
