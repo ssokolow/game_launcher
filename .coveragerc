@@ -1,26 +1,28 @@
 [run]
 omit =
-    */python?.?/enum.py
-    */python?.?/functools.py
-    */python?.?/shlex.py
-    */python?.?/weakref.py
-    */python?.?/sqlite3/*
     */python?.?/email*
     */python?.?/encodings*
+    */python?.?/enum.py
+    */python?.?/functools.py
     */python?.?/json*
+    */python?.?/shlex.py
+    */python?.?/sqlite3/*
+    */python?.?/weakref.py
+    */python?.?/xml/etree/*
     */lib-python/?.?/*.py
     */lib_pypy/_*.py
     */dist-packages/cairo/*
-    */dist-packages/xdg/*
-    */dist-packages/enum/*
     */dist-packages/glib/*
     */dist-packages/gobject/*
     */dist-packages/gtk-2.0/*
-    */dist-packages/ordereddict.py
     */dist-packages/pygtk*
-    */dist-packages/nose/*
-    */site-packages/enum/*
-    */site-packages/xdg/*
-    */site-packages/ordereddict.py
-    */site-packages/nose/*
+    */dist-packages/PyQt5*
+    */????-packages/enum/*
+    */????-packages/nose/*
+    */????-packages/ordereddict.py
+    */????-packages/xdg/*
+    */????-packages/yapsy/*
+    */pyshared/yapsy/*
+    */distutils/*
     */unittest2/*
+    */yapsy/*
