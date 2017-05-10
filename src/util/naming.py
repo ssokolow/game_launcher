@@ -8,6 +8,9 @@ __license__ = "MIT"
 
 import os, re
 
+import src.core
+titlecase_up = src.core.util.naming.titlecase_up
+
 # Source: http://stackoverflow.com/a/9283563
 # (With a tweak to let numbers start new words)
 camelcase_re = re.compile(r'((?<=[a-z])[A-Z0-9]|(?<!\A)[A-Z](?=[a-z]))')
@@ -90,10 +93,6 @@ WS_OVERRIDE_EXCEPTIONS = {
 # WHITESPACE_OVERRIDES.
 _WS_OVERRIDE_MAP = {x.replace(r'\b', '').replace('^', ''): y for x, y
                     in WHITESPACE_OVERRIDES.items()}
-
-def titlecase_up(in_str):
-    """A C{str.title()} analogue which won't mess up acronyms like FTL."""
-    return wordstart_re.sub(lambda x: x.group(0).upper(), in_str)
 
 def _apply_ws_overrides(match):
     """Callback for re.sub"""
