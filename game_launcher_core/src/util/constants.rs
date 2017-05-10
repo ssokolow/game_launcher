@@ -2,6 +2,7 @@
 //!
 //! **TODO:** Figure out the most appropriate degree and mechanism for allowing overrides
 
+use regex::Regex;
 use cpython::{PyModule, PyResult, Python};
 
 /// Globs denoting supporting binaries which should be excluded from listings
@@ -64,6 +65,17 @@ pub const RESOURCE_DIRS: &[&str] =
 // probability that these will be used as separators in a test corpus to maximize the ability of
 // any() to short-circuit evaluate.
 pub const WORD_BOUNDARY_CHARS: &str = ". _-";
+
+
+/// Simple deduplication helper for .expect()-ing a lot of Regex::new() calls.
+const RE_EXPECT_MSG: &str = "compiled regex from string literal";
+lazy_static! {
+    /// Regexes used by `filename_to_name`
+    pub static ref SUBTITLE_START_RE: Regex = Regex::new(r"(\d)\s+(\w)").expect(RE_EXPECT_MSG);
+    pub static ref WHITESPACE_RE: Regex = Regex::new(r"\s+").expect(RE_EXPECT_MSG);
+    pub static ref FNAME_WSPACE_RE: Regex = Regex::new(r"(\s|[_-])+").expect(RE_EXPECT_MSG);
+    pub static ref FNAME_WSPACE_NODASH_RE: Regex = Regex::new(r"(\s|[_])+").expect(RE_EXPECT_MSG);
+}
 
 /// TODO: Figure out how to get the `PyModule::new` and the return into the macro
 pub fn into_python_module(py: &Python) -> PyResult<PyModule> {

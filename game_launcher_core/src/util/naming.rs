@@ -2,10 +2,16 @@
 //!
 //! TODO: Refactor the Python dependency out or make it optional
 
-use cpython::{PyModule, PyResult, PyUnicode, Python};
+use std::borrow::Cow;
+use std::ffi::OsStr;
+use std::path::Path;
 
-use super::constants::WORD_BOUNDARY_CHARS;
+use cpython::{PyModule, PyResult, Python};
 
+use super::constants::{
+    FNAME_WSPACE_RE, FNAME_WSPACE_NODASH_RE,
+    PROGRAM_EXTS, SUBTITLE_START_RE, WHITESPACE_RE, WORD_BOUNDARY_CHARS
+};
 
 /// Return a titlecased copy of the input with the following two modifications to the algorithm:
 ///
@@ -29,6 +35,96 @@ pub fn titlecase_up(in_str: &str) -> String {
 
 /// rust-cpython API wrapper for `titlecase_up`
 fn py_titlecase_up(_: Python, in_str: &str) -> PyResult<String> { Ok(titlecase_up(in_str)) }
+
+// TODO: Factor out all of this duplication
+
+/// A helper for `filename_to_name`
+fn camelcase_to_spaces(in_str: &str) -> String {
+    // XXX: Is it faster to count uppercase and then preallocate exact or walk once + reallocate?
+    let mut out_str = String::with_capacity(in_str.len() + 5); // Preallocate for up to 6 words
+    let mut lastchar_was_upper = true;  // Don't insert a space at the beginning
+
+    for chara in in_str.chars() {
+        if !lastchar_was_upper && (chara.is_uppercase() || chara.is_digit(10)) {
+            out_str.push(' ');
+        }
+
+        out_str.push(chara);
+        lastchar_was_upper = chara.is_uppercase();
+    }
+    out_str
+}
+
+/// A heuristic transform to produce pretty good titles from filenames without relying on
+/// out-of-band information.
+pub fn filename_to_name<P: AsRef<Path> + ?Sized>(path: &P) -> Option<String> {
+    let path = path.as_ref();
+
+    // TODO: Refactor this function for simplicity and early return
+
+    // Lowercase the extension and use \0\0 as a placeholder for bad Unicode which won't be
+    // confused for valid data or an empty CString.
+    let ext = path.extension().map(|x| x.to_string_lossy().to_lowercase()
+                                    ).unwrap_or(String::from("\0\0"));
+
+    // Remove recognized program extensions
+    // (But not others because periods may appear in the game name)
+    let name_in = if PROGRAM_EXTS.contains(&&*ext) { path.file_stem() } else { path.file_name() };
+
+    // Ensure we consistently have either an empty string or an escaped string
+    // (Because this makes the code simpler than converting the empty string to Option::None early)
+    let name_in = name_in.unwrap_or(OsStr::new("")).to_string_lossy();
+
+    // TODO: Remove version information
+
+    // Convert whitespace cues
+    let mut name = Cow::Borrowed("");
+    let mut name = if FNAME_WSPACE_RE.is_match(&name_in) {
+        if FNAME_WSPACE_NODASH_RE.is_match(&name_in) {
+            // Make sure things like "X-Com Collection" are handled properly
+            FNAME_WSPACE_NODASH_RE.replace_all(&name_in, " ")
+        } else {
+            // ...but also handle names using dashes as separators properly
+            FNAME_WSPACE_RE.replace_all(&name_in, " ")
+        }
+    } else {
+        // Handle CamelCase cues
+        Cow::Owned(camelcase_to_spaces(&name))
+    };
+
+    // Assume that a number followed by whitespace and more text marks the beginning of a subtitle
+    // and add a colon and normalized space
+    let name = SUBTITLE_START_RE.replace_all(&name, "${1}: ${2}");
+
+    // Titlecase... but only in one direction so things like "FTL" remain
+    let name_in = titlecase_up(&name);
+
+    // Ensure that numbers are preceded by a space (Anticipate two inserted spaces at most)
+    let mut name = String::with_capacity(name_in.len() + 2);
+    let lastchar_was_alpha = false;
+    for chara in name_in.chars() {
+        if lastchar_was_alpha && chara.is_digit(10) { name.push(' '); }
+        lastchar_was_alpha == chara.is_alphabetic();
+        name.push(chara);
+    }
+
+    // Assume that it's either an acronym or Ys, which is handled by overrides
+    if name.len() < 3 {
+        name = name.to_uppercase().to_string();
+    }
+
+    // TODO: Fix capitalization anomalies broken by whitespace conversion
+
+    // Normalize whitespace which may be left over
+    name = WHITESPACE_RE.replace_all(&name, " ").trim().to_string();
+
+    // Return `None` instead of an empty string to make it clear that this can fail.
+    // TODO: Consider content that's exclusively Unicode replacement characters to be "empty"
+    match name.len() {
+        0 => None,
+        _ => Some(name)
+    }
+}
 
 /// TODO: Figure out how to get the `PyModule::new` and the return macro-ized
 pub fn into_python_module(py: &Python) -> PyResult<PyModule> {
