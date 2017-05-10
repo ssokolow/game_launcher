@@ -15,9 +15,7 @@ pub mod util;
 /// Add binding boilerplate so this can be `import`ed.
 py_module_initializer!(core, initcore, PyInit_core, |py, m| {
     m.add(py, "__doc__", "GUI-agnostic core functionality for game_launcher.")?;
-
-    let py_util = util::get_python_module(&py)?;
-    m.add(py, "util", py_util)?;
+    m.add(py, "util", util::into_python_module(&py)?)?;
     Ok(())
 });
 
