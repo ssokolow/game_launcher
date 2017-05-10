@@ -58,6 +58,13 @@ pub const PROGRAM_EXTS: &[&str] = &[
 pub const RESOURCE_DIRS: &[&str] =
     &["assets", "data", "*_data", "resources", "icons"];
 
+/// Characters which should trigger `titlecase_up` to uppercase the next one.
+// NOTE: If titlecasing ever becomes a bottleneck or I feel like micro-optimizing just to amuse
+// myself, I should be able to save some inner-loop iterations by reordering this based on the
+// probability that these will be used as separators in a test corpus to maximize the ability of
+// any() to short-circuit evaluate.
+pub const WORD_BOUNDARY_CHARS: &str = ". _-";
+
 /// TODO: Figure out how to get the `PyModule::new` and the return into the macro
 pub fn into_python_module(py: &Python) -> PyResult<PyModule> {
     let py = *py;
@@ -65,6 +72,6 @@ pub fn into_python_module(py: &Python) -> PyResult<PyModule> {
     python_reexport!(py, py_constants,
                      IGNORED_BINARIES, INSTALLER_EXTS,
                      MAX_SCRIPT_SIZE, NON_BINARY_EXTS,
-                     PROGRAM_EXTS, RESOURCE_DIRS);
+                     PROGRAM_EXTS, RESOURCE_DIRS, WORD_BOUNDARY_CHARS);
     Ok(py_constants)
 }

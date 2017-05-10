@@ -4,12 +4,8 @@
 
 use cpython::{PyModule, PyResult, PyUnicode, Python};
 
-/// Characters which should trigger `titlecase_up` to uppercase the next one.
-// NOTE: If titlecasing ever becomes a bottleneck or I feel like micro-optimizing just to amuse
-// myself, I should be able to save some inner-loop iterations by reordering this based on the
-// probability that these will be used as separators in a test corpus to maximize the ability of
-// any() to short-circuit evaluate.
-const WORD_BOUNDARY_CHARS: &str = ". _-";
+use super::constants::WORD_BOUNDARY_CHARS;
+
 
 /// Return a titlecased copy of the input with the following two modifications to the algorithm:
 ///
