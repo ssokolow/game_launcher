@@ -10,11 +10,11 @@ use cpython::{PyModule, PyResult, Python};
 ///  things we actually want:
 ///
 ///  .mojosetup/*, uninstall-*, java/, node_modules, Shaders, *~, Mono
-pub const IGNORED_BINARIES: &'static [&'static str] =
+pub const IGNORED_BINARIES: &[&str] =
     &["xdg-*", "flashplayer", "Data.*", "lib*.so.*", "README*"];
 
 /// Extensions which denote a likely game installer
-pub const INSTALLER_EXTS: &'static [&'static str] = &[
+pub const INSTALLER_EXTS: &[&str] = &[
     ".zip", ".rar",
     ".tar", ".gz", ".tgz", ".bz2", ".tbz2", ".xz", ".txz",
     ".sh",  ".run", ".bin",
@@ -26,7 +26,7 @@ pub const INSTALLER_EXTS: &'static [&'static str] = &[
 pub const MAX_SCRIPT_SIZE: u64 = 1024 * 1024; // 1 MiB
 
 /// Extensions which indicate files shouldn't be considered as executables even when marked +x
-pub const NON_BINARY_EXTS: &'static [&'static str] = &[
+pub const NON_BINARY_EXTS: &[&str] = &[
     ".dll", ".so", ".dso", ".shlib", ".o", ".dylib",
     ".ini", ".xml", ".txt",
     ".assets", ".u", ".frag", ".vert", ".fxg", ".xnb", ".xsb", ".xwb", ".xgs",
@@ -46,7 +46,7 @@ pub const NON_BINARY_EXTS: &'static [&'static str] = &[
 ///       caused by it showing up in some game's clever title.
 ///
 /// TODO: Find some way to do a coverage test for this.
-pub const PROGRAM_EXTS: &'static [&'static str] = &[
+pub const PROGRAM_EXTS: &[&str] = &[
     ".air", ".swf", ".jar",
     ".sh", ".py", ".pl",
     ".exe", ".bat", ".cmd", ".pif",
@@ -55,7 +55,7 @@ pub const PROGRAM_EXTS: &'static [&'static str] = &[
 ];
 
 // TODO: What does the fallback guesser use this for again?
-pub const RESOURCE_DIRS: &'static [&'static str] =
+pub const RESOURCE_DIRS: &[&str] =
     &["assets", "data", "*_data", "resources", "icons"];
 
 /// TODO: Figure out how to get the `PyModule::new` and the return into the macro
