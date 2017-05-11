@@ -67,7 +67,7 @@ pub const RESOURCE_DIRS: &[&str] =
 pub const WORD_BOUNDARY_CHARS: &str = ". _-";
 
 
-/// Simple deduplication helper for .expect()-ing a lot of Regex::new() calls.
+/// Simple deduplication helper for `.expect()`-ing a lot of `Regex::new()` calls.
 const RE_EXPECT_MSG: &str = "compiled regex from string literal";
 lazy_static! {
     /// Regexes used by `filename_to_name`

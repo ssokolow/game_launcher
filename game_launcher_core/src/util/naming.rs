@@ -14,8 +14,6 @@ use super::constants::{
 };
 
 
-
-
 // TODO: Factor out all of this duplication
 
 /// A helper for `filename_to_name`
@@ -48,7 +46,7 @@ fn _filename_extensionless<P: AsRef<Path> + ?Sized>(path: &P) -> Cow<str> {
 
     // Ensure we consistently have either an empty string or an escaped string
     // TODO: Is this still simpler than converting empty strings to Option::None early?
-    name.unwrap_or(OsStr::new("")).to_string_lossy()
+    name.unwrap_or_else(|| OsStr::new("")).to_string_lossy()
 }
 
 /// A heuristic transform to produce pretty good titles from filenames without relying on
@@ -74,10 +72,10 @@ pub fn filename_to_name<P: AsRef<Path> + ?Sized>(path: &P) -> Option<String> {
 
     // Ensure that numbers are preceded by a space (Anticipate two inserted spaces at most)
     let mut name = String::with_capacity(name_in.len() + 2);
-    let lastchar_was_alpha = false;
+    let mut lastchar_was_alpha = false;
     for chara in name_in.chars() {
         if lastchar_was_alpha && chara.is_digit(10) { name.push(' '); }
-        lastchar_was_alpha == chara.is_alphabetic();
+        lastchar_was_alpha = chara.is_alphabetic();
         name.push(chara);
     }
 
