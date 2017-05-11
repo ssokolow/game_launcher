@@ -1,378 +1,12 @@
 {
-  "WakingMars-1.2.1-Linux": {
-    "ideal": "Waking Mars"
-  },
-  "hobl_linux64": {
-    "attainable": "Hobl",
-    "ideal": "HOBL"
-  },
-  "Trine Enchanted Edition": {
-    "ideal": "Trine Enchanted Edition"
-  },
-  "Unreal Tournament": {
-    "ideal": "Unreal Tournament"
-  },
-  "BOH": {
-    "ideal": "BOH"
-  },
-  "towerfall": {
-    "ideal": "Towerfall"
-  },
-  "GSB": {
-    "attainable": "GSB",
-    "ideal": "G.S.B."
-  },
-  "Trauma": {
-    "ideal": "Trauma"
-  },
-  "Dustforce DX": {
-    "ideal": "Dustforce DX"
-  },
-  "Blake Stone Aliens of Gold": {
-    "attainable": "Blake Stone Aliens of Gold",
-    "ideal": "Blake Stone: Aliens of Gold"
-  },
   "chocolate-castle": {
     "ideal": "Chocolate Castle"
   },
-  "Influent": {
-    "ideal": "Influent"
-  },
-  "terraria_2.0.0.3": {
-    "ideal": "Terraria"
-  },
-  "bit.trip.runner-1.0": {
-    "attainable": "Bit.Trip.Runner",
-    "ideal": "Bit.Trip Runner",
+  "Soundfonts": {
+    "ideal": "Soundfonts",
     "acceptable": [
-      "bit.trip.runner",
-      "BIT.TRIP RUNNER",
-      "Bit.trip.runner"
+      "Sound Fonts"
     ]
-  },
-  "Not the Robots_Linux": {
-    "ideal": "Not the Robots",
-    "acceptable": [
-      "Not The Robots"
-    ]
-  },
-  "CapitalizedExtension.EXE": {
-    "ideal": "Capitalized Extension"
-  },
-  "Aaaaa_Awesome_x64_Linux": {
-    "attainable": "Aaaaa Awesome",
-    "ideal": "Aaaaa! for the Awesome"
-  },
-  "darwinia": {
-    "ideal": "Darwinia"
-  },
-  "unepic": {
-    "ideal": "Unepic"
-  },
-  "minecraft_server": {
-    "ideal": "Minecraft Server"
-  },
-  "Micron 1.34": {
-    "ideal": "Micron"
-  },
-  "limbo": {
-    "ideal": "Limbo"
-  },
-  "RogueLegacyLinux_v120a": {
-    "ideal": "Rogue Legacy"
-  },
-  "Escape Goat": {
-    "ideal": "Escape Goat"
-  },
-  "SnakeBlocks_Linux": {
-    "ideal": "Snake Blocks"
-  },
-  "CostumeQuest": {
-    "ideal": "Costume Quest"
-  },
-  "Antichamber": {
-    "ideal": "Antichamber"
-  },
-  "djgpp": {
-    "ideal": "DJGPP",
-    "acceptable": [
-      "Djgpp"
-    ]
-  },
-  "LaMulana": {
-    "attainable": "La Mulana",
-    "ideal": "La-Mulana"
-  },
-  "avadon": {
-    "ideal": "Avadon"
-  },
-  "Yrminsul": {
-    "ideal": "Yrminsul"
-  },
-  "ys": {
-    "ideal": "Ys"
-  },
-  "Machinarium": {
-    "ideal": "Machinarium"
-  },
-  "TowerOfGuns": {
-    "ideal": "Tower of Guns",
-    "acceptable": [
-      "Tower Of Guns"
-    ]
-  },
-  "EndlessNuclearKittens": {
-    "ideal": "Endless Nuclear Kittens"
-  },
-  "fortune": {
-    "attainable": "Fortune",
-    "ideal": "fortune"
-  },
-  "Door Kickers": {
-    "ideal": "Door Kickers"
-  },
-  "Eufloria": {
-    "ideal": "Eufloria"
-  },
-  "uplink-x64": {
-    "ideal": "Uplink"
-  },
-  "Quest For Infamy": {
-    "ideal": "Quest for Infamy"
-  },
-  "Dont Starve": {
-    "ideal": "Don't Starve",
-    "acceptable": [
-      "Dont Starve"
-    ]
-  },
-  "railyard": {
-    "ideal": "Railyard"
-  },
-  "dynablaster_revenge_v1_0_2": {
-    "ideal": "Dynablaster Revenge"
-  },
-  "McPixel": {
-    "ideal": "McPixel"
-  },
-  "Continue": {
-    "ideal": "Continue"
-  },
-  "RaceTheSunLINUX_1.455": {
-    "ideal": "Race the Sun"
-  },
-  "Ultionus": {
-    "ideal": "Ultionus"
-  },
-  "VirusJigglinFever": {
-    "attainable": "Virus Jigglin Fever",
-    "ideal": "Virus Jigglin' Fever"
-  },
-  "PixelJunk Shooter": {
-    "ideal": "PixelJunk Shooter"
-  },
-  "higan": {
-    "ideal": "higan",
-    "acceptable": [
-      "Higan"
-    ]
-  },
-  "x-com db 1.4": {
-    "ideal": "X-Com DB"
-  },
-  "RaceTheSun_1.10_LINUX": {
-    "attainable": "Race the Sun",
-    "ideal": "Race The Sun"
-  },
-  "Deponia": {
-    "ideal": "Deponia"
-  },
-  "Shattered Haven": {
-    "ideal": "Shattered Haven"
-  },
-  "AndroVMplayer-Linux64": {
-    "ideal": "AndroVMplayer"
-  },
-  "defcon": {
-    "ideal": "Defcon"
-  },
-  "ut2003": {
-    "ideal": "U.T. 2003",
-    "attainable": "UT 2003"
-  },
-  "Testy_MacJohnson": {
-    "ideal": "Testy MacJohnson"
-  },
-  "knightspp_linux_209": {
-    "attainable": "Knightspp",
-    "ideal": "Knights of Pen and Paper"
-  },
-  "tidalis_linux_64bit": {
-    "ideal": "Tidalis"
-  },
-  "NEOGEO": {
-    "ideal": "NEOGEO"
-  },
-  "Apotheon": {
-    "ideal": "Apotheon"
-  },
-  "A Valley Without Wind 2": {
-    "ideal": "A Valley Without Wind 2"
-  },
-  "braid": {
-    "ideal": "Braid"
-  },
-  "SpyChameleon": {
-    "ideal": "Spy Chameleon"
-  },
-  "MarkOfTheNinja": {
-    "ideal": "Mark of the Ninja",
-    "acceptable": [
-      "Mark Of The Ninja"
-    ]
-  },
-  "Metagolf": {
-    "ideal": "Metagolf"
-  },
-  "Braveland": {
-    "ideal": "Braveland"
-  },
-  "The Last Federation": {
-    "ideal": "The Last Federation"
-  },
-  "dearesther": {
-    "attainable": "Dearesther",
-    "ideal": "Dear Esther"
-  },
-  "DesktopDungeons": {
-    "ideal": "Desktop Dungeons"
-  },
-  "Anodyne_STANDALONE_1_506.swf": {
-    "ideal": "Anodyne"
-  },
-  "titanattacks": {
-    "attainable": "Titanattacks",
-    "ideal": "Titan Attacks"
-  },
-  "Knytt Underground": {
-    "ideal": "Knytt Underground"
-  },
-  "GROUPEES_ The Visual Novel Linux": {
-    "ideal": "GROUPEES: The Visual Novel"
-  },
-  "INVedit": {
-    "ideal": "INVedit"
-  },
-  "testilizationII": {
-    "ideal": "Testilization II"
-  },
-  "Don't Move": {
-    "ideal": "Don't Move"
-  },
-  "testilizationIV": {
-    "ideal": "Testilization IV"
-  },
-  "Executor": {
-    "ideal": "Executor"
-  },
-  "FTL": {
-    "ideal": "FTL"
-  },
-  "DROD 1+2+3": {
-    "attainable": "DROD 1+2+3",
-    "ideal": "D.R.O.D. 1+2+3",
-    "acceptable": [
-      "DROD 1+2+3"
-    ]
-  },
-  "etherpad-lite": {
-    "ideal": "Etherpad Lite",
-    "acceptable": [
-      "Ether Pad Lite"
-    ]
-  },
-  "RaceTheSunLinux_1.42": {
-    "attainable": "Race the Sun",
-    "ideal": "Race The Sun"
-  },
-  "A Valley Without Wind": {
-    "ideal": "A Valley Without Wind"
-  },
-  "Teslagrad": {
-    "ideal": "Teslagrad"
-  },
-  "crimsonland-linux-1.0.9": {
-    "ideal": "Crimsonland"
-  },
-  "PaperSorcerer2.3Linux": {
-    "ideal": "Paper Sorcerer"
-  },
-  "Gunpoint": {
-    "ideal": "Gunpoint"
-  },
-  "MouseCraft": {
-    "attainable": "Mouse Craft",
-    "ideal": "MouseCraft"
-  },
-  "firefox-ux": {
-    "ideal": "Firefox UX"
-  },
-  "PSX": {
-    "ideal": "PSX"
-  },
-  "The Bard's Tale": {
-    "ideal": "The Bard's Tale"
-  },
-  "Blackhole_1.05b": {
-    "ideal": "Blackhole"
-  },
-  "TypeRider": {
-    "attainable": "Type Rider",
-    "ideal": "TypeRider"
-  },
-  "Pixel Piracy": {
-    "ideal": "Pixel Piracy"
-  },
-  "torchlight": {
-    "ideal": "Torchlight",
-    "acceptable": [
-      "Torch Light"
-    ]
-  },
-  "firefox": {
-    "ideal": "Firefox"
-  },
-  "unxwb": {
-    "ideal": "UnXWB"
-  },
-  "roguelegacy": {
-    "attainable": "Roguelegacy",
-    "ideal": "Rogue Legacy",
-    "acceptable": [
-      "Roguelegacy"
-    ]
-  },
-  "gp_full_linux64_v1.13": {
-    "attainable": "GP",
-    "ideal": "G.P.",
-    "acceptable": [
-      "Gp"
-    ]
-  },
-  "BeansQuest": {
-    "ideal": "Bean's Quest",
-    "acceptable": [
-      "Beans Quest"
-    ]
-  },
-  "MalditaCastilla": {
-    "ideal": "Maldita Castilla"
-  },
-  "volt": {
-    "ideal": "Volt"
-  },
-  "BravadaLinux": {
-    "ideal": "Bravada"
   },
   "The Witcher 2 Assassins Of Kings": {
     "ideal": "The Witcher 2: Assassins of Kings",
@@ -382,73 +16,71 @@
       "The Witcher 2 - Assassins Of Kings"
     ]
   },
-  "testilizationVI": {
-    "ideal": "Testilization VI"
+  "Apotheon": {
+    "ideal": "Apotheon"
   },
-  "Another World - 20th Anniversary Edition": {
-    "ideal": "Another World: 20th Anniversary Edition",
+  "Octodad Dadliest Catch": {
+    "ideal": "Octodad: Dadliest Catch",
+    "attainable": "Octodad Dadliest Catch"
+  },
+  "x-com db 1.4": {
+    "ideal": "X-Com DB"
+  },
+  "Machinarium": {
+    "ideal": "Machinarium"
+  },
+  "ys": {
+    "ideal": "Ys"
+  },
+  "towerfall": {
+    "ideal": "TowerFall",
     "acceptable": [
-      "Another World - 20th Anniversary Edition"
+      "Towerfall"
     ]
   },
-  "vessel": {
-    "ideal": "Vessel"
+  "IttleDewLinux": {
+    "ideal": "Ittle Dew"
   },
-  "SteamWorldDig": {
-    "attainable": "Steam World Dig",
-    "ideal": "SteamWorld Dig"
+  "Antichamber": {
+    "ideal": "Antichamber"
+  },
+  "PaperSorcerer2.3Linux": {
+    "ideal": "Paper Sorcerer"
+  },
+  "Yrminsul": {
+    "ideal": "Yrminsul"
+  },
+  "gog_lovely_planet_2.0.0.5": {
+    "ideal": "Lovely Planet"
+  },
+  "Freedom Planet": {
+    "ideal": "Freedom Planet"
+  },
+  "roguelegacy": {
+    "ideal": "Rogue Legacy",
+    "attainable": "Roguelegacy",
+    "acceptable": [
+      "Roguelegacy"
+    ]
+  },
+  "terraria_2.0.0.3": {
+    "ideal": "Terraria"
+  },
+  "doom-and-destiny": {
+    "ideal": "Doom and Destiny",
+    "acceptable": [
+      "Doom And Destiny"
+    ]
+  },
+  "frozen_synapse_2.0.0.3": {
+    "ideal": "Frozen Synapse"
+  },
+  "RaceTheSunLinux_1.42": {
+    "ideal": "Race The Sun",
+    "attainable": "Race the Sun"
   },
   "Monster Bash": {
     "ideal": "Monster Bash"
-  },
-  "Shadow Warrior Classic Complete": {
-    "ideal": "Shadow Warrior Classic Complete"
-  },
-  "TIS-100": {
-    "ideal": "TIS-100"
-  },
-  "fennec-7.0.1": {
-    "ideal": "Fennec"
-  },
-  "RevengeOfTheTitans": {
-    "ideal": "Revenge of the Titans"
-  },
-  "Shadow Warrior (2013)": {
-    "ideal": "Shadow Warrior (2013)"
-  },
-  "RaceTheSunLINUX_1.441": {
-    "ideal": "Race the Sun"
-  },
-  "capsized": {
-    "ideal": "Capsized"
-  },
-  "runner2-1.0": {
-    "ideal": "Runner 2"
-  },
-  "CardCityNights": {
-    "ideal": "Card City Nights"
-  },
-  "poclbm": {
-    "ideal": "Poclbm"
-  },
-  "The Bards Tale": {
-    "ideal": "The Bard's Tale"
-  },
-  "Duke Nukem": {
-    "ideal": "Duke Nukem"
-  },
-  "spaz": {
-    "attainable": "SPAZ",
-    "ideal": "S.P.A.Z.",
-    "acceptable": [
-      "Spaz"
-    ]
-  },
-  "Rex Nebular and the Cosmic Gender Bender": {
-    "ideal": "Rex Nebular and the Cosmic Gender Bender",
-    "acceptable": [
-      "Rex Nebular And The Cosmic Gender Bender"
-    ]
   },
   "Cube and Star Linux": {
     "ideal": "Cube and Star",
@@ -456,72 +88,130 @@
       "Cube And Star"
     ]
   },
-  "Blake Stone Planet Strike": {
-    "attainable": "Blake Stone Planet Strike",
-    "ideal": "Blake Stone: Planet Strike"
+  "vessel": {
+    "ideal": "Vessel"
   },
   "dolphin-emu": {
     "ideal": "Dolphin Emu"
   },
-  "Guacamelee": {
-    "ideal": "Guacamelee"
+  "INVedit": {
+    "ideal": "INVedit"
+  },
+  "jamestown": {
+    "ideal": "Jamestown"
+  },
+  "RaceTheSun_1.10_LINUX": {
+    "ideal": "Race The Sun",
+    "attainable": "Race the Sun"
+  },
+  "Shadowrun Returns": {
+    "ideal": "Shadowrun Returns"
+  },
+  "the_escapists_2.3.0.4": {
+    "ideal": "The Escapists"
+  },
+  "Potatoman": {
+    "ideal": "Potatoman"
+  },
+  "Influent": {
+    "ideal": "Influent"
+  },
+  "capsized": {
+    "ideal": "Capsized"
+  },
+  "GSB": {
+    "ideal": "G.S.B.",
+    "attainable": "GSB"
+  },
+  "MINUTEMAN": {
+    "ideal": "Minuteman"
+  },
+  "AM2R_v1.1_linux_unofficial": {
+    "ideal": "AM2R",
+    "acceptable": [
+      "AM 2R"
+    ]
+  },
+  "Shadow Warrior (2013)": {
+    "ideal": "Shadow Warrior (2013)"
+  },
+  "railroad_tycoon_2": {
+    "ideal": "Railroad Tycoon 2"
+  },
+  "Terminal Velocity": {
+    "ideal": "Terminal Velocity"
+  },
+  "Micron 1.34": {
+    "ideal": "Micron"
+  },
+  "Trine Enchanted Edition": {
+    "ideal": "Trine Enchanted Edition"
+  },
+  "voxatron": {
+    "ideal": "Voxatron"
+  },
+  "SpyChameleon": {
+    "ideal": "Spy Chameleon"
+  },
+  "BOH": {
+    "ideal": "BOH"
+  },
+  "McPixel": {
+    "ideal": "McPixel"
+  },
+  "Infinifactory": {
+    "ideal": "Infinifactory"
+  },
+  "Blackhole_1.05b": {
+    "ideal": "Blackhole"
+  },
+  "Continue": {
+    "ideal": "Continue"
+  },
+  "Ascendant": {
+    "ideal": "Ascendant"
+  },
+  "Volgarr": {
+    "ideal": "Volgarr"
+  },
+  "ScummVM": {
+    "ideal": "ScummVM",
+    "acceptable": [
+      "Scumm VM"
+    ]
+  },
+  "EndlessNuclearKittens": {
+    "ideal": "Endless Nuclear Kittens"
+  },
+  "Knytt Underground": {
+    "ideal": "Knytt Underground"
+  },
+  "limbo": {
+    "ideal": "Limbo"
+  },
+  "Ultionus": {
+    "ideal": "Ultionus"
+  },
+  "fennec-4.0.1": {
+    "ideal": "Fennec"
+  },
+  "testilizationIV": {
+    "ideal": "Testilization IV"
   },
   "trine2_linux": {
     "ideal": "Trine 2"
   },
-  "minecraft.jar": {
-    "ideal": "Minecraft"
+  "RaceTheSunLINUX_1.441": {
+    "ideal": "Race the Sun"
   },
-  "escapegoat2": {
-    "attainable": "Escapegoat 2",
-    "ideal": "Escape Goat 2"
+  "Inescapable": {
+    "ideal": "Inescapable"
   },
-  "DungeonsOfDredmor": {
-    "ideal": "Dungeons of Dredmor",
-    "acceptable": [
-      "Dungeons Of Dredmor"
-    ]
+  "volt": {
+    "ideal": "Volt"
   },
-  "ColorOracle.jar": {
-    "ideal": "Color Oracle"
-  },
-  "testilizationIII": {
-    "ideal": "Testilization III"
-  },
-  "IttleDewLinux": {
-    "ideal": "Ittle Dew"
-  },
-  "trine2_complete_story_v2_01_build_425_humble_linux": {
-    "ideal": "Trine 2: Complete Story",
-    "acceptable": [
-      "Trine 2 Complete Story",
-      "Trine2 Complete Story"
-    ]
-  },
-  "Inherit The Earth": {
-    "ideal": "Inherit the Earth"
-  },
-  "Blocks That Matter": {
-    "ideal": "Block's That Matter"
-  },
-  "firefox_4.0": {
-    "ideal": "Firefox"
-  },
-  "eets2": {
-    "ideal": "Eets 2"
-  },
-  "nihilumbra": {
-    "ideal": "Nihilumbra"
-  },
-  "supertuxkart-0.9-linux": {
-    "attainable": "Supertuxkart",
-    "ideal": "SuperTuxKart"
-  },
-  "StrikeSuitZero_linux_1389211698": {
-    "ideal": "Strike Suit Zero"
-  },
-  "Solar2": {
-    "ideal": "Solar 2"
+  "fez-08202016": {
+    "ideal": "Fez"
   },
   "Blood - One Unit Whole Blood": {
     "ideal": "Blood: One Unit Whole Blood",
@@ -529,35 +219,213 @@
       "Blood - One Unit Whole Blood"
     ]
   },
-  "NBTExplorer": {
-    "ideal": "NBT Explorer"
+  "Beatbuddy": {
+    "ideal": "Beatbuddy"
   },
-  "reus": {
-    "ideal": "Reus"
+  "gog_gnomoria_2.0.0.1": {
+    "ideal": "Gnomoria"
   },
-  "PlanetaryAnnihilation_Linux_88508": {
-    "ideal": "Planetary Annihilation"
+  "poclbm": {
+    "ideal": "Poclbm"
+  },
+  "PSX": {
+    "ideal": "PSX"
+  },
+  "The Basement Collection": {
+    "ideal": "The Basement Collection"
+  },
+  "Don't Move": {
+    "ideal": "Don't Move"
+  },
+  "spaz": {
+    "ideal": "S.P.A.Z.",
+    "attainable": "SPAZ",
+    "acceptable": [
+      "Spaz"
+    ]
+  },
+  "a_boy_and_his_blob_2.1.0.2": {
+    "ideal": "A Boy and His Blob"
+  },
+  "Star Wars: Dark Forces 2: Jedi Knight: Mysteries of the Sith": {
+    "ideal": "Star Wars: Dark Forces 2: Jedi Knight: Mysteries of the Sith"
+  },
+  "minecraft.jar": {
+    "ideal": "Minecraft"
+  },
+  "Hammerwatch": {
+    "ideal": "Hammerwatch"
+  },
+  "minecraft_server": {
+    "ideal": "Minecraft Server"
+  },
+  "Aaaaa_Awesome_x64_Linux": {
+    "ideal": "Aaaaa! for the Awesome",
+    "attainable": "Aaaaa Awesome"
+  },
+  "Cosmos Cosmic Adventure": {
+    "ideal": "Cosmo's Cosmic Adventure",
+    "acceptable": [
+      "Cosmos Cosmic Adventure"
+    ]
+  },
+  "The Last Federation": {
+    "ideal": "The Last Federation"
+  },
+  "titanattacks": {
+    "ideal": "Titan Attacks",
+    "attainable": "Titanattacks"
+  },
+  "Duke Nukem": {
+    "ideal": "Duke Nukem"
+  },
+  "Rex Nebular and the Cosmic Gender Bender": {
+    "ideal": "Rex Nebular and the Cosmic Gender Bender",
+    "acceptable": [
+      "Rex Nebular And The Cosmic Gender Bender"
+    ]
+  },
+  "RogueLegacyLinux_v120a": {
+    "ideal": "Rogue Legacy"
+  },
+  "CardCityNights": {
+    "ideal": "Card City Nights"
+  },
+  "A Valley Without Wind 2": {
+    "ideal": "A Valley Without Wind 2"
+  },
+  "Hexcells": {
+    "ideal": "Hexcells"
   },
   "gog_windward_2.16.0.20": {
     "ideal": "Windward"
   },
-  "Freedom Planet": {
-    "ideal": "Freedom Planet"
+  "FTL": {
+    "ideal": "FTL"
   },
-  "zen-puzzle-garden": {
-    "ideal": "Zen Puzzle Garden"
-  },
-  "RiskOfRain": {
-    "ideal": "Risk of Rain",
+  "towerfall_ascension_2.5.0.9": {
+    "ideal": "TowerFall Ascension",
     "acceptable": [
-      "Risk Of Rain"
+      "Towerfall Ascension"
     ]
   },
-  "Master of Orion 2": {
-    "ideal": "Master of Orion 2"
+  "WakingMars-1.2.1-Linux": {
+    "ideal": "Waking Mars"
+  },
+  "LanguageTool": {
+    "ideal": "LanguageTool",
+    "attainable": "Language Tool"
+  },
+  "dearesther": {
+    "ideal": "Dear Esther",
+    "attainable": "Dearesther"
+  },
+  "MouseCraft": {
+    "ideal": "MouseCraft",
+    "attainable": "Mouse Craft"
+  },
+  "Eufloria": {
+    "ideal": "Eufloria"
   },
   "NEOScavenger": {
     "ideal": "NEO Scavenger"
+  },
+  "RaceTheSunLINUX_1.455": {
+    "ideal": "Race the Sun"
+  },
+  "djgpp": {
+    "ideal": "DJGPP",
+    "acceptable": [
+      "Djgpp"
+    ]
+  },
+  "nihilumbra": {
+    "ideal": "Nihilumbra"
+  },
+  "DungeonsOfDredmor": {
+    "ideal": "Dungeons of Dredmor",
+    "acceptable": [
+      "Dungeons Of Dredmor"
+    ]
+  },
+  "BeansQuest": {
+    "ideal": "Bean's Quest",
+    "acceptable": [
+      "Beans Quest"
+    ]
+  },
+  "NBTExplorer": {
+    "ideal": "NBT Explorer"
+  },
+  "Incredipede": {
+    "ideal": "Incredipede"
+  },
+  "darwinia": {
+    "ideal": "Darwinia"
+  },
+  "MarkOfTheNinja": {
+    "ideal": "Mark of the Ninja",
+    "acceptable": [
+      "Mark Of The Ninja"
+    ]
+  },
+  "StarNomad": {
+    "ideal": "Star Nomad"
+  },
+  "Inherit The Earth": {
+    "ideal": "Inherit the Earth"
+  },
+  "CostumeQuest": {
+    "ideal": "Costume Quest"
+  },
+  "dustaet-01082014": {
+    "ideal": "Dust: A.E.T.",
+    "acceptable": [
+      "Dustaet"
+    ]
+  },
+  "grimrock": {
+    "ideal": "Grimrock"
+  },
+  "atomzombiesmasher": {
+    "ideal": "Atom Zombie Smasher",
+    "attainable": "Atomzombiesmasher"
+  },
+  "Shattered Haven": {
+    "ideal": "Shattered Haven"
+  },
+  "VirusJigglinFever": {
+    "ideal": "Virus Jigglin' Fever",
+    "attainable": "Virus Jigglin Fever"
+  },
+  "avirusnamedtom": {
+    "ideal": "A Virus Named Tom",
+    "attainable": "Avirusnamedtom"
+  },
+  "Door Kickers": {
+    "ideal": "Door Kickers"
+  },
+  "Taimumari": {
+    "ideal": "Taimumari"
+  },
+  "time-swap": {
+    "ideal": "Time Swap"
+  },
+  "beatblastersiii": {
+    "ideal": "BeatBlasters III",
+    "attainable": "Beatblasters III"
+  },
+  "Metagolf": {
+    "ideal": "Metagolf"
+  },
+  "testilizationII": {
+    "ideal": "Testilization II"
+  },
+  "Not the Robots_Linux": {
+    "ideal": "Not the Robots",
+    "acceptable": [
+      "Not The Robots"
+    ]
   },
   "Wasteland 1 - The Original Classic": {
     "ideal": "Wasteland 1: The Original Classic",
@@ -568,189 +436,195 @@
   "CaveStory+": {
     "ideal": "Cave Story+"
   },
-  "time-swap": {
-    "ideal": "Time Swap"
-  },
-  "voxatron": {
-    "ideal": "Voxatron"
-  },
-  "Noire 1.01.swf": {
-    "ideal": "Noire"
-  },
-  "LanguageTool": {
-    "attainable": "Language Tool",
-    "ideal": "LanguageTool"
-  },
-  "ultratron": {
-    "ideal": "Ultratron"
-  },
-  "railroad_tycoon_2": {
-    "ideal": "Railroad Tycoon 2"
-  },
-  "Hammerwatch": {
-    "ideal": "Hammerwatch"
-  },
-  "MetalSlug": {
-    "ideal": "Metal Slug"
-  },
   "shipwreck": {
     "ideal": "Shipwreck"
   },
-  "blender-2.76b-linux-glibc211-x86_64": {
-    "ideal": "Blender"
+  "eets2": {
+    "ideal": "Eets 2"
   },
-  "Cosmos Cosmic Adventure": {
-    "ideal": "Cosmo's Cosmic Adventure",
-    "acceptable": [
-      "Cosmos Cosmic Adventure"
-    ]
-  },
-  "Potatoman": {
-    "ideal": "Potatoman"
-  },
-  "Terminal Velocity": {
-    "ideal": "Terminal Velocity"
-  },
-  "jamestown": {
-    "ideal": "Jamestown"
-  },
-  "Inescapable": {
-    "ideal": "Inescapable"
-  },
-  "Dont Move": {
-    "ideal": "Don't Move",
-    "acceptable": [
-      "Dont Move"
-    ]
-  },
-  "jarnal": {
-    "ideal": "Jarnal"
-  },
-  "Incredipede": {
-    "ideal": "Incredipede"
-  },
-  "zenbound2": {
-    "attainable": "Zenbound 2",
-    "ideal": "Zen Bound 2"
-  },
-  "Ys": {
-    "ideal": "Ys"
+  "testilizationVI": {
+    "ideal": "Testilization VI"
   },
   "kagbeta-linux32-client": {
-    "attainable": "Kag Client",
-    "ideal": "KAG Client"
+    "ideal": "KAG Client",
+    "attainable": "Kag Client"
   },
-  "fennec-4.0.1": {
-    "ideal": "Fennec"
+  "PixelJunk Shooter": {
+    "ideal": "PixelJunk Shooter"
   },
-  "doom-and-destiny": {
-    "ideal": "Doom and Destiny",
-    "acceptable": [
-      "Doom And Destiny"
-    ]
+  "LaMulana": {
+    "ideal": "La-Mulana",
+    "attainable": "La Mulana"
   },
-  "testilizationV": {
-    "ideal": "Testilization V"
-  },
-  "testilizationI": {
-    "ideal": "Testilization I"
-  },
-  "Secret Agent": {
-    "ideal": "Secret Agent"
-  },
-  "supermeatboy": {
-    "attainable": "Supermeatboy",
-    "ideal": "Super Meat Boy"
-  },
-  "elliot_quest": {
-    "ideal": "Elliot Quest"
-  },
-  "Octodad Dadliest Catch": {
-    "attainable": "Octodad Dadliest Catch",
-    "ideal": "Octodad: Dadliest Catch"
-  },
-  "Master of Magic": {
-    "ideal": "Master of Magic"
+  "Master of Orion 2": {
+    "ideal": "Master of Orion 2"
   },
   "TestyMacJohnson": {
     "ideal": "Testy MacJohnson"
   },
-  "BrokenAge": {
-    "ideal": "Broken Age"
+  "torchlight": {
+    "ideal": "Torchlight",
+    "acceptable": [
+      "Torch Light"
+    ]
   },
-  "angvik_linux64_9": {
-    "ideal": "Angvik"
+  "PlanetaryAnnihilation_Linux_88508": {
+    "ideal": "Planetary Annihilation"
   },
-  "InfinitrapLinux95": {
-    "ideal": "Infinitrap"
+  "StrikeSuitZero_linux_1389211698": {
+    "ideal": "Strike Suit Zero"
   },
-  "The Basement Collection": {
-    "ideal": "The Basement Collection"
+  "A Valley Without Wind": {
+    "ideal": "A Valley Without Wind"
   },
-  "Volgarr": {
-    "ideal": "Volgarr"
+  "higan": {
+    "ideal": "higan",
+    "acceptable": [
+      "Higan"
+    ]
   },
-  "Beatbuddy": {
-    "ideal": "Beatbuddy"
+  "ultratron": {
+    "ideal": "Ultratron"
   },
-  "Ascendant": {
-    "ideal": "Ascendant"
+  "Braveland": {
+    "ideal": "Braveland"
+  },
+  "Deponia": {
+    "ideal": "Deponia"
   },
   "ToTheMoon": {
-    "attainable": "To the Moon",
-    "ideal": "To The Moon"
+    "ideal": "To The Moon",
+    "attainable": "To the Moon"
   },
-  "Jazzpunk": {
-    "ideal": "Jazzpunk"
-  },
-  "TheBridge": {
-    "ideal": "The Bridge"
-  },
-  "avirusnamedtom": {
-    "attainable": "Avirusnamedtom",
-    "ideal": "A Virus Named Tom"
+  "Teslagrad": {
+    "ideal": "Teslagrad"
   },
   "processing-1.5.1": {
     "ideal": "Processing"
   },
-  "atomzombiesmasher": {
-    "attainable": "Atomzombiesmasher",
-    "ideal": "Atom Zombie Smasher"
-  },
-  "teensyduino": {
-    "ideal": "Teensyduino"
-  },
-  "grimrock": {
-    "ideal": "Grimrock"
-  },
-  "Star Wars: Dark Forces 2: Jedi Knight: Mysteries of the Sith": {
-    "ideal": "Star Wars: Dark Forces 2: Jedi Knight: Mysteries of the Sith"
-  },
-  "StarNomad": {
-    "ideal": "Star Nomad"
-  },
-  "Shadowrun Returns": {
-    "ideal": "Shadowrun Returns"
-  },
-  "Testy-MacJohnson": {
-    "ideal": "Testy MacJohnson"
-  },
   "prisonarchitect-alpha24c-linux": {
-    "attainable": "Prisonarchitect",
-    "ideal": "Prison Architect"
+    "ideal": "Prison Architect",
+    "attainable": "Prisonarchitect"
+  },
+  "gog_defender_s_quest_2.2.0.3": {
+    "ideal": "Defender's Quest"
+  },
+  "Anodyne_STANDALONE_1_506.swf": {
+    "ideal": "Anodyne"
+  },
+  "Unreal Tournament": {
+    "ideal": "Unreal Tournament"
+  },
+  "unepic": {
+    "ideal": "Unepic"
+  },
+  "escapegoat2": {
+    "ideal": "Escape Goat 2",
+    "attainable": "Escapegoat 2"
+  },
+  "defender_s_quest_2.10.0.11": {
+    "ideal": "Defender's Quest"
+  },
+  "Executor": {
+    "ideal": "Executor"
+  },
+  "Jazzpunk": {
+    "ideal": "Jazzpunk"
+  },
+  "testilizationIII": {
+    "ideal": "Testilization III"
+  },
+  "Guacamelee": {
+    "ideal": "Guacamelee"
+  },
+  "jarnal": {
+    "ideal": "Jarnal"
+  },
+  "TypeRider": {
+    "ideal": "TypeRider",
+    "attainable": "Type Rider"
+  },
+  "Besiege_Alpha_Linux_v0_27": {
+    "ideal": "Besiege"
+  },
+  "zenbound2": {
+    "ideal": "Zen Bound 2",
+    "attainable": "Zenbound 2"
+  },
+  "testilizationI": {
+    "ideal": "Testilization I"
+  },
+  "stardew_valley_2.4.0.5": {
+    "ideal": "Stardew Valley"
+  },
+  "trine2_complete_story_v2_01_build_425_humble_linux": {
+    "ideal": "Trine 2: Complete Story",
+    "acceptable": [
+      "Trine 2 Complete Story",
+      "Trine2 Complete Story"
+    ]
+  },
+  "BravadaLinux": {
+    "ideal": "Bravada"
+  },
+  "supertuxkart-0.9-linux": {
+    "ideal": "SuperTuxKart",
+    "attainable": "Supertuxkart"
+  },
+  "InfinitrapLinux95": {
+    "ideal": "Infinitrap"
+  },
+  "Blake Stone Planet Strike": {
+    "ideal": "Blake Stone: Planet Strike",
+    "attainable": "Blake Stone Planet Strike"
+  },
+  "bit.trip.runner-1.0": {
+    "ideal": "Bit.Trip Runner",
+    "attainable": "Bit.Trip.Runner",
+    "acceptable": [
+      "bit.trip.runner",
+      "BIT.TRIP RUNNER",
+      "Bit.trip.runner"
+    ]
+  },
+  "CapitalizedExtension.EXE": {
+    "ideal": "Capitalized Extension"
+  },
+  "TowerOfGuns": {
+    "ideal": "Tower of Guns",
+    "acceptable": [
+      "Tower Of Guns"
+    ]
+  },
+  "NEOGEO": {
+    "ideal": "NEOGEO"
   },
   "Hexcells Infinite - Linux": {
     "ideal": "Hexcells Infinite"
   },
-  "beatblastersiii": {
-    "attainable": "Beatblasters III",
-    "ideal": "BeatBlasters III"
+  "GROUPEES_ The Visual Novel Linux": {
+    "ideal": "GROUPEES: The Visual Novel"
   },
-  "OpenUHS 0.6.6": {
-    "ideal": "OpenUHS",
-    "acceptable": [
-      "Open UHS"
-    ]
+  "dynablaster_revenge_v1_0_2": {
+    "ideal": "Dynablaster Revenge"
+  },
+  "railyard": {
+    "ideal": "Railyard"
+  },
+  "Secret Agent": {
+    "ideal": "Secret Agent"
+  },
+  "tidalis_linux_64bit": {
+    "ideal": "Tidalis"
+  },
+  "Shadow Warrior Classic Complete": {
+    "ideal": "Shadow Warrior Classic Complete"
+  },
+  "Solar2": {
+    "ideal": "Solar 2"
+  },
+  "firefox_4.0": {
+    "ideal": "Firefox"
   },
   "jaspers-journeys": {
     "ideal": "Jasper's Journeys",
@@ -758,16 +632,237 @@
       "Jaspers Journeys"
     ]
   },
-  "ScummVM": {
-    "ideal": "ScummVM",
+  "braid": {
+    "ideal": "Braid"
+  },
+  "firefox-ux": {
+    "ideal": "Firefox UX"
+  },
+  "angvik_linux64_9": {
+    "ideal": "Angvik"
+  },
+  "mind_path_to_thalamus_enhanced_edition_2.1.0.3": {
+    "ideal": "MIND: Path To Thalamus Enhanced Edition",
     "acceptable": [
-      "Scumm VM"
+      "Mind Path To Thalamus Enhanced Edition"
     ]
   },
-  "Soundfonts": {
-    "ideal": "Soundfonts",
+  "hobl_linux64": {
+    "ideal": "HOBL",
+    "attainable": "Hobl"
+  },
+  "supermeatboy": {
+    "ideal": "Super Meat Boy",
+    "attainable": "Supermeatboy"
+  },
+  "Testy-MacJohnson": {
+    "ideal": "Testy MacJohnson"
+  },
+  "Quest For Infamy": {
+    "ideal": "Quest for Infamy"
+  },
+  "gp_full_linux64_v1.13": {
+    "ideal": "G.P.",
+    "attainable": "GP",
     "acceptable": [
-      "Sound Fonts"
+      "Gp"
     ]
+  },
+  "RiskOfRain": {
+    "ideal": "Risk of Rain",
+    "acceptable": [
+      "Risk Of Rain"
+    ]
+  },
+  "MetalSlug": {
+    "ideal": "Metal Slug"
+  },
+  "avadon": {
+    "ideal": "Avadon"
+  },
+  "MalditaCastilla": {
+    "ideal": "Maldita Castilla"
+  },
+  "testilizationV": {
+    "ideal": "Testilization V"
+  },
+  "SnakeBlocks_Linux": {
+    "ideal": "Snake Blocks"
+  },
+  "undertale_2.0.0.1": {
+    "ideal": "Undertale"
+  },
+  "DesktopDungeons": {
+    "ideal": "Desktop Dungeons"
+  },
+  "Ys": {
+    "ideal": "Ys"
+  },
+  "elliot_quest": {
+    "ideal": "Elliot Quest"
+  },
+  "Dont Move": {
+    "ideal": "Don't Move",
+    "acceptable": [
+      "Dont Move"
+    ]
+  },
+  "SteamWorldDig": {
+    "ideal": "SteamWorld Dig",
+    "attainable": "Steam World Dig"
+  },
+  "RevengeOfTheTitans": {
+    "ideal": "Revenge of the Titans"
+  },
+  "OpenUHS 0.6.6": {
+    "ideal": "OpenUHS",
+    "acceptable": [
+      "Open UHS"
+    ]
+  },
+  "Dont Starve": {
+    "ideal": "Don't Starve",
+    "acceptable": [
+      "Dont Starve"
+    ]
+  },
+  "zen-puzzle-garden": {
+    "ideal": "Zen Puzzle Garden"
+  },
+  "Dustforce DX": {
+    "ideal": "Dustforce DX"
+  },
+  "The Bards Tale": {
+    "ideal": "The Bard's Tale"
+  },
+  "Democracy3-1.20-Linux": {
+    "ideal": "Democracy 3"
+  },
+  "Testy_MacJohnson": {
+    "ideal": "Testy MacJohnson"
+  },
+  "firefox": {
+    "ideal": "Firefox"
+  },
+  "Master of Magic": {
+    "ideal": "Master of Magic"
+  },
+  "Escape Goat": {
+    "ideal": "Escape Goat"
+  },
+  "blender-2.76b-linux-glibc211-x86_64": {
+    "ideal": "Blender"
+  },
+  "defcon": {
+    "ideal": "Defcon"
+  },
+  "ut2003": {
+    "ideal": "U.T. 2003",
+    "attainable": "UT 2003"
+  },
+  "The Bard's Tale": {
+    "ideal": "The Bard's Tale"
+  },
+  "SuperCrateBox-YoYo": {
+    "ideal": "Super Crate Box",
+    "acceptable": [
+      "Super Crate Box YoYo"
+    ]
+  },
+  "etherpad-lite": {
+    "ideal": "Etherpad Lite",
+    "acceptable": [
+      "Ether Pad Lite"
+    ]
+  },
+  "pico-8": {
+    "ideal": "PICO-8",
+    "acceptable": [
+      "PICO 8",
+      "Pico 8",
+      "Pico-8"
+    ]
+  },
+  "Hexcells Plus": {
+    "ideal": "Hexcells Plus"
+  },
+  "knightspp_linux_209": {
+    "ideal": "Knights of Pen and Paper",
+    "attainable": "Knightspp"
+  },
+  "Another World - 20th Anniversary Edition": {
+    "ideal": "Another World: 20th Anniversary Edition",
+    "acceptable": [
+      "Another World - 20th Anniversary Edition"
+    ]
+  },
+  "unxwb": {
+    "ideal": "UnXWB"
+  },
+  "reus": {
+    "ideal": "Reus"
+  },
+  "fennec-7.0.1": {
+    "ideal": "Fennec"
+  },
+  "DROD 1+2+3": {
+    "ideal": "D.R.O.D. 1+2+3",
+    "attainable": "DROD 1+2+3",
+    "acceptable": [
+      "DROD 1+2+3"
+    ]
+  },
+  "Day of the Tentacle Remastered": {
+    "ideal": "Day of the Tentacle Remastered"
+  },
+  "Blocks That Matter": {
+    "ideal": "Block's That Matter"
+  },
+  "crimsonland-linux-1.0.9": {
+    "ideal": "Crimsonland"
+  },
+  "Noire 1.01.swf": {
+    "ideal": "Noire"
+  },
+  "Blake Stone Aliens of Gold": {
+    "ideal": "Blake Stone: Aliens of Gold",
+    "attainable": "Blake Stone Aliens of Gold"
+  },
+  "TIS-100": {
+    "ideal": "TIS-100"
+  },
+  "ColorOracle.jar": {
+    "ideal": "Color Oracle"
+  },
+  "BrokenAge": {
+    "ideal": "Broken Age"
+  },
+  "Gunpoint": {
+    "ideal": "Gunpoint"
+  },
+  "runner2-1.0": {
+    "ideal": "Runner 2"
+  },
+  "Pixel Piracy": {
+    "ideal": "Pixel Piracy"
+  },
+  "TheBridge": {
+    "ideal": "The Bridge"
+  },
+  "uplink-x64": {
+    "ideal": "Uplink"
+  },
+  "Trauma": {
+    "ideal": "Trauma"
+  },
+  "teensyduino": {
+    "ideal": "Teensyduino"
+  },
+  "fortune": {
+    "ideal": "fortune",
+    "attainable": "Fortune"
+  },
+  "AndroVMplayer-Linux64": {
+    "ideal": "AndroVMplayer"
   }
 }
