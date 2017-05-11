@@ -13,28 +13,8 @@ use super::constants::{
     PROGRAM_EXTS, SUBTITLE_START_RE, WHITESPACE_RE, WORD_BOUNDARY_CHARS
 };
 
-/// Return a titlecased copy of the input with the following two modifications to the algorithm:
-///
-/// 1. Never perform upper->lowercase conversion in order to preserve acronyms
-/// 2. Treat any character in `WORD_BOUNDARY_CHARS` as preceding a new word.
-pub fn titlecase_up(in_str: &str) -> String {
-    // Preallocate for the "case-conversion doesn't change length" case common in western langs
-    let mut out_str = String::with_capacity(in_str.len());
-    let mut lastchar_was_boundary = true;  // The start of the string is a \b
 
-    for chara in in_str.chars() {
-        if lastchar_was_boundary {
-            out_str.extend(chara.to_uppercase());
-        } else {
-            out_str.push(chara);
-        }
-        lastchar_was_boundary = WORD_BOUNDARY_CHARS.chars().any(|x| x == chara);
-    }
-    out_str
-}
 
-/// rust-cpython API wrapper for `titlecase_up`
-fn py_titlecase_up(_: Python, in_str: &str) -> PyResult<String> { Ok(titlecase_up(in_str)) }
 
 // TODO: Factor out all of this duplication
 
@@ -125,6 +105,29 @@ pub fn filename_to_name<P: AsRef<Path> + ?Sized>(path: &P) -> Option<String> {
         _ => Some(name)
     }
 }
+
+/// Return a titlecased copy of the input with the following two modifications to the algorithm:
+///
+/// 1. Never perform upper->lowercase conversion in order to preserve acronyms
+/// 2. Treat any character in `WORD_BOUNDARY_CHARS` as preceding a new word.
+pub fn titlecase_up(in_str: &str) -> String {
+    // Preallocate for the "case-conversion doesn't change length" case common in western langs
+    let mut out_str = String::with_capacity(in_str.len());
+    let mut lastchar_was_boundary = true;  // The start of the string is a \b
+
+    for chara in in_str.chars() {
+        if lastchar_was_boundary {
+            out_str.extend(chara.to_uppercase());
+        } else {
+            out_str.push(chara);
+        }
+        lastchar_was_boundary = WORD_BOUNDARY_CHARS.chars().any(|x| x == chara);
+    }
+    out_str
+}
+
+/// rust-cpython API wrapper for `titlecase_up`
+fn py_titlecase_up(_: Python, in_str: &str) -> PyResult<String> { Ok(titlecase_up(in_str)) }
 
 /// TODO: Figure out how to get the `PyModule::new` and the return macro-ized
 pub fn into_python_module(py: &Python) -> PyResult<PyModule> {
