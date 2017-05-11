@@ -119,8 +119,8 @@ pub fn filename_to_name<P: AsRef<Path> + ?Sized>(path: &P) -> Option<String> {
     name = WHITESPACE_RE.replace_all(&name, " ").trim().to_string();
 
     // Return `None` instead of an empty string to make it clear that this can fail.
-    // TODO: Consider content that's exclusively Unicode replacement characters to be "empty"
-    match name.len() {
+    // (Whitespace and Unicode replacement characters are excluded from the count)
+    match name.chars().filter(|x| !(*x == '\u{FFFD}' || x.is_whitespace())).count() {
         0 => None,
         _ => Some(name)
     }
