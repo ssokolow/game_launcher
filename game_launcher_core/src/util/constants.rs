@@ -15,6 +15,8 @@ pub const IGNORED_BINARIES: &[&str] =
     &["xdg-*", "flashplayer", "Data.*", "lib*.so.*", "README*"];
 
 /// Extensions which denote a likely game installer
+///
+/// NOTE: These will be compared against the output of `to_lowercase()`
 pub const INSTALLER_EXTS: &[&str] = &[
     ".zip", ".rar",
     ".tar", ".gz", ".tgz", ".bz2", ".tbz2", ".xz", ".txz",
@@ -27,6 +29,8 @@ pub const INSTALLER_EXTS: &[&str] = &[
 pub const MAX_SCRIPT_SIZE: u64 = 1024 * 1024; // 1 MiB
 
 /// Extensions which indicate files shouldn't be considered as executables even when marked +x
+///
+/// NOTE: These will be compared against the output of `to_lowercase()`
 pub const NON_BINARY_EXTS: &[&str] = &[
     ".dll", ".so", ".dso", ".shlib", ".o", ".dylib",
     ".ini", ".xml", ".txt",
@@ -42,9 +46,11 @@ pub const NON_BINARY_EXTS: &[&str] = &[
 
 /// Extensions which denote likely candidates for the launcher menu
 ///
-/// Note: `.com` is intentionally excluded because they're so rare outside
+/// NOTE: `.com` is intentionally excluded because they're so rare outside
 ///       of DOSBox and I worry about the potential for false positives
 ///       caused by it showing up in some game's clever title.
+///
+/// NOTE: These will be compared against the output of `to_lowercase()`
 ///
 /// TODO: Find some way to do a coverage test for this.
 pub const PROGRAM_EXTS: &[&str] = &[
@@ -71,6 +77,7 @@ pub const WORD_BOUNDARY_CHARS: &str = ". _-";
 const RE_EXPECT_MSG: &str = "compiled regex from string literal";
 lazy_static! {
     /// Regexes used by `filename_to_name`
+    /// TODO: Test whether adding periods to `FNAME_WSPACE_*` makes things better or worse
     pub static ref SUBTITLE_START_RE: Regex = Regex::new(r"(\d)\s+(\w)").expect(RE_EXPECT_MSG);
     pub static ref WHITESPACE_RE: Regex = Regex::new(r"\s+").expect(RE_EXPECT_MSG);
     pub static ref FNAME_WSPACE_RE: Regex = Regex::new(r"(\s|[_-])+").expect(RE_EXPECT_MSG);

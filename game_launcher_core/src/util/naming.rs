@@ -79,7 +79,7 @@ pub fn filename_to_name<P: AsRef<Path> + ?Sized>(path: &P) -> Option<String> {
         name.push(chara);
     }
 
-    // Assume that it's either an acronym or Ys, which is handled by overrides
+    // Assume 1-2 character names are either acronyms or "Ys", which is handled by overrides
     if name.len() < 3 {
         name = name.to_uppercase().to_string();
     }
