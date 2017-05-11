@@ -19,7 +19,7 @@ use super::constants::{
 // TODO: Factor out all of this duplication
 
 /// A helper for `filename_to_name`
-fn camelcase_to_spaces(in_str: &str) -> String {
+fn _camelcase_to_spaces(in_str: &str) -> String {
     // XXX: Is it faster to count uppercase and then preallocate exact or walk once + reallocate?
     let mut out_str = String::with_capacity(in_str.len() + 5); // Preallocate for up to 6 words
     let mut lastchar_was_upper = true;  // Don't insert a space at the beginning
@@ -35,48 +35,41 @@ fn camelcase_to_spaces(in_str: &str) -> String {
     out_str
 }
 
+/// Helper for `filename_to_name` to strip recognized extensions without over-stripping when
+/// periods are used in other ways.
+fn _filename_extensionless<P: AsRef<Path> + ?Sized>(path: &P) -> Cow<str> {
+    let path = path.as_ref();
+
+    // Use the file_stem() if the extension is present and in `PROGRAM_EXTS`, case-insensitively
+    let name = match path.extension().map(|x| x.to_string_lossy().to_lowercase()) {
+        Some(ref ext) if PROGRAM_EXTS.contains(&ext.as_str()) => path.file_stem(),
+        _ => path.file_name()
+    };
+
+    // Ensure we consistently have either an empty string or an escaped string
+    // TODO: Is this still simpler than converting empty strings to Option::None early?
+    name.unwrap_or(OsStr::new("")).to_string_lossy()
+}
+
 /// A heuristic transform to produce pretty good titles from filenames without relying on
 /// out-of-band information.
 pub fn filename_to_name<P: AsRef<Path> + ?Sized>(path: &P) -> Option<String> {
-    let path = path.as_ref();
+    let name_in = _filename_extensionless(path);
 
     // TODO: Refactor this function for simplicity and early return
-
-    // Lowercase the extension and use \0\0 as a placeholder for bad Unicode which won't be
-    // confused for valid data or an empty CString.
-    let ext = path.extension().map(|x| x.to_string_lossy().to_lowercase()
-                                    ).unwrap_or(String::from("\0\0"));
-
-    // Remove recognized program extensions
-    // (But not others because periods may appear in the game name)
-    let name_in = if PROGRAM_EXTS.contains(&&*ext) { path.file_stem() } else { path.file_name() };
-
-    // Ensure we consistently have either an empty string or an escaped string
-    // (Because this makes the code simpler than converting the empty string to Option::None early)
-    let name_in = name_in.unwrap_or(OsStr::new("")).to_string_lossy();
+    // TODO: Group the algorithm into labelled phases
 
     // TODO: Remove version information
 
-    // Convert whitespace cues
-    let mut name = Cow::Borrowed("");
-    let mut name = if FNAME_WSPACE_RE.is_match(&name_in) {
-        if FNAME_WSPACE_NODASH_RE.is_match(&name_in) {
-            // Make sure things like "X-Com Collection" are handled properly
-            FNAME_WSPACE_NODASH_RE.replace_all(&name_in, " ")
-        } else {
-            // ...but also handle names using dashes as separators properly
-            FNAME_WSPACE_RE.replace_all(&name_in, " ")
-        }
-    } else {
-        // Handle CamelCase cues
-        Cow::Owned(camelcase_to_spaces(&name))
-    };
+    // TODO: Maybe I should convert whitespace cues first, then filter out version information in
+    //      a wordwise manner.
+    let name = normalize_whitespace(&name_in);
 
     // Assume that a number followed by whitespace and more text marks the beginning of a subtitle
     // and add a colon and normalized space
     let name = SUBTITLE_START_RE.replace_all(&name, "${1}: ${2}");
 
-    // Titlecase... but only in one direction so things like "FTL" remain
+    // Titlecase... but only in the lower->upper direction so things like "FTL" remain
     let name_in = titlecase_up(&name);
 
     // Ensure that numbers are preceded by a space (Anticipate two inserted spaces at most)
@@ -103,6 +96,24 @@ pub fn filename_to_name<P: AsRef<Path> + ?Sized>(path: &P) -> Option<String> {
     match name.chars().filter(|x| !(*x == '\u{FFFD}' || x.is_whitespace())).count() {
         0 => None,
         _ => Some(name)
+    }
+}
+
+/// Helper for `filename_to_name` to heuristically normalize word-breaks in filenames
+/// which may initially be using non-whitespace characters such as underscores or CamelCasing.
+pub fn normalize_whitespace(in_str: &str) -> Cow<str> {
+    // XXX: Is there a way to avoid doing the bits in is_match() twice in matching branches?
+    if FNAME_WSPACE_RE.is_match(in_str) {
+        if FNAME_WSPACE_NODASH_RE.is_match(in_str) {
+            // Make sure things like "X-Com Collection" don't have their dashes converted
+            FNAME_WSPACE_NODASH_RE.replace_all(in_str, " ")
+        } else {
+            // ...but also handle names using dashes as separators properly
+            FNAME_WSPACE_RE.replace_all(in_str, " ")
+        }
+    } else {
+        // Handle CamelCase cues
+        Cow::Owned(_camelcase_to_spaces(in_str))
     }
 }
 
