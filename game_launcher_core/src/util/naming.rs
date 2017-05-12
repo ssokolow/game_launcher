@@ -9,7 +9,7 @@ use std::path::Path;
 use cpython::{PyModule, PyResult, Python};
 
 use super::constants::{
-    FNAME_WSPACE_RE, FNAME_WSPACE_NODASH_RE,
+    FNAME_WSPACE_RE, FNAME_WSPACE_NODASH_RE, INSTALLER_EXTS,
     PROGRAM_EXTS, SUBTITLE_START_RE, WHITESPACE_RE, WORD_BOUNDARY_CHARS
 };
 
@@ -102,6 +102,7 @@ pub fn filename_to_name<P: AsRef<Path> + ?Sized>(path: &P) -> Option<String> {
 pub fn normalize_whitespace(in_str: &str) -> Cow<str> {
     // XXX: Is there a way to avoid doing the bits in is_match() twice in matching branches?
     if FNAME_WSPACE_RE.is_match(in_str) {
+        // TODO: Need to ignore `x86_64` when checking for underscores
         if FNAME_WSPACE_NODASH_RE.is_match(in_str) {
             // Make sure things like "X-Com Collection" don't have their dashes converted
             FNAME_WSPACE_NODASH_RE.replace_all(in_str, " ")
@@ -113,6 +114,10 @@ pub fn normalize_whitespace(in_str: &str) -> Cow<str> {
         // Handle CamelCase cues
         Cow::Owned(_camelcase_to_spaces(in_str))
     }
+}
+
+fn py_normalize_whitespace(_: Python, in_str: &str) -> PyResult<String> {
+    Ok(normalize_whitespace(in_str).into_owned())
 }
 
 /// Return a titlecased copy of the input with the following two modifications to the algorithm:
@@ -142,6 +147,7 @@ fn py_titlecase_up(_: Python, in_str: &str) -> PyResult<String> { Ok(titlecase_u
 pub fn into_python_module(py: &Python) -> PyResult<PyModule> {
     let py = *py;
     let py_naming = PyModule::new(py, "naming")?;
+    py_naming.add(py, "normalize_whitespace", py_fn!(py, py_normalize_whitespace(in_str: &str)))?;
     py_naming.add(py, "titlecase_up", py_fn!(py, py_titlecase_up(in_str: &str)))?;
     Ok(py_naming)
 }
