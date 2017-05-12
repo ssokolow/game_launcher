@@ -34,9 +34,7 @@
   },
   "towerfall": {
     "ideal": "TowerFall",
-    "acceptable": [
-      "Towerfall"
-    ]
+    "attainable": "Towerfall"
   },
   "IttleDewLinux": {
     "ideal": "Ittle Dew"
@@ -76,8 +74,10 @@
     "ideal": "Frozen Synapse"
   },
   "RaceTheSunLinux_1.42": {
-    "ideal": "Race The Sun",
-    "attainable": "Race the Sun"
+    "ideal": "Race the Sun",
+    "acceptable": [
+      "Race The Sun"
+    ]
   },
   "Monster Bash": {
     "ideal": "Monster Bash"
@@ -101,8 +101,10 @@
     "ideal": "Jamestown"
   },
   "RaceTheSun_1.10_LINUX": {
-    "ideal": "Race The Sun",
-    "attainable": "Race the Sun"
+    "ideal": "Race the Sun",
+    "acceptable": [
+      "Race The Sun"
+    ]
   },
   "Shadowrun Returns": {
     "ideal": "Shadowrun Returns"
@@ -145,7 +147,8 @@
     "ideal": "Micron"
   },
   "Trine Enchanted Edition": {
-    "ideal": "Trine Enchanted Edition"
+    "ideal": "Trine: Enchanted Edition",
+    "attainable": "Trine Enchanted Edition"
   },
   "voxatron": {
     "ideal": "Voxatron"
@@ -202,7 +205,10 @@
     "ideal": "Trine 2"
   },
   "RaceTheSunLINUX_1.441": {
-    "ideal": "Race the Sun"
+    "ideal": "Race the Sun",
+    "acceptable": [
+      "Race The Sun"
+    ]
   },
   "Inescapable": {
     "ideal": "Inescapable"
@@ -211,7 +217,10 @@
     "ideal": "Volt"
   },
   "fez-08202016": {
-    "ideal": "Fez"
+    "ideal": "FEZ",
+    "acceptable": [
+      "Fez"
+    ]
   },
   "Blood - One Unit Whole Blood": {
     "ideal": "Blood: One Unit Whole Blood",
@@ -245,7 +254,16 @@
     ]
   },
   "a_boy_and_his_blob_2.1.0.2": {
-    "ideal": "A Boy and His Blob"
+    "ideal": "A Boy and His Blob",
+    "acceptable": [
+      "A Boy And His Blob"
+    ]
+  },
+  "StarWarsDarkForces2JediKnightMysteriesOfTheSith": {
+    "ideal": "Star Wars: Dark Forces 2: Jedi Knight: Mysteries of the Sith",
+    "acceptable": [
+      "Star Wars Dark Forces 2: Jedi Knight Mysteries of the Sith"
+    ]
   },
   "Star Wars: Dark Forces 2: Jedi Knight: Mysteries of the Sith": {
     "ideal": "Star Wars: Dark Forces 2: Jedi Knight: Mysteries of the Sith"
@@ -305,9 +323,7 @@
   },
   "towerfall_ascension_2.5.0.9": {
     "ideal": "TowerFall Ascension",
-    "acceptable": [
-      "Towerfall Ascension"
-    ]
+    "attainable": "Towerfall Ascension"
   },
   "WakingMars-1.2.1-Linux": {
     "ideal": "Waking Mars"
@@ -331,7 +347,10 @@
     "ideal": "NEO Scavenger"
   },
   "RaceTheSunLINUX_1.455": {
-    "ideal": "Race the Sun"
+    "ideal": "Race the Sun",
+    "acceptable": [
+      "Race The Sun"
+    ]
   },
   "djgpp": {
     "ideal": "DJGPP",
@@ -380,9 +399,7 @@
   },
   "dustaet-01082014": {
     "ideal": "Dust: A.E.T.",
-    "acceptable": [
-      "Dustaet"
-    ]
+    "attainable": "Dustaet"
   },
   "grimrock": {
     "ideal": "Grimrock"
@@ -447,7 +464,16 @@
   },
   "kagbeta-linux32-client": {
     "ideal": "KAG Client",
-    "attainable": "Kag Client"
+    "acceptable": [
+      "KAG",
+      "Kag"
+    ]
+  },
+  "kagbeta-linux32-server": {
+    "ideal": "KAG Server",
+    "acceptable": [
+      "Kag Server"
+    ]
   },
   "PixelJunk Shooter": {
     "ideal": "PixelJunk Shooter"
@@ -479,9 +505,7 @@
   },
   "higan": {
     "ideal": "higan",
-    "acceptable": [
-      "Higan"
-    ]
+    "attainable": "Higan"
   },
   "ultratron": {
     "ideal": "Ultratron"
@@ -643,9 +667,7 @@
   },
   "mind_path_to_thalamus_enhanced_edition_2.1.0.3": {
     "ideal": "MIND: Path To Thalamus Enhanced Edition",
-    "acceptable": [
-      "Mind Path To Thalamus Enhanced Edition"
-    ]
+    "attainable": "Mind Path To Thalamus Enhanced Edition"
   },
   "hobl_linux64": {
     "ideal": "HOBL",
@@ -663,8 +685,8 @@
   },
   "gp_full_linux64_v1.13": {
     "ideal": "G.P.",
-    "attainable": "GP",
     "acceptable": [
+      "GP",
       "Gp"
     ]
   },
@@ -777,10 +799,10 @@
   },
   "pico-8": {
     "ideal": "PICO-8",
+    "attainable": "Pico-8",
     "acceptable": [
       "PICO 8",
-      "Pico 8",
-      "Pico-8"
+      "Pico 8"
     ]
   },
   "Hexcells Plus": {
@@ -863,6 +885,7 @@
     "attainable": "Fortune"
   },
   "AndroVMplayer-Linux64": {
-    "ideal": "AndroVMplayer"
+    "ideal": "AndroVMplayer",
+    "attainable": "Andro VMplayer"
   }
 }
