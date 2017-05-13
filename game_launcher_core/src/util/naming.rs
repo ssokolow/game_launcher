@@ -16,19 +16,20 @@ use super::constants::{
 
 // TODO: Write a function which generates sorting keys like "Boy And His Blob, A" from titles.
 
+/// Used by naming::camelcase_to_spaces to insert spaces at word boundaries
+const CAMELCASE_REPLACEMENT: &str = "${1}${3}${5} ${2}${4}${6}";
 lazy_static! {
-    /// Used by naming::camelcase_to_spaces but not intended to be exposed directly
-    /// (Included here to keep the tunables together)
-    ///
+    /// Used by naming::camelcase_to_spaces to match word boundaries
     /// TODO: Move this to super::constants one pub(restricted) is stable
     static ref CAMELCASE_RE: Regex = Regex::new(
-        r"([a-z])([A-Z0-9])|([^ ])([A-Z][a-z])|([0-9])([a-z])")
+        r"([a-z&])([&A-Z0-9])|([^ ])([A-Z][a-z])|([0-9])([a-z])")
         .expect("compiled regex in string literal");
 }
 
-/// Convenience wrapper so the replacement string only needs to exist in one place
-pub fn camelcase_to_spaces(in_str: &str) -> Cow<str> {
-        CAMELCASE_RE.replace_all(&in_str, "${1}${3}${5} ${2}${4}${6}")
+/// Insert spaces at word boundaries in a camelcase string.
+pub fn camelcase_to_spaces(in_str: &str) -> String {
+        let in_str2 = CAMELCASE_RE.replace_all(&in_str, CAMELCASE_REPLACEMENT);
+        CAMELCASE_RE.replace_all(&in_str2, CAMELCASE_REPLACEMENT).into_owned()
 }
 
 /// Helper for `filename_to_name` to strip recognized extensions without over-stripping when
@@ -111,7 +112,7 @@ pub fn normalize_whitespace(in_str: &str) -> Cow<str> {
         }
     } else {
         // Handle CamelCase cues
-        camelcase_to_spaces(in_str)
+        Cow::Owned(camelcase_to_spaces(in_str))
     }
 }
 
@@ -138,7 +139,7 @@ pub fn titlecase_up(in_str: &str) -> String {
 // --== CPython API ==--
 
 fn py_camelcase_to_spaces<'a>(_: Python, in_str: &'a str) -> PyResult<String> {
-    Ok(camelcase_to_spaces(in_str).into_owned())
+    Ok(camelcase_to_spaces(in_str))
 }
 
 fn py_normalize_whitespace(_: Python, in_str: &str) -> PyResult<String> {
@@ -193,6 +194,8 @@ mod tests {
         assert_eq!(camelcase_to_spaces("AndroidVM"), "Android VM");
         assert_eq!(camelcase_to_spaces("RARFile"), "RAR File");
         assert_eq!(camelcase_to_spaces("ADruidsDuel"), "A Druids Duel");
+        assert_eq!(camelcase_to_spaces("PickACard"), "Pick A Card");
+        assert_eq!(camelcase_to_spaces("TheKing&I"), "The King & I");
     }
 
     #[test]
@@ -219,6 +222,8 @@ mod tests {
         assert_eq!(camelcase_to_spaces("Version 1.1"), "Version 1.1");
         assert_eq!(camelcase_to_spaces("catch22"), "catch 22");
         assert_eq!(camelcase_to_spaces("Catch 22"), "Catch 22");
+        assert_eq!(camelcase_to_spaces("1Two3"), "1 Two 3");
+        assert_eq!(camelcase_to_spaces("One2Three"), "One 2 Three");
     }
 
     #[test]
