@@ -25,7 +25,7 @@ lazy_static! {
         # == Ampersand (definitely end) followed by anything not already whitespace ==
         #    ('Ampersand' or 'Small Ampersand', or 'Fullwidth Ampersand' or...
         #     'Heavy Ampersand Ornament')
-        (\x{26}|\x{FE60}|\x{FF06}|\x{1F674})
+        ([\x{26}\x{FE60}\x{FF06}\x{1F674}])
         #    (Something not 'Separator, Space')
         (\P{Zs})
 
@@ -35,19 +35,18 @@ lazy_static! {
         # == Lower/titlecase (possible end) followed by upper/titlecase/number (possible start) ==
         #    ('Letter, Lowercase' or 'Letter, Titlecase', 'Ampersand' or 'Small Ampersand', or...
         #     'Fullwidth Ampersand' or 'Heavy Ampersand Ornament')
-        (\p{Ll}|\p{Lt})
+        ([\p{Ll}\p{Lt}])
         #    ('Letter, Uppercase' or 'Number, Decimal Digit' or 'Number, Letter' or...
         #     'Number, Other' or 'Ampersand' or 'Small Ampersand' or...
         #     'Fullwidth Ampersand' or 'Heavy Ampersand Ornament')
-        (\p{Lu}|\p{Lt}|
-         \p{Nd}|\p{Nl}|\p{No})
+        ([\p{Lu}\p{Lt}\p{Nd}\p{Nl}\p{No}])
 
         # == OR ==
         |
 
         # == Number followed by an un-capitalized word ==
         #  ('Number, Decimal Digit' or 'Number, Letter' or 'Number, Other')
-        (\p{Nd}|\p{Nl}|\p{No})
+        ([\p{Nd}\p{Nl}\p{No}])
         #  ('Letter, Lowercase')
         (\p{Ll})
 
@@ -60,9 +59,7 @@ lazy_static! {
         #    ('Letter, Titlecase' or ['Letter, Uppercase' followed by 'Letter, Lowercase'] or...
         #     'Ampersand' or 'Small Ampersand' or 'Fullwidth Ampersand' or ...
         #     'Heavy Ampersand Ornament')
-        (\p{Lt}|
-         \p{Lu}\p{Ll}|
-         \x{26}|\x{FE60}|\x{FF06}|\x{1F674})
+        (\p{Lt} | \p{Lu}\p{Ll} | [\x{26}\x{FE60}\x{FF06}\x{1F674}])
         ").expect("compiled regex in string literal");
 }
 
