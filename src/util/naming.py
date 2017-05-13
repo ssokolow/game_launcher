@@ -236,11 +236,15 @@ def filename_to_name(fname):
     """A heuristic transform to produce pretty good titles from filenames
     without relying on out-of-band information.
     """
+    recognized_exts = (PROGRAM_EXTS + INSTALLER_EXTS + NON_BINARY_EXTS +
+                       ['.app'])
+
     # Remove recognized program extensions
     # (But not others because periods may appear in the game name)
     fbase, fext = os.path.splitext(fname)
-    if fext.lower() in PROGRAM_EXTS:
+    while fext.lower() in recognized_exts:
         fname = fbase
+        fbase, fext = os.path.splitext(fname)
 
     # Remove version information and convert whitespace cues
     # (Two passes required to reliably deal with semi-CamelCase filenames)
