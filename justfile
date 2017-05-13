@@ -25,7 +25,7 @@ test: check
 	@printf "\n--== Python Test Suite ==--\n"
 	nosetests3
 
-unittest: rebuild check
+unittest: rebuild
 	cd game_launcher_core && cargo test
 	nosetests3
 
