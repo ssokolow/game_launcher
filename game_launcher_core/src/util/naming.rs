@@ -6,6 +6,7 @@ use std::borrow::Cow;
 use std::ffi::OsStr;
 use std::path::Path;
 
+use regex::Regex;
 use cpython::{PyModule, PyResult, Python};
 
 use super::constants::{
@@ -14,23 +15,19 @@ use super::constants::{
 };
 
 
-// TODO: Factor out all of this duplication
+lazy_static! {
+    /// Used by naming::camelcase_to_spaces but not intended to be exposed directly
+    /// (Included here to keep the tunables together)
+    ///
+    /// TODO: Move this to super::constants one pub(restricted) is stable
+    static ref CAMELCASE_RE: Regex = Regex::new(
+        r"([a-z])([A-Z0-9])|([^ ])([A-Z][a-z])|([0-9])([a-z])")
+        .expect("compiled regex in string literal");
+}
 
-/// A helper for `filename_to_name`
-fn _camelcase_to_spaces(in_str: &str) -> String {
-    // XXX: Is it faster to count uppercase and then preallocate exact or walk once + reallocate?
-    let mut out_str = String::with_capacity(in_str.len() + 5); // Preallocate for up to 6 words
-    let mut lastchar_was_upper = true;  // Don't insert a space at the beginning
-
-    for chara in in_str.chars() {
-        if !lastchar_was_upper && (chara.is_uppercase() || chara.is_digit(10)) {
-            out_str.push(' ');
-        }
-
-        out_str.push(chara);
-        lastchar_was_upper = chara.is_uppercase();
-    }
-    out_str
+/// Convenience wrapper so the replacement string only needs to exist in one place
+pub fn camelcase_to_spaces(in_str: &str) -> Cow<str> {
+        CAMELCASE_RE.replace_all(&in_str, "${1}${3}${5} ${2}${4}${6}")
 }
 
 /// Helper for `filename_to_name` to strip recognized extensions without over-stripping when
@@ -112,12 +109,8 @@ pub fn normalize_whitespace(in_str: &str) -> Cow<str> {
         }
     } else {
         // Handle CamelCase cues
-        Cow::Owned(_camelcase_to_spaces(in_str))
+        camelcase_to_spaces(in_str)
     }
-}
-
-fn py_normalize_whitespace(_: Python, in_str: &str) -> PyResult<String> {
-    Ok(normalize_whitespace(in_str).into_owned())
 }
 
 /// Return a titlecased copy of the input with the following two modifications to the algorithm:
@@ -140,6 +133,16 @@ pub fn titlecase_up(in_str: &str) -> String {
     out_str
 }
 
+// --== CPython API ==--
+
+fn py_camelcase_to_spaces<'a>(_: Python, in_str: &'a str) -> PyResult<String> {
+    Ok(camelcase_to_spaces(in_str).into_owned())
+}
+
+fn py_normalize_whitespace(_: Python, in_str: &str) -> PyResult<String> {
+    Ok(normalize_whitespace(in_str).into_owned())
+}
+
 /// rust-cpython API wrapper for `titlecase_up`
 fn py_titlecase_up(_: Python, in_str: &str) -> PyResult<String> { Ok(titlecase_up(in_str)) }
 
@@ -147,6 +150,7 @@ fn py_titlecase_up(_: Python, in_str: &str) -> PyResult<String> { Ok(titlecase_u
 pub fn into_python_module(py: &Python) -> PyResult<PyModule> {
     let py = *py;
     let py_naming = PyModule::new(py, "naming")?;
+    py_naming.add(py, "camelcase_to_spaces", py_fn!(py, py_camelcase_to_spaces(in_str: &str)))?;
     py_naming.add(py, "normalize_whitespace", py_fn!(py, py_normalize_whitespace(in_str: &str)))?;
     py_naming.add(py, "titlecase_up", py_fn!(py, py_titlecase_up(in_str: &str)))?;
     Ok(py_naming)
@@ -154,7 +158,7 @@ pub fn into_python_module(py: &Python) -> PyResult<PyModule> {
 
 #[cfg(test)]
 mod tests {
-    use super::titlecase_up;
+    use super::{camelcase_to_spaces, titlecase_up};
 
     fn check_titlecase_up(input: &str, expected: &str) {
         let result = titlecase_up(input);
@@ -178,5 +182,48 @@ mod tests {
         // TODO: Various mixes of capitalization and separators
         check_titlecase_up("ScummVM", "ScummVM");                         // Unusual capitalization
         check_titlecase_up("FTL", "FTL");                                 // All-uppercase acronym
+    }
+
+    #[test]
+    fn camelcase_to_spaces_basic_function() {
+        assert_eq!(camelcase_to_spaces("fooBar"), "foo Bar");
+        assert_eq!(camelcase_to_spaces("FooBar"), "Foo Bar");
+        assert_eq!(camelcase_to_spaces("AndroidVM"), "Android VM");
+        assert_eq!(camelcase_to_spaces("RARFile"), "RAR File");
+        assert_eq!(camelcase_to_spaces("ADruidsDuel"), "A Druids Duel");
+    }
+
+    #[test]
+    fn camelcase_to_spaces_leaves_capitalization_alone() {
+        assert_eq!(camelcase_to_spaces("foo"), "foo");
+        assert_eq!(camelcase_to_spaces("Foo"), "Foo");
+        assert_eq!(camelcase_to_spaces("fooBar"), "foo Bar");
+        assert_eq!(camelcase_to_spaces("FooBar"), "Foo Bar");
+        assert_eq!(camelcase_to_spaces("foo bar"), "foo bar");
+        assert_eq!(camelcase_to_spaces("Foo Bar"), "Foo Bar");
+    }
+
+    #[test]
+    fn camelcase_to_spaces_number_handling() {
+        assert_eq!(camelcase_to_spaces("6LittleEggs"), "6 Little Eggs");
+        assert_eq!(camelcase_to_spaces("6 Little Eggs"), "6 Little Eggs");
+        assert_eq!(camelcase_to_spaces("the12chairs"), "the 12 chairs");
+        assert_eq!(camelcase_to_spaces("The12Chairs"), "The 12 Chairs");
+        assert_eq!(camelcase_to_spaces("The 12 Chairs"), "The 12 Chairs");
+        assert_eq!(camelcase_to_spaces("1.5 Children"), "1.5 Children");
+        assert_eq!(camelcase_to_spaces("The1.5Children"), "The 1.5 Children");
+        assert_eq!(camelcase_to_spaces("the1.5children"), "the 1.5 children");
+        assert_eq!(camelcase_to_spaces("Version1.1"), "Version 1.1");
+        assert_eq!(camelcase_to_spaces("Version 1.1"), "Version 1.1");
+        assert_eq!(camelcase_to_spaces("catch22"), "catch 22");
+        assert_eq!(camelcase_to_spaces("Catch 22"), "Catch 22");
+    }
+
+    #[test]
+    fn camelcase_to_spaces_doesnt_subdivide_numbers() {
+        assert_eq!(camelcase_to_spaces("3.14"), "3.14");
+        assert_eq!(camelcase_to_spaces("255"), "255");
+        assert_eq!(camelcase_to_spaces("1000000"), "1000000");
+        assert_eq!(camelcase_to_spaces("ut2003"), "ut 2003");
     }
 }

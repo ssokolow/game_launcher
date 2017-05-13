@@ -9,7 +9,7 @@ from os.path import join, dirname
 from ..common import json_aggregate_harness, load_json_map
 
 # TODO: Decide on a name for the program and rename "src"
-from src.util.naming import filename_to_name, titlecase_up, PROGRAM_EXTS
+from src.util.naming import camelcase_to_spaces, filename_to_name, titlecase_up, PROGRAM_EXTS
 
 # Minimal set of extensions one might expect a game to use
 # (For whitelist-based extension stripping so it's not too greedy)
@@ -28,6 +28,12 @@ def test_filename_to_name():
     test_data_path = join(dirname(__file__), 'filename_to_name_data.json')
     return json_aggregate_harness(load_json_map(test_data_path),
                                   filename_to_name)
+
+def test_camelcase_to_spaces_integration():
+    """Test that camelcase_to_spaces() is callable from Python"""
+    assert camelcase_to_spaces("CamelCase") == "Camel Case"
+
+# TODO: Test normalize_whitespace integration
 
 def test_titlecase_up_integration():
     """Test that titlecase_up() is callable from Python"""

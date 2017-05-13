@@ -9,25 +9,18 @@ __license__ = "MIT"
 import os, re
 
 import src.core
+camelcase_to_spaces = src.core.util.naming.camelcase_to_spaces
 titlecase_up = src.core.util.naming.titlecase_up
 normalize_whitespace = src.core.util.naming.normalize_whitespace
 
-# Source: http://stackoverflow.com/a/9283563
-# (With a tweak to let numbers start new words)
-camelcase_re = re.compile(r'((?<=[a-z])[A-Z0-9]|(?<!\A)[A-Z](?=[a-z]))')
-
-# Used by L{titlecase_up} to find word-starting lowercase letters
-wordstart_re = re.compile(r'(^|[. _-])[a-z]')
-
-# TODO: Unit tests for these regexes, separate from the integrated one
-fname_whitespace_re = re.compile(r"[ _-]")
-fname_whitespace_nodash_re = re.compile(r"[ _]")
-fname_numspacing_re = re.compile(r'([a-zA-Z])(\d)')
-fname_subtitle_start_re = re.compile(r"(\d)(\s\w{2,})")
-
-import src.core
 INSTALLER_EXTS = src.core.util.constants.INSTALLER_EXTS
 PROGRAM_EXTS = src.core.util.constants.PROGRAM_EXTS
+NON_BINARY_EXTS = src.core.util.constants.PROGRAM_EXTS
+
+
+# TODO: Unit tests for these regexes, separate from the integrated one
+fname_numspacing_re = re.compile(r'([a-zA-Z])(\d)')
+fname_subtitle_start_re = re.compile(r"(\d)(\s\w{2,})")
 
 ACRONYM_OVERRIDES = ['Ys']
 
