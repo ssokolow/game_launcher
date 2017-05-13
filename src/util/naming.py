@@ -81,18 +81,6 @@ WHITESPACE_OVERRIDES = {
     r'\bYS\b': 'Ys',
 }
 
-# Workaround for limitations in my current approach to generating
-# _WS_OVERRIDE_MAP
-WS_OVERRIDE_EXCEPTIONS = {
-    r's ': (-4, re.compile(r"""(
-        .{1,3}'s|         # Already possessive
-        .{1,3}us|         # Latin-derived words like Virus
-        .{1,2}ess|        # Feminine forms like goddess and actress
-        cells|            # "cells" is more likely to be plural than possessive
-        .{1,4}s[ ](of|\d) # Possessives aren't usually before "of" or numbers
-    )""", re.IGNORECASE | re.VERBOSE)),
-}
-
 # Map used by L{filename_to_name}'s single-pass approach to using
 # WHITESPACE_OVERRIDES.
 _WS_OVERRIDE_MAP = {x.replace(r'\b', '').replace('^', ''): y for x, y
@@ -101,15 +89,7 @@ _WS_OVERRIDE_MAP = {x.replace(r'\b', '').replace('^', ''): y for x, y
 def _apply_ws_overrides(match):
     """Callback for re.sub"""
     match_str = match.group(0)
-    result = _WS_OVERRIDE_MAP[match_str]
-
-    if match_str in WS_OVERRIDE_EXCEPTIONS:
-        offset, pat = WS_OVERRIDE_EXCEPTIONS[match_str]
-        abs_offset = max(0, match.start() + offset)
-        subject = match.string[abs_offset:]
-        if pat.match(subject):
-            return match_str
-    return result
+    return _WS_OVERRIDE_MAP[match_str]
 
 # Substrings that are easier to mark before tokenization
 pre_tokenization_filter = re.compile("""
