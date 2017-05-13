@@ -27,6 +27,10 @@ NON_BINARY_EXTS = src.core.util.constants.PROGRAM_EXTS
 fname_numspacing_re = re.compile(r'([a-zA-Z])(\d)')
 fname_subtitle_start_re = re.compile(r"(\d)(\s\w{2,})")
 
+# TODO: Compare the expected output of the entire test corpus against
+#       list_of_every_video_game_ever_(v3).txt to find remaining capitalization
+#       mistakes so I can update the expected results.
+
 # TODO: Use these for Titlecase case-overriding instead of abusing
 #       the WHITESPACE_OVERRIDES dict.
 ARTICLES = ['a', 'an', 'the']
@@ -34,17 +38,32 @@ CONJUNCTIONS = ['for', 'and', 'but', 'or', 'yet', 'so']
 PREPOSITIONS = [
     # English (intentionally limited to short words which have no major
     #          secondary use-case where lowercasing them would be incorrect)
-    'as', 'at', 'but', 'by', 'for', 'in', 'of', 'on', 'to', 'up',
+    'as', 'but', 'by', 'for', 'in', 'of', 'on', 'to', 'up',
     # French words which might show up in artsy titles
     # (when not risking conflicting with English titlecase rules)
     'à', 'de', 'du', 'en',
 ]
 
+# Numerals that should be safe to split and re-capitalize as ends of tokens
+# (As tested against "List of Every Video Game Ever (v3)")
+# TODO: Actually use them this way (Don't forget to check behind colons)
+ROMAN_NUMERALS_NONCONFUSABLE = ['III', 'VII', 'VIII', 'XII', 'XIII', 'XIV',
+                                'XV', 'XVI', 'XVII', 'XVIII', 'XIX']
+
+# Input for the capitalization override for roman numerals (and XXX) which
+# might show up in a title.
+ROMAN_NUMERALS = ['I', 'II', 'IV', 'V', 'VI', 'IX', 'X', 'XI', 'XXX']
+ROMAN_NUMERALS += ROMAN_NUMERALS_NONCONFUSABLE
+
 # Words which shouldn't be treated as acronyms if they're the only thing
 # before the first occurrence of a number
 # (Given in the capitalization form they should be forced to)
-ACRONYM_OVERRIDES = [x.title() for x in
-                     ARTICLES + CONJUNCTIONS + PREPOSITIONS + ['Ys']]
+CAPITALIZATION_OVERRIDES = [
+    '3D', 'DB', 'DLC', 'DX', 'is', 'RPG', 'UX', 'XWB', 'Ys']
+CAPITALIZATION_OVERRIDES += ROMAN_NUMERALS
+CAPITALIZATION_OVERRIDES += ARTICLES + CONJUNCTIONS + PREPOSITIONS
+
+_CAPITAL_OVERRIDE_MAP = {x.lower(): x for x in CAPITALIZATION_OVERRIDES}
 
 # NOTE: These must be their *final* capitalization, as this process runs last
 PRESERVED_VERSION_KEYWORDS = ['Client', 'Server']
@@ -54,31 +73,18 @@ PRESERVED_VERSION_KEYWORDS = ['Client', 'Server']
 # TODO: Find some way to do a coverage test for this.
 WHITESPACE_OVERRIDES = {
     r' - ': ': ',
-    r'And ': 'and ',
-    r' And The ': ' and the ',
     r'\bCant': "Can't",
-    r'Db\b': 'DB',
     r'Djgpp': 'DJGPP',
     r'\bDont': "Don't",
     r'IN Vedit': 'INVedit',
     r'Mc ': 'Mc',
     r'Mac ': 'Mac',
-    r'Of\b': 'of',
     r'^Open ': r'Open',
-    r'For ': 'for ',
-    r'Or ': 'or ',
-    r's ': "'s ",
     r' S ': "'s ",
     r'Scumm VM': 'ScummVM',
-    r' The\b': ' the',
     r': The\b': ': The',
-    r'Ux\b': 'UX',
     r'xwb': 'XWB',
-    r'iii\b': ' III',
-    r' I V': 'IV',
-    r' V I': 'VI',
     r' V M': 'VM',
-    r'\bYS\b': 'Ys',
 }
 
 # Map used by L{filename_to_name}'s single-pass approach to using
@@ -257,19 +263,42 @@ def filename_to_name(fname):
     if len(collapsed_name) < 5:
         name = collapsed_name
 
-    if alpha_len < 3 and name[:alpha_len] not in ACRONYM_OVERRIDES:
-        name_prefix = ''.join('{}.'.format(x) for x in name[:alpha_len])
-        name = name_prefix.upper() + name[alpha_len:]
-    elif alpha_len < 4:
-        # Assume that it's either an acronym or Ys, which is fixed by overrides
-        name = name.upper()
-    elif alpha_len > 6 and name.upper() == name:
-        # Assume anything entirely uppercase and longer than 6 characters is
-        # a non-acronym (and sacrifice titles that are stylistically all-upper)
-        name = name.title()
+    name_prefix, name_suffix = name[:alpha_len], name[alpha_len:]
+    if name_prefix.lower() not in _CAPITAL_OVERRIDE_MAP:
+        if alpha_len <= 2:
+            # Assume that it's an acronym that should be dotted
+            name_prefix = ''.join('{}.'.format(x) for x in name_prefix)
+            name = name_prefix.upper() + name_suffix
+        elif alpha_len <= 3:
+            # Assume that it's an acronym
+            name = name.upper()
+        elif alpha_len > 6 and name.upper() == name:
+            # Assume anything entirely uppercase and more than 6 characters is
+            # a non-acronym (and stylistically all-uppercase titles)
+            name = titlecase_up(name.lower())
 
     # Fix capitalization anomalies broken by whitespace conversion
     name = re.sub('|'.join(WHITESPACE_OVERRIDES), _apply_ws_overrides, name)
+
+    # TODO: Try to deduplicate this with the other use of it
+    tokens = name.split()
+    for idx, val in enumerate(tokens):
+        if idx == 0:
+            continue
+
+        key = val.lower()
+        if key in _CAPITAL_OVERRIDE_MAP:
+            tokens[idx] = _CAPITAL_OVERRIDE_MAP[key]
+        if tokens[idx - 1].endswith(":"):
+            tokens[idx] = titlecase_up(tokens[idx])
+    while tokens and tokens[-1].lower() in tail_cruft_tokens:
+        tokens.pop()
+    name = ' '.join(tokens)
+
+    # Fix non-capitalized "of" in CamelCase filenames but ignore ".oof"
+    name = re.sub(r'([^ o])of\s', r'\1 of ', name)
+    # "Foo the Game" -> "Foo: The Game"
+    name = re.sub(r'([^[ ]) the Game$', r'\1: The Game', name)
 
     for word in PRESERVED_VERSION_KEYWORDS:
         if word.lower() in fname.lower() and word.lower() not in name.lower():
