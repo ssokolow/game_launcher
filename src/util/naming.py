@@ -27,7 +27,24 @@ NON_BINARY_EXTS = src.core.util.constants.PROGRAM_EXTS
 fname_numspacing_re = re.compile(r'([a-zA-Z])(\d)')
 fname_subtitle_start_re = re.compile(r"(\d)(\s\w{2,})")
 
-ACRONYM_OVERRIDES = ['Ys']
+# TODO: Use these for Titlecase case-overriding instead of abusing
+#       the WHITESPACE_OVERRIDES dict.
+ARTICLES = ['a', 'an', 'the']
+CONJUNCTIONS = ['for', 'and', 'but', 'or', 'yet', 'so']
+PREPOSITIONS = [
+    # English (intentionally limited to short words which have no major
+    #          secondary use-case where lowercasing them would be incorrect)
+    'as', 'at', 'but', 'by', 'for', 'in', 'of', 'on', 'to', 'up',
+    # French words which might show up in artsy titles
+    # (when not risking conflicting with English titlecase rules)
+    'à', 'de', 'du', 'en',
+]
+
+# Words which shouldn't be treated as acronyms if they're the only thing
+# before the first occurrence of a number
+# (Given in the capitalization form they should be forced to)
+ACRONYM_OVERRIDES = [x.title() for x in
+                     ARTICLES + CONJUNCTIONS + PREPOSITIONS + ['Ys']]
 
 # NOTE: These must be their *final* capitalization, as this process runs last
 PRESERVED_VERSION_KEYWORDS = ['Client', 'Server']
