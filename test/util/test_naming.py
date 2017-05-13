@@ -19,6 +19,8 @@ test_program_exts = (
     '.exe', '.bat', '.cmd', '.pif',
     '.bin',
     '.desktop',
+    '.nes',
+    '.love'
 )
 
 def test_filename_to_name():

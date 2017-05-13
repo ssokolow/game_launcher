@@ -59,6 +59,8 @@ pub const PROGRAM_EXTS: &[&str] = &[
     ".exe", ".bat", ".cmd", ".pif",
     ".bin",
     ".desktop",
+    ".love",
+    ".nes",
 ];
 
 // TODO: What does the fallback guesser use this for again?
