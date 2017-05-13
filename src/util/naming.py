@@ -94,24 +94,103 @@ def _apply_ws_overrides(match):
             return match_str
     return result
 
-literal_cruft = ['gog', 'setup']
-tail_cruft_tokens = ['full']  # Only cruft as the last token while postproc-ing
-tail_cruft_internal = ['32bit', '64bit', 'alpha', 'amd64', 'beta', 'drm',
-                       'drmfree', 'glibc', 'humble', 'installer', 'standalone',
-                       'stdalone', 'ubuntu', 'x64', 'x86', 'x86_64']
-post_re = re.compile('''(^|\b)(version|gamma\d+|indev|0($|\b)|
-                        update\d+|wml|[lw]in(ux|32|64|($|\b))|lnx|
-                        default|(a|b|rc)\d+|v\d+|\d+\.|\d+(\.\d+)+)|\d{5,}|
-                     ''' + '|'.join(tail_cruft_internal),
-                     re.I | re.VERBOSE)
+# Substrings that are easier to mark before tokenization
+pre_tokenization_filter = re.compile("""
+    v_?(\d_?)+|                   # Versions with escaped periods (v...)
+    [01]{1,2}_\d{1,2}(_\d{1,2})?| # Versions with escaped periods ([01]_m(_p)?)
+    \d{4}-\d{2}-\d{2}|            # ISO 8601 dates
+    [^ _-]+[ _-]version[ _-]|     # "... version"
+    x86_64                        # "x86_64" before _ is used as a delimiter
+""", re.IGNORECASE | re.VERBOSE)
+
+# TODO: Unit test suites for these various rules
+
+# Stuff which should be safe to remove when found as an arbitrary substring
+# (ie. It shouldn't present a Scunthorpe problem in any reasonable filename)
+# TODO: Actually use this directly
+cruft_substrings = [
+    # architecture names
+    # (keep "x86", "ppc", "armv..." out of this list. I can imagine problems.)
+    '32bit', '64bit', 'aarch64', 'amd64', 'i386', 'i486', 'i586', 'i686',
+    'powerpc', 'ppc64', 'ppc64el', 'x86_64',
+
+    # platform names
+    # (keep "x86", "ppc", "armv..." out of this list. I can imagine problems.)
+    'debian', 'freebsd', 'linux32', 'linux64', 'lnx32', 'lnx64', 'netbsd',
+    'openbsd', 'ubuntu',
+    'wml',  # Shorthand for Windows/Mac/Linux observed in the wild
+
+    # release-type classifiers
+    'drmfree', 'stdalone', 'nonsteam', 'setup',
+]
+
+# Stuff which should be safe to remove from the post-splitting list of tokens
+# if we've handled our whitespace inference correctly, but can't be in
+# cruft_substrings because they could present Scunthorpe problems.
+cruft_tokens = [
+    # architecture names which must only be matched as tokens
+    # (eg. 'armv6' in "MaximumHarmV6.0".lower())
+    'x86', 'ppc', 'armv6', 'armv7', 'armv7s', 'armv8',
+    'armhf', 'armel', 'mips64', 'mips64el', 'mipsel', 'gnu', 'msvc',
+    'musl',
+
+    # Platform names which can't be matched as substrings because it'll leave
+    # behind bits that are harder to classify (eg. "linux32" -> "32")
+    'lin', 'lin32', 'lin64', 'linux', 'lnx', 'win', 'win32', 'win64',
+    'nw',  # NW.js, as seen in the wild
+
+    # release-type classifiers which could present a Scunthorpe problem
+    'indev', 'patch',
+
+    # country/language tokens which can't reasonably be confused for words
+    # (ie. keep "en", "es", "de", "in", "it", and "us" out of this list)
+    # (Also, keep "ca" out, because it could be a decomposed "ça")
+    'br', 'deu', 'eng', 'esp', 'fr', 'fra', 'ger', 'ita', 'jp', 'jap', 'pl',
+    'pt', "uk",
+] + cruft_substrings
+
+# Tokens which should be considered cruft only if they appear at the beginning
+# (ie. "gog_game_name_1.0.sh" but not "frobnicate_gog_game.sh")
+prefix_cruft_tokens = ['gog'] + cruft_tokens
+
+# Stuff which should short-circuit the evaluation if found as a substring
+inner_cruft_internal = [
+    'drm', 'standalone', 'retail',
+    'alpha', 'beta', 'installer', 'update', 'default',
+    'glibc', 'humble', 'hb', 'hib',
+    '\0'] + cruft_substrings
+
+# Stuff that's only cruft when it shows up as the last token after the other
+# processing stages have finished
+tail_cruft_tokens = ['full', 'groupees', 'l', 'hilo', 'steam', 'darwin',
+                     ] + cruft_tokens
+
+tokens_rx = """(^|\b)(
+    gamma\d+|update\d+|
+    (jan|feb|mar|apr|may|jun|jul|aug|sept?|oct|nov|dev)\d{2}\d{2}?|
+    (a|b|rc)\d+|\d{2}(\d{2})?-\d{2}-\d{2}|v\d+|
+    \d+\.|r\d+|
+""" + '|'.join(re.escape(x) for x in cruft_tokens) + ")($|\b)"
+
+post_re = re.compile(tokens_rx + """|(v\.?)?\d+(\.\d+)+|\d{5,}|""" +
+    '|'.join(inner_cruft_internal), re.IGNORECASE | re.VERBOSE)
+
 def strip_ver_experimental(fname):
     # Recognize and fix escaped colons
     fname = re.sub(r'(\w)_\s+(\w)', r'\1: \2', fname)
 
+    # Use \0 to mark replaced unwanted substrings
+    # (Since its role in C matches what the heuristic uses such substrings for)
+    fname = pre_tokenization_filter.sub('\0', fname).split('\0', 1)[0]
+
     tokens = normalize_whitespace(fname).split()
 
     # Remove pre-cruft without terminating processing
-    tokens = [x for x in tokens if x.lower() not in literal_cruft]
+    while tokens and tokens[0].lower() in prefix_cruft_tokens:
+        tokens.pop(0)
+
+    if not tokens:
+        return ''
 
     # whitelist the first non-pre-cruft token
     # (Needed to prevent over-filtering in cases like RaceTheSunLINUX_1.441
@@ -135,7 +214,7 @@ def strip_ver_experimental(fname):
         else:
             break
 
-    for substr in tail_cruft_internal:
+    for substr in inner_cruft_internal:
         if output[-1].lower().endswith(substr):
             output[-1] = output[-1][:-len(substr)]
 
@@ -173,6 +252,8 @@ def filename_to_name(fname):
         if re.search('[a-zA-Z]', token):
             alpha_len = len(' '.join(tokens[:idx + 1]))
             break
+    else:
+        alpha_len = 0
 
     # Optimization for AM2R which should theoretically have more applicability
     collapsed_name = name.replace(' ', '')
