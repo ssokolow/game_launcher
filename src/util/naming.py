@@ -15,7 +15,7 @@ normalize_whitespace = src.core.util.naming.normalize_whitespace
 
 INSTALLER_EXTS = src.core.util.constants.INSTALLER_EXTS
 PROGRAM_EXTS = src.core.util.constants.PROGRAM_EXTS
-NON_BINARY_EXTS = src.core.util.constants.PROGRAM_EXTS
+NON_BINARY_EXTS = src.core.util.constants.NON_BINARY_EXTS
 
 # TODO: Treat "+" similarly to "-" as a separator
 # TODO: Figure out how to filter "steam" as a version token without trucating
