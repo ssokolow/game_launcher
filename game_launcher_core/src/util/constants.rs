@@ -79,6 +79,7 @@ pub const WORD_BOUNDARY_CHARS: &str = ". _-";
 const RE_EXPECT_MSG: &str = "compiled regex from string literal";
 lazy_static! {
     /// Regexes used by `filename_to_name`
+    /// TODO: Unit tests for these regexes, independent from the functional test corpus
     /// TODO: Test whether adding periods to `FNAME_WSPACE_*` makes things better or worse
     pub static ref SUBTITLE_START_RE: Regex = Regex::new(r"(\d)\s+(\w)").expect(RE_EXPECT_MSG);
     pub static ref WHITESPACE_RE: Regex = Regex::new(r"\s+").expect(RE_EXPECT_MSG);

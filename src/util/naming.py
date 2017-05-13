@@ -17,6 +17,11 @@ INSTALLER_EXTS = src.core.util.constants.INSTALLER_EXTS
 PROGRAM_EXTS = src.core.util.constants.PROGRAM_EXTS
 NON_BINARY_EXTS = src.core.util.constants.PROGRAM_EXTS
 
+# TODO: Treat "+" similarly to "-" as a separator
+# TODO: Figure out how to filter "steam" as a version token without trucating
+#       names containing things like "of steam" or "and steam".
+# TODO: Need a filter stage which throws out numeric-only tokens after the
+#      first to accept things like "tbs_2_18_08" as "tbs 2"
 
 # TODO: Unit tests for these regexes, separate from the integrated one
 fname_numspacing_re = re.compile(r'([a-zA-Z])(\d)')
@@ -105,7 +110,7 @@ def strip_ver_experimental(fname):
 
     tokens = normalize_whitespace(fname).split()
 
-    # Remove pre-cruft
+    # Remove pre-cruft without terminating processing
     tokens = [x for x in tokens if x.lower() not in literal_cruft]
 
     # whitelist the first non-pre-cruft token
@@ -189,7 +194,6 @@ def filename_to_name(fname):
     name = re.sub('|'.join(WHITESPACE_OVERRIDES), _apply_ws_overrides, name)
 
     for word in PRESERVED_VERSION_KEYWORDS:
-        # TODO: Make this generic
         if word.lower() in fname.lower() and word.lower() not in name.lower():
             name = "{} {}".format(name, word)
 

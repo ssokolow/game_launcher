@@ -14,6 +14,7 @@ use super::constants::{
     PROGRAM_EXTS, SUBTITLE_START_RE, WHITESPACE_RE, WORD_BOUNDARY_CHARS
 };
 
+// TODO: Write a function which generates sorting keys like "Boy And His Blob, A" from titles.
 
 lazy_static! {
     /// Used by naming::camelcase_to_spaces but not intended to be exposed directly
@@ -68,6 +69,7 @@ pub fn filename_to_name<P: AsRef<Path> + ?Sized>(path: &P) -> Option<String> {
     let name_in = titlecase_up(&name);
 
     // Ensure that numbers are preceded by a space (Anticipate two inserted spaces at most)
+    // TODO: Check my guess of "2" against my test corpus
     let mut name = String::with_capacity(name_in.len() + 2);
     let mut lastchar_was_alpha = false;
     for chara in name_in.chars() {
@@ -175,9 +177,9 @@ mod tests {
         check_titlecase_up("1234567890", "1234567890");                   // All numeric
         // TODO: Mixes of words and numbers  (eg. to test word boundary detection)
         check_titlecase_up("foo_bar_baz_quux", "Foo_Bar_Baz_Quux");       // Lower with underscores
-        check_titlecase_up("foo-bar-baz-quux", "Foo-Bar-Baz-Quux");       // Lowercase with dashes
-        check_titlecase_up("bit.trip.runner", "Bit.Trip.Runner");         // Lowercase with periods
-        check_titlecase_up("green eggs and spam", "Green Eggs And Spam"); // Lowercase with spaces
+        check_titlecase_up("foo-bar-baz-quux", "Foo-Bar-Baz-Quux");       // Lower with dashes
+        check_titlecase_up("bit.trip.runner", "Bit.Trip.Runner");         // Lower with periods
+        check_titlecase_up("green eggs and spam", "Green Eggs And Spam"); // Lower with spaces
         // TODO: Various mixes of separator characters
         // TODO: Various mixes of capitalization and separators
         check_titlecase_up("ScummVM", "ScummVM");                         // Unusual capitalization
