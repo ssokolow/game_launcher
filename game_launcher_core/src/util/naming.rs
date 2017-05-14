@@ -63,6 +63,20 @@ lazy_static! {
         ").expect("compiled regex in string literal");
 }
 
+// --== Traits ==--
+
+/// Boilerplate to make it clean to count occurrences of a char
+/// (The trait name is considered a private implementation detail)
+trait ConvenientCharCount {
+    /// Count the number of occurrences of `needle` in the string
+    fn count_char(&self, needle: char) -> usize;
+}
+impl ConvenientCharCount for str {
+    fn count_char(&self, needle: char) -> usize {
+        self.chars().filter(|x| x == &needle).count()
+    }
+}
+
 // --== Loose Functions ==--
 
 // TODO: Write a function which generates sorting keys like "Boy And His Blob, A" from titles.
@@ -141,10 +155,13 @@ pub fn filename_to_name<P: AsRef<Path> + ?Sized>(path: &P) -> Option<String> {
 /// Helper for `filename_to_name` to heuristically normalize word-breaks in filenames
 /// which may initially be using non-whitespace characters such as underscores or camelcasing.
 pub fn normalize_whitespace(in_str: &str) -> Cow<str> {
-    // XXX: Is there a way to avoid doing the bits in is_match() twice in matching branches?
-    if FNAME_WSPACE_RE.is_match(in_str) {
+    let underscore_count = in_str.count_char('_');
+    let dash_count = in_str.count_char('-');
+
+    // TODO: Come up with a way to count CamelCase transitions for use in this decision
+    if underscore_count > 0 || dash_count > 0 {
         // TODO: Need to ignore `x86_64` when checking for underscores
-        if FNAME_WSPACE_NODASH_RE.is_match(in_str) {
+        if underscore_count > dash_count {
             // Make sure things like "X-Com Collection" don't have their dashes converted
             FNAME_WSPACE_NODASH_RE.replace_all(in_str, " ")
         } else {
@@ -210,6 +227,8 @@ mod tests {
     use super::{camelcase_to_spaces, titlecase_up};
 
     // -- camelcase_to_spaces --
+    // TODO: Now that I have a better understanding of the state machine underlying CamelCase,
+    //       I should refactor these tests to be more comprehensive and less duplication-heavy.
 
     #[test]
     fn camelcase_to_spaces_basic_function() {
