@@ -1,4 +1,4 @@
-//! GUI-agnostic core functionality for `game_launcher`.
+//! GUI-agnostic core functionality for writing game launchers.
 //!
 //! **TODO:**
 //!

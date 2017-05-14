@@ -1,6 +1,9 @@
-//!"""Routines for inferring a game's name"""
+//! Routines for inferring a game's title from its file/directory name.
 //!
-//! TODO: Refactor the Python dependency out or make it optional
+//! (Used by other modules as a fallback when attempts to extract metadata fail to produce
+//! a title.)
+//!
+//! **TODO:** Refactor the Python dependency out or make it optional
 
 use std::borrow::Cow;
 use std::ffi::OsStr;
@@ -81,7 +84,23 @@ impl ConvenientCharCount for str {
 
 // TODO: Write a function which generates sorting keys like "Boy And His Blob, A" from titles.
 
+// TODO: Update this docstring once I've tested against the additional 850+ filenames still to be
+// added to the corpus.
 /// Insert spaces at word boundaries in a camelcase string.
+///
+/// This implementation differs from the form of camelcase typically used for function names in
+/// that it will insert spaces between words and numbers.
+/// (ie. "Thing Part 1" rather than "Thing Part1")
+///
+/// This decision was made based on the following observations taken from a corpus of over 800
+/// real-world computer game directory and installer/archive file names:
+///
+/// 1. It produces a more accurate translation to the intended titles.
+/// 2. It is in accordance with how, unlike method names, `snake_case` in video game filenames
+///    separates numbers from the words they follow.
+///
+/// The test data in question can be found in the `filename_to_name_data.json` file used by the
+/// top-level integration tests for this project.
 pub fn camelcase_to_spaces(in_str: &str) -> String {
         let in_str2 = CAMELCASE_RE.replace_all(in_str, CAMELCASE_REPLACEMENT);
         CAMELCASE_RE.replace_all(&in_str2, CAMELCASE_REPLACEMENT).into_owned()
@@ -103,8 +122,17 @@ fn _filename_extensionless<P: AsRef<Path> + ?Sized>(path: &P) -> Cow<str> {
     name.unwrap_or_else(|| OsStr::new("")).to_string_lossy()
 }
 
-/// A heuristic transform to produce pretty good titles from filenames without relying on
-/// out-of-band information.
+/// Heuristically transform a path or file/directory name to produce a high-accuracy guess at the
+/// title which the path's final component it is intended to represent.
+///
+/// Within the limits of what is attainable without resorting to out-of-band information (eg.
+/// splitting "abirdstory" would require an external word list), this function currently produces
+/// an "attainably perfect" result for over 90% of the test strings in the
+/// `filename_to_name_data.json` corpus used by the test suite.
+///
+/// (Accuracy will continue to improve as many of the mis-guesses are either due to known
+///  shortcomings in the algorithm which have planned solutions or due to plain-and-simple
+///  rule-precedence bugs that have yet to be shaken out by the in-progress refactoring.)
 pub fn filename_to_name<P: AsRef<Path> + ?Sized>(path: &P) -> Option<String> {
     let name_in = _filename_extensionless(path);
 
@@ -154,13 +182,15 @@ pub fn filename_to_name<P: AsRef<Path> + ?Sized>(path: &P) -> Option<String> {
 
 /// Helper for `filename_to_name` to heuristically normalize word-breaks in filenames
 /// which may initially be using non-whitespace characters such as underscores or camelcasing.
+///
+/// **NOTE:** This is currently being refactored for accuracy and maintainability based on lessons
+/// learned from experimenting with real-world examples.
 pub fn normalize_whitespace(in_str: &str) -> Cow<str> {
     let underscore_count = in_str.count_char('_');
     let dash_count = in_str.count_char('-');
 
     // TODO: Come up with a way to count CamelCase transitions for use in this decision
     if underscore_count > 0 || dash_count > 0 {
-        // TODO: Need to ignore `x86_64` when checking for underscores
         if underscore_count > dash_count {
             // Make sure things like "X-Com Collection" don't have their dashes converted
             FNAME_WSPACE_NODASH_RE.replace_all(in_str, " ")
@@ -176,7 +206,7 @@ pub fn normalize_whitespace(in_str: &str) -> Cow<str> {
 
 /// Return a titlecased copy of the input with the following two modifications to the algorithm:
 ///
-/// 1. Never perform upper->lowercase conversion in order to preserve acronyms
+/// 1. Never perform upper->lowercase conversion in order to preserve acronyms like RPG.
 /// 2. Treat any character in `WORD_BOUNDARY_CHARS` as preceding a new word.
 pub fn titlecase_up(in_str: &str) -> String {
     // Preallocate for the "case-conversion doesn't change length" case common in western langs
@@ -210,6 +240,7 @@ fn py_normalize_whitespace(_: Python, in_str: &str) -> PyResult<String> {
 fn py_titlecase_up(_: Python, in_str: &str) -> PyResult<String> { Ok(titlecase_up(in_str)) }
 
 /// Called by parent modules to build and return the `rust-cpython` API wrapper.
+///
 /// TODO: Figure out how to get the `PyModule::new` and the return macro-ized
 pub fn into_python_module(py: &Python) -> PyResult<PyModule> {
     let py = *py;

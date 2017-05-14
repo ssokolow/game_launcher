@@ -1,4 +1,4 @@
-//! TODO: Refactor the Python dependency out or make it optional
+//! **TODO:** Refactor the Python dependency out or make it optional
 
 use cpython::{PyModule, PyResult, Python};
 
