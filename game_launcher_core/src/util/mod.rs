@@ -11,6 +11,7 @@ pub mod naming;
 // * Ensuring a consistent sort order when using this as a sorting key
 // * Using variant names as labels in the GUI
 // * Deciding whether I need to leave room for new variants
+// * Finding a way to either put the doc comments on the same line or shut up clippy about them
 pub mod executables {
     #[repr(C)]
     pub enum Role {

@@ -8,6 +8,8 @@ from setuptools_rust import RustExtension
 setup(name='game-launcher',
       # TODO: Unify this version definition with the source
       version='0.0a0',
+      url='https://github.com/ssokolow/game_launcher',
+      author='Stephan Sokolow',
       rust_extensions=[RustExtension('src.core', 'game_launcher_core/Cargo.toml')],
       packages=['src'],
       # rust extensions are not zip safe, just like C-extensions.

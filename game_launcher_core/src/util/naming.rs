@@ -9,18 +9,18 @@ use std::path::Path;
 use regex::Regex;
 use cpython::{PyModule, PyResult, Python};
 
+// --== Constants and Statics ==--
+
 use super::constants::{
     FNAME_WSPACE_RE, FNAME_WSPACE_NODASH_RE, INSTALLER_EXTS,
     PROGRAM_EXTS, SUBTITLE_START_RE, WHITESPACE_RE, WORD_BOUNDARY_CHARS
 };
 
-// TODO: Write a function which generates sorting keys like "Boy And His Blob, A" from titles.
-
-/// Used by naming::camelcase_to_spaces to insert spaces at word boundaries
+/// Used by `naming::camelcase_to_spaces` to insert spaces at word boundaries
 const CAMELCASE_REPLACEMENT: &str = "${1}${3}${5}${7} ${2}${4}${6}${8}";
 lazy_static! {
-    /// Used by naming::camelcase_to_spaces to match word boundaries
-    /// TODO: Move this to super::constants one pub(restricted) is stable
+    /// Used by `naming::camelcase_to_spaces` to match word boundaries
+    /// TODO: Move this to `super::constants` once `pub(restricted)` is stable
     static ref CAMELCASE_RE: Regex = Regex::new(r"(?x)
         # == Ampersand (definitely end) followed by anything not already whitespace ==
         #    ('Ampersand' or 'Small Ampersand', or 'Fullwidth Ampersand' or...
@@ -63,9 +63,13 @@ lazy_static! {
         ").expect("compiled regex in string literal");
 }
 
+// --== Loose Functions ==--
+
+// TODO: Write a function which generates sorting keys like "Boy And His Blob, A" from titles.
+
 /// Insert spaces at word boundaries in a camelcase string.
 pub fn camelcase_to_spaces(in_str: &str) -> String {
-        let in_str2 = CAMELCASE_RE.replace_all(&in_str, CAMELCASE_REPLACEMENT);
+        let in_str2 = CAMELCASE_RE.replace_all(in_str, CAMELCASE_REPLACEMENT);
         CAMELCASE_RE.replace_all(&in_str2, CAMELCASE_REPLACEMENT).into_owned()
 }
 
@@ -108,7 +112,7 @@ pub fn filename_to_name<P: AsRef<Path> + ?Sized>(path: &P) -> Option<String> {
 
     // Ensure that numbers are preceded by a space (Anticipate two inserted spaces at most)
     // TODO: Check my guess of "2" against my test corpus
-    let mut name = String::with_capacity(name_in.len() + 2);
+    let mut name = String::with_capacity(name_in.len().saturating_add(2));
     let mut lastchar_was_alpha = false;
     for chara in name_in.chars() {
         if lastchar_was_alpha && chara.is_digit(10) { name.push(' '); }
@@ -135,7 +139,7 @@ pub fn filename_to_name<P: AsRef<Path> + ?Sized>(path: &P) -> Option<String> {
 }
 
 /// Helper for `filename_to_name` to heuristically normalize word-breaks in filenames
-/// which may initially be using non-whitespace characters such as underscores or CamelCasing.
+/// which may initially be using non-whitespace characters such as underscores or camelcasing.
 pub fn normalize_whitespace(in_str: &str) -> Cow<str> {
     // XXX: Is there a way to avoid doing the bits in is_match() twice in matching branches?
     if FNAME_WSPACE_RE.is_match(in_str) {
@@ -175,17 +179,20 @@ pub fn titlecase_up(in_str: &str) -> String {
 
 // --== CPython API ==--
 
-fn py_camelcase_to_spaces<'a>(_: Python, in_str: &'a str) -> PyResult<String> {
+/// `rust-cpython` API wrapper for `camelcase_to_spaces`
+fn py_camelcase_to_spaces(_: Python, in_str: &str) -> PyResult<String> {
     Ok(camelcase_to_spaces(in_str))
 }
 
+/// `rust-cpython` API wrapper for `normalize_whitespace`
 fn py_normalize_whitespace(_: Python, in_str: &str) -> PyResult<String> {
     Ok(normalize_whitespace(in_str).into_owned())
 }
 
-/// rust-cpython API wrapper for `titlecase_up`
+/// `rust-cpython` API wrapper for `titlecase_up`
 fn py_titlecase_up(_: Python, in_str: &str) -> PyResult<String> { Ok(titlecase_up(in_str)) }
 
+/// Called by parent modules to build and return the `rust-cpython` API wrapper.
 /// TODO: Figure out how to get the `PyModule::new` and the return macro-ized
 pub fn into_python_module(py: &Python) -> PyResult<PyModule> {
     let py = *py;
@@ -195,6 +202,8 @@ pub fn into_python_module(py: &Python) -> PyResult<PyModule> {
     py_naming.add(py, "titlecase_up", py_fn!(py, py_titlecase_up(in_str: &str)))?;
     Ok(py_naming)
 }
+
+// --== Tests ==--
 
 #[cfg(test)]
 mod tests {
