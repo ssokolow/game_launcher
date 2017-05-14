@@ -7,6 +7,10 @@ authors = ["Stephan Sokolow <http://www.ssokolow.com/ContactMe>"]
 name = "core"
 crate-type = ["cdylib"]
 
+[dependencies]
+lazy_static = "0.2.6"
+regex = "0.2.1"
+
 [dependencies.cpython]
 version = "0.1"
 features = ["extension-module"]
