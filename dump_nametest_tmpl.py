@@ -26,6 +26,7 @@ def make_test_defs(acceptable):
 
     return {
         'ideal': acceptable[0],
+        'attainable': acceptable[0],
         'acceptable': acceptable,
         'MUST_AUDIT': True,
     }
