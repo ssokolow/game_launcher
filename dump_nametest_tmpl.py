@@ -41,7 +41,8 @@ def process_folder(path):
     (Hand-edit it and merge it into the unit test's data.)
     """
     return {x: make_test_defs(filename_to_name(x))
-            for x in os.listdir(path) if os.path.isdir(os.path.join(path, x))}
+            for x in os.listdir(path)
+            if not x.startswith('.')}
 
 def merge(existing, updates):
     """Merge new content into an existing entry but don't allow un-audited
