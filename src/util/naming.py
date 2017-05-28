@@ -60,7 +60,9 @@ ROMAN_NUMERALS += ROMAN_NUMERALS_NONCONFUSABLE
 # before the first occurrence of a number
 # (Given in the capitalization form they should be forced to)
 CAPITALIZATION_OVERRIDES = [
-    '3D', 'DB', 'DLC', 'DX', 'is', 'RPG', 'UX', 'XWB', 'Ys']
+    '3D', 'DB', 'DLC', 'DX', 'FPS', 'is', 'RPG', 'RTS', 'TBS', 'UX', 'XWB',
+    'Ys'
+]
 CAPITALIZATION_OVERRIDES += ROMAN_NUMERALS
 CAPITALIZATION_OVERRIDES += ARTICLES + CONJUNCTIONS + PREPOSITIONS
 
