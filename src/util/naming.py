@@ -39,7 +39,7 @@ CONJUNCTIONS = ['for', 'and', 'but', 'or', 'yet', 'so']
 PREPOSITIONS = [
     # English (intentionally limited to short words which have no major
     #          secondary use-case where lowercasing them would be incorrect)
-    'as', 'but', 'by', 'for', 'in', 'of', 'on', 'to', 'up',
+    'as', 'but', 'by', 'for', 'from', 'in', 'of', 'on', 'to', 'up',
     # French words which might show up in artsy titles
     # (when not risking conflicting with English titlecase rules)
     'à', 'de', 'du', 'en',
@@ -60,8 +60,8 @@ ROMAN_NUMERALS += ROMAN_NUMERALS_NONCONFUSABLE
 # before the first occurrence of a number
 # (Given in the capitalization form they should be forced to)
 CAPITALIZATION_OVERRIDES = [
-    '3D', 'DB', 'DLC', 'DX', 'FPS', 'is', 'RPG', 'RTS', 'TBS', 'UX', 'XWB',
-    'Ys'
+    '3D', 'DB', 'DLC', 'DX', 'FPS', 'GOG', 'is', 'km', 'RPG', 'RTS', 'TBS',
+    'UX', 'XWB', 'Ys'
 ]
 CAPITALIZATION_OVERRIDES += ROMAN_NUMERALS
 CAPITALIZATION_OVERRIDES += ARTICLES + CONJUNCTIONS + PREPOSITIONS
@@ -71,6 +71,11 @@ _CAPITAL_OVERRIDE_MAP = {x.lower(): x for x in CAPITALIZATION_OVERRIDES}
 # NOTE: These must be their *final* capitalization, as this process runs last
 PRESERVED_VERSION_KEYWORDS = ['Client', 'Server']
 
+# TODO: Suppress colons following numbers if they are of the form "^The \d+"
+
+# TODO: suppress colons following numbers when the following tokens follow:
+# bit, km, nd, st, th
+
 # Overrides for common places where the L{filename_to_name} heuristic breaks
 # TODO: Make sure I'm testing all of these cases
 # TODO: Find some way to do a coverage test for this.
@@ -79,9 +84,10 @@ WHITESPACE_OVERRIDES = {
     r' - ': ': ',
     r'\b3 D\b': '3D',
     r'\bCant': "Can't",
-    r'Km': 'km',
     r'\bDont': "Don't",
     r'\bDon T': "Don't",
+    r'\bGot Y\b': 'GotY',
+    r' Issue\b': ': Issue',
     r'Mc ': 'Mc',
     r'Mac ': 'Mac',
     r'Mr': 'Mr.',
@@ -168,7 +174,7 @@ cruft_tokens = [
     'db',
 
     # release-type classifiers which could present a Scunthorpe problem
-    'indev', 'patch',
+    'indev', 'install', 'patch',
 
     # country/language tokens which can't reasonably be confused for words
     # (ie. keep "en", "es", "de", "in", "it", and "us" out of this list)
@@ -190,8 +196,8 @@ inner_cruft_internal = [
 
 # Stuff that's only cruft when it shows up as the last token after the other
 # processing stages have finished
-tail_cruft_tokens = ['full', 'groupees', 'l', 'hilo', 'steam', 'darwin',
-                     ] + cruft_tokens
+tail_cruft_tokens = ['full', 'groupees', 'l', 'hilo', 'starter', 'steam',
+                     'darwin'] + cruft_tokens
 
 tokens_rx = """(^|\b)(
     gamma\d+|update\d+|
