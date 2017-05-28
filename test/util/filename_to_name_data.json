@@ -154,7 +154,8 @@
     "ideal": "Challenge of the Five Realms"
   },
   "SinaRun_2_Linux_1.2.zip": {
-    "ideal": "SinaRun 2"
+    "ideal": "SinaRun 2",
+    "attainable": "Sina Run 2"
   },
   "mind_path_to_thalamus_enhanced_edition_2.1.0.3": {
     "attainable": "Mind Path to Thalamus Enhanced Edition",
@@ -246,9 +247,7 @@
     "ideal": "Sage Fusion 2"
   },
   "Drew_and_the_Floating_Labyrinth_SD_LINUXv103.zip": {
-    "acceptable": [
-      "Drew and the Floating Labyrinth SD"
-    ],
+    "attainable": "Drew and the Floating Labyrinth SD",
     "ideal": "Drew and the Floating Labyrinth"
   },
   "dustaet-01082014": {
@@ -611,10 +610,8 @@
     "ideal": "Skyrogue"
   },
   "OTSOA.bin": {
-    "acceptable": [
-      "OTSOA"
-    ],
-    "ideal": "O.T.S.O.A."
+    "ideal": "O.T.S.O.A.",
+    "attainable": "OTSOA"
   },
   "Infinifactory": {
     "ideal": "Infinifactory"
@@ -642,14 +639,15 @@
     "ideal": "TIS-100"
   },
   "StarMade-Starter_Linux.jar": {
-    "ideal": "StarMade"
+    "ideal": "StarMade",
+    "attainable": "Star Made"
   },
   "Other Worlds India - Linux.zip": {
     "attainable": "Other Worlds India",
     "ideal": "Other Worlds: India"
   },
   "60_km-1_0-all.rar": {
-    "ideal": "60 KM"
+    "ideal": "60 km"
   },
   "AnomalyKorea-lin_1371139237-Installer": {
     "ideal": "Anomaly Korea"
@@ -854,7 +852,12 @@
     "ideal": "Taimumari"
   },
   "kith-tales-from-the-fractured-plateaus-issue-1-linux-universal.zip": {
-    "ideal": "Kith Tale's From the Fractured Plateaus: Issue 1"
+    "ideal": "Kith: Tales from the Fractured Plateaus: Issue 1",
+    "attainable": "Kith Tales from the Fractured Plateaus: Issue 1",
+    "acceptable": [
+      "Kith Tales From the Fractured Plateaus Issue 1",
+      "Kith Tales from the Fractured Plateaus Issue 1"
+    ]
   },
   "gog_dark_sun_wake_of_the_ravager_2.0.0.1.sh": {
     "attainable": "Dark Sun Wake of the Ravager",
@@ -931,7 +934,8 @@
     "ideal": "Ys"
   },
   "The Bards Tale": {
-    "ideal": "The Bard's Tale"
+    "ideal": "The Bard's Tale",
+    "attainable": "The Bards Tale"
   },
   "gog_never_alone_arctic_collection_2.1.0.2.sh": {
     "ideal": "Never Alone Arctic Collection"
@@ -1691,7 +1695,8 @@
     "ideal": "Pixel Piracy"
   },
   "WoodenSenSeY_linux.zip": {
-    "ideal": "Wooden Sen SeY"
+    "ideal": "Wooden Sen SeY",
+    "attainable": "Wooden Sen Se Y"
   },
   "the-swapper-linux-1.24_1409159048.sh": {
     "ideal": "The Swapper"
@@ -1929,7 +1934,8 @@
     "ideal": "Defender's Quest"
   },
   "boothillblaster_1_5_i386.deb": {
-    "ideal": "Boot Hill Blaster"
+    "ideal": "Boot Hill Blaster",
+    "attainable": "Boothillblaster"
   },
   "MouseCraft": {
     "attainable": "Mouse Craft",
@@ -1948,7 +1954,6 @@
     "ideal": "Cube and Star"
   },
   "gog_star_wars_rebel_assault_2.0.0.4.sh": {
-    "attainable": "Star Wars Rebel Assault",
     "ideal": "Star Wars: Rebel Assault"
   },
   "toasttime-linux-humble-drmfree.zip": {
@@ -1962,9 +1967,7 @@
     "ideal": "Race the Sun"
   },
   "FindingTeddy_Gold_Setup_linux641.0_1406058604.zip": {
-    "acceptable": [
-      "Finding Teddy Gold"
-    ],
+    "attainable": "Finding Teddy Gold",
     "ideal": "Finding Teddy"
   },
   "MarathonOfDoom.tar.gz": {
@@ -2527,7 +2530,7 @@
   },
   "Cube_and_Star_Linux_Warped_Edition.zip": {
     "acceptable": [
-      "Cube and Star: Warped Edition"
+      "Cube and Star"
     ],
     "ideal": "Cube and Star: Warped Edition"
   },
@@ -2575,9 +2578,6 @@
     "ideal": "Darwin Pond"
   },
   "gog_star_wars_rebel_assault_2_2.0.0.4.sh": {
-    "acceptable": [
-      "Star Wars: Rebel Assault 2"
-    ],
     "ideal": "Star Wars: Rebel Assault 2"
   },
   "Alter-linux.zip": {
@@ -2608,7 +2608,7 @@
     "ideal": "Bernie Needs Love"
   },
   "LoversInADangerousSpacetime-1.4.4_Linux.zip": {
-    "ideal": "Lovers In A Dangerous Spacetime"
+    "ideal": "Lovers in a Dangerous Spacetime"
   },
   "Blackwell3_Convergence_1411180371.sh": {
     "ideal": "Blackwell 3: Convergence"
@@ -2770,7 +2770,8 @@
     "ideal": "The Last Federation: The Lost Technologie's Dlc"
   },
   "DustAET_Completed_Save.zip": {
-    "ideal": "DustAET Completed Save"
+    "ideal": "DustAET Completed Save",
+    "attainable": "Dust AET Completed Save"
   },
   "titanattacks": {
     "attainable": "Titanattacks",
