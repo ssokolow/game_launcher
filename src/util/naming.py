@@ -75,25 +75,35 @@ PRESERVED_VERSION_KEYWORDS = ['Client', 'Server']
 # TODO: Make sure I'm testing all of these cases
 # TODO: Find some way to do a coverage test for this.
 WHITESPACE_OVERRIDES = {
+    # Keepers (may still be refactored or obsoleted)
     r' - ': ': ',
+    r'\b3 D\b': '3D',
     r'\bCant': "Can't",
-    r'Djgpp': 'DJGPP',
+    r'Km': 'km',
     r'\bDont': "Don't",
     r'\bDon T': "Don't",
-    r'IN Vedit': 'INVedit',
     r'Mc ': 'Mc',
     r'Mac ': 'Mac',
-    r'Minis\b': "Mini's",
     r'Mr': 'Mr.',
     r'Mrs': 'Mrs.',
     r'Ms': 'Ms.',
-    r'^Open ': r'Open',
-    r'Preview': '(Preview)',
+    r'rys ': "ry\'s ",
     r' S ': "'s ",
     r'Scumm VM': 'ScummVM',
     r'Sid Meiers ': "Sid Meier's ",
     r'Star Wars ': 'Star Wars: ',
     r': The\b': ': The',
+    # TODO: Once _WS_OVERRIDE_MAP is smarter, add these rules:
+    # "\b(An? [^ ][^ '])s\b" -> "\1's"
+    # "(\d) (st|nd|th)\b" -> "\1\2"
+
+    # Almost certainly too specialized to be justified
+    r'Djgpp': 'DJGPP',
+    r'IN Vedit': 'INVedit',
+
+    # Un-audited
+    r'^Open ': r'Open',
+    r'Preview': '(Preview)',
     r'xwb': 'XWB',
     r' V M': 'VM',
 }
@@ -135,7 +145,7 @@ cruft_substrings = [
     'wml',  # Shorthand for Windows/Mac/Linux observed in the wild
 
     # release-type classifiers
-    'drmfree', 'stdalone', 'nonsteam', 'setup',
+    'drmfree', 'stdalone', 'nodrm', 'nonsteam', 'setup',
 ]
 
 # Stuff which should be safe to remove from the post-splitting list of tokens

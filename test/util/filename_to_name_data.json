@@ -1,1216 +1,1796 @@
 {
-  "Kabitis__lin_.zip": {
-    "ideal": "Kabitis"
-  },
-  "circuits_LinuxBuild.zip": {
-    "ideal": "Circuits"
-  },
-  "RaceTheSunLinux_1.42": {
-    "ideal": "Race the Sun",
-    "acceptable": [
-      "Race The Sun"
-    ]
-  },
-  "hypergauntlet-linux64-1.01.tar.bz2": {
-    "ideal": "Hypergauntlet"
-  },
-  "wyvandkeep-06152015-bin": {
-    "ideal": "Wyv and Keep",
-    "attainable": "Wyvandkeep"
-  },
-  "Shadow Warrior Classic Complete": {
-    "ideal": "Shadow Warrior Classic Complete"
-  },
-  "IttleDewLinux": {
-    "ideal": "Ittle Dew"
-  },
-  "prisonarchitect-version2c-linux.tar.gz": {
-    "ideal": "Prison Architect",
-    "attainable": "Prisonarchitect"
-  },
-  "higan": {
-    "ideal": "higan",
-    "attainable": "Higan"
-  },
-  "oO_-_Linux.rar": {
-    "ideal": "oO",
-    "acceptable": [
-      "OO"
-    ]
-  },
-  "Volgarr": {
-    "ideal": "Volgarr"
-  },
-  "jaspers-journeys": {
-    "ideal": "Jasper's Journeys",
-    "acceptable": [
-      "Jaspers Journeys"
-    ]
-  },
-  "Bastion-HIB-2012-06-20.sh": {
-    "ideal": "Bastion"
-  },
-  "Splice_Linux64.tar.gz": {
-    "ideal": "Splice"
-  },
-  "capsized": {
-    "ideal": "Capsized"
-  },
-  "Looticrous_LINUX.zip": {
-    "ideal": "Looticrous"
-  },
-  "gog_halfway_2.7.0.10.sh": {
-    "ideal": "Halfway"
-  },
-  "Master of Orion 2": {
-    "ideal": "Master of Orion 2"
-  },
-  "Unreal Tournament": {
-    "ideal": "Unreal Tournament"
-  },
-  "crypto.nes": {
-    "ideal": "Crypto"
-  },
-  "Rico.app.zip": {
-    "ideal": "Rico"
-  },
-  "Octodad Dadliest Catch": {
-    "ideal": "Octodad: Dadliest Catch",
-    "attainable": "Octodad Dadliest Catch"
-  },
-  "Oscura_Linux2015.zip": {
-    "ideal": "Oscura"
-  },
-  "avirusnamedtom": {
-    "ideal": "A Virus Named Tom",
-    "attainable": "Avirusnamedtom"
-  },
-  "inescapable_linux.tgz": {
-    "ideal": "Inescapable"
-  },
-  "inexilium_stdalone_linux64.zip": {
-    "ideal": "Inexilium"
-  },
-  "Cube and Star Linux": {
-    "ideal": "Cube and Star",
-    "acceptable": [
-      "Cube And Star"
-    ]
-  },
-  "gog_shadowgate_2.2.0.5.sh": {
-    "ideal": "Shadowgate"
-  },
-  "AtomicReconstruction_1_1.zip": {
-    "ideal": "Atomic Reconstruction"
-  },
-  "gog_retro_city_rampage_dx_2.1.0.4.sh": {
-    "ideal": "Retro City Rampage DX"
-  },
-  "theinnerworld_Linux.zip": {
-    "ideal": "The Inner World",
-    "attainable": "Theinnerworld"
-  },
-  "Alphabeats_Linux.rar": {
-    "ideal": "Alphabeats"
-  },
-  "ADventureLib_Linux_tar.gz": {
-    "ideal": "ADventure Lib"
-  },
-  "Land of Lamia - Linux.zip": {
-    "ideal": "Land of Lamia"
-  },
-  "Read_Only_Memories_v1.2d_-_Linux.zip": {
-    "ideal": "Read Only Memories"
-  },
-  "Dyscourse_linux_drmfree.zip": {
-    "ideal": "Dyscourse"
-  },
-  "RoseAndTimeRemastered_Linux.zip": {
-    "ideal": "Rose and Time Remastered"
-  },
-  "Sally Face [Linux].tar.gz": {
-    "ideal": "Sally Face"
-  },
-  "Rex Nebular and the Cosmic Gender Bender": {
-    "ideal": "Rex Nebular and the Cosmic Gender Bender",
-    "acceptable": [
-      "Rex Nebular And The Cosmic Gender Bender"
-    ]
-  },
-  "unepic-15005.run": {
-    "ideal": "Unepic"
-  },
-  "Anodyne_STANDALONE_1_506.swf": {
-    "ideal": "Anodyne"
-  },
-  "GoldenWake.linux.zip": {
-    "ideal": "A Golden Wake",
-    "attainable": "Golden Wake"
-  },
-  "time-swap": {
-    "ideal": "Time Swap"
-  },
-  "gog_ittle_dew_2.0.0.2.sh": {
-    "ideal": "Ittle Dew"
-  },
-  "testilizationIV": {
-    "ideal": "Testilization IV"
-  },
-  "Sometimes B0.51 linux.zip": {
-    "ideal": "Sometimes"
-  },
-  "Snowball.tar.gz": {
-    "ideal": "Snowball"
-  },
-  "fez-08202016": {
-    "ideal": "FEZ",
-    "acceptable": [
-      "Fez"
-    ]
-  },
-  "gog_blackhole_complete_edition_upgrade_2.0.0.2.sh": {
-    "ideal": "Blackhole Complete Edition Upgrade"
-  },
-  "A Valley Without Wind": {
-    "ideal": "A Valley Without Wind"
-  },
-  "Another World - 20th Anniversary Edition": {
-    "ideal": "Another World: 20th Anniversary Edition",
-    "acceptable": [
-      "Another World - 20th Anniversary Edition"
-    ]
-  },
-  "gog_fist_puncher_1.0.0.2.tar.gz": {
-    "ideal": "Fist Puncher"
-  },
-  "ChronoclysmLinux106.zip": {
-    "ideal": "Chronoclysm"
-  },
-  "Blackhole_1.05b": {
-    "ideal": "Blackhole"
-  },
-  "gog_the_escapists_2.7.0.8.sh": {
-    "ideal": "The Escapists"
-  },
-  "knightspp_linux_209": {
-    "ideal": "Knights of Pen and Paper",
-    "attainable": "Knightspp"
-  },
-  "mr_makeshifter_standalone_linux.zip": {
-    "ideal": "Mr. Makeshifter"
-  },
-  "Klabi_linux64.rar": {
-    "ideal": "Klabi"
-  },
-  "frogatto-installer-linux-amd64.bin": {
-    "ideal": "Frogatto"
-  },
-  "CNOLM_Linux.zip": {
-    "ideal": "CNOLM"
-  },
-  "steammarines_linux.zip": {
-    "ideal": "Steam Marines",
-    "attainable": "Steammarines"
-  },
-  "prisonarchitect-update5b-linux.tar.gz": {
-    "ideal": "Prison Architect",
-    "attainable": "Prisonarchitect"
-  },
-  "gog_stardew_valley_2.4.0.5.sh": {
-    "ideal": "Stardew Valley"
-  },
-  "Mushroom_11_v1.07b4_Humble_Linux.zip": {
-    "ideal": "Mushroom 11"
-  },
-  "fortune": {
-    "ideal": "fortune",
-    "attainable": "Fortune"
-  },
-  "BravadaLinux": {
-    "ideal": "Bravada"
-  },
-  "gog_labyrinth_of_time_1.0.0.2.tar.gz": {
-    "ideal": "Labyrinth of Time"
-  },
-  "Vulkaiser.Linux.x86.DRMFree.tgz": {
-    "ideal": "Vulkaiser"
-  },
-  "Nihilumbra-1.35-linux64.tar.gz": {
-    "ideal": "Nihilumbra"
-  },
-  "LUFTRAUSER_LINUX_1395159852.zip": {
-    "ideal": "Luftrausers",
-    "attainable": "Luftrauser"
-  },
-  "asdivinehearts_linux.zip": {
-    "ideal": "Asdivine Hearts",
-    "attainable": "Asdivinehearts"
-  },
-  "etherpad-lite": {
-    "ideal": "Etherpad Lite",
-    "acceptable": [
-      "Ether Pad Lite"
-    ]
-  },
-  "AM2R_v1.1_linux_unofficial": {
-    "ideal": "AM2R",
-    "acceptable": [
-      "AM 2R"
-    ]
-  },
-  "AndroVMplayer-Linux64": {
-    "ideal": "AndroVMplayer",
-    "attainable": "Andro VMplayer"
-  },
-  "gog_unmechanical_2.1.0.4.sh": {
-    "ideal": "Unmechanical"
-  },
-  "shatter-linux-1347954459.sh": {
-    "ideal": "Shatter"
-  },
-  "gog_never_alone_arctic_collection_2.1.0.2.sh": {
-    "ideal": "Never Alone Arctic Collection"
-  },
-  "TreasuresOfArcania_-_1.13.0.0_-_Linux.zip": {
-    "ideal": "Treasures of Arcania"
-  },
-  "gog_door_kickers_2.7.0.10.sh": {
+  "Door Kickers": {
     "ideal": "Door Kickers"
-  },
-  "gog_transistor_2.0.0.3.sh": {
-    "ideal": "Transistor"
-  },
-  "Hexoscope.zip": {
-    "ideal": "Hexoscope"
-  },
-  "MetalSlug3-Linux-2014-06-09.sh": {
-    "ideal": "Metal Slug 3"
-  },
-  "The Deer God.zip": {
-    "ideal": "The Deer God"
-  },
-  "DreamingSarah_linux64.zip": {
-    "ideal": "Dreaming Sarah"
-  },
-  "gog_broforce_2.2.0.3.sh": {
-    "ideal": "Broforce"
-  },
-  "ElseHeartbreakLinux.tgz": {
-    "ideal": "else Heart.Break()",
-    "attainable": "Else Heartbreak"
-  },
-  "The Maker's Eden - Linux.tar.gz": {
-    "ideal": "The Maker's Eden"
-  },
-  "CrashedLander_v25_linux.zip": {
-    "ideal": "Crashed Lander"
-  },
-  "tbs_2_18_08_linux.tgz": {
-    "ideal": "T.B.S. 2",
-    "acceptable": [
-      "TBS 2"
-    ]
-  },
-  "OTSOA.bin": {
-    "ideal": "O.T.S.O.A.",
-    "acceptable": [
-      "OTSOA"
-    ]
-  },
-  "WakingMars-1.2.1-Linux": {
-    "ideal": "Waking Mars"
-  },
-  "heshe_lin32.zip": {
-    "ideal": "HeShe",
-    "attainable": "Heshe"
-  },
-  "planetvc-linux.tgz": {
-    "ideal": "Planet of the Vicious Creatures",
-    "attainable": "Planetvc"
-  },
-  "pinball_world_1.0.0.1.tar.gz": {
-    "ideal": "Pinball World"
-  },
-  "The Basement Collection": {
-    "ideal": "The Basement Collection"
-  },
-  "unpack_gog_game.py": {
-    "ideal": "Unpack GOG Game",
-    "acceptable": [
-      "Unpack Gog Game"
-    ]
-  },
-  "alienblitz-linux64.zip": {
-    "ideal": "Alien Blitz",
-    "attainable": "Alienblitz"
-  },
-  "elliot_quest": {
-    "ideal": "Elliot Quest"
-  },
-  "HackerEvolutionDuality-Linux.tar.gz": {
-    "ideal": "Hacker Evolution Duality"
-  },
-  "gog_bio_menace_2.0.0.2.sh": {
-    "ideal": "Bio Menace"
-  },
-  "chocolate-castle": {
-    "ideal": "Chocolate Castle"
-  },
-  "Caravanserail_LINUX.zip": {
-    "ideal": "Caravanserail"
-  },
-  "MirrorMoonEP_linux_1392070609.tar.gz": {
-    "ideal": "Mirror Moon EP"
-  },
-  "BrokenAge": {
-    "ideal": "Broken Age"
-  },
-  "SquareHeroes_Linux_1.1.2.1.tar.bz2": {
-    "ideal": "Square Heroes"
-  },
-  "TenshuGeneral-Linux-v1.1-build378.tar.gz": {
-    "ideal": "Tenshu General"
-  },
-  "dynablaster_revenge_v1_0_2": {
-    "ideal": "Dynablaster Revenge"
-  },
-  "BootHillBlaster-1.3-linux.tar": {
-    "ideal": "Boot Hill Blaster"
-  },
-  "unepic": {
-    "ideal": "Unepic"
-  },
-  "Cellar_ubuntu.zip": {
-    "ideal": "Cellar"
-  },
-  "Orborun_All_Platforms_Installer.zip": {
-    "ideal": "Orborun"
-  },
-  "StardustVanguards_1.2.1_Linux.zip": {
-    "ideal": "Stardust Vanguards"
-  },
-  "gog_defender_s_quest_2.9.0.10.sh": {
-    "ideal": "Defender's Quest"
-  },
-  "gog_blackhole_2.0.0.3.sh": {
-    "ideal": "Blackhole"
-  },
-  "TokiTori2-Linux-2014-06-16.sh": {
-    "ideal": "Toki Tori 2"
-  },
-  "gog_the_escapists_alcatraz_dlc_2.0.0.1.sh": {
-    "ideal": "The Escapists: Alcatraz DLC",
-    "attainable": "The Escapists Alcatraz DLC"
-  },
-  "gog_edna_harvey_harvey_s_new_eyes_2.0.0.1.sh": {
-    "ideal": "Edna & Harvey: Harvey's New Eyes",
-    "attainable": "Edna Harvey Harvey's New Eyes"
-  },
-  "Besiege_Alpha_Linux_v0_35.zip": {
-    "ideal": "Besiege"
-  },
-  "WorldOfGooSetup.1.41.tar.gz": {
-    "ideal": "World of Goo"
-  },
-  "Influent": {
-    "ideal": "Influent"
   },
   "gog_volgarr_the_viking_2.1.0.3.sh": {
     "ideal": "Volgarr the Viking"
   },
-  "Teslagrad": {
-    "ideal": "Teslagrad"
+  "Ascendant_v.1.2.2_Linux_64bit.zip": {
+    "ideal": "Ascendant"
   },
-  "CrystalPicnic-1.5.1-Linux64.tar.gz": {
-    "ideal": "Crystal Picnic"
-  },
-  "sokobond-linux1.0.3c.tar.gz": {
-    "ideal": "Sokobond"
-  },
-  "a_boy_and_his_blob_2.1.0.2": {
-    "ideal": "A Boy and His Blob",
-    "acceptable": [
-      "A Boy And His Blob"
-    ]
-  },
-  "KingdomRush_linux.zip": {
-    "ideal": "Kingdom Rush"
-  },
-  "gog_this_war_of_mine_2.6.0.8.sh": {
-    "ideal": "This War of Mine"
-  },
-  "DROD 1+2+3": {
-    "ideal": "D.R.O.D. 1+2+3",
-    "acceptable": [
-      "DROD 1+2+3"
-    ],
-    "attainable": "DROD 1+2+3"
-  },
-  "Eron_Linux.zip": {
-    "ideal": "Eron"
-  },
-  "dolphin-emu": {
-    "ideal": "Dolphin Emu"
-  },
-  "gog_terraria_2.14.0.18.sh": {
+  "terraria_2.0.0.3": {
     "ideal": "Terraria"
   },
-  "Dont Starve": {
-    "ideal": "Don't Starve",
-    "acceptable": [
-      "Dont Starve"
-    ]
-  },
-  "psychonauts-linux-05062013-bin": {
-    "ideal": "Psychonauts"
-  },
-  "BeatbuddyLinux_1396630212.zip": {
-    "ideal": "Beatbuddy"
-  },
-  "gog_a_bird_story_1.0.0.1.tar.gz": {
-    "ideal": "A Bird Story"
-  },
-  "Particula__linux_full.1.1_.zip": {
-    "ideal": "Particula"
-  },
-  "DetectiveGrimoire1423507440.tar.gz": {
-    "ideal": "Detective Grimoire"
-  },
-  "Mountain_v1_2_Linux.zip": {
-    "ideal": "Mountain"
-  },
-  "snorms-full_linux.tgz": {
-    "ideal": "Snorms"
-  },
-  "Apotheon.old": {
-    "ideal": "Apotheon (old)",
-    "acceptable": [
-      "Apotheon OLD"
-    ]
-  },
-  "LaMulana": {
-    "ideal": "La-Mulana",
-    "attainable": "La Mulana"
-  },
-  "gog_bastion_2.0.0.1.sh": {
-    "ideal": "Bastion"
-  },
-  "Ethereon_-_Linux.rar": {
-    "ideal": "Ethereon"
-  },
-  "StarMade-Starter_Linux.jar": {
-    "ideal": "StarMade"
-  },
-  "SocialJusticeWarriors_v2_Linux.zip": {
-    "ideal": "Social Justice Warriors"
-  },
-  "Ultionus": {
-    "ideal": "Ultionus"
-  },
-  "Cube_and_Star_Linux_Warped_Edition.zip": {
-    "ideal": "Cube and Star: Warped Edition",
-    "acceptable": [
-      "Cube and Star: Warped Edition"
-    ]
-  },
-  "ReignMaker_1.02.07_29_14_Linux.zip": {
-    "ideal": "Reign Maker"
-  },
-  "ultratron": {
-    "ideal": "Ultratron"
-  },
-  "GirlsLikeRobots-03142013.tgz": {
-    "ideal": "Girls Like Robots"
-  },
-  "TwinRobots_LIN.tar.gz": {
-    "ideal": "Twin Robots"
-  },
-  "Testy-MacJohnson": {
-    "ideal": "Testy MacJohnson"
-  },
-  "oroborun-linux-universal.zip": {
-    "ideal": "Oroborun"
-  },
-  "MetalSlug": {
-    "ideal": "Metal Slug"
-  },
-  "gog_eschalon_book_i_2.0.0.5.sh": {
-    "ideal": "Eschalon Book I"
-  },
-  "MalditaCastilla": {
-    "ideal": "Maldita Castilla"
-  },
-  "The Witcher 2 Assassins Of Kings": {
-    "ideal": "The Witcher 2: Assassins of Kings",
-    "acceptable": [
-      "The Witcher 2: Assassins Of Kings",
-      "The Witcher 2 - Assassins of Kings",
-      "The Witcher 2 - Assassins Of Kings"
-    ]
-  },
-  "Hexcells Infinite - Linux": {
-    "ideal": "Hexcells Infinite"
-  },
-  "LifeTheGame_Linux.zip": {
-    "ideal": "Life: The Game"
-  },
-  "Secret Agent": {
-    "ideal": "Secret Agent"
-  },
-  "Chimpology_a2.zip": {
-    "ideal": "Chimpology"
-  },
-  "Pixel Proof-0.2.5a_x64.tar.gz": {
-    "ideal": "Pixel Proof"
-  },
-  "kagbeta-linux32-client": {
-    "ideal": "KAG Client",
-    "acceptable": [
-      "KAG",
-      "Kag"
-    ]
-  },
-  "Marginalia-hilo-L.zip": {
-    "ideal": "Marginalia"
-  },
-  "OTTTD_linux.zip": {
-    "ideal": "OTTTD"
-  },
-  "ScummVM": {
-    "ideal": "ScummVM",
-    "acceptable": [
-      "Scumm VM"
-    ]
-  },
-  "Master of Magic": {
-    "ideal": "Master of Magic"
-  },
-  "TheBridge": {
-    "ideal": "The Bridge"
-  },
-  "TheNovelistLin112.zip": {
-    "ideal": "The Novelist"
-  },
-  "sid_meiers_covert_action.tar.gz": {
-    "ideal": "Sid Meier's Covert Action"
-  },
-  "gog_deponia_2.1.0.3.sh": {
-    "ideal": "Deponia"
-  },
-  "BionicDuesWinMacLin1008.zip": {
-    "ideal": "Bionic Dues"
-  },
-  "Blackwell2_Unbound_1411180371.sh": {
-    "ideal": "Blackwell 2: Unbound"
-  },
-  "railroad_tycoon_2": {
-    "ideal": "Railroad Tycoon 2"
-  },
-  "RogueLegacyLinux_v120a": {
-    "ideal": "Rogue Legacy"
-  },
-  "Hypt_0.6.03_Linux.rar": {
-    "ideal": "Hypt"
-  },
-  "cafe-0-the-drowned-mermaid.tar.bz2": {
-    "ideal": "Cafe 0: The Drowned Mermaid"
-  },
-  "gog_don_t_starve_reign_of_giants_dlc_2.0.0.3.sh": {
-    "ideal": "Don't Starve: Reign of Giants DLC",
-    "attainable": "Don't Starve Reign of Giants DLC"
-  },
-  "Trauma": {
-    "ideal": "Trauma"
-  },
-  "gog_chroma_squad_2.8.0.12.sh": {
-    "ideal": "Chroma Squad"
-  },
-  "shipwreck": {
-    "ideal": "Shipwreck"
-  },
-  "gog_terraria_2.16.0.19.sh": {
-    "ideal": "Terraria"
-  },
-  "Incredipede": {
-    "ideal": "Incredipede"
-  },
-  "DungeonProspector_Linux.zip": {
-    "ideal": "Dungeon Prospector"
-  },
-  "gog_grim_fandango_remastered_2.3.0.7.sh": {
-    "ideal": "Grim Fandango Remastered"
-  },
-  "Closure-Linux-1.1-2012-12-28.sh": {
-    "ideal": "Closure"
-  },
-  "Knytt Underground": {
-    "ideal": "Knytt Underground"
-  },
-  "Limbo-Linux-2014-06-18.sh": {
-    "ideal": "Limbo"
-  },
-  "Rats_Alpha3.tar.gz": {
-    "ideal": "Rats"
-  },
-  "KT_Linux.zip": {
-    "ideal": "K.T."
-  },
-  "Hacknet_v4.0547_Linux.zip": {
-    "ideal": "Hacknet"
-  },
-  "ReprisalLinux_beta6.zip": {
-    "ideal": "Reprisal"
-  },
-  "Toby_Linux.zip": {
-    "ideal": "Toby"
-  },
-  "testilizationV": {
-    "ideal": "Testilization V"
-  },
-  "McPixel": {
-    "ideal": "McPixel"
-  },
-  "StarshipCommand-1_05-linux32.zip": {
-    "ideal": "Starship Command"
-  },
-  "gog_battlevoid_harbinger_2.2.0.4.sh": {
-    "ideal": "Battlevoid Harbinger"
-  },
-  "gog_torchlight_2_2.0.0.1.sh": {
-    "ideal": "Torchlight 2"
-  },
-  "MonumentLinux.rar": {
-    "ideal": "Monument"
-  },
-  "Hexcells": {
-    "ideal": "Hexcells"
-  },
-  "Drew_and_the_Floating_Labyrinth_SD_LINUXv103.zip": {
-    "ideal": "Drew and the Floating Labyrinth",
-    "acceptable": [
-      "Drew and the Floating Labyrinth SD"
-    ]
-  },
-  "Pitman_Linux_1.5d.tar.gz": {
-    "ideal": "Pitman"
-  },
-  "LouieLINUX.zip": {
-    "ideal": "Louie"
-  },
-  "Shadowrun Returns": {
-    "ideal": "Shadowrun Returns"
-  },
-  "Ys": {
-    "ideal": "Ys"
-  },
-  "SplattersSetup_linux_1402605762.sh": {
-    "ideal": "Splatters"
-  },
-  "undertale_2.0.0.1": {
-    "ideal": "Undertale"
-  },
-  "Star Wars: Dark Forces 2: Jedi Knight: Mysteries of the Sith": {
-    "ideal": "Star Wars: Dark Forces 2: Jedi Knight: Mysteries of the Sith"
-  },
-  "PixelJunk Shooter": {
-    "ideal": "PixelJunk Shooter"
-  },
-  "ADruidsDuel_Linux_1051.zip": {
-    "ideal": "A Druid's Duel"
-  },
-  "screencheat_215_linux.zip": {
-    "ideal": "Screencheat"
-  },
-  "SnakeBlocks_Linux": {
-    "ideal": "Snake Blocks"
-  },
-  "Tic-Toc-Tower_Linux_Alpha.rar": {
-    "ideal": "Tic Toc Tower"
-  },
-  "plith-1.0.1-linux-x86_64.bin": {
-    "ideal": "Plith"
-  },
-  "IslaBomba.tar.gz": {
-    "ideal": "Isla Bomba"
-  },
-  "Murder-1.0-linux.tar.bz2": {
-    "ideal": "Murder"
-  },
-  "gog_braveland_pirate_2.1.0.3.sh": {
-    "ideal": "Braveland Pirate"
-  },
-  "patch_among_the_sleep_2.2.3.6.sh": {
-    "ideal": "Among the Sleep"
-  },
-  "ping-15-1.6.tar.bz2": {
-    "ideal": "PING 1.5",
-    "attainable": "Ping 15"
-  },
-  "Zone X Linux.rar": {
-    "ideal": "Zone X"
-  },
-  "BOH": {
-    "ideal": "BOH"
-  },
-  "Blocks That Matter": {
-    "ideal": "Blocks That Matter"
-  },
-  "Oniken_linux.tar.gz": {
-    "ideal": "Oniken"
-  },
-  "SkyFlower_-_Linux.rar": {
-    "ideal": "Sky Flower"
-  },
-  "HandsOnDeck.rar": {
-    "ideal": "Hands on Deck"
-  },
-  "Slinki_1.3_Linux_universal.gz.zip": {
-    "ideal": "Slinki"
-  },
-  "vessel": {
-    "ideal": "Vessel"
-  },
-  "railroad_tycoon_2.zip": {
-    "ideal": "Railroad Tycoon 2"
-  },
-  "defcon": {
-    "ideal": "Defcon"
-  },
-  "pongball_0.1.1_5dc8d48_linux.zip": {
-    "ideal": "Pongball"
-  },
-  "SolarFluxLinux.zip": {
-    "ideal": "Solar Flux"
+  "find_broken_symlinks.sh": {
+    "ideal": "Find Broken Symlinks"
+  },
+  "gog_the_real_texas_2.1.0.3.sh": {
+    "ideal": "The Real Texas"
   },
   "Pixel_Heroes_-_Byte_and_Magic_v1_345_DRM_Free_LINUX.zip": {
     "ideal": "Pixel Heroes: Byte and Magic"
   },
-  "RaceTheSunLINUX_1.441.zip": {
-    "ideal": "Race the Sun"
+  "gog_mark_of_the_ninja_1.0.0.3.tar.gz": {
+    "ideal": "Mark of the Ninja"
   },
-  "CrunchTime_v1.0_Linux_.zip": {
-    "ideal": "Crunch Time"
+  "Day of the Tentacle Remastered": {
+    "ideal": "Day of the Tentacle Remastered"
   },
-  "Terminal Velocity": {
-    "ideal": "Terminal Velocity"
+  "Trace_Vector_Linux_1.02.zip": {
+    "ideal": "Trace Vector"
   },
-  "Taimumari": {
-    "ideal": "Taimumari"
+  "gog_sir_you_are_being_hunted_1.1.0.3.tar.gz": {
+    "attainable": "Sir You Are Being Hunted",
+    "ideal": "Sir, You Are Being Hunted"
   },
-  "Linux_Shelter2_Build20150708.zip": {
-    "ideal": "Shelter 2"
-  },
-  "Secret_of_the_Magic_Crystals_Linux.tar.gz": {
-    "ideal": "Secret of the Magic Crystals"
-  },
-  "IntelligentDesignLinux.zip": {
-    "ideal": "Intelligent Design"
-  },
-  "gog_pier_solar_and_the_great_architects_1.1.0.3.tar.gz": {
-    "ideal": "Pier Solar and the Great Architects"
-  },
-  "MarkOfTheNinja": {
-    "ideal": "Mark of the Ninja",
-    "acceptable": [
-      "Mark Of The Ninja"
-    ]
-  },
-  "testilizationII": {
-    "ideal": "Testilization II"
-  },
-  "MiniMetro-gamma6-linux.tar.gz": {
-    "ideal": "Mini Metro"
-  },
-  "WoodenSenSeY_linux.zip": {
-    "ideal": "Wooden Sen SeY"
-  },
-  "ponyisland_linux_v1.20.zip": {
-    "ideal": "Pony Island",
-    "attainable": "Ponyisland"
-  },
-  "Hook_-_Linux.rar": {
-    "ideal": "Hook"
-  },
-  "SpiritsofXanadu_Linux.zip": {
-    "ideal": "Spirits of Xanadu"
-  },
-  "AnomalyKorea-lin_1371139237-Installer": {
-    "ideal": "Anomaly Korea"
-  },
-  "gog_escape_goat_2_2.0.0.11.sh": {
-    "ideal": "Escape Goat 2"
-  },
-  "frozen_synapse_2.0.0.3": {
-    "ideal": "Frozen Synapse"
-  },
-  "gog_the_last_federation_the_lost_technologies_dlc_2.0.0.1.sh": {
-    "ideal": "The Last Federation: The Lost Technologie's Dlc",
-    "attainable": "The Last Federation the Lost Technologies DLC"
-  },
-  "Continue": {
-    "ideal": "Continue"
-  },
-  "Dramaze_0.2.0_Alpha_Linux.zip": {
-    "ideal": "Dramaze"
-  },
-  "AssaultAndroidCactus_linux.zip": {
-    "ideal": "Assault Android Cactus"
-  },
-  "Alcarys_Complex_1.03_UBU.tar.gz": {
-    "ideal": "Alcarys Complex"
-  },
-  "Hexcells Plus": {
-    "ideal": "Hexcells Plus"
-  },
-  "gog_sir_you_are_being_hunted_2.3.0.6.sh": {
-    "ideal": "Sir, You Are Being Hunted",
-    "attainable": "Sir You Are Being Hunted"
-  },
-  "Democracy3-1.20-Linux": {
-    "ideal": "Democracy 3"
-  },
-  "boothillblaster_1_5_i386.deb": {
-    "ideal": "Boot Hill Blaster"
-  },
-  "Deadly30_LINUX_1410995826.zip": {
-    "ideal": "Deadly 30"
-  },
-  "Bacteria_Linux.zip": {
-    "ideal": "Bacteria"
-  },
-  "gog_prehistorik_2_2.0.0.5.sh": {
-    "ideal": "Prehistorik 2"
-  },
-  "gog_freedom_planet_2.2.0.6.sh": {
-    "ideal": "Freedom Planet"
-  },
-  "gog_eschalon_book_ii_2.0.0.3.sh": {
-    "ideal": "Eschalon Book II"
-  },
-  "Oxenfree_Linux_NoDRM_2.2.0b.zip": {
-    "ideal": "Oxenfree"
-  },
-  "Coated_Linux.zip": {
-    "ideal": "Coated"
-  },
-  "gog_broken_age_2.4.0.10.sh": {
-    "ideal": "Broken Age"
+  "SpaceHoleAlphaLinux.zip": {
+    "ideal": "Space Hole"
   },
   "Barony106_linux64.zip": {
     "ideal": "Barony"
   },
-  "Amygdala-Linux.14.12.23.02.tar.bz2.zip": {
-    "ideal": "Amygdala"
+  "gog_sir_you_are_being_hunted_2.3.0.6.sh": {
+    "attainable": "Sir You Are Being Hunted",
+    "ideal": "Sir, You Are Being Hunted"
   },
-  "Inescapable": {
-    "ideal": "Inescapable"
+  "ADruidsDuel_Linux_1051.zip": {
+    "ideal": "A Druid's Duel",
+    "attainable": "A Druids Duel"
   },
-  "Duet-Build1006023-Linux64.zip": {
-    "ideal": "Duet"
+  "Democracy3-1.20-Linux": {
+    "ideal": "Democracy 3"
   },
-  "Antichamber": {
-    "ideal": "Antichamber"
+  "Steam_Marines_WML_100.zip": {
+    "ideal": "Steam Marines"
+  },
+  "runner2-1.0": {
+    "ideal": "Runner 2"
+  },
+  "LaMulana": {
+    "attainable": "La Mulana",
+    "ideal": "La-Mulana"
+  },
+  "woodletree_adventures_linux.zip": {
+    "ideal": "Woodletree Adventures"
+  },
+  "FTL": {
+    "ideal": "FTL"
+  },
+  "PSX": {
+    "ideal": "PSX"
+  },
+  "Reassembly_jan2016.tar.gz": {
+    "ideal": "Reassembly"
+  },
+  "avirusnamedtom": {
+    "attainable": "Avirusnamedtom",
+    "ideal": "A Virus Named Tom"
+  },
+  "gog_windward_2.35.0.38.sh": {
+    "ideal": "Windward"
+  },
+  "MiniMetro-gamma13-linux.tar.gz": {
+    "ideal": "Mini Metro"
+  },
+  "RevengeOfTheTitans": {
+    "ideal": "Revenge of the Titans"
+  },
+  "gog_drod_gunthro_and_the_epic_blunder_1.0.0.4.tar.gz": {
+    "attainable": "Drod Gunthro and the Epic Blunder",
+    "ideal": "DROD: Gunthro and the Epic Blunder"
+  },
+  "wtdk_linux32x64.zip": {
+    "attainable": "WTDK",
+    "acceptable": [
+      "Wtdk"
+    ],
+    "ideal": "WtDK"
+  },
+  "Install_Neon_Drive__V1.4.exe": {
+    "ideal": "Neon Drive"
+  },
+  "nuclearthrone-linux.zip": {
+    "attainable": "Nuclearthrone",
+    "ideal": "Nuclear Throne"
+  },
+  "spirits-linux-1.0.1_120903-1348705231.zip": {
+    "ideal": "Spirits"
+  },
+  "gog_hammerwatch_2.1.0.7.sh": {
+    "ideal": "Hammerwatch"
+  },
+  "BOH": {
+    "ideal": "BOH"
+  },
+  "fragilesoftmachines_linux64.zip": {
+    "attainable": "Fragilesoftmachines",
+    "ideal": "Fragile Soft Machines"
   },
   "Gods_Will_Be_Watching-DLC_Update-Linux-DRM_Free.zip": {
     "ideal": "Gods Will Be Watching: DLC Update"
   },
-  "bridgeconstructorPlayground_Linux_v14_1411180371.zip": {
-    "ideal": "Bridge Constructor Playground",
-    "attainable": "Bridgeconstructor Playground"
-  },
-  "fragilesoftmachines_linux64.zip": {
-    "ideal": "Fragile Soft Machines",
-    "attainable": "Fragilesoftmachines"
-  },
-  "gog_breach_clear_2.0.0.3.sh": {
-    "ideal": "Breach & Clear",
-    "attainable": "Breach Clear"
-  },
-  "Tulpa_Linux_1423847478.zip": {
-    "ideal": "Tulpa"
-  },
-  "Metagun.jar": {
-    "ideal": "Metagun"
-  },
-  "gog_lovely_planet_2.0.0.5": {
-    "ideal": "Lovely Planet"
-  },
-  "zen-puzzle-garden": {
-    "ideal": "Zen Puzzle Garden"
-  },
-  "MinisMagicWorld-v1-LINUX.zip": {
-    "ideal": "Mini's Magic World"
-  },
-  "The Bard's Tale": {
-    "ideal": "The Bard's Tale"
-  },
-  "gog_cayne_2.0.0.1.sh": {
-    "ideal": "Cayne"
-  },
-  "unxwb": {
-    "ideal": "UnXWB"
-  },
-  "papers-please_1.1.65_i386.tar.gz": {
-    "ideal": "Papers Please"
-  },
-  "gog_knock_knock_2.0.0.1.sh": {
-    "ideal": "Knock Knock"
-  },
-  "mind_path_to_thalamus_enhanced_edition_2.1.0.3": {
-    "ideal": "MIND: Path to Thalamus Enhanced Edition",
-    "attainable": "Mind Path to Thalamus Enhanced Edition"
-  },
-  "djgpp": {
-    "ideal": "DJGPP",
-    "acceptable": [
-      "Djgpp"
-    ]
-  },
-  "Linux_youmustbuildaboat.zip": {
-    "ideal": "You Must Build A Boat",
-    "attainable": "Youmustbuildaboat"
-  },
-  "ADruidsDuel_Linux64.zip": {
-    "ideal": "A Druid's Duel"
-  },
-  "testilizationI": {
-    "ideal": "Testilization I"
-  },
-  "gog_afterlife_2.0.0.6.sh": {
-    "ideal": "Afterlife"
-  },
-  "fez-08202016-bin": {
-    "ideal": "FEZ"
-  },
-  "angvik_linux64_9": {
-    "ideal": "Angvik"
-  },
-  "SkyTimeLinux.rar": {
-    "ideal": "Sky Time"
-  },
-  "AnotherStarV2Linux.zip": {
-    "ideal": "Another Star"
-  },
-  "QUBE-Linux-2015052901.sh": {
-    "ideal": "Q.U.B.E.",
-    "attainable": "QUBE"
-  },
-  "dustaet-01082014": {
-    "ideal": "Dust: A.E.T.",
-    "attainable": "Dustaet"
-  },
-  "Fantasy Mall linux32.zip": {
-    "ideal": "Fantasy Mall"
-  },
-  "brandonmustdie_v1.01_linux64.zip": {
-    "ideal": "Brandon Must Die",
-    "attainable": "Brandonmustdie"
-  },
-  "Jotun_Linux_no_DRM_build.zip": {
-    "ideal": "Jotun"
-  },
-  "Lethal_League.tar.gz": {
-    "ideal": "Lethal League"
-  },
-  "gog_the_fall_2.1.0.4.sh": {
-    "ideal": "The Fall"
-  },
-  "ArkDefenseLinux.zip": {
-    "ideal": "Ark Defense"
-  },
-  "gog_tower_of_guns_2.0.0.3.sh": {
-    "ideal": "Tower of Guns"
-  },
-  "gog_challenge_of_the_five_realms_1.0.0.3.tar.gz": {
-    "ideal": "Challenge of the Five Realms"
-  },
-  "Snakebird_linux.zip": {
-    "ideal": "Snakebird"
-  },
-  "PaperSorcerer2.3Linux": {
-    "ideal": "Paper Sorcerer"
-  },
-  "Guacamelee": {
-    "ideal": "Guacamelee"
-  },
-  "StarshipCommand-1.05-linux64.zip": {
-    "ideal": "Starship Command"
-  },
-  "Jack_s_Gang_Test_Version_lin_.exe": {
-    "ideal": "Jack's Gang"
-  },
-  "vvvvvv-06182014-bin": {
-    "ideal": "VVVVVV",
-    "acceptable": [
-      "vvvvvv",
-      "Vvvvvv"
-    ]
-  },
-  "kilgazar-1.1-linux.1.tar": {
-    "ideal": "Kilgazar"
-  },
-  "freqflux_linuxV1-0-07.zip": {
-    "ideal": "Freqflux"
-  },
-  "gog_pixel_piracy_1.3.0.5.tar.gz": {
-    "ideal": "Pixel Piracy"
-  },
-  "FindingTeddy_Gold_Setup_linux641.0_1406058604.zip": {
-    "ideal": "Finding Teddy",
-    "acceptable": [
-      "Finding Teddy Gold"
-    ]
-  },
-  "gog_prehistorik_2.0.0.5.sh": {
-    "ideal": "Prehistorik"
-  },
-  "gog_olliolli2_welcome_to_olliwood_2.2.0.4.sh": {
-    "ideal": "OlliOlli 2: Welcome to Olliwood",
-    "attainable": "Olliolli 2: Welcome to Olliwood"
-  },
-  "MouseCraft": {
-    "ideal": "MouseCraft",
-    "attainable": "Mouse Craft"
-  },
-  "offspring_fling-linux-2012-12-19.zip": {
-    "ideal": "Offspring Fling"
-  },
-  "Noire 1.01.swf": {
-    "ideal": "Noire"
-  },
-  "Crypto Hex Linux.tar.gz": {
-    "ideal": "Crypto Hex"
-  },
-  "CaveStory+": {
-    "ideal": "Cave Story+"
-  },
-  "hobl_linux64": {
-    "ideal": "HOBL",
-    "attainable": "Hobl"
-  },
-  "gog_desktop_dungeons_goatperson_dlc_2.5.0.7.sh": {
-    "ideal": "Desktop Dungeons: Goatperson DLC",
-    "attainable": "Desktop Dungeons Goatperson DLC"
-  },
-  "gog_star_wars_rebel_assault_2.0.0.4.sh": {
-    "ideal": "Star Wars: Rebel Assault",
-    "attainable": "Star Wars Rebel Assault"
-  },
-  "railyard": {
-    "ideal": "Railyard"
-  },
-  "Ascendant": {
-    "ideal": "Ascendant"
-  },
-  "CustomFollower_Linux.tar.gz": {
-    "ideal": "Custom Follower"
-  },
-  "Door Kickers": {
-    "ideal": "Door Kickers"
-  },
-  "voxatron": {
-    "ideal": "Voxatron"
-  },
-  "retrobooster-1.1-1.32bit.tar.gz": {
-    "ideal": "Retrobooster"
-  },
-  "reus": {
-    "ideal": "Reus"
-  },
-  "gog_mark_of_the_ninja_dlc1_1.0.0.3.tar.gz": {
-    "ideal": "Mark of the Ninja: DLC 1",
-    "attainable": "Mark of the Ninja DLC 1"
-  },
-  "escapegoat2": {
-    "ideal": "Escape Goat 2",
-    "attainable": "Escapegoat 2"
-  },
-  "CrystalPicnicLinux.rar": {
-    "ideal": "Crystal Picnic"
-  },
-  "firefox": {
-    "ideal": "Firefox"
-  },
-  "volt": {
-    "ideal": "Volt"
-  },
-  "piratehell-1.2.2.tar.bz2": {
-    "ideal": "Pirate Hell",
-    "attainable": "Piratehell"
-  },
-  "gog_don_t_starve_serials.txt": {
-    "ideal": "Don't Starve Serials"
-  },
-  "Jazzpunk": {
-    "ideal": "Jazzpunk"
+  "circuits_LinuxBuild.zip": {
+    "ideal": "Circuits"
+  },
+  "gog_hot_tin_roof_the_cat_that_wore_a_fedora_2.4.0.7.sh": {
+    "attainable": "Hot Tin Roof the Cat That Wore a Fedora",
+    "ideal": "Hot Tin Roof: The Cat That Wore A Fedora"
   },
   "Advance_v0_5_Linux.tar.gz": {
     "ideal": "Advance"
   },
-  "Joe_X_Linux_.zip": {
-    "ideal": "Joe X"
+  "gog_terraria_2.15.0.18.sh": {
+    "ideal": "Terraria"
   },
-  "10000000_Linux.tar.gz": {
-    "ideal": "10000000"
+  "SuperCrateBox-YoYo": {
+    "acceptable": [
+      "Super Crate Box YoYo"
+    ],
+    "ideal": "Super Crate Box"
   },
-  "Bonsai-Linux-i586.zip": {
-    "ideal": "Bonsai"
+  "gog_enclave_2.0.0.1.sh": {
+    "ideal": "Enclave"
+  },
+  "NEOGEO": {
+    "ideal": "NEOGEO"
+  },
+  "Inherit The Earth": {
+    "ideal": "Inherit the Earth"
+  },
+  "gog_among_the_sleep_2.2.0.5.sh": {
+    "ideal": "Among the Sleep"
+  },
+  "gog_challenge_of_the_five_realms_1.0.0.3.tar.gz": {
+    "ideal": "Challenge of the Five Realms"
+  },
+  "SinaRun_2_Linux_1.2.zip": {
+    "ideal": "SinaRun 2"
+  },
+  "mind_path_to_thalamus_enhanced_edition_2.1.0.3": {
+    "attainable": "Mind Path to Thalamus Enhanced Edition",
+    "ideal": "MIND: Path to Thalamus Enhanced Edition"
+  },
+  "supermeatboy": {
+    "attainable": "Supermeatboy",
+    "ideal": "Super Meat Boy"
+  },
+  "Beatbuddy": {
+    "ideal": "Beatbuddy"
+  },
+  "gog_windward_2.16.0.20": {
+    "ideal": "Windward"
+  },
+  "CardCityNights": {
+    "ideal": "Card City Nights"
+  },
+  "gog_broken_age_2.4.0.10.sh": {
+    "ideal": "Broken Age"
+  },
+  "Hexoscope.zip": {
+    "ideal": "Hexoscope"
+  },
+  "testilizationV": {
+    "ideal": "Testilization V"
+  },
+  "bridgeconstructorPlayground_Linux_v14_1411180371.zip": {
+    "attainable": "Bridgeconstructor Playground",
+    "ideal": "Bridge Constructor Playground"
+  },
+  "CyberSentinelLinux.zip": {
+    "ideal": "Cyber Sentinel"
+  },
+  "Influent": {
+    "ideal": "Influent"
+  },
+  "LouieLINUX.zip": {
+    "ideal": "Louie"
+  },
+  "sid_meiers_covert_action.tar.gz": {
+    "ideal": "Sid Meier's Covert Action"
+  },
+  "snorms-full_linux64.1.tgz": {
+    "ideal": "Snorms"
+  },
+  "Inescapable": {
+    "ideal": "Inescapable"
+  },
+  "kdreams-200-linux.tar.gz": {
+    "attainable": "Kdreams",
+    "ideal": "Keen Dreams"
+  },
+  "zenbound2": {
+    "attainable": "Zenbound 2",
+    "ideal": "Zen Bound 2"
+  },
+  "voxatron": {
+    "ideal": "Voxatron"
+  },
+  "roguelegacy": {
+    "attainable": "Roguelegacy",
+    "acceptable": [
+      "Roguelegacy"
+    ],
+    "ideal": "Rogue Legacy"
+  },
+  "VirusJigglinFever": {
+    "attainable": "Virus Jigglin Fever",
+    "ideal": "Virus Jigglin' Fever"
+  },
+  "gog_dex_2.3.0.4.sh": {
+    "ideal": "DEX"
+  },
+  "pinball_world_1.0.0.1.tar.gz": {
+    "ideal": "Pinball World"
+  },
+  "gog_bio_menace_2.0.0.2.sh": {
+    "ideal": "Bio Menace"
+  },
+  "Antichamber": {
+    "ideal": "Antichamber"
+  },
+  "Shadowrun Returns": {
+    "ideal": "Shadowrun Returns"
+  },
+  "sagefusion2_nw_linux_x86_64.tar.gz": {
+    "attainable": "Sagefusion 2",
+    "ideal": "Sage Fusion 2"
+  },
+  "Drew_and_the_Floating_Labyrinth_SD_LINUXv103.zip": {
+    "acceptable": [
+      "Drew and the Floating Labyrinth SD"
+    ],
+    "ideal": "Drew and the Floating Labyrinth"
+  },
+  "dustaet-01082014": {
+    "attainable": "Dustaet",
+    "ideal": "Dust: A.E.T."
+  },
+  "JoaR_LINUX32_64_Full_1.10.086_Koboldgames_noDRM.zip": {
+    "ideal": "JoaR"
+  },
+  "toxicterror_1_4-3_i386.deb": {
+    "ideal": "Toxicterror"
+  },
+  "beathazard-installer_03-08-13": {
+    "ideal": "Beathazard"
+  },
+  "gog_risk_of_rain_2.1.0.5.sh": {
+    "ideal": "Risk of Rain"
+  },
+  "gog_140_2.0.0.1.sh": {
+    "ideal": "140"
+  },
+  "Snowball.tar.gz": {
+    "ideal": "Snowball"
+  },
+  "DROD 1+2+3": {
+    "attainable": "DROD 1+2+3",
+    "acceptable": [
+      "DROD 1+2+3"
+    ],
+    "ideal": "D.R.O.D. 1+2+3"
+  },
+  "gog_defender_s_quest_2.10.0.11.sh": {
+    "ideal": "Defender's Quest"
+  },
+  "Marginalia-hilo-L.zip": {
+    "ideal": "Marginalia"
+  },
+  "Ascendant": {
+    "ideal": "Ascendant"
+  },
+  "The_Stanley_Parable_Setup.tar": {
+    "ideal": "The Stanley Parable"
+  },
+  "fez-08202016": {
+    "acceptable": [
+      "Fez"
+    ],
+    "ideal": "FEZ"
+  },
+  "gog_a_bird_story_1.0.0.1.tar.gz": {
+    "ideal": "A Bird Story"
+  },
+  "8Bit_Commando_i386.tar.bz2": {
+    "attainable": "8Bit Commando",
+    "ideal": "8-Bit Commando"
+  },
+  "BADLAND_LINUX.tar.gz": {
+    "ideal": "Badland"
+  },
+  "Metagun MP 1.02.jar": {
+    "ideal": "Metagun MP"
+  },
+  "shehe_linux.zip": {
+    "attainable": "Shehe",
+    "ideal": "SheHe"
+  },
+  "FurflyLinux.rar": {
+    "ideal": "Furfly"
+  },
+  "poclbm": {
+    "ideal": "Poclbm"
+  },
+  "dynablaster_revenge_v1_0_2": {
+    "ideal": "Dynablaster Revenge"
+  },
+  "projectShyknight.tgz": {
+    "ideal": "Project Shyknight"
+  },
+  "superhexagon-10272014-bin": {
+    "attainable": "Superhexagon",
+    "ideal": "Super Hexagon"
+  },
+  "thief_town_linux_v1.zip": {
+    "ideal": "Thief Town"
+  },
+  "IntelligentDesignLinux.zip": {
+    "ideal": "Intelligent Design"
+  },
+  "Jotun_Linux_no_DRM_build.zip": {
+    "ideal": "Jotun"
+  },
+  "oniken_nonsteam_linux.zip": {
+    "ideal": "Oniken"
+  },
+  "prisonarchitect-update5b-linux.tar.gz": {
+    "attainable": "Prisonarchitect",
+    "ideal": "Prison Architect"
+  },
+  "RaceTheSunLINUX_1.441.zip": {
+    "ideal": "Race the Sun"
+  },
+  "towerfall": {
+    "attainable": "Towerfall",
+    "ideal": "TowerFall"
+  },
+  "SolarFluxLinux.zip": {
+    "ideal": "Solar Flux"
+  },
+  "shogun-09252015-bin": {
+    "ideal": "Shogun"
+  },
+  "boximals_lin_1413334613.zip": {
+    "ideal": "Boximals"
+  },
+  "Lethal_League.tar.gz": {
+    "ideal": "Lethal League"
+  },
+  "Slinki_1.3_Linux_universal.gz.zip": {
+    "ideal": "Slinki"
+  },
+  "Escape Goat": {
+    "ideal": "Escape Goat"
+  },
+  "Secret_of_the_Magic_Crystals_Linux.tar.gz": {
+    "ideal": "Secret of the Magic Crystals"
+  },
+  "planetvc-linux.tgz": {
+    "attainable": "Planetvc",
+    "ideal": "Planet of the Vicious Creatures"
+  },
+  "BravadaLinux": {
+    "ideal": "Bravada"
+  },
+  "Pixel Proof-0.2.5a_x64.tar.gz": {
+    "ideal": "Pixel Proof"
   },
   "Copod-0.4.1b-linux.tar.bz2": {
     "ideal": "Copod"
   },
-  "Aaaaa_Awesome_x64_Linux": {
-    "ideal": "Aaaaa! for the Awesome",
-    "attainable": "Aaaaa Awesome"
+  "Zone X Linux.rar": {
+    "ideal": "Zone X"
   },
-  "OctodadDadliestCatch1.2.19338.tar.gz": {
-    "ideal": "Octodad: Dadliest Catch",
-    "attainable": "Octodad Dadliest Catch"
+  "ASM_LINUX_MV_BETA.tar.gz": {
+    "ideal": "ASM"
   },
-  "The Binding of Isaac + Wrath of the Lamb": {
-    "ideal": "The Binding of Isaac + Wrath of the Lamb"
+  "blender-2.76b-linux-glibc211-x86_64": {
+    "ideal": "Blender"
   },
-  "receiver_rc7_linux_64.tar.gz": {
-    "ideal": "Receiver"
+  "Blackhole_1.05b": {
+    "ideal": "Blackhole"
   },
-  "EndlessNuclearKittens": {
-    "ideal": "Endless Nuclear Kittens"
+  "crimsonland-linux-1.0.9": {
+    "ideal": "Crimsonland"
   },
-  "big_pharma_linux_1.07.04.gz": {
-    "ideal": "Big Pharma"
+  "alienblitz-linux64.zip": {
+    "attainable": "Alienblitz",
+    "ideal": "Alien Blitz"
   },
-  "INVedit": {
-    "ideal": "INVedit"
+  "Sleepwalker-lin_1371139237-Installer": {
+    "ideal": "Sleepwalker"
   },
-  "Cubemen_Linux_1411180371.zip": {
-    "ideal": "Cubemen"
+  "ElseHeartbreakLinux.tgz": {
+    "attainable": "Else Heartbreak",
+    "ideal": "else Heart.Break()"
   },
-  "pico-8": {
-    "ideal": "PICO-8",
+  "KyroV1_02.zip": {
+    "ideal": "Kyro"
+  },
+  "PixelJunk Shooter": {
+    "ideal": "PixelJunk Shooter",
+    "attainable": "Pixel Junk Shooter"
+  },
+  "gog_seven_cities_of_gold_1.0.0.4.tar.gz": {
+    "ideal": "Seven Cities of Gold"
+  },
+  "GoldenWake.linux.zip": {
+    "attainable": "Golden Wake",
+    "ideal": "A Golden Wake"
+  },
+  "FarSkyrelease.tar": {
+    "ideal": "Far Sky"
+  },
+  "gog_labyrinth_of_time_1.0.0.2.tar.gz": {
+    "ideal": "Labyrinth of Time"
+  },
+  "SkyTimeLinux.rar": {
+    "ideal": "Sky Time"
+  },
+  "ChildrenOfLiberty_EX11_Linux.zip": {
+    "attainable": "Children Of Liberty EX",
+    "ideal": "Children Of Liberty"
+  },
+  "Sunless_Sea-StandAlone-Linux-2016-02-12.sh": {
+    "ideal": "Sunless Sea"
+  },
+  "TokiTori-Linux-2013-07-05.sh": {
+    "ideal": "Toki Tori"
+  },
+  "gog_afterlife_2.0.0.6.sh": {
+    "ideal": "Afterlife"
+  },
+  "knightspp_linux_209": {
+    "attainable": "Knightspp",
+    "ideal": "Knights of Pen and Paper"
+  },
+  "gog_the_real_texas_cellpop_goes_out_at_night_dlc_2.0.0.2.sh": {
+    "attainable": "The Real Texas Cellpop Goes Out At Night DLC",
+    "ideal": "The Real Texas: Cellpop Goes Out At Night DLC"
+  },
+  "GROUPEES_ The Visual Novel Linux": {
+    "ideal": "GROUPEES: The Visual Novel"
+  },
+  "dolphin-emu": {
+    "ideal": "Dolphin Emu"
+  },
+  "Dont Starve": {
     "acceptable": [
-      "PICO 8",
-      "Pico 8"
+      "Dont Starve"
     ],
-    "attainable": "Pico-8"
+    "ideal": "Don't Starve"
   },
-  "HEAVYBULLETS_105_LNX.tar.gz": {
-    "ideal": "Heavy Bullets",
-    "attainable": "Heavybullets"
+  "The Witcher 2 Assassins Of Kings": {
+    "acceptable": [
+      "The Witcher 2: Assassins Of Kings",
+      "The Witcher 2 - Assassins of Kings",
+      "The Witcher 2 - Assassins Of Kings"
+    ],
+    "ideal": "The Witcher 2: Assassins of Kings"
+  },
+  "Cube and Star Linux": {
+    "acceptable": [
+      "Cube And Star"
+    ],
+    "ideal": "Cube and Star"
+  },
+  "StarWarsDarkForces2JediKnightMysteriesOfTheSith": {
+    "acceptable": [
+      "Star Wars Dark Forces 2: Jedi Knight Mysteries of the Sith"
+    ],
+    "ideal": "Star Wars: Dark Forces 2: Jedi Knight Mysteries of the Sith"
+  },
+  "LEVEL_22_Linux.tar.gz": {
+    "ideal": "Level 22"
+  },
+  "inexilium_stdalone_linux64.zip": {
+    "ideal": "Inexilium"
+  },
+  "Pulstar_Linux.zip": {
+    "ideal": "Pulstar"
+  },
+  "LastBlade_jan2016.sh": {
+    "ideal": "Last Blade"
+  },
+  "Crypto Hex Linux.tar.gz": {
+    "ideal": "Crypto Hex"
+  },
+  "gog_olliolli_2.0.0.2.sh": {
+    "attainable": "Olliolli",
+    "ideal": "OlliOlli"
+  },
+  "wizards_lizard_1.0.130_linux64_1_.tar.gz": {
+    "attainable": "Wizards Lizard",
+    "ideal": "A Wizard's Lizard"
+  },
+  "Yrminsul": {
+    "ideal": "Yrminsul"
+  },
+  "Trine Enchanted Edition": {
+    "attainable": "Trine Enchanted Edition",
+    "ideal": "Trine: Enchanted Edition"
+  },
+  "limbo": {
+    "ideal": "Limbo"
+  },
+  "gog_psychonauts_2.0.0.4.sh": {
+    "ideal": "Psychonauts"
+  },
+  "LordMayor_lin.x86.zip": {
+    "ideal": "Lord Mayor"
+  },
+  "thedeergod_linux_1425000320.zip": {
+    "attainable": "Thedeergod",
+    "ideal": "The Deer God"
+  },
+  "The Basement Collection": {
+    "ideal": "The Basement Collection"
+  },
+  "Master of Magic": {
+    "ideal": "Master of Magic"
+  },
+  "typhoon_2001_r3992_LINUX.tar.gz": {
+    "ideal": "Typhoon 2001"
+  },
+  "Coated_Linux.zip": {
+    "ideal": "Coated"
+  },
+  "DoodleGod-HB-sfx.run": {
+    "ideal": "Doodle God"
+  },
+  "eets2": {
+    "ideal": "Eets 2"
+  },
+  "gog_machinarium_2.0.0.2.sh": {
+    "ideal": "Machinarium"
+  },
+  "beatblastersiii": {
+    "attainable": "Beatblasters III",
+    "ideal": "BeatBlasters III"
+  },
+  "snorms-full_linux.tgz": {
+    "ideal": "Snorms"
+  },
+  "HexderityLinux.V.1.2.0.zip": {
+    "ideal": "Hexderity"
+  },
+  "vvvvvv-06182014-bin": {
+    "acceptable": [
+      "vvvvvv",
+      "Vvvvvv"
+    ],
+    "ideal": "VVVVVV"
+  },
+  "gog_shadowrun_returns_2.0.0.6.sh": {
+    "ideal": "Shadowrun Returns"
+  },
+  "StarshipCommand-1.05-linux64.zip": {
+    "ideal": "Starship Command"
+  },
+  "DungeonofElements_2.0.1.10_24_13_Linux.zip": {
+    "ideal": "Dungeon of Elements"
+  },
+  "ShockTroopers2_jan2016.sh": {
+    "ideal": "Shock Troopers 2"
+  },
+  "Shattered Haven": {
+    "ideal": "Shattered Haven"
+  },
+  "gog_retro_city_rampage_dx_2.1.0.4.sh": {
+    "ideal": "Retro City Rampage DX"
+  },
+  "DungeonProspector_Linux.zip": {
+    "ideal": "Dungeon Prospector"
+  },
+  "gog_the_interactive_adventures_of_dog_mendon_a_and_pizzaboy_2.0.0.1.sh": {
+    "attainable": "The Interactive Adventures of Dog Mendon a and Pizzaboy",
+    "ideal": "The Interactive Adventures of Dog Mendon\u00e7a and Pizzaboy"
+  },
+  "frozen_synapse_2.0.0.3": {
+    "ideal": "Frozen Synapse"
+  },
+  "KRUNCH_1056_Linux.tar.gz": {
+    "attainable": "KRUNCH",
+    "ideal": "Krunch"
+  },
+  "gog_desktop_dungeons_goatperson_dlc_2.5.0.7.sh": {
+    "attainable": "Desktop Dungeons Goatperson DLC",
+    "ideal": "Desktop Dungeons: Goatperson DLC"
+  },
+  "skyrogue_alpha_23_linux.zip": {
+    "ideal": "Skyrogue"
+  },
+  "OTSOA.bin": {
+    "acceptable": [
+      "OTSOA"
+    ],
+    "ideal": "O.T.S.O.A."
+  },
+  "Infinifactory": {
+    "ideal": "Infinifactory"
+  },
+  "elliot_quest": {
+    "ideal": "Elliot Quest"
+  },
+  "GoneHome_v1.1.tar.gz": {
+    "ideal": "Gone Home"
+  },
+  "Tic-Toc-Tower_Linux_Alpha.rar": {
+    "ideal": "Tic Toc Tower"
+  },
+  "epikos_1_0_linux_tar.gz": {
+    "ideal": "Epikos"
+  },
+  "wyvandkeep-06152015-bin": {
+    "attainable": "Wyvandkeep",
+    "ideal": "Wyv and Keep"
+  },
+  "GM_Space_Travel_lin_.zip": {
+    "ideal": "GM Space Travel"
+  },
+  "TIS-100": {
+    "ideal": "TIS-100"
+  },
+  "StarMade-Starter_Linux.jar": {
+    "ideal": "StarMade"
+  },
+  "Other Worlds India - Linux.zip": {
+    "attainable": "Other Worlds India",
+    "ideal": "Other Worlds: India"
+  },
+  "60_km-1_0-all.rar": {
+    "ideal": "60 KM"
+  },
+  "AnomalyKorea-lin_1371139237-Installer": {
+    "ideal": "Anomaly Korea"
+  },
+  "Unrest_linux.zip": {
+    "ideal": "Unrest"
+  },
+  "macroboy_y_v0.18_linux.tar.gz": {
+    "ideal": "Macroboy Y"
+  },
+  "Strataj4.tar.gz": {
+    "ideal": "Strataj"
+  },
+  "prisonarchitect-alpha24c-linux": {
+    "attainable": "Prisonarchitect",
+    "ideal": "Prison Architect"
+  },
+  "gnu_wingnut_test": {
+    "ideal": "Wingnut Test"
+  },
+  "voxatron_0.3.2_i386.tar.gz": {
+    "ideal": "Voxatron"
+  },
+  "Yury_Linux.zip": {
+    "ideal": "Yury"
+  },
+  "Chimpology_a2.zip": {
+    "ideal": "Chimpology"
+  },
+  "shatter-linux-1347954459.sh": {
+    "ideal": "Shatter"
+  },
+  "gog_postal_classic_and_uncut_2.1.0.3.sh": {
+    "attainable": "Postal Classic and Uncut",
+    "ideal": "Postal: Classic and Uncut"
+  },
+  "gog_papers_please_1.0.0.4.tar.gz": {
+    "ideal": "Papers Please"
+  },
+  "gog_eschalon_book_ii_2.0.0.3.sh": {
+    "ideal": "Eschalon Book II"
+  },
+  "screencheat_215_linux.zip": {
+    "ideal": "Screencheat"
+  },
+  "PandoraLinuxNew.zip": {
+    "ideal": "Pandora"
+  },
+  "VertiginousGolf_1.0_LINUX.zip": {
+    "ideal": "Vertiginous Golf"
+  },
+  "CNOLM_Linux.zip": {
+    "ideal": "CNOLM"
+  },
+  "OperationSmash_Ubuntu.zip": {
+    "ideal": "Operation Smash"
+  },
+  "InfinitrapLinux95": {
+    "ideal": "Infinitrap"
+  },
+  "EDGE-Linux-2013-07-05.sh": {
+    "ideal": "EDGE"
+  },
+  "faerie-solitaire_1_0_i386.gz": {
+    "ideal": "Faerie Solitaire"
+  },
+  "FOTONICA_LINUX.tar.gz": {
+    "ideal": "Fotonica"
+  },
+  "WorldOfGooSetup.1.41.tar.gz": {
+    "ideal": "World of Goo"
+  },
+  "Win32-NoDRM-ASAMU_5188.zip": {
+    "ideal": "A Story About My Uncle",
+    "attainable": "ASAMU"
+  },
+  "Dramaze_0.2.0_Alpha_Linux.zip": {
+    "ideal": "Dramaze"
+  },
+  "Hatoful_Boyfriend_Linux.zip": {
+    "ideal": "Hatoful Boyfriend"
+  },
+  "Crowntakers.zip": {
+    "ideal": "Crowntakers"
+  },
+  "SkyTimeLinux.zip": {
+    "ideal": "Sky Time"
+  },
+  "Oxenfree_Linux_NoDRM_2.2.0b.zip": {
+    "ideal": "Oxenfree"
+  },
+  "heroesofloot_linux.zip": {
+    "attainable": "Heroesofloot",
+    "ideal": "Heroes of Loot"
+  },
+  "2064_Read_Only_Memories_v64.0.2_Linux.zip": {
+    "ideal": "2064: Read Only Memories"
+  },
+  "CostumeQuest": {
+    "ideal": "Costume Quest"
+  },
+  "PaperSorcerer2.3Linux": {
+    "ideal": "Paper Sorcerer"
+  },
+  "Galak-Z_DRM_Free_Linux_v1.01.04__2016.10.24_.zip": {
+    "attainable": "Galak Z",
+    "ideal": "Galak-Z"
+  },
+  "gog_torchlight_2_2.0.0.1.sh": {
+    "ideal": "Torchlight 2"
+  },
+  "bit.trip.runner-1.0": {
+    "attainable": "Bit.Trip.Runner",
+    "acceptable": [
+      "bit.trip.runner",
+      "BIT.TRIP RUNNER",
+      "Bit.trip.runner"
+    ],
+    "ideal": "Bit.Trip Runner"
   },
   "fennec-4.0.1": {
     "ideal": "Fennec"
   },
-  "CapitalizedExtension.EXE": {
-    "ideal": "Capitalized Extension"
+  "TheBridge": {
+    "ideal": "The Bridge"
   },
-  "testilizationVI": {
-    "ideal": "Testilization VI"
+  "LUFTRAUSER_LINUX_1395159852.zip": {
+    "attainable": "Luftrauser",
+    "ideal": "Luftrausers"
   },
-  "offspring_fling-linux-1.1.3.tar.gz": {
-    "ideal": "Offspring Fling"
+  "gog_battlevoid_harbinger_2.2.0.4.sh": {
+    "ideal": "Battlevoid Harbinger"
   },
-  "Savant-Ascent-Default-linux-1.32.99.2.zip": {
-    "ideal": "Savant Ascent"
+  "gog_pier_solar_and_the_great_architects_1.1.0.3.tar.gz": {
+    "ideal": "Pier Solar and the Great Architects"
+  },
+  "WindwardWinNoSteam.zip": {
+    "ideal": "Windward"
+  },
+  "Shipwreck_Linux_1-1-2": {
+    "ideal": "Shipwreck"
+  },
+  "eldritch_lin_12182013.gz": {
+    "ideal": "Eldritch"
+  },
+  "RaceTheSunLinux_1.42": {
+    "acceptable": [
+      "Race The Sun"
+    ],
+    "ideal": "Race the Sun"
+  },
+  "gog_deponia_2.1.0.3.sh": {
+    "ideal": "Deponia"
+  },
+  "Expander_linux.zip": {
+    "ideal": "Expander"
+  },
+  "unxwb": {
+    "ideal": "UnXWB"
+  },
+  "Dyscourse_linux_drmfree.zip": {
+    "ideal": "Dyscourse"
+  },
+  "gog_the_escapists_fhurst_peak_correctional_facility_dlc_2.0.0.1.sh": {
+    "attainable": "The Escapists Fhurst Peak Correctional Facility DLC",
+    "ideal": "The Escapists: Fhurst Peak Correctional Facility DLC"
+  },
+  "gog_desktop_dungeons_enhanced_edition_2.6.0.9.sh": {
+    "ideal": "Desktop Dungeons Enhanced Edition"
+  },
+  "testilizationII": {
+    "ideal": "Testilization II"
+  },
+  "ultratron": {
+    "ideal": "Ultratron"
+  },
+  "The Binding of Isaac + Wrath of the Lamb": {
+    "ideal": "The Binding of Isaac + Wrath of the Lamb"
+  },
+  "bernie-needs-love-0.81-windows_linux.zip": {
+    "ideal": "Bernie Needs Love"
+  },
+  "frogatto-installer-linux-amd64.bin": {
+    "ideal": "Frogatto"
+  },
+  "Toby_Linux.zip": {
+    "ideal": "Toby"
+  },
+  "BrokenAge": {
+    "ideal": "Broken Age"
+  },
+  "Linux_Shelter2_Build20150708.zip": {
+    "ideal": "Shelter 2"
+  },
+  "avadon": {
+    "ideal": "Avadon"
+  },
+  "Just_Get_Through_ubuntu_104.zip": {
+    "ideal": "Just Get Through"
+  },
+  "Taimumari": {
+    "ideal": "Taimumari"
+  },
+  "kith-tales-from-the-fractured-plateaus-issue-1-linux-universal.zip": {
+    "ideal": "Kith Tale's From the Fractured Plateaus: Issue 1"
+  },
+  "gog_dark_sun_wake_of_the_ravager_2.0.0.1.sh": {
+    "attainable": "Dark Sun Wake of the Ravager",
+    "ideal": "Dark Sun: Wake of the Ravager"
+  },
+  "Oniken_linux.tar.gz": {
+    "ideal": "Oniken"
+  },
+  "asdivinehearts_linux.zip": {
+    "attainable": "Asdivinehearts",
+    "ideal": "Asdivine Hearts"
+  },
+  "Master of Orion 2": {
+    "ideal": "Master of Orion 2"
+  },
+  "Jazzpunk": {
+    "ideal": "Jazzpunk"
+  },
+  "plith-1.0.1-linux-x86_64.bin": {
+    "ideal": "Plith"
+  },
+  "RPC_InDev_16_10_10_2015_.zip": {
+    "ideal": "RPC"
+  },
+  "MINUTEMAN": {
+    "ideal": "Minuteman"
+  },
+  "CaveStory+": {
+    "ideal": "Cave Story+"
+  },
+  "Bastion-HIB-2012-06-20.sh": {
+    "ideal": "Bastion"
+  },
+  "gog_blackhole_2.0.0.3.sh": {
+    "ideal": "Blackhole"
+  },
+  "heshe_lin32.zip": {
+    "attainable": "Heshe",
+    "ideal": "HeShe"
+  },
+  "OctodadDadliestCatch1.2.19338.tar.gz": {
+    "attainable": "Octodad Dadliest Catch",
+    "ideal": "Octodad: Dadliest Catch"
+  },
+  "Incredipede": {
+    "ideal": "Incredipede"
+  },
+  "angvik_linux64_9": {
+    "ideal": "Angvik"
+  },
+  "gog_super_hexagon_2.0.0.2.sh": {
+    "ideal": "Super Hexagon"
+  },
+  "centaurisector1.51_linux.zip": {
+    "attainable": "Centaurisector",
+    "ideal": "Centauri Sector"
+  },
+  "Bacteria_Linux.zip": {
+    "ideal": "Bacteria"
+  },
+  "linux_darwin_pond": {
+    "ideal": "Darwin Pond"
+  },
+  "gog_prehistorik_2_2.0.0.5.sh": {
+    "ideal": "Prehistorik 2"
+  },
+  "gog_don_t_starve_2.6.0.8.sh": {
+    "ideal": "Don't Starve"
+  },
+  "gog_the_escapists_2.7.0.8.sh": {
+    "ideal": "The Escapists"
+  },
+  "Ys": {
+    "ideal": "Ys"
+  },
+  "The Bards Tale": {
+    "ideal": "The Bard's Tale"
+  },
+  "gog_never_alone_arctic_collection_2.1.0.2.sh": {
+    "ideal": "Never Alone Arctic Collection"
+  },
+  "Apotheon.old": {
+    "acceptable": [
+      "Apotheon OLD"
+    ],
+    "ideal": "Apotheon (old)"
+  },
+  "Pitman_Linux.tar.gz": {
+    "ideal": "Pitman"
+  },
+  "10000000_Linux.tar.gz": {
+    "ideal": "10000000"
+  },
+  "MetalSlug3-Linux-2014-06-09.sh": {
+    "ideal": "Metal Slug 3"
+  },
+  "shank-linux-120720110-1-bin": {
+    "ideal": "Shank"
+  },
+  "SuperGame.tar.gz": {
+    "ideal": "Super Game"
+  },
+  "toxicterror_1.2-2_amd64.deb": {
+    "attainable": "Toxicterror",
+    "ideal": "Toxic Terror"
+  },
+  "gog_dungeon_hack_2.0.0.2.sh": {
+    "ideal": "Dungeon Hack"
+  },
+  "ponyisland_linux_v1.20.zip": {
+    "attainable": "Ponyisland",
+    "ideal": "Pony Island"
+  },
+  "Alcarys_Complex_1.03_UBU.tar.gz": {
+    "ideal": "Alcarys Complex"
+  },
+  "soup-0_1_8_jar_tar.gz": {
+    "ideal": "Soup"
+  },
+  "jarnal": {
+    "ideal": "Jarnal"
+  },
+  "oroborun-linux-universal.zip": {
+    "ideal": "Oroborun"
+  },
+  "Jack_s_Gang_Test_Version_lin_.exe": {
+    "ideal": "Jack's Gang"
+  },
+  "Cellar_ubuntu.zip": {
+    "ideal": "Cellar"
+  },
+  "neverending-nightmares_1.5.16524.deb": {
+    "ideal": "Neverending Nightmares"
+  },
+  "SecretsofRaetikonLinux1.1.zip": {
+    "ideal": "Secrets of Raetikon"
+  },
+  "towerfall_ascension_2.5.0.9": {
+    "attainable": "Towerfall Ascension",
+    "ideal": "TowerFall Ascension"
+  },
+  "Anoxemia-L.zip": {
+    "ideal": "Anoxemia"
+  },
+  "Teslagrad": {
+    "ideal": "Teslagrad"
+  },
+  "CrystalPicnicLinux.rar": {
+    "ideal": "Crystal Picnic"
+  },
+  "unepic": {
+    "ideal": "Unepic"
+  },
+  "gog_knock_knock_2.0.0.1.sh": {
+    "ideal": "Knock Knock"
+  },
+  "gog_the_witcher_2_assassins_of_kings_patch_1.1.0.5.tar.gz": {
+    "ideal": "The Witcher 2: Assassins of Kings"
+  },
+  "railroad_tycoon_2": {
+    "ideal": "Railroad Tycoon 2"
+  },
+  "gog_hotline_miami_2.0.0.4.sh": {
+    "ideal": "Hotline Miami"
+  },
+  "RageRunner_Linux-1.4.2.zip": {
+    "ideal": "Rage Runner"
+  },
+  "big_pharma_linux_1.07.04.gz": {
+    "ideal": "Big Pharma"
+  },
+  "Neocolonialism-Ubuntu.tar.gz": {
+    "ideal": "Neocolonialism"
+  },
+  "gog_don_t_starve_serials.txt": {
+    "ideal": "Don't Starve Serials"
+  },
+  "TokiTori2-Linux-2014-06-16.sh": {
+    "ideal": "Toki Tori 2"
+  },
+  "unepic-15005.run": {
+    "ideal": "Unepic"
+  },
+  "The Maker's Eden - Linux.tar.gz": {
+    "ideal": "The Maker's Eden"
+  },
+  "gog_planescape_torment_2.1.0.9.sh": {
+    "ideal": "Planescape Torment"
+  },
+  "SplattersSetup_linux_1402605762.sh": {
+    "ideal": "Splatters"
+  },
+  "ADruidsDuel_Linux64.zip": {
+    "ideal": "A Druid's Duel",
+    "attainable": "A Druids Duel"
+  },
+  "fortune": {
+    "attainable": "Fortune",
+    "ideal": "fortune"
+  },
+  "ABirdStory-2014-11-06-linux.zip": {
+    "ideal": "A Bird Story"
+  },
+  "RogueLegacyLinux_v120a": {
+    "ideal": "Rogue Legacy"
+  },
+  "TreasuresOfArcania_-_1.13.0.0_-_Linux.zip": {
+    "ideal": "Treasures of Arcania"
+  },
+  "Vulkaiser.Linux.x86.DRMFree.tgz": {
+    "ideal": "Vulkaiser"
+  },
+  "RaceTheSun_1.10_LINUX": {
+    "acceptable": [
+      "Race The Sun"
+    ],
+    "ideal": "Race the Sun"
+  },
+  "puddle_linux.zip": {
+    "ideal": "Puddle"
+  },
+  "doom-and-destiny": {
+    "acceptable": [
+      "Doom And Destiny"
+    ],
+    "ideal": "Doom and Destiny"
+  },
+  "DreamingSarah_linux64.zip": {
+    "ideal": "Dreaming Sarah"
+  },
+  "timeswap_Linux64.zip": {
+    "ideal": "Timeswap"
+  },
+  "Metagolf": {
+    "ideal": "Metagolf"
+  },
+  "splice-linux-1353389454.tar.gz": {
+    "ideal": "Splice"
+  },
+  "Hammerwatch": {
+    "ideal": "Hammerwatch"
+  },
+  "Hypt_0.6.03_Linux.rar": {
+    "ideal": "Hypt"
+  },
+  "MonstersLinux.zip": {
+    "ideal": "Monsters"
+  },
+  "A Valley Without Wind": {
+    "ideal": "A Valley Without Wind"
+  },
+  "sagefusion2_linux.zip": {
+    "attainable": "Sagefusion 2",
+    "ideal": "Sage Fusion 2"
+  },
+  "zen-puzzle-garden": {
+    "ideal": "Zen Puzzle Garden"
+  },
+  "prisonarchitect-version2c-linux.tar.gz": {
+    "attainable": "Prisonarchitect",
+    "ideal": "Prison Architect"
+  },
+  "etherpad-lite": {
+    "acceptable": [
+      "Ether Pad Lite"
+    ],
+    "ideal": "Etherpad Lite"
+  },
+  "gog_the_adventures_of_shuggy_2.0.0.2.sh": {
+    "ideal": "The Adventures of Shuggy"
+  },
+  "Shuttle_Siege_-_Linux.zip": {
+    "ideal": "Shuttle Siege"
+  },
+  "gog_ittle_dew_2.0.0.2.sh": {
+    "ideal": "Ittle Dew"
+  },
+  "gog_ultimate_general_gettysburg_2.3.0.5.sh": {
+    "ideal": "Ultimate General Gettysburg"
+  },
+  "railyard": {
+    "ideal": "Railyard"
+  },
+  "dustaet-01082014-bin": {
+    "attainable": "Dustaet",
+    "ideal": "Dust: A.E.T."
+  },
+  "GirlsLikeRobots-03142013.tgz": {
+    "ideal": "Girls Like Robots"
+  },
+  "SuperElfJumpLinux.zip": {
+    "ideal": "Super Elf Jump"
+  },
+  "Anodyne_STANDALONE_1_506.swf": {
+    "ideal": "Anodyne"
+  },
+  "GreyCubes_Linux.zip": {
+    "ideal": "Grey Cubes"
+  },
+  "Blood - One Unit Whole Blood": {
+    "acceptable": [
+      "Blood - One Unit Whole Blood"
+    ],
+    "ideal": "Blood: One Unit Whole Blood"
+  },
+  "gog_drod_the_second_sky_2.2.0.4.sh": {
+    "attainable": "Drod the Second Sky",
+    "ideal": "DROD: The Second Sky"
+  },
+  "DeityQuestExtended_Linux.tar.gz": {
+    "ideal": "Deity Quest Extended"
+  },
+  "stardew_valley_2.4.0.5": {
+    "ideal": "Stardew Valley"
+  },
+  "spaz": {
+    "attainable": "SPAZ",
+    "acceptable": [
+      "Spaz"
+    ],
+    "ideal": "S.P.A.Z."
+  },
+  "Guacamelee": {
+    "ideal": "Guacamelee"
+  },
+  "gog_breach_and_clear_deadline_2.5.0.10.sh": {
+    "ideal": "Breach and Clear Deadline"
+  },
+  "Besiege_Alpha_Linux_v0_35.zip": {
+    "ideal": "Besiege"
+  },
+  "the-depths-of-tolagal-v1.0.1-Linux.zip": {
+    "ideal": "The Depths of Tolagal"
+  },
+  "Blackwell2_Unbound_1411180371.sh": {
+    "ideal": "Blackwell 2: Unbound"
+  },
+  "gog_vangers_1.0.0.2.tar.gz": {
+    "ideal": "Vangers"
+  },
+  "Stranded-linux_1395706933.tar.bz2": {
+    "ideal": "Stranded"
+  },
+  "MiniMetro-gamma6-linux.tar.gz": {
+    "ideal": "Mini Metro"
+  },
+  "gog_huniepop_2.0.0.2.sh": {
+    "ideal": "Huniepop"
+  },
+  "soulcaster2-07252013-bin.zip": {
+    "ideal": "Soulcaster 2"
+  },
+  "MutantBlobsAttack_linux_1414459118.sh": {
+    "ideal": "Mutant Blobs Attack"
+  },
+  "gatlife-boyfriendbar-linux.tar.bz2": {
+    "ideal": "Gatlife Boyfriendbar"
+  },
+  "Trauma": {
+    "ideal": "Trauma"
+  },
+  "Sailors_of_Steel_0_2_1_-_Linux_Universal.zip": {
+    "ideal": "Sailors of Steel"
+  },
+  "Torchlight2-linux-2015-04-01.sh": {
+    "ideal": "Torchlight 2"
+  },
+  "HEAVYBULLETS_105_LNX.tar.gz": {
+    "attainable": "Heavybullets",
+    "ideal": "Heavy Bullets"
+  },
+  "ADventureLib_Linux_tar.gz": {
+    "ideal": "ADventure Lib"
+  },
+  "towerfall-07212016-bin": {
+    "attainable": "Towerfall",
+    "ideal": "TowerFall"
+  },
+  "Puzzlegate-_Steam-linux.tar.bz2": {
+    "ideal": "Puzzlegate"
+  },
+  "gog_edna_harvey_harvey_s_new_eyes_2.0.0.1.sh": {
+    "attainable": "Edna Harvey Harvey's New Eyes",
+    "ideal": "Edna & Harvey: Harvey's New Eyes"
+  },
+  "gog_don_t_starve_reign_of_giants_dlc_2.0.0.3.sh": {
+    "attainable": "Don't Starve Reign of Giants DLC",
+    "ideal": "Don't Starve: Reign of Giants DLC"
+  },
+  "hypergauntlet-linux64-1.01.tar.bz2": {
+    "ideal": "Hypergauntlet"
+  },
+  "Glitchspace_Alpha_2_0_Linux.zip": {
+    "ideal": "Glitchspace"
+  },
+  "gog_tri_2.6.0.9.sh": {
+    "ideal": "TRI"
+  },
+  "mr_makeshifter_standalone_linux.zip": {
+    "ideal": "Mr. Makeshifter"
+  },
+  "gog_crimsonland_2.1.0.4.sh": {
+    "ideal": "Crimsonland"
+  },
+  "trine2_complete_story_v2_01_build_425_humble_linux": {
+    "acceptable": [
+      "Trine 2 Complete Story",
+      "Trine2 Complete Story"
+    ],
+    "ideal": "Trine 2: Complete Story"
+  },
+  "OrganTrail_Linux_1366135254.tar.gz": {
+    "ideal": "Organ Trail"
+  },
+  "jamestown": {
+    "ideal": "Jamestown"
+  },
+  "retrobooster-1.1-1.32bit.tar.gz": {
+    "ideal": "Retrobooster"
+  },
+  "KingdomRush_linux.zip": {
+    "ideal": "Kingdom Rush"
+  },
+  "railroad_tycoon_2.zip": {
+    "ideal": "Railroad Tycoon 2"
+  },
+  "grimrock": {
+    "ideal": "Grimrock"
+  },
+  "Hexcells": {
+    "ideal": "Hexcells"
+  },
+  "Continue": {
+    "ideal": "Continue"
+  },
+  "gog_braveland_pirate_2.1.0.3.sh": {
+    "ideal": "Braveland Pirate"
+  },
+  "Joe_X_Linux_.zip": {
+    "ideal": "Joe X"
+  },
+  "ittledew_Linux_1.4.zip": {
+    "attainable": "Ittledew",
+    "ideal": "Ittle Dew"
+  },
+  "ColorOracle.jar": {
+    "ideal": "Color Oracle"
+  },
+  "dropsy_jan2016_linux.zip": {
+    "ideal": "Dropsy"
+  },
+  "Bitmaster 3.0.2 x64.tar.gz": {
+    "ideal": "Bitmaster"
+  },
+  "piratehell-1.2.2.tar.bz2": {
+    "attainable": "Piratehell",
+    "ideal": "Pirate Hell"
+  },
+  "minecraft.jar": {
+    "ideal": "Minecraft"
+  },
+  "idleBeerLinux.zip": {
+    "ideal": "Idle Beer"
+  },
+  "WakingMars-1.2.1-Linux": {
+    "ideal": "Waking Mars"
+  },
+  "LifeTheGame_Linux.zip": {
+    "ideal": "Life: The Game"
+  },
+  "Splice_Linux64.tar.gz": {
+    "ideal": "Splice"
+  },
+  "Murder-1.0-linux.tar.bz2": {
+    "ideal": "Murder"
+  },
+  "kagbeta-linux32-server": {
+    "acceptable": [
+      "Kag Server"
+    ],
+    "ideal": "KAG Server"
+  },
+  "frogatto_installer_linux_amd64.zip": {
+    "ideal": "Frogatto"
+  },
+  "ArkOutLinux.zip": {
+    "ideal": "Ark Out"
+  },
+  "SpiderROTSM-Linux-Humble-1.2.tar.gz": {
+    "ideal": "Spider ROTSM"
+  },
+  "linux_darwin_s_dinner": {
+    "ideal": "Darwin's Dinner"
+  },
+  "Gerty_Beta_1_5_Linux.zip": {
+    "ideal": "Gerty"
+  },
+  "the-depths-of-tolagal-v1.0.1-x64.deb": {
+    "ideal": "The Depths of Tolagal"
+  },
+  "LongLiveTheQueenRetail-1.3.17-Humble-linux-x86.tar.bz2": {
+    "ideal": "Long Live the Queen"
+  },
+  "What_Lies_Beneath_-_Linux_-_1.7.2.zip": {
+    "ideal": "What Lies Beneath"
+  },
+  "gog_bit_trip_beat_2.0.0.1.sh": {
+    "ideal": "Bit Trip Beat"
+  },
+  "gog_aquaria_2.0.0.4.sh": {
+    "ideal": "Aquaria"
+  },
+  "Dustforce-Linux-2014-12-22.sh": {
+    "ideal": "Dustforce"
+  },
+  "Kabitis__lin_.zip": {
+    "ideal": "Kabitis"
+  },
+  "The Last Federation": {
+    "ideal": "The Last Federation"
+  },
+  "Solar2": {
+    "ideal": "Solar 2"
+  },
+  "receiver_rc7_linux_64.tar.gz": {
+    "ideal": "Receiver"
+  },
+  "ALEA_-_lnx_-_1.02.zip": {
+    "ideal": "ALEA"
+  },
+  "oO_-_Linux.rar": {
+    "acceptable": [
+      "OO"
+    ],
+    "ideal": "oO"
+  },
+  "gog_stardew_valley_2.4.0.5.sh": {
+    "ideal": "Stardew Valley"
+  },
+  "OTTTD_linux.zip": {
+    "ideal": "OTTTD"
+  },
+  "Land of Lamia - Linux.zip": {
+    "ideal": "Land of Lamia"
+  },
+  "CyberComplex_Linux.zip": {
+    "ideal": "Cyber Complex"
+  },
+  "spacecomLinux0.9.1035.zip": {
+    "ideal": "Spacecom"
+  },
+  "gog_cannon_fodder_2.0.0.1.sh": {
+    "ideal": "Cannon Fodder"
+  },
+  "Hacknet_v5.034_Standalone_Linux.zip": {
+    "ideal": "Hacknet"
+  },
+  "Hexcells Plus": {
+    "ideal": "Hexcells Plus"
+  },
+  "BeansQuest": {
+    "attainable": "Beans Quest",
+    "ideal": "Bean's Quest"
+  },
+  "freqflux_linuxV1-0-07.zip": {
+    "ideal": "Freqflux"
+  },
+  "gog_breach_clear_2.0.0.3.sh": {
+    "attainable": "Breach Clear",
+    "ideal": "Breach & Clear"
+  },
+  "uplink-x64": {
+    "ideal": "Uplink"
+  },
+  "gunslugs_linux.zip": {
+    "ideal": "Gunslugs"
+  },
+  "Linux-NoDRM-ASAMU_5188.zip": {
+    "ideal": "A Story About My Uncle",
+    "attainable": "ASAMU"
+  },
+  "Duke Nukem": {
+    "ideal": "Duke Nukem"
+  },
+  "Read_Only_Memories_v1.2b_-_Linux.zip": {
+    "ideal": "Read Only Memories"
+  },
+  "gog_f_117a_nighthawk_stealth_fighter_2_0_2.1.0.3.sh": {
+    "attainable": "F 117A Nighthawk Stealth Fighter 2.0",
+    "ideal": "F-117A Nighthawk Stealth Fighter 2.0"
+  },
+  "fennec-7.0.1": {
+    "ideal": "Fennec"
+  },
+  "Aaaaa_Awesome_x64_Linux": {
+    "attainable": "Aaaaa Awesome",
+    "ideal": "Aaaaa! for the Awesome"
+  },
+  "BeatbuddyLinux_1396630212.zip": {
+    "ideal": "Beatbuddy"
+  },
+  "SpiritsofXanadu_Linux.zip": {
+    "ideal": "Spirits of Xanadu"
+  },
+  "Mushroom_11_v1.07b4_Humble_Linux.zip": {
+    "ideal": "Mushroom 11"
+  },
+  "gog_terraria_2.16.0.19.sh": {
+    "ideal": "Terraria"
+  },
+  "Cosmos Cosmic Adventure": {
+    "attainable": "Cosmos Cosmic Adventure",
+    "ideal": "Cosmo's Cosmic Adventure"
+  },
+  "Cosmos Cop": {
+    "ideal": "Cosmos Cop"
+  },
+  "volt": {
+    "ideal": "Volt"
+  },
+  "Linux_youmustbuildaboat.zip": {
+    "attainable": "Youmustbuildaboat",
+    "ideal": "You Must Build A Boat"
+  },
+  "Kabitis (lin64).zip": {
+    "ideal": "Kabitis"
+  },
+  "gog_card_city_nights_2.1.0.3.sh": {
+    "ideal": "Card City Nights"
+  },
+  "Unreal Tournament": {
+    "ideal": "Unreal Tournament"
+  },
+  "Backtobed_Linux_x86_64.zip": {
+    "attainable": "Backtobed",
+    "ideal": "Back to Bed"
+  },
+  "Particula__linux_full.1.1_.zip": {
+    "ideal": "Particula"
+  },
+  "CSDLinux_261.zip": {
+    "acceptable": [
+      "CSD"
+    ],
+    "ideal": "C.S.D."
+  },
+  "gog_brutal_legend_2.0.0.3.sh": {
+    "ideal": "Brutal Legend"
+  },
+  "crypto.nes": {
+    "ideal": "Crypto"
+  },
+  "gog_escape_goat_2_2.0.0.11.sh": {
+    "ideal": "Escape Goat 2"
+  },
+  "ScummVM": {
+    "acceptable": [
+      "Scumm VM"
+    ],
+    "ideal": "ScummVM"
+  },
+  "Eufloria": {
+    "ideal": "Eufloria"
+  },
+  "AtomicReconstruction_1_1.zip": {
+    "ideal": "Atomic Reconstruction"
+  },
+  "levantera012-linux.zip": {
+    "ideal": "Levantera"
+  },
+  "RaceTheSunLINUX_1.455": {
+    "acceptable": [
+      "Race The Sun"
+    ],
+    "ideal": "Race the Sun"
+  },
+  "Sailors_of_Steel_0_2_2_-_Linux_Universal.zip": {
+    "ideal": "Sailors of Steel"
+  },
+  "shipwreck": {
+    "ideal": "Shipwreck"
+  },
+  "SquareHeroes_Linux_1.1.2.1.tar.bz2": {
+    "ideal": "Square Heroes"
+  },
+  "Not the Robots_Linux": {
+    "acceptable": [
+      "Not The Robots"
+    ],
+    "ideal": "Not the Robots"
+  },
+  "eggnogg+linux.zip": {
+    "ideal": "Eggnogg"
+  },
+  "trine2_linux": {
+    "ideal": "Trine 2"
+  },
+  "SnakeBlocks_Linux": {
+    "ideal": "Snake Blocks"
+  },
+  "RoseAndTimeRemastered_Linux.zip": {
+    "ideal": "Rose and Time Remastered"
+  },
+  "tidalis_linux_64bit": {
+    "ideal": "Tidalis"
+  },
+  "gog_super_time_force_ultra_2.0.0.1.sh": {
+    "ideal": "Super Time Force Ultra"
+  },
+  "hoky-linux.zip": {
+    "ideal": "Hoky"
+  },
+  "Machinarium": {
+    "ideal": "Machinarium"
+  },
+  "manually_installed_debs.sh": {
+    "attainable": "Manually Installed Debs",
+    "ideal": "Manually Installed DEBs"
+  },
+  "ValhallaHills_1.05.17_Full_DEB_Multi_Daedalic_ESD.tar.gz": {
+    "ideal": "Valhalla Hills"
+  },
+  "Louie_Cooks_Preview_Linux.zip": {
+    "ideal": "Louie Cooks (Preview)"
+  },
+  "papers-please_1.1.65_i386.tar.gz": {
+    "ideal": "Papers Please"
+  },
+  "time-swap": {
+    "ideal": "Time Swap"
+  },
+  "gog_jagged_alliance_2_wildfire_2.0.0.1.sh": {
+    "ideal": "Jagged Alliance 2: Wildfire"
+  },
+  "gog_cyberia_2.0.0.4.sh": {
+    "ideal": "Cyberia"
+  },
+  "RainingBlobs_v0.99_Linux.rar": {
+    "ideal": "Raining Blobs"
+  },
+  "Fire!_LIN_ESD_1.0.6756_REL.zip": {
+    "ideal": "Fire!"
+  },
+  "Snapshot-linux-v28-x64.tar.gz": {
+    "ideal": "Snapshot"
+  },
+  "supertuxkart-0.9-linux": {
+    "attainable": "Supertuxkart",
+    "ideal": "SuperTuxKart"
+  },
+  "minecraft_server": {
+    "ideal": "Minecraft Server"
+  },
+  "Mountain_Flower_Linux.zip": {
+    "ideal": "Mountain Flower"
+  },
+  "SpyChameleon": {
+    "ideal": "Spy Chameleon"
+  },
+  "ut2003": {
+    "attainable": "UT 2003",
+    "ideal": "U.T. 2003"
+  },
+  "MarkOfTheNinja": {
+    "acceptable": [
+      "Mark Of The Ninja"
+    ],
+    "ideal": "Mark of the Ninja"
+  },
+  "gog_super_hexagon_2.0.0.3.sh": {
+    "ideal": "Super Hexagon"
+  },
+  "Evolution_LINUX.zip": {
+    "ideal": "Evolution"
+  },
+  "OctaveLINUX.zip": {
+    "ideal": "Octave"
+  },
+  "unpack_gog_game.py": {
+    "acceptable": [
+      "Unpack Gog Game"
+    ],
+    "ideal": "Unpack GOG Game"
+  },
+  "fullbore-fd_1.1-ubuntu1_i386_1408749033.deb": {
+    "attainable": "Fullbore FD",
+    "acceptable": [
+      "Fullbore Fd"
+    ],
+    "ideal": "Full Bore: FD"
+  },
+  "Star Wars: Dark Forces 2: Jedi Knight: Mysteries of the Sith": {
+    "ideal": "Star Wars: Dark Forces 2: Jedi Knight: Mysteries of the Sith"
+  },
+  "CrystalPicnic-1.5.1-Linux64.tar.gz": {
+    "ideal": "Crystal Picnic"
+  },
+  "MetalSlug": {
+    "ideal": "Metal Slug"
+  },
+  "Volgarr": {
+    "ideal": "Volgarr"
+  },
+  "gog_the_real_texas_2.0.0.2.sh": {
+    "ideal": "The Real Texas"
+  },
+  "MirrorMoonEP_linux_1392070609.tar.gz": {
+    "ideal": "Mirror Moon EP"
+  },
+  "Micron_1.34_64-bit.tar.gz": {
+    "ideal": "Micron"
+  },
+  "Butsbal.txz": {
+    "ideal": "Butsbal"
+  },
+  "Alphabeats_Linux.rar": {
+    "ideal": "Alphabeats"
+  },
+  "pico-8": {
+    "attainable": "Pico-8",
+    "acceptable": [
+      "PICO 8",
+      "Pico 8"
+    ],
+    "ideal": "PICO-8"
+  },
+  "tbs_2_18_08_linux.tgz": {
+    "acceptable": [
+      "TBS 2"
+    ],
+    "ideal": "T.B.S. 2"
+  },
+  "gog_pixel_piracy_1.3.0.5.tar.gz": {
+    "ideal": "Pixel Piracy"
+  },
+  "WoodenSenSeY_linux.zip": {
+    "ideal": "Wooden Sen SeY"
+  },
+  "the-swapper-linux-1.24_1409159048.sh": {
+    "ideal": "The Swapper"
+  },
+  "Nihilumbra-1.35-linux64.tar.gz": {
+    "ideal": "Nihilumbra"
+  },
+  "HackerEvolutionDuality-Linux.tar.gz": {
+    "ideal": "Hacker Evolution Duality"
+  },
+  "SteamWorldDig": {
+    "attainable": "Steam World Dig",
+    "ideal": "SteamWorld Dig"
+  },
+  "LuxuriaSuperbia_Linux.tar.gz": {
+    "ideal": "Luxuria Superbia"
+  },
+  "escapegoat2": {
+    "attainable": "Escapegoat 2",
+    "ideal": "Escape Goat 2"
+  },
+  "RiskOfRain": {
+    "acceptable": [
+      "Risk Of Rain"
+    ],
+    "ideal": "Risk of Rain"
+  },
+  "Wild_Season_v_1_0_2_5_Linux.zip": {
+    "ideal": "Wild Season"
+  },
+  "AR-K_Linux_Eng_64.rar": {
+    "ideal": "AR-K"
+  },
+  "The Bard's Tale": {
+    "ideal": "The Bard's Tale"
+  },
+  "ReignMaker_1.02.07_29_14_Linux.zip": {
+    "ideal": "Reign Maker"
+  },
+  "DROD_RPG_Tendrys_Tale_v1_2_6_296_Setup.zip": {
+    "attainable": "DROD RPG Tendry's Tale",
+    "ideal": "DROD RPG: Tendry's Tale"
+  },
+  "The_Beginner_s_Guide_Setup.tar": {
+    "ideal": "The Beginner's Guide"
+  },
+  "AnomalyMobileCampaign-lin_1371139237-Installer": {
+    "ideal": "Anomaly Mobile Campaign"
+  },
+  "gog_massive_chalice_2.1.0.4.sh": {
+    "ideal": "Massive Chalice"
+  },
+  "darwin_s_dinner": {
+    "ideal": "Darwin's Dinner"
+  },
+  "gateways_02062014.bin": {
+    "ideal": "Gateways"
+  },
+  "MinisMagicWorld-v1e-LINUX.zip": {
+    "ideal": "Mini's Magic World",
+    "attainable": "Minis Magic World"
+  },
+  "PlanetaryAnnihilation_Linux_88508": {
+    "ideal": "Planetary Annihilation"
+  },
+  "NEOScavenger": {
+    "ideal": "NEO Scavenger"
+  },
+  "Blake Stone Planet Strike": {
+    "attainable": "Blake Stone Planet Strike",
+    "ideal": "Blake Stone: Planet Strike"
+  },
+  "gog_grim_fandango_remastered_2.3.0.7.sh": {
+    "ideal": "Grim Fandango Remastered"
+  },
+  "olliolli2_1.0.0.2_nodrm.tar.gz": {
+    "attainable": "Olliolli 2",
+    "ideal": "OlliOlli 2"
+  },
+  "Super Scrapped Robot - Linux64.zip": {
+    "ideal": "Super Scrapped Robot"
+  },
+  "IroncladTacticsDeluxe_Linux.tar.gz": {
+    "ideal": "Ironclad Tactics Deluxe"
+  },
+  "Blackwell1_Legacy_1411180371.sh": {
+    "ideal": "Blackwell 1: Legacy"
+  },
+  "wingnut_test_gnu": {
+    "ideal": "Wingnut Test"
+  },
+  "MonumentLinux.rar": {
+    "ideal": "Monument"
+  },
+  "PaperSorcerer2.5Linux.tar.bz2": {
+    "ideal": "Paper Sorcerer"
+  },
+  "gog_the_last_federation_2.4.0.6.sh": {
+    "ideal": "The Last Federation"
   },
   "WheelsofAureliaLinux.zip": {
     "ideal": "Wheels of Aurelia"
@@ -1218,1607 +1798,1060 @@
   "Jumpix_Jump_v1_0_Linux.zip": {
     "ideal": "Jumpix Jump"
   },
-  "Blake Stone Planet Strike": {
-    "ideal": "Blake Stone: Planet Strike",
-    "attainable": "Blake Stone Planet Strike"
-  },
-  "LollyPawJoeAlpha.zip": {
-    "ideal": "Lolly Paw Joe"
-  },
-  "fullbore-fd_1.1-ubuntu1_i386_1408749033.deb": {
-    "ideal": "Full Bore",
-    "attainable": "Fullbore"
-  },
-  "thief_town_linux_v1.zip": {
-    "ideal": "Thief Town"
-  },
-  "Cube_and_Star_Linux.zip": {
-    "ideal": "Cube and Star"
-  },
-  "timeswap_Linux64.zip": {
-    "ideal": "Timeswap"
-  },
-  "140_Linux_1389820765.zip": {
-    "ideal": "140"
-  },
-  "gog_unepic_2.1.0.4.sh": {
-    "ideal": "Unepic"
-  },
-  "gog_massive_chalice_2.1.0.4.sh": {
-    "ideal": "Massive Chalice"
-  },
-  "Turmoil-1.1.0.349b-Linux.zip": {
-    "ideal": "Turmoil"
-  },
-  "gog_seven_cities_of_gold_1.0.0.4.tar.gz": {
-    "ideal": "Seven Cities of Gold"
-  },
-  "Crowntakers.zip": {
-    "ideal": "Crowntakers"
-  },
-  "Yury_Linux.zip": {
-    "ideal": "Yury"
-  },
-  "gog_super_hexagon_2.0.0.3.sh": {
-    "ideal": "Super Hexagon"
-  },
-  "fennec-7.0.1": {
-    "ideal": "Fennec"
-  },
-  "Just_Get_Through_ubuntu_104.zip": {
-    "ideal": "Just Get Through"
-  },
-  "ThatDamLevel-linux.zip": {
-    "ideal": "That Dam Level"
-  },
-  "beathazard-installer_03-08-13": {
-    "ideal": "Beathazard"
-  },
-  "gog_drod_rpg_tendry_s_tale_2.4.0.7.sh": {
-    "ideal": "DROD RPG: Tendry's Tale",
-    "attainable": "Drod RPG Tendry's Tale"
-  },
-  "MonstersLinux.zip": {
-    "ideal": "Monsters"
-  },
-  "DesktopDungeons": {
-    "ideal": "Desktop Dungeons"
-  },
-  "Sleepwalker-lin_1371139237-Installer": {
-    "ideal": "Sleepwalker"
-  },
-  "gog_the_real_texas_2.1.0.3.sh": {
-    "ideal": "The Real Texas"
-  },
-  "LongLiveTheQueenRetail-1.3.17-Humble-linux-x86.tar.bz2": {
-    "ideal": "Long Live the Queen"
-  },
-  "puddle_linux.zip": {
-    "ideal": "Puddle"
-  },
-  "particulars_lin_latest1416421559.zip": {
-    "ideal": "Particulars"
-  },
-  "ZombieRun1.0.9.tar.gz": {
-    "ideal": "Zombie Run"
-  },
-  "AnomalyMobileCampaign-lin_1371139237-Installer": {
-    "ideal": "Anomaly Mobile Campaign"
-  },
-  "levantera012-linux.zip": {
-    "ideal": "Levantera"
-  },
-  "EufloriaHD-Linux-1.1.0-212.sh": {
-    "ideal": "Eufloria HD"
-  },
-  "Beatbuddy": {
-    "ideal": "Beatbuddy"
-  },
-  "TLD_CE_Linux.tar.gz": {
-    "ideal": "TLD CE"
-  },
-  "nihilumbra": {
-    "ideal": "Nihilumbra"
-  },
-  "hawkthorne.love": {
-    "ideal": "Hawkthorne"
-  },
-  "tachyon_reef_3d_prototype_linux.tar.gz": {
-    "ideal": "Tachyon Reef 3D Prototype"
-  },
-  "LoversInADangerousSpacetime-1.4.4_Linux.zip": {
-    "ideal": "Lovers In A Dangerous Spacetime"
-  },
-  "gog_tri_1.4.0.6.tar.gz": {
-    "ideal": "TRI"
-  },
-  "gog_windward_2.35.0.38.sh": {
-    "ideal": "Windward"
-  },
-  "all_haze_eve_v4_linux.zip": {
-    "ideal": "All Haze Eve"
-  },
-  "Cubot_linux_1.4.3.x86_64.tar.gz": {
-    "ideal": "Cubot"
-  },
-  "EDGE-Linux-2013-07-05.sh": {
-    "ideal": "EDGE"
-  },
-  "PandoraLinux.1.zip": {
-    "ideal": "Pandora"
-  },
-  "OpenUHS 0.6.6": {
-    "ideal": "OpenUHS",
-    "acceptable": [
-      "Open UHS"
-    ]
-  },
-  "nuclearthrone-linux.zip": {
-    "ideal": "Nuclear Throne",
-    "attainable": "Nuclearthrone"
-  },
-  "Potatoman": {
-    "ideal": "Potatoman"
-  },
-  "Chill the Piro - Linux.zip": {
-    "ideal": "Chill the Piro"
-  },
-  "SecretsofRaetikonLinux1.1.zip": {
-    "ideal": "Secrets of Raetikon"
-  },
-  "eets2": {
-    "ideal": "Eets 2"
-  },
-  "GM_Space_Travel_lin_.zip": {
-    "ideal": "GM Space Travel"
-  },
-  "Ripstone_2c4f2_Knytt_Underground_1.2.1_64bit.tar.gz": {
-    "ideal": "Knytt Underground",
-    "attainable": "Ripstone Knytt Underground"
-  },
-  "Metagun MP 1.02.jar": {
-    "ideal": "Metagun MP"
-  },
-  "DeusExMachinaLinux64.zip": {
-    "ideal": "Deus Ex Machina"
-  },
-  "firefox-ux": {
-    "ideal": "Firefox UX"
-  },
-  "gog_the_escapists_escape_team_dlc_2.0.0.1.sh": {
-    "ideal": "The Escapists: Escape Team DLC",
-    "attainable": "The Escapists Escape Team DLC"
-  },
-  "sagefusion2_nw_linux_x86_64.tar.gz": {
-    "ideal": "Sage Fusion 2",
-    "attainable": "Sagefusion 2"
-  },
-  "gog_crypt_of_the_necrodancer_2.3.0.5.sh": {
-    "ideal": "Crypt of the Necrodancer"
-  },
-  "Hatoful_Boyfriend_Linux.zip": {
-    "ideal": "Hatoful Boyfriend"
-  },
-  "Parcel_linux.zip": {
-    "ideal": "Parcel"
-  },
-  "ValhallaHills_1.05.17_Full_DEB_Multi_Daedalic_ESD.tar.gz": {
-    "ideal": "Valhalla Hills"
-  },
-  "gog_desktop_dungeons_enhanced_edition_2.6.0.9.sh": {
-    "ideal": "Desktop Dungeons Enhanced Edition"
-  },
-  "trine2_linux": {
-    "ideal": "Trine 2"
-  },
-  "SkyTimeLinux.zip": {
-    "ideal": "Sky Time"
-  },
-  "gog_defender_s_quest_2.10.0.11.sh": {
-    "ideal": "Defender's Quest"
-  },
-  "LEVEL_22_Linux.tar.gz": {
-    "ideal": "Level 22"
-  },
-  "ut2003": {
-    "ideal": "U.T. 2003",
-    "attainable": "UT 2003"
-  },
-  "KillTheBadGuy_1.1.4_Linux.rar": {
-    "ideal": "Kill the Bad Guy"
-  },
-  "supermeatboy": {
-    "ideal": "Super Meat Boy",
-    "attainable": "Supermeatboy"
-  },
-  "ElectronicSuperJoy_Linux_1081_1407441699.zip": {
-    "ideal": "Electronic Super Joy"
-  },
-  "Shipwreck_Linux_1-1-2": {
-    "ideal": "Shipwreck"
-  },
-  "Read_Only_Memories_v1.2b_-_Linux.zip": {
-    "ideal": "Read Only Memories"
-  },
-  "RiskOfRain": {
-    "ideal": "Risk of Rain",
-    "acceptable": [
-      "Risk Of Rain"
-    ]
-  },
-  "Dyno-Linux.rar": {
-    "ideal": "Dyno"
-  },
-  "gog_xenonauts_2.1.0.3.sh": {
-    "ideal": "Xenonauts"
-  },
-  "gog_gnomoria_2.0.0.1": {
-    "ideal": "Gnomoria"
-  },
-  "gog_dex_2.3.0.4.sh": {
-    "ideal": "DEX"
-  },
-  "wtdk_linux32x64.zip": {
-    "ideal": "WtDK",
-    "attainable": "WTDK",
-    "acceptable": [
-      "Wtdk"
-    ]
-  },
-  "Backtobed_Linux_x86_64.zip": {
-    "ideal": "Back to Bed",
-    "attainable": "Backtobed"
-  },
-  "The Bards Tale": {
-    "ideal": "The Bard's Tale"
-  },
-  "DungeonsOfDredmor": {
-    "ideal": "Dungeons of Dredmor",
-    "acceptable": [
-      "Dungeons Of Dredmor"
-    ]
-  },
-  "FurflyLinux.rar": {
-    "ideal": "Furfly"
-  },
-  "ArkOutLinux.zip": {
-    "ideal": "Ark Out"
-  },
-  "hoky-linux.zip": {
-    "ideal": "Hoky"
-  },
-  "Glitchspace_Alpha_2_0_Linux.zip": {
-    "ideal": "Glitchspace"
-  },
-  "StarNomad": {
-    "ideal": "Star Nomad"
-  },
-  "handoffate_humble_linux_21517.zip": {
-    "ideal": "Hand of Fate",
-    "attainable": "Handoffate"
-  },
-  "Rijn_Full_Linux32-64.tar.gz": {
-    "ideal": "Rijn"
-  },
-  "projectShyknight.tgz": {
-    "ideal": "Project Shyknight"
-  },
-  "GraveyardSmash_LinuxBuild_1.0.zip": {
-    "ideal": "Graveyard Smash"
-  },
-  "soup-0_1_8_jar_tar.gz": {
-    "ideal": "Soup"
-  },
-  "testilizationIII": {
-    "ideal": "Testilization III"
-  },
-  "HexderityLinux.V.1.2.0.zip": {
-    "ideal": "Hexderity"
-  },
-  "dungeon-lurk-ii-leona-1247.tar.bz2": {
-    "ideal": "Dungeon Lurk II: Leona"
-  },
-  "eldritch_lin_12182013.gz": {
-    "ideal": "Eldritch"
-  },
-  "SuperCrateBox-YoYo": {
-    "ideal": "Super Crate Box",
-    "acceptable": [
-      "Super Crate Box YoYo"
-    ]
-  },
-  "gog_breach_and_clear_deadline_2.5.0.10.sh": {
-    "ideal": "Breach and Clear Deadline"
-  },
-  "SuperHelmetsOnFireDX_Alpha_LINUX.zip": {
-    "ideal": "Super Helmets on Fire DX"
-  },
-  "Anoxemia-L.zip": {
-    "ideal": "Anoxemia"
-  },
-  "los_cuervos_linux.zip": {
-    "ideal": "Los Cuervos"
-  },
-  "Don't Move": {
-    "ideal": "Don't Move"
-  },
-  "firefox_4.0": {
-    "ideal": "Firefox"
-  },
-  "olliolli_linux_1414459118.tar.bz2": {
-    "ideal": "OlliOlli",
-    "attainable": "Olliolli"
-  },
-  "ballnflag.zip": {
-    "ideal": "Ball n Flag",
-    "attainable": "Ballnflag"
-  },
-  "gog_don_t_starve_2.6.0.8.sh": {
-    "ideal": "Don't Starve"
-  },
-  "VertiginousGolf_1.0_LINUX.zip": {
-    "ideal": "Vertiginous Golf"
-  },
-  "Solar2": {
-    "ideal": "Solar 2"
-  },
-  "zenbound2": {
-    "ideal": "Zen Bound 2",
-    "attainable": "Zenbound 2"
-  },
-  "SpaceHoleAlphaLinux.zip": {
-    "ideal": "Space Hole"
-  },
-  "GravityGobblerLinux.zip": {
-    "ideal": "Gravity Gobbler"
-  },
-  "bernie-needs-love-0.81-windows_linux.zip": {
-    "ideal": "Bernie Needs Love"
-  },
-  "Cosmos Cosmic Adventure": {
-    "ideal": "Cosmo's Cosmic Adventure",
-    "acceptable": [
-      "Cosmos Cosmic Adventure"
-    ]
-  },
   "fleetcomm_linux64.tar.bz2": {
     "ideal": "Fleetcomm"
-  },
-  "gog_feist_2.4.0.7.sh": {
-    "ideal": "Feist"
-  },
-  "GreyCubes_Linux.zip": {
-    "ideal": "Grey Cubes"
-  },
-  "BADLAND_LINUX.tar.gz": {
-    "ideal": "Badland"
-  },
-  "Hellmouth_Linux_1443460127.zip": {
-    "ideal": "Hellmouth"
-  },
-  "Pills4Skills_Linux.zip": {
-    "ideal": "Pills 4 Skills"
-  },
-  "Expander_linux.zip": {
-    "ideal": "Expander"
-  },
-  "gog_star_wars_rebel_assault_2_2.0.0.4.sh": {
-    "ideal": "Star Wars: Rebel Assault 2",
-    "acceptable": [
-      "Star Wars: Rebel Assault 2"
-    ]
-  },
-  "ClergySplode-linux.zip": {
-    "ideal": "Clergy Splode"
-  },
-  "toasttime-linux-humble-drmfree.zip": {
-    "ideal": "Toast Time",
-    "attainable": "Toasttime"
-  },
-  "OctaveLINUX.zip": {
-    "ideal": "Octave"
-  },
-  "spacecomLinux0.9.1035.zip": {
-    "ideal": "Spacecom"
-  },
-  "CostumeQuest": {
-    "ideal": "Costume Quest"
-  },
-  "minecraft.jar": {
-    "ideal": "Minecraft"
-  },
-  "Dont Move": {
-    "ideal": "Don't Move",
-    "acceptable": [
-      "Dont Move"
-    ]
-  },
-  "NEOGEO": {
-    "ideal": "NEOGEO"
-  },
-  "Pixel Piracy": {
-    "ideal": "Pixel Piracy"
-  },
-  "Dustforce-Linux-2014-12-22.sh": {
-    "ideal": "Dustforce"
-  },
-  "bit.trip.runner-1.0": {
-    "ideal": "Bit.Trip Runner",
-    "acceptable": [
-      "bit.trip.runner",
-      "BIT.TRIP RUNNER",
-      "Bit.trip.runner"
-    ],
-    "attainable": "Bit.Trip.Runner"
-  },
-  "defender_s_quest_2.10.0.11": {
-    "ideal": "Defender's Quest"
-  },
-  "RainingBlobs_v0.99_Linux.rar": {
-    "ideal": "Raining Blobs"
-  },
-  "CSDLinux_261.zip": {
-    "ideal": "C.S.D.",
-    "acceptable": [
-      "CSD"
-    ]
-  },
-  "A Valley Without Wind 2": {
-    "ideal": "A Valley Without Wind 2"
-  },
-  "LastBlade_jan2016.sh": {
-    "ideal": "Last Blade"
-  },
-  "neverending-nightmares_1.5.16524.deb": {
-    "ideal": "Neverending Nightmares"
-  },
-  "gog_the_escapists_duct_tapes_are_forever_dlc_2.0.0.1.sh": {
-    "ideal": "The Escapists: Duct Tapes Are Forever DLC",
-    "attainable": "The Escapists Duct Tapes Are Forever DLC"
-  },
-  "Apotheon": {
-    "ideal": "Apotheon"
-  },
-  "ittledew_Linux_1.4.zip": {
-    "ideal": "Ittle Dew",
-    "attainable": "Ittledew"
-  },
-  "ChildrenOfLiberty_EX11_Linux.zip": {
-    "ideal": "Children Of Liberty",
-    "attainable": "Children Of Liberty EX"
-  },
-  "terraria_2.0.0.3": {
-    "ideal": "Terraria"
-  },
-  "NBTExplorer": {
-    "ideal": "NBT Explorer"
-  },
-  "Eufloria": {
-    "ideal": "Eufloria"
-  },
-  "Dustforce DX": {
-    "ideal": "Dustforce DX"
-  },
-  "gog_postal_classic_and_uncut_2.1.0.3.sh": {
-    "ideal": "Postal: Classic and Uncut",
-    "attainable": "Postal Classic and Uncut"
-  },
-  "Escape Goat": {
-    "ideal": "Escape Goat"
-  },
-  "RevengeOfTheTitans": {
-    "ideal": "Revenge of the Titans"
-  },
-  "gog_the_interactive_adventures_of_dog_mendon_a_and_pizzaboy_2.0.0.1.sh": {
-    "ideal": "The Interactive Adventures of Dog Mendonça and Pizzaboy",
-    "attainable": "The Interactive Adventures of Dog Mendon a and Pizzaboy"
-  },
-  "skyrogue_alpha_23_linux.zip": {
-    "ideal": "Skyrogue"
-  },
-  "SteamWorldDig": {
-    "ideal": "SteamWorld Dig",
-    "attainable": "Steam World Dig"
-  },
-  "soulcaster2-07252013-bin.zip": {
-    "ideal": "Soulcaster 2"
-  },
-  "DeityQuestExtended_Linux.tar.gz": {
-    "ideal": "Deity Quest Extended"
-  },
-  "LuxuriaSuperbia_Linux.tar.gz": {
-    "ideal": "Luxuria Superbia"
-  },
-  "Pitman_Linux.tar.gz": {
-    "ideal": "Pitman"
-  },
-  "LanguageTool": {
-    "ideal": "LanguageTool",
-    "attainable": "Language Tool"
-  },
-  "Deponia": {
-    "ideal": "Deponia"
-  },
-  "spirits-linux-1.0.1_120903-1348705231.zip": {
-    "ideal": "Spirits"
-  },
-  "doomstar-linux-beta.zip": {
-    "ideal": "Doomstar"
-  },
-  "shank-linux-120720110-1-bin": {
-    "ideal": "Shank"
-  },
-  "The Last Federation": {
-    "ideal": "The Last Federation"
-  },
-  "Monster Bash": {
-    "ideal": "Monster Bash"
-  },
-  "Alter-linux.zip": {
-    "ideal": "Alter"
-  },
-  "gog_f_117a_nighthawk_stealth_fighter_2_0_2.1.0.3.sh": {
-    "ideal": "F-117A Nighthawk Stealth Fighter 2.0",
-    "attainable": "F 117A Nighthawk Stealth Fighter 2.0"
-  },
-  "gog_hotline_miami_2.0.0.4.sh": {
-    "ideal": "Hotline Miami"
-  },
-  "The_Beginner_s_Guide_Setup.tar": {
-    "ideal": "The Beginner's Guide"
-  },
-  "gog_super_hexagon_2.0.0.2.sh": {
-    "ideal": "Super Hexagon"
-  },
-  "waytogo_1.0_all.deb": {
-    "ideal": "Waytogo"
-  },
-  "Go_Home_-_Linux.zip": {
-    "ideal": "Go Home"
-  },
-  "Mountain_Flower_Linux.zip": {
-    "ideal": "Mountain Flower"
-  },
-  "torchlight": {
-    "ideal": "Torchlight",
-    "acceptable": [
-      "Torch Light"
-    ]
-  },
-  "Blackwell3_Convergence_1411180371.sh": {
-    "ideal": "Blackwell 3: Convergence"
-  },
-  "Inherit The Earth": {
-    "ideal": "Inherit the Earth"
-  },
-  "lightfish-AMD64.tar.bz2": {
-    "ideal": "Lightfish"
-  },
-  "Multi_Dominoes_Desktop-Linux-x64.zip": {
-    "ideal": "Multi Dominoes"
-  },
-  "Machinarium": {
-    "ideal": "Machinarium"
-  },
-  "BeansQuest": {
-    "ideal": "Bean's Quest",
-    "acceptable": [
-      "Beans Quest"
-    ]
-  },
-  "gog_aquaria_2.0.0.4.sh": {
-    "ideal": "Aquaria"
-  },
-  "gog_race_the_sun_2.4.0.8.sh": {
-    "ideal": "Race the Sun"
-  },
-  "DontTouchAnything_Ubuntu.zip": {
-    "ideal": "Don't Touch Anything"
-  },
-  "gog_cannon_fodder_2_2.0.0.1.sh": {
-    "ideal": "Cannon Fodder 2"
-  },
-  "Evolution_LINUX.zip": {
-    "ideal": "Evolution"
-  },
-  "KyroV1_02.zip": {
-    "ideal": "Kyro"
-  },
-  "gunslugs_linux.zip": {
-    "ideal": "Gunslugs"
-  },
-  "ChromaSquad_-_DRM-FREE_-_Linux_-_v1.11.zip": {
-    "ideal": "Chroma Squad"
-  },
-  "gog_tri_2.6.0.9.sh": {
-    "ideal": "TRI"
-  },
-  "KRUNCH_1056_Linux.tar.gz": {
-    "ideal": "Krunch",
-    "attainable": "KRUNCH"
-  },
-  "supertuxkart-0.9-linux": {
-    "ideal": "SuperTuxKart",
-    "attainable": "Supertuxkart"
-  },
-  "RegencySolitaireV117b_1472495785.tar.gz": {
-    "ideal": "Regency Solitaire"
-  },
-  "RaceTheSun_1.10_LINUX": {
-    "ideal": "Race the Sun",
-    "acceptable": [
-      "Race The Sun"
-    ]
-  },
-  "gog_vangers_1.0.0.2.tar.gz": {
-    "ideal": "Vangers"
-  },
-  "Hell Is A Mountain Flower Linux.zip": {
-    "ideal": "Hell is a Mountain Flower"
-  },
-  "the-swapper-linux-1.24_1409159048.sh": {
-    "ideal": "The Swapper"
-  },
-  "flipriders_r1547_linux_universal.zip": {
-    "ideal": "Flipriders"
-  },
-  "SuperElfJumpLinux.zip": {
-    "ideal": "Super Elf Jump"
-  },
-  "find_broken_symlinks.sh": {
-    "ideal": "Find Broken Symlinks"
-  },
-  "Micron_1.34_64-bit.tar.gz": {
-    "ideal": "Micron"
-  },
-  "EarthDestroyer_v1.003Linux.zip": {
-    "ideal": "Earth Destroyer"
-  },
-  "MutantBlobsAttack_linux_1414459118.sh": {
-    "ideal": "Mutant Blobs Attack"
-  },
-  "gog_cyberia_2.0.0.4.sh": {
-    "ideal": "Cyberia"
-  },
-  "LordMayor_lin.x86.zip": {
-    "ideal": "Lord Mayor"
-  },
-  "VirusJigglinFever": {
-    "ideal": "Virus Jigglin' Fever",
-    "attainable": "Virus Jigglin Fever"
-  },
-  "ASM_LINUX_MV_BETA.tar.gz": {
-    "ideal": "ASM"
-  },
-  "olliolli2_1.0.0.2_nodrm.tar.gz": {
-    "ideal": "OlliOlli 2",
-    "attainable": "Olliolli 2"
-  },
-  "the-depths-of-tolagal-v1.0.1-Linux.zip": {
-    "ideal": "The Depths of Tolagal"
-  },
-  "woodletree_adventures_linux.zip": {
-    "ideal": "Woodletree Adventures"
-  },
-  "gog_baldur_s_gate_enhanced_edition_2.5.0.7.sh": {
-    "ideal": "Baldur's Gate Enhanced Edition"
-  },
-  "roguelegacy": {
-    "ideal": "Rogue Legacy",
-    "acceptable": [
-      "Roguelegacy"
-    ],
-    "attainable": "Roguelegacy"
-  },
-  "Trine Enchanted Edition": {
-    "ideal": "Trine: Enchanted Edition",
-    "attainable": "Trine Enchanted Edition"
-  },
-  "RPC_InDev_16_10_10_2015_.zip": {
-    "ideal": "RPC"
-  },
-  "gog_huniepop_2.0.0.2.sh": {
-    "ideal": "Huniepop"
-  },
-  "StrikeSuitZero_linux_1389211698": {
-    "ideal": "Strike Suit Zero"
-  },
-  "Day of the Tentacle Remastered": {
-    "ideal": "Day of the Tentacle Remastered"
-  },
-  "gnu_wingnut_test": {
-    "ideal": "Wingnut Test"
-  },
-  "wingnut_test_gnu": {
-    "ideal": "Wingnut Test"
-  },
-  "darwin_s_dinner_darwin": {
-    "ideal": "Darwin's Dinner"
-  },
-  "darwin_pond_darwin": {
-    "ideal": "Darwin Pond"
-  },
-  "darwin_s_dinner": {
-    "ideal": "Darwin's Dinner"
-  },
-  "darwin_pond": {
-    "ideal": "Darwin Pond"
-  },
-  "linux_darwin_s_dinner": {
-    "ideal": "Darwin's Dinner"
-  },
-  "linux_darwin_pond": {
-    "ideal": "Darwin Pond"
-  },
-  "Yrminsul": {
-    "ideal": "Yrminsul"
-  },
-  "gog_mark_of_the_ninja_1.0.0.3.tar.gz": {
-    "ideal": "Mark of the Ninja"
-  },
-  "prisonarchitect-alpha24c-linux": {
-    "ideal": "Prison Architect",
-    "attainable": "Prisonarchitect"
-  },
-  "2064_Read_Only_Memories_v64.0.2_Linux.zip": {
-    "ideal": "2064: Read Only Memories"
-  },
-  "gog_the_adventures_of_shuggy_2.0.0.2.sh": {
-    "ideal": "The Adventures of Shuggy"
-  },
-  "gateways_02062014.bin": {
-   "ideal": "Gateways"
-  },
-  "gog_jagged_alliance_2_wildfire_2.0.0.1.sh": {
-   "ideal": "Jagged Alliance 2: Wildfire"
-  },
-  "LaMulanaSetup-2015-04-27.sh": {
-    "ideal": "La-Mulana",
-    "attainable": "La Mulana"
-  },
-  "oniken_nonsteam_linux.zip": {
-    "ideal": "Oniken"
-  },
-  "PSX": {
-    "ideal": "PSX"
-  },
-  "beatblastersiii": {
-    "ideal": "BeatBlasters III",
-    "attainable": "Beatblasters III"
-  },
-  "gp_full_linux64_v1.13": {
-    "ideal": "G.P.",
-    "acceptable": [
-      "GP",
-      "Gp"
-    ]
-  },
-  "gog_among_the_sleep_2.2.0.5.sh": {
-    "ideal": "Among the Sleep"
-  },
-  "gog_enclave_2.0.0.1.sh": {
-    "ideal": "Enclave"
-  },
-  "kith-tales-from-the-fractured-plateaus-issue-1-linux-universal.zip": {
-    "ideal": "Kith Tale's From the Fractured Plateaus: Issue 1"
-  },
-  "knockknock_linux_1393371335.tar.gz": {
-    "ideal": "Knock Knock",
-    "attainable": "Knockknock"
   },
   "Kabitis_Old_lin_.zip": {
     "ideal": "Kabitis"
   },
-  "typhoon_2001_r3992_LINUX.tar.gz": {
-    "ideal": "Typhoon 2001"
+  "gog_chroma_squad_2.8.0.12.sh": {
+    "ideal": "Chroma Squad"
   },
-  "PlanetaryAnnihilation_Linux_88508": {
-    "ideal": "Planetary Annihilation"
+  "doomstar-linux-beta.zip": {
+    "ideal": "Doomstar"
   },
-  "Wasteland 1 - The Original Classic": {
-    "ideal": "Wasteland 1: The Original Classic",
-    "acceptable": [
-      "Wasteland 1 - The Original Classic"
-    ]
+  "gog_the_fall_2.1.0.4.sh": {
+    "ideal": "The Fall"
   },
-  "dearesther": {
-    "ideal": "Dear Esther",
-    "attainable": "Dearesther"
-  },
-  "Galak-Z_DRM_Free_Linux_v1.01.04__2016.10.24_.zip": {
-    "ideal": "Galak-Z",
-    "attainable": "Galak Z"
-  },
-  "Sailors_of_Steel_0_2_1_-_Linux_Universal.zip": {
-    "ideal": "Sailors of Steel"
-  },
-  "tidalis_linux_64bit": {
-    "ideal": "Tidalis"
-  },
-  "epikos_1_0_linux_tar.gz": {
-    "ideal": "Epikos"
-  },
-  "poclbm": {
-    "ideal": "Poclbm"
-  },
-  "SpyChameleon": {
-    "ideal": "Spy Chameleon"
-  },
-  "DustAET_Completed_Save.zip": {
-    "ideal": "DustAET Completed Save"
-  },
-  "gog_bit_trip_beat_2.0.0.1.sh": {
-    "ideal": "Bit Trip Beat"
-  },
-  "OrganTrail_Linux_1366135254.tar.gz": {
-    "ideal": "Organ Trail"
-  },
-  "CounterAttack_Linux.zip": {
-    "ideal": "Counter Attack"
-  },
-  "ys": {
-    "ideal": "Ys"
-  },
-  "Soundfonts": {
-    "ideal": "Soundfonts",
-    "acceptable": [
-      "Sound Fonts"
-    ]
-  },
-  "forwardtothesky_Linux.zip": {
-    "ideal": "Forwardtothesky"
-  },
-  "Ascendant_v.1.2.2_Linux_64bit.zip": {
-    "ideal": "Ascendant"
-  },
-  "HandsOff-1.1-linux.zip": {
-    "ideal": "Hands Off"
-  },
-  "GROUPEES_ The Visual Novel Linux": {
-    "ideal": "GROUPEES: The Visual Novel"
-  },
-  "Stranded-linux_1395706933.tar.bz2": {
-    "ideal": "Stranded"
-  },
-  "trine2_complete_story_v2_01_build_425_humble_linux": {
-    "ideal": "Trine 2: Complete Story",
-    "acceptable": [
-      "Trine 2 Complete Story",
-      "Trine2 Complete Story"
-    ]
-  },
-  "voxatron_0.3.2_i386.tar.gz": {
-    "ideal": "Voxatron"
-  },
-  "bernie-needs-love-0.81-linux64.7z": {
-    "ideal": "Bernie Needs Love"
-  },
-  "gog_the_real_texas_2.0.0.2.sh": {
-    "ideal": "The Real Texas"
-  },
-  "SinaRun_2_Linux_1.2.zip": {
-    "ideal": "SinaRun 2"
-  },
-  "missing_translation_groupees_lin.zip": {
-    "ideal": "Missing Translation"
-  },
-  "GSB": {
-    "ideal": "G.S.B.",
-    "attainable": "GSB"
-  },
-  "IroncladTacticsDeluxe_Linux.tar.gz": {
-    "ideal": "Ironclad Tactics Deluxe"
-  },
-  "gog_risk_of_rain_2.1.0.5.sh": {
-    "ideal": "Risk of Rain"
-  },
-  "RaceTheSunLINUX_1.455": {
-    "ideal": "Race the Sun",
-    "acceptable": [
-      "Race The Sun"
-    ]
-  },
-  "Linux.zip": {
-    "ideal": "Coated",
-    "attainable": "<untitled>"
-  },
-  "spaz": {
-    "ideal": "S.P.A.Z.",
-    "acceptable": [
-      "Spaz"
-    ],
-    "attainable": "SPAZ"
-  },
-  "limbo": {
-    "ideal": "Limbo"
-  },
-  "CyberComplex_Linux.zip": {
-    "ideal": "Cyber Complex"
-  },
-  "QuestofDungeons_linux_1.1.0.zip": {
-    "ideal": "Quest of Dungeons"
-  },
-  "idleBeerLinux.zip": {
-    "ideal": "Idle Beer"
-  },
-  "gog_sir_you_are_being_hunted_1.1.0.3.tar.gz": {
-    "ideal": "Sir, You Are Being Hunted",
-    "attainable": "Sir You Are Being Hunted"
-  },
-  "PandoraLinuxNew.zip": {
-    "ideal": "Pandora"
-  },
-  "gog_master_of_orion_1.0.0.1.tar.gz": {
-    "ideal": "Master of Orion"
-  },
-  "Steam_Marines_WML_100.zip": {
-    "ideal": "Steam Marines"
-  },
-  "pinball_gold_pack_1.0.0.2.tar.gz": {
-    "ideal": "Pinball Gold Pack"
-  },
-  "gog_the_escapists_fhurst_peak_correctional_facility_dlc_2.0.0.1.sh": {
-    "ideal": "The Escapists: Fhurst Peak Correctional Facility DLC",
-    "attainable": "The Escapists Fhurst Peak Correctional Facility DLC"
-  },
-  "Infinifactory": {
-    "ideal": "Infinifactory"
-  },
-  "heroesofloot_linux.zip": {
-    "ideal": "Heroes of Loot",
-    "attainable": "Heroesofloot"
-  },
-  "doom-and-destiny": {
-    "ideal": "Doom and Destiny",
-    "acceptable": [
-      "Doom And Destiny"
-    ]
-  },
-  "boximals_lin_1413334613.zip": {
-    "ideal": "Boximals"
-  },
-  "teensyduino": {
-    "ideal": "Teensyduino"
-  },
-  "Louie_Cooks_Preview_Linux.zip": {
-    "ideal": "Louie Cooks (Preview)"
-  },
-  "stardew_valley_2.4.0.5": {
-    "ideal": "Stardew Valley"
-  },
-  "Super Scrapped Robot - Linux64.zip": {
-    "ideal": "Super Scrapped Robot"
-  },
-  "gunslugs2_linux.zip": {
-    "ideal": "Gunslugs 2"
-  },
-  "thedeergod_linux_1425000320.zip": {
-    "ideal": "The Deer God",
-    "attainable": "Thedeergod"
-  },
-  "eggnogg+linux.zip": {
-    "ideal": "Eggnogg"
-  },
-  "sagefusion2_linux.zip": {
-    "ideal": "Sage Fusion 2",
-    "attainable": "Sagefusion 2"
-  },
-  "bitcoinminer-linux64.7z": {
-    "ideal": "Bitcoin Miner",
-    "attainable": "Bitcoinminer"
-  },
-  "manually_installed_debs.sh": {
-    "ideal": "Manually Installed DEBs",
-    "attainable": "Manually Installed Debs"
-  },
-  "SuperMario64_Linux.zip": {
-    "ideal": "Super Mario 64"
-  },
-  "Torchlight2-linux-2015-04-01.sh": {
-    "ideal": "Torchlight 2"
-  },
-  "MarathonOfDoom.tar.gz": {
-    "ideal": "Marathon of Doom"
-  },
-  "Freedom Planet": {
-    "ideal": "Freedom Planet"
-  },
-  "gog_140_2.0.0.1.sh": {
-    "ideal": "140"
-  },
-  "Kabitis (lin64).zip": {
-    "ideal": "Kabitis"
-  },
-  "DoodleGod-HB-sfx.run": {
-    "ideal": "Doodle God"
-  },
-  "HumanResourceMachine-Linux-2016-03-23.sh": {
-    "ideal": "Human Resource Machine"
-  },
-  "BraidSetup-2015-06-11.sh": {
-    "ideal": "Braid"
-  },
-  "KOPP2_Linux_july2016.zip": {
-    "ideal": "KOPP 2"
-  },
-  "FOTONICA_LINUX.tar.gz": {
-    "ideal": "Fotonica"
-  },
-  "Micron 1.34": {
-    "ideal": "Micron"
-  },
-  "Parallax_Linux_530.zip": {
-    "ideal": "Parallax"
-  },
-  "minecraft_server": {
-    "ideal": "Minecraft Server"
-  },
-  "gog_hammerwatch_2.1.0.7.sh": {
-    "ideal": "Hammerwatch"
-  },
-  "Braveland": {
-    "ideal": "Braveland"
-  },
-  "towerfall-07212016-bin": {
-    "ideal": "TowerFall",
-    "attainable": "Towerfall"
-  },
-  "AR-K_Linux_Eng_64.rar": {
-    "ideal": "AR-K"
-  },
-  "Reassembly_jan2016.tar.gz": {
-    "ideal": "Reassembly"
-  },
-  "gog_the_last_federation_2.4.0.6.sh": {
-    "ideal": "The Last Federation"
-  },
-  "Sentinel-Linux-1.0.zip": {
-    "ideal": "Sentinel"
-  },
-  "InfinitrapLinux95": {
-    "ideal": "Infinitrap"
-  },
-  "GoneHome_v1.1.tar.gz": {
-    "ideal": "Gone Home"
-  },
-  "gog_cannon_fodder_2.0.0.1.sh": {
-    "ideal": "Cannon Fodder"
-  },
-  "TowerOfGuns": {
-    "ideal": "Tower of Guns",
-    "acceptable": [
-      "Tower Of Guns"
-    ]
-  },
-  "splice-linux-1353389454.tar.gz": {
-    "ideal": "Splice"
-  },
-  "gog_terraria_2.15.0.18.sh": {
-    "ideal": "Terraria"
-  },
-  "Poker-Kingdoms-20160323-6-Linux-Universal.zip": {
-    "ideal": "Poker Kingdoms"
-  },
-  "rocketsrocketsrockets_Linux.zip": {
-    "ideal": "Rockets Rockets Rockets",
-    "attainable": "Rocketsrocketsrockets"
-  },
-  "MINUTEMAN": {
-    "ideal": "Minuteman"
-  },
-  "gog_flatout_2.1.0.8.sh": {
-    "ideal": "Flatout"
-  },
-  "runner2-1.0": {
-    "ideal": "Runner 2"
-  },
-  "darwinia": {
-    "ideal": "Darwinia"
-  },
-  "Asphyxia-1.0-linux.tar.bz2": {
-    "ideal": "Asphyxia"
-  },
-  "Metagolf": {
-    "ideal": "Metagolf"
-  },
-  "MonstersAndMedicine-Linux-1.0.1.tar.gz": {
-    "ideal": "Monsters and Medicine"
-  },
-  "Crystal_Catacombs_Linux.zip": {
-    "ideal": "Crystal Catacombs"
-  },
-  "setup_desura_amd64_r10.tar.1.gz": {
-    "ideal": "Desura"
-  },
-  "Blood - One Unit Whole Blood": {
-    "ideal": "Blood: One Unit Whole Blood",
-    "acceptable": [
-      "Blood - One Unit Whole Blood"
-    ]
-  },
-  "TestyMacJohnson": {
-    "ideal": "Testy MacJohnson"
-  },
-  "NEOScavenger": {
-    "ideal": "NEO Scavenger"
-  },
-  "grimrock": {
-    "ideal": "Grimrock"
-  },
-  "processing-1.5.1": {
-    "ideal": "Processing"
-  },
-  "Blackwell1_Legacy_1411180371.sh": {
-    "ideal": "Blackwell 1: Legacy"
-  },
-  "towerfall_ascension_2.5.0.9": {
-    "ideal": "TowerFall Ascension",
-    "attainable": "Towerfall Ascension"
-  },
-  "kagbeta-linux32-server": {
-    "ideal": "KAG Server",
-    "acceptable": [
-      "Kag Server"
-    ]
-  },
-  "Hammerwatch": {
-    "ideal": "Hammerwatch"
-  },
-  "Fire!_LIN_ESD_1.0.6756_REL.zip": {
-    "ideal": "Fire!"
-  },
-  "the-depths-of-tolagal-v1.0.1-x64.deb": {
-    "ideal": "The Depths of Tolagal"
-  },
-  "ToTheMoon": {
-    "ideal": "To The Moon",
-    "attainable": "To the Moon"
-  },
-  "Unrest_linux.zip": {
-    "ideal": "Unrest"
-  },
-  "gog_planescape_torment_2.1.0.9.sh": {
-    "ideal": "Planescape Torment"
-  },
-  "FarSkyrelease.tar": {
-    "ideal": "Far Sky"
-  },
-  "Other Worlds India - Linux.zip": {
-    "ideal": "Other Worlds: India",
-    "attainable": "Other Worlds India"
-  },
-  "RaceTheSunLINUX_1.441": {
-    "ideal": "Race the Sun",
-    "acceptable": [
-      "Race The Sun"
-    ]
-  },
-  "Pulstar_Linux.zip": {
-    "ideal": "Pulstar"
-  },
-  "gog_super_time_force_ultra_2.0.0.1.sh": {
-    "ideal": "Super Time Force Ultra"
-  },
-  "Executor": {
-    "ideal": "Executor"
-  },
-  "gog_dark_sun_shattered_lands_2.0.0.2.sh": {
-    "ideal": "Dark Sun: Shattered Lands",
-    "attainable": "Dark Sun Shattered Lands"
-  },
-  "ShockTroopers2_jan2016.sh": {
-    "ideal": "Shock Troopers 2"
-  },
-  "gog_renowned_explorers_international_society_2.33.0.34.sh": {
-    "ideal": "Renowned Explorers International Society"
-  },
-  "litil_divil_1.0.0.20.tar.gz": {
-    "ideal": "Litil Divil"
-  },
-  "Blake Stone Aliens of Gold": {
-    "ideal": "Blake Stone: Aliens of Gold",
-    "attainable": "Blake Stone Aliens of Gold"
-  },
-  "steelstorm-br-2.00.02818-release.tar.gz": {
-    "ideal": "Steel Storm",
-    "attainable": "Steelstorm"
-  },
-  "SuperGame.tar.gz": {
-    "ideal": "Super Game"
-  },
-  "gog_olliolli_2.0.0.2.sh": {
-    "ideal": "OlliOlli",
-    "attainable": "Olliolli"
-  },
-  "titanattacks": {
-    "ideal": "Titan Attacks",
-    "attainable": "Titanattacks"
-  },
-  "atomzombiesmasher": {
-    "ideal": "Atom Zombie Smasher",
-    "attainable": "Atomzombiesmasher"
-  },
-  "Galactic_Fighters__Linux__64_bit_-_27_July.zip": {
-    "ideal": "Galactic Fighters"
-  },
-  "gog_the_real_texas_cellpop_goes_out_at_night_dlc_2.0.0.2.sh": {
-    "ideal": "The Real Texas: Cellpop Goes Out At Night DLC",
-    "attainable": "The Real Texas Cellpop Goes Out At Night DLC"
-  },
-  "BlockLegendLinux.rar": {
-    "ideal": "Block Legend"
-  },
-  "Wild_Season_v_1_0_2_5_Linux.zip": {
-    "ideal": "Wild Season"
-  },
-  "wizards_lizard_1.0.130_linux32.tar.gz": {
-    "ideal": "A Wizard's Lizard",
-    "attainable": "Wizard's Lizard"
-  },
-  "gog_ultimate_general_gettysburg_2.3.0.5.sh": {
-    "ideal": "Ultimate General Gettysburg"
-  },
-  "galimulator-linux-64bit.zip": {
-    "ideal": "Galimulator"
-  },
-  "jarnal": {
-    "ideal": "Jarnal"
-  },
-  "wizards_lizard_1.0.130_linux64_1_.tar.gz": {
-    "ideal": "A Wizard's Lizard",
-    "attainable": "Wizard's Lizard"
-  },
-  "shotgun.zip": {
-    "ideal": "Shotgun"
-  },
-  "superhexagon-10272014-bin": {
-    "ideal": "Super Hexagon",
-    "attainable": "Superhexagon"
-  },
-  "Stacking-Linux-2013-06-04-setup.bin": {
-    "ideal": "Stacking"
-  },
-  "Snapshot-linux-v28-x64.tar.gz": {
-    "ideal": "Snapshot"
-  },
-  "towerfall": {
-    "ideal": "TowerFall",
-    "attainable": "Towerfall"
-  },
-  "gog_psychonauts_2.0.0.4.sh": {
-    "ideal": "Psychonauts"
-  },
-  "gog_the_witcher_2_assassins_of_kings_patch_1.1.0.5.tar.gz": {
-    "ideal": "The Witcher 2: Assassins of Kings"
-  },
-  "gog_wasteland_1_the_original_classic_2.0.0.3.sh": {
-    "ideal": "Wasteland 1: The Original Classic"
-  },
-  "shadowgroundsUpdate1.run": {
-    "ideal": "Shadowgrounds"
-  },
-  "gog_windward_2.16.0.20": {
-    "ideal": "Windward"
-  },
-  "gog_duke_nukem_2_1.0.0.1.tar.gz": {
-    "ideal": "Duke Nukem 2"
-  },
-  "Commander Cool 2 - Linux.zip": {
-    "ideal": "Commander Cool 2"
-  },
-  "TokiTori-Linux-2013-07-05.sh": {
-    "ideal": "Toki Tori"
-  },
-  "STFU-DRMFree-Linux-2016-09-06.sh": {
-    "ideal": "STFU"
-  },
-  "Badland_GotY_121.tar.gz": {
-    "ideal": "Badland GotY"
-  },
-  "Shattered Haven": {
-    "ideal": "Shattered Haven"
-  },
-  "expand-linux-1.0.1d.tar.gz": {
-    "ideal": "Expand"
-  },
-  "JoaR_LINUX32_64_Full_1.10.086_Koboldgames_noDRM.zip": {
-    "ideal": "JoaR"
-  },
-  "Super Mega Berry - Linux64.zip": {
-    "ideal": "Super Mega Berry"
-  },
-  "ALEA_-_lnx_-_1.02.zip": {
-    "ideal": "ALEA"
-  },
-  "gog_falcon_2.0.0.1.sh": {
-    "ideal": "Falcon"
-  },
-  "Duke Nukem": {
-    "ideal": "Duke Nukem"
-  },
-  "MiniMetro-gamma13-linux.tar.gz": {
-    "ideal": "Mini Metro"
-  },
-  "notahero-linux-nodrm.tar.gz": {
-    "ideal": "Not A Hero",
-    "attainable": "Notahero"
-  },
-  "gog_dark_sun_wake_of_the_ravager_2.0.0.1.sh": {
-    "ideal": "Dark Sun: Wake of the Ravager",
-    "attainable": "Dark Sun Wake of the Ravager"
-  },
-  "FTL": {
-    "ideal": "FTL"
-  },
-  "kdreams-200-linux.tar.gz": {
-    "ideal": "Keen Dreams",
-    "attainable": "Kdreams"
-  },
-  "gog_defender_s_quest_2.2.0.3": {
-    "ideal": "Defender's Quest"
-  },
-  "Shuttle_Siege_-_Linux.zip": {
-    "ideal": "Shuttle Siege"
-  },
-  "TIS-100": {
-    "ideal": "TIS-100"
-  },
-  "DROD_RPG_Tendrys_Tale_v1_2_6_296_Setup.zip": {
-    "ideal": "DROD RPG: Tendry's Tale",
-    "attainable": "DROD RPG Tendry's Tale"
-  },
-  "PlatformGolf-linux64-v1_tar.gz": {
-    "ideal": "Platform Golf"
-  },
-  "AnomalyWarzoneEarth-Installer_Humble_Linux_1364850491.zip": {
-    "ideal": "Anomaly Warzone Earth"
-  },
-  "blender-2.76b-linux-glibc211-x86_64": {
-    "ideal": "Blender"
-  },
-  "prehistorik_2_reference_card.zip": {
-    "ideal": "Prehistorik 2: Reference Card"
-  },
-  "Gunpoint": {
-    "ideal": "Gunpoint"
-  },
-  "gog_hot_tin_roof_the_cat_that_wore_a_fedora_2.4.0.7.sh": {
-    "ideal": "Hot Tin Roof: The Cat That Wore A Fedora",
-    "attainable": "Hot Tin Roof the Cat That Wore a Fedora"
-  },
-  "TypeRider": {
-    "ideal": "TypeRider",
-    "attainable": "Type Rider"
-  },
-  "8Bit_Commando_i386.tar.bz2": {
-    "ideal": "8-Bit Commando",
-    "attainable": "8Bit Commando"
-  },
-  "gog_papers_please_1.0.0.4.tar.gz": {
-    "ideal": "Papers Please"
-  },
-  "centaurisector1.51_linux.zip": {
-    "ideal": "Centauri Sector",
-    "attainable": "Centaurisector"
-  },
-  "Strataj4.tar.gz": {
-    "ideal": "Strataj"
-  },
-  "Bitmaster 3.0.2 x64.tar.gz": {
-    "ideal": "Bitmaster"
-  },
-  "60_km-1_0-all.rar": {
-    "ideal": "60 KM"
-  },
-  "ABirdStory-2014-11-06-linux.zip": {
-    "ideal": "A Bird Story"
-  },
-  "What_Lies_Beneath_-_Linux_-_1.7.2.zip": {
-    "ideal": "What Lies Beneath"
-  },
-  "GrooveCity_Linux_1010_1407441699.zip": {
-    "ideal": "Groove City"
-  },
-  "crimsonland-linux-1.0.9": {
-    "ideal": "Crimsonland"
-  },
-  "shehe_linux.zip": {
-    "ideal": "SheHe",
-    "attainable": "Shehe"
-  },
-  "gog_dungeon_hack_2.0.0.2.sh": {
-    "ideal": "Dungeon Hack"
-  },
-  "Butsbal.txz": {
-    "ideal": "Butsbal"
-  },
-  "faerie-solitaire_1_0_i386.gz": {
-    "ideal": "Faerie Solitaire"
-  },
-  "jamestown": {
-    "ideal": "Jamestown"
-  },
-  "Neocolonialism-Ubuntu.tar.gz": {
-    "ideal": "Neocolonialism"
-  },
-  "Testy_MacJohnson": {
-    "ideal": "Testy MacJohnson"
-  },
-  "Not the Robots_Linux": {
-    "ideal": "Not the Robots",
-    "acceptable": [
-      "Not The Robots"
-    ]
-  },
-  "toxicterror_1_4-3_i386.deb": {
-    "ideal": "Toxic Terror",
-    "ideal": "Toxicterror"
-  },
-  "Shadow Warrior (2013)": {
-    "ideal": "Shadow Warrior (2013)"
-  },
-  "avadon": {
-    "ideal": "Avadon"
-  },
-  "gog_eschalon_book_iii_2.0.0.4.sh": {
-    "ideal": "Eschalon Book III"
-  },
-  "gog_machinarium_2.0.0.2.sh": {
-    "ideal": "Machinarium"
-  },
-  "gog_card_city_nights_2.1.0.3.sh": {
-    "ideal": "Card City Nights"
-  },
-  "PaperSorcerer2.5Linux.tar.bz2": {
-    "ideal": "Paper Sorcerer"
-  },
-  "frogatto_installer_linux_amd64.zip": {
-    "ideal": "Frogatto"
-  },
-  "Besiege_Alpha_Linux_v0_27": {
-    "ideal": "Besiege"
-  },
-  "AfterlifeTheGame_Linux.zip": {
-    "ideal": "Afterlife: The Game"
-  },
-  "StarWarsDarkForces2JediKnightMysteriesOfTheSith": {
-    "ideal": "Star Wars: Dark Forces 2: Jedi Knight Mysteries of the Sith",
-    "acceptable": [
-      "Star Wars Dark Forces 2: Jedi Knight Mysteries of the Sith"
-    ]
-  },
-  "SpiderROTSM-Linux-Humble-1.2.tar.gz": {
-    "ideal": "Spider ROTSM"
-  },
-  "gog_terraria_2.13.0.16.sh": {
-    "ideal": "Terraria"
-  },
-  "Gerty_Beta_1_5_Linux.zip": {
-    "ideal": "Gerty"
-  },
-  "shogun-09252015-bin": {
-    "ideal": "Shogun"
-  },
-  "SpyChameleonRGBAgentsetup_1403101927.tgz": {
-    "ideal": "Spy Chameleon: RGB Agent",
-    "attainable": "Spy Chameleon RGB Agent"
-  },
-  "gog_drod_the_second_sky_2.2.0.4.sh": {
-    "ideal": "DROD: The Second Sky",
-    "attainable": "Drod the Second Sky"
-  },
-  "Sunless_Sea-StandAlone-Linux-2016-02-12.sh": {
-    "ideal": "Sunless Sea"
-  },
-  "all_haze_eve_v4_linux-amd64.tar.gz": {
-    "ideal": "All Haze Eve"
-  },
-  "dropsy_jan2016_linux.zip": {
-    "ideal": "Dropsy"
-  },
-  "Cubemen2_Linux_1411180371.zip": {
-    "ideal": "Cubemen 2"
-  },
-  "The_Stanley_Parable_Setup.tar": {
-    "ideal": "The Stanley Parable"
-  },
-  "gatlife-boyfriendbar-linux.tar.bz2": {
-    "ideal": "Gatlife Boyfriendbar"
-  },
-  "snorms-full_linux64.1.tgz": {
-    "ideal": "Snorms"
-  },
-  "gog_shadowrun_returns_2.0.0.6.sh": {
-    "ideal": "Shadowrun Returns"
-  },
-  "DungeonofElements_2.0.1.10_24_13_Linux.zip": {
-    "ideal": "Dungeon of Elements"
-  },
-  "Alarameth-TD_1.0.4.tar.gz": {
-    "ideal": "Alarameth TD"
-  },
-  "Symphony-Linux-2014-07-15.sh": {
-    "ideal": "Symphony"
-  },
-  "Trace_Vector_Linux_1.02.zip": {
-    "ideal": "Trace Vector"
-  },
-  "toxicterror_1.2-2_amd64.deb": {
-    "ideal": "Toxic Terror",
-    "attainable": "Toxicterror"
-  },
-  "OperationSmash_Ubuntu.zip": {
-    "ideal": "Operation Smash"
-  },
-  "gog_brutal_legend_2.0.0.3.sh": {
-    "ideal": "Brutal Legend"
-  },
-  "CyberSentinelLinux.zip": {
-    "ideal": "Cyber Sentinel"
-  },
-  "macroboy_y_v0.18_linux.tar.gz": {
-    "ideal": "Macroboy Y"
-  },
-  "x-com db 1.4": {
-    "ideal": "X-Com DB"
-  },
-  "NEOScavengerv1.06.tar.gz": {
-    "ideal": "NEO Scavenger"
-  },
-  "shmadowX86.zip": {
-    "ideal": "Shmadow"
-  },
-  "gog_crimsonland_2.1.0.4.sh": {
-    "ideal": "Crimsonland"
-  },
-  "RageRunner_Linux-1.4.2.zip": {
-    "ideal": "Rage Runner"
-  },
-  "Sailors_of_Steel_0_2_2_-_Linux_Universal.zip": {
-    "ideal": "Sailors of Steel"
-  },
-  "dustaet-01082014-bin": {
-    "ideal": "Dust: A.E.T.",
-    "attainable": "Dustaet"
-  },
-  "Monster_Loves_You_Linux.zip": {
-    "ideal": "Monster Loves You"
-  },
-  "uplink-x64": {
-    "ideal": "Uplink"
-  },
-  "TinyKeep_v2_3_Linux.zip": {
-    "ideal": "Tiny Keep"
+  "sokobond-linux1.0.3c.tar.gz": {
+    "ideal": "Sokobond"
   },
   "the_escapists_2.3.0.4": {
     "ideal": "The Escapists"
   },
-  "CardCityNights": {
-    "ideal": "Card City Nights"
+  "NEOScavengerv1.06.tar.gz": {
+    "ideal": "NEO Scavenger"
   },
-  "MinisMagicWorld-v1e-LINUX.zip": {
-    "ideal": "Mini's Magic World"
+  "KOPP2_Linux_july2016.zip": {
+    "ideal": "KOPP 2"
   },
-  "ColorOracle.jar": {
-    "ideal": "Color Oracle"
+  "ReprisalLinux_beta6.zip": {
+    "ideal": "Reprisal"
   },
-  "Puzzlegate-_Steam-linux.tar.bz2": {
-    "ideal": "Puzzlegate"
+  "ballnflag.zip": {
+    "attainable": "Ballnflag",
+    "ideal": "Ball n Flag"
   },
-  "gog_drod_gunthro_and_the_epic_blunder_1.0.0.4.tar.gz": {
-    "ideal": "DROD: Gunthro and the Epic Blunder",
-    "attainable": "Drod Gunthro and the Epic Blunder"
+  "gog_mark_of_the_ninja_dlc1_1.0.0.3.tar.gz": {
+    "attainable": "Mark of the Ninja DLC 1",
+    "ideal": "Mark of the Ninja: DLC 1"
   },
-  "Quest For Infamy": {
-    "ideal": "Quest for Infamy"
+  "darwin_pond_darwin": {
+    "ideal": "Darwin Pond"
+  },
+  "testilizationI": {
+    "ideal": "Testilization I"
+  },
+  "prehistorik_2_reference_card.zip": {
+    "ideal": "Prehistorik 2: Reference Card"
+  },
+  "KT_Linux.zip": {
+    "ideal": "K.T."
+  },
+  "brandonmustdie_v1.01_linux64.zip": {
+    "attainable": "Brandonmustdie",
+    "ideal": "Brandon Must Die"
+  },
+  "SocialJusticeWarriors_v2_Linux.zip": {
+    "ideal": "Social Justice Warriors"
+  },
+  "Blocks That Matter": {
+    "ideal": "Blocks That Matter"
+  },
+  "Closure-Linux-1.1-2012-12-28.sh": {
+    "ideal": "Closure"
+  },
+  "handoffate_humble_linux_21517.zip": {
+    "attainable": "Handoffate",
+    "ideal": "Hand of Fate"
+  },
+  "gog_master_of_orion_1.0.0.1.tar.gz": {
+    "ideal": "Master of Orion"
+  },
+  "EarthDestroyer_v1.003Linux.zip": {
+    "ideal": "Earth Destroyer"
+  },
+  "AM2R_v1.1_linux_unofficial": {
+    "acceptable": [
+      "AM 2R"
+    ],
+    "ideal": "AM2R"
+  },
+  "Orborun_All_Platforms_Installer.zip": {
+    "ideal": "Orborun"
+  },
+  "testilizationIV": {
+    "ideal": "Testilization IV"
+  },
+  "INVedit": {
+    "ideal": "INVedit"
+  },
+  "AnotherStarV2Linux.zip": {
+    "ideal": "Another Star"
+  },
+  "DontTouchAnything_Ubuntu.zip": {
+    "ideal": "Don't Touch Anything"
+  },
+  "Micron 1.34": {
+    "ideal": "Micron"
+  },
+  "140_Linux_1389820765.zip": {
+    "ideal": "140"
+  },
+  "shadowgroundsUpdate1.run": {
+    "ideal": "Shadowgrounds"
+  },
+  "defcon": {
+    "ideal": "Defcon"
+  },
+  "wizards_lizard_1.0.130_linux32.tar.gz": {
+    "attainable": "Wizards Lizard",
+    "ideal": "A Wizard's Lizard"
+  },
+  "CapitalizedExtension.EXE": {
+    "ideal": "Capitalized Extension"
+  },
+  "theinnerworld_Linux.zip": {
+    "attainable": "Theinnerworld",
+    "ideal": "The Inner World"
+  },
+  "lightfish-AMD64.tar.bz2": {
+    "ideal": "Lightfish"
+  },
+  "higan": {
+    "attainable": "Higan",
+    "ideal": "higan"
+  },
+  "Fantasy Mall linux32.zip": {
+    "ideal": "Fantasy Mall"
+  },
+  "defender_s_quest_2.10.0.11": {
+    "ideal": "Defender's Quest"
+  },
+  "boothillblaster_1_5_i386.deb": {
+    "ideal": "Boot Hill Blaster"
+  },
+  "MouseCraft": {
+    "attainable": "Mouse Craft",
+    "ideal": "MouseCraft"
+  },
+  "cafe-0-the-drowned-mermaid.tar.bz2": {
+    "ideal": "Cafe 0: The Drowned Mermaid"
+  },
+  "Ethereon_-_Linux.rar": {
+    "ideal": "Ethereon"
+  },
+  "Hellmouth_Linux_1443460127.zip": {
+    "ideal": "Hellmouth"
+  },
+  "Cube_and_Star_Linux.zip": {
+    "ideal": "Cube and Star"
+  },
+  "gog_star_wars_rebel_assault_2.0.0.4.sh": {
+    "attainable": "Star Wars Rebel Assault",
+    "ideal": "Star Wars: Rebel Assault"
+  },
+  "toasttime-linux-humble-drmfree.zip": {
+    "attainable": "Toasttime",
+    "ideal": "Toast Time"
+  },
+  "RaceTheSunLINUX_1.441": {
+    "acceptable": [
+      "Race The Sun"
+    ],
+    "ideal": "Race the Sun"
+  },
+  "FindingTeddy_Gold_Setup_linux641.0_1406058604.zip": {
+    "acceptable": [
+      "Finding Teddy Gold"
+    ],
+    "ideal": "Finding Teddy"
+  },
+  "MarathonOfDoom.tar.gz": {
+    "ideal": "Marathon of Doom"
+  },
+  "setup_desura_amd64_r10.tar.1.gz": {
+    "ideal": "Desura"
+  },
+  "Stacking-Linux-2013-06-04-setup.bin": {
+    "ideal": "Stacking"
+  },
+  "gog_unepic_2.1.0.4.sh": {
+    "ideal": "Unepic"
+  },
+  "ping-15-1.6.tar.bz2": {
+    "attainable": "Ping 15",
+    "ideal": "PING 1.5"
+  },
+  "AndroVMplayer-Linux64": {
+    "attainable": "Andro VMplayer",
+    "ideal": "AndroVMplayer"
   },
   "ContraptionMaker-linux-11410.sh": {
     "ideal": "Contraption Maker"
   },
-  "braid": {
+  "atomzombiesmasher": {
+    "attainable": "Atomzombiesmasher",
+    "ideal": "Atom Zombie Smasher"
+  },
+  "Sentinel-Linux-1.0.zip": {
+    "ideal": "Sentinel"
+  },
+  "gog_dark_sun_shattered_lands_2.0.0.2.sh": {
+    "attainable": "Dark Sun Shattered Lands",
+    "ideal": "Dark Sun: Shattered Lands"
+  },
+  "Potatoman": {
+    "ideal": "Potatoman"
+  },
+  "HandsOff-1.1-linux.zip": {
+    "ideal": "Hands Off"
+  },
+  "HumanResourceMachine-Linux-2016-03-23.sh": {
+    "ideal": "Human Resource Machine"
+  },
+  "Rico.app.zip": {
+    "ideal": "Rico"
+  },
+  "gog_race_the_sun_2.4.0.8.sh": {
+    "ideal": "Race the Sun"
+  },
+  "PandoraLinux.1.zip": {
+    "ideal": "Pandora"
+  },
+  "darwin_s_dinner_darwin": {
+    "ideal": "Darwin's Dinner"
+  },
+  "olliolli_linux_1414459118.tar.bz2": {
+    "attainable": "Olliolli",
+    "ideal": "OlliOlli"
+  },
+  "EndlessNuclearKittens": {
+    "ideal": "Endless Nuclear Kittens"
+  },
+  "processing-1.5.1": {
+    "ideal": "Processing"
+  },
+  "Rex Nebular and the Cosmic Gender Bender": {
+    "acceptable": [
+      "Rex Nebular And The Cosmic Gender Bender"
+    ],
+    "ideal": "Rex Nebular and the Cosmic Gender Bender"
+  },
+  "gog_tower_of_guns_2.0.0.3.sh": {
+    "ideal": "Tower of Guns"
+  },
+  "bitcoinminer-linux64.7z": {
+    "attainable": "Bitcoinminer",
+    "ideal": "Bitcoin Miner"
+  },
+  "gog_lovely_planet_2.0.0.5": {
+    "ideal": "Lovely Planet"
+  },
+  "gog_this_war_of_mine_2.6.0.8.sh": {
+    "ideal": "This War of Mine"
+  },
+  "Octodad Dadliest Catch": {
+    "attainable": "Octodad Dadliest Catch",
+    "ideal": "Octodad: Dadliest Catch"
+  },
+  "Besiege_Alpha_Linux_v0_27": {
+    "ideal": "Besiege"
+  },
+  "Go_Home_-_Linux.zip": {
+    "ideal": "Go Home"
+  },
+  "SpyChameleonRGBAgentsetup_1403101927.tgz": {
+    "attainable": "Spy Chameleon RGB Agent",
+    "ideal": "Spy Chameleon: RGB Agent"
+  },
+  "ElectronicSuperJoy_Linux_1081_1407441699.zip": {
+    "ideal": "Electronic Super Joy"
+  },
+  "Bonsai-Linux-i586.zip": {
+    "ideal": "Bonsai"
+  },
+  "CrunchTime_v1.0_Linux_.zip": {
+    "ideal": "Crunch Time"
+  },
+  "pinball_gold_pack_1.0.0.2.tar.gz": {
+    "ideal": "Pinball Gold Pack"
+  },
+  "Multi_Dominoes_Desktop-Linux-x64.zip": {
+    "ideal": "Multi Dominoes"
+  },
+  "Chill the Piro - Linux.zip": {
+    "ideal": "Chill the Piro"
+  },
+  "Deadly30_LINUX_1410995826.zip": {
+    "ideal": "Deadly 30"
+  },
+  "ChronoclysmLinux106.zip": {
+    "ideal": "Chronoclysm"
+  },
+  "vessel": {
+    "ideal": "Vessel"
+  },
+  "WindwardLinux_HB.zip": {
+    "ideal": "Windward"
+  },
+  "CrashedLander_v25_linux.zip": {
+    "ideal": "Crashed Lander"
+  },
+  "dearesther": {
+    "attainable": "Dearesther",
+    "ideal": "Dear Esther"
+  },
+  "jaspers-journeys": {
+    "attainable": "Jaspers Journeys",
+    "ideal": "Jasper's Journeys"
+  },
+  "zone-of-the-enders": {
+    "ideal": "Zone of the Enders"
+  },
+  "star-raiders": {
+    "ideal": "Star Raiders"
+  },
+  "towers": {
+    "ideal": "Towers"
+  },
+  "QuestofDungeons_linux_1.1.0.zip": {
+    "ideal": "Quest of Dungeons"
+  },
+  "DesktopDungeons": {
+    "ideal": "Desktop Dungeons"
+  },
+  "gog_gnomoria_2.0.0.1": {
+    "ideal": "Gnomoria"
+  },
+  "IslaBomba.tar.gz": {
+    "ideal": "Isla Bomba"
+  },
+  "AssaultAndroidCactus_linux.zip": {
+    "ideal": "Assault Android Cactus"
+  },
+  "gog_bastion_2.0.0.1.sh": {
+    "ideal": "Bastion"
+  },
+  "Pitman_Linux_1.5d.tar.gz": {
+    "ideal": "Pitman"
+  },
+  "AfterlifeTheGame_Linux.zip": {
+    "ideal": "Afterlife: The Game"
+  },
+  "steammarines_linux.zip": {
+    "attainable": "Steammarines",
+    "ideal": "Steam Marines"
+  },
+  "GSB": {
+    "attainable": "GSB",
+    "ideal": "G.S.B."
+  },
+  "Turmoil-1.1.0.349b-Linux.zip": {
+    "ideal": "Turmoil"
+  },
+  "firefox": {
+    "ideal": "Firefox"
+  },
+  "forwardtothesky_Linux.zip": {
+    "ideal": "Forwardtothesky"
+  },
+  "SuperMario64_Linux.zip": {
+    "ideal": "Super Mario 64"
+  },
+  "gog_freedom_planet_2.2.0.6.sh": {
+    "ideal": "Freedom Planet"
+  },
+  "gog_olliolli2_welcome_to_olliwood_2.2.0.4.sh": {
+    "attainable": "Olliolli 2: Welcome to Olliwood",
+    "ideal": "OlliOlli 2: Welcome to Olliwood"
+  },
+  "shotgun.zip": {
+    "ideal": "Shotgun"
+  },
+  "darwinia": {
+    "ideal": "Darwinia"
+  },
+  "ToTheMoon": {
+    "attainable": "To the Moon",
+    "ideal": "To The Moon"
+  },
+  "Freedom Planet": {
+    "ideal": "Freedom Planet"
+  },
+  "MonstersAndMedicine-Linux-1.0.1.tar.gz": {
+    "ideal": "Monsters and Medicine"
+  },
+  "TypeRider": {
+    "attainable": "Type Rider",
+    "ideal": "TypeRider"
+  },
+  "A Valley Without Wind 2": {
+    "ideal": "A Valley Without Wind 2"
+  },
+  "testilizationIII": {
+    "ideal": "Testilization III"
+  },
+  "gog_broforce_2.2.0.3.sh": {
+    "ideal": "Broforce"
+  },
+  "Limbo-Linux-2014-06-18.sh": {
+    "ideal": "Limbo"
+  },
+  "CounterAttack_Linux.zip": {
+    "ideal": "Counter Attack"
+  },
+  "Testy-MacJohnson": {
+    "ideal": "Testy MacJohnson"
+  },
+  "DetectiveGrimoire1423507440.tar.gz": {
+    "ideal": "Detective Grimoire"
+  },
+  "Shadow Warrior Classic Complete": {
+    "ideal": "Shadow Warrior Classic Complete"
+  },
+  "ChromaSquad_-_DRM-FREE_-_Linux_-_v1.11.zip": {
+    "ideal": "Chroma Squad"
+  },
+  "djgpp": {
+    "acceptable": [
+      "Djgpp"
+    ],
+    "ideal": "DJGPP"
+  },
+  "gog_cayne_2.0.0.1.sh": {
+    "ideal": "Cayne"
+  },
+  "gog_defender_s_quest_2.9.0.10.sh": {
+    "ideal": "Defender's Quest"
+  },
+  "gog_duke_nukem_2_1.0.0.1.tar.gz": {
+    "ideal": "Duke Nukem 2"
+  },
+  "Wasteland 1 - The Original Classic": {
+    "acceptable": [
+      "Wasteland 1 - The Original Classic"
+    ],
+    "ideal": "Wasteland 1: The Original Classic"
+  },
+  "psychonauts-linux-05062013-bin": {
+    "ideal": "Psychonauts"
+  },
+  "firefox-ux": {
+    "ideal": "Firefox UX"
+  },
+  "Cubemen_Linux_1411180371.zip": {
+    "ideal": "Cubemen"
+  },
+  "offspring_fling-linux-2012-12-19.zip": {
+    "ideal": "Offspring Fling"
+  },
+  "gp_full_linux64_v1.13": {
+    "acceptable": [
+      "GP",
+      "Gp"
+    ],
+    "ideal": "G.P."
+  },
+  "HandsOnDeck.rar": {
+    "ideal": "Hands on Deck"
+  },
+  "Dustforce DX": {
+    "ideal": "Dustforce DX"
+  },
+  "tachyon_reef_3d_prototype_linux.tar.gz": {
+    "ideal": "Tachyon Reef 3D Prototype"
+  },
+  "notahero-linux-nodrm.tar.gz": {
+    "attainable": "Notahero",
+    "ideal": "Not A Hero"
+  },
+  "Duet-Build1006023-Linux64.zip": {
+    "ideal": "Duet"
+  },
+  "RegencySolitaireV117b_1472495785.tar.gz": {
+    "ideal": "Regency Solitaire"
+  },
+  "Linux.zip": {
+    "attainable": "<untitled>",
+    "ideal": "Coated"
+  },
+  "EufloriaHD-Linux-1.1.0-212.sh": {
+    "ideal": "Eufloria HD"
+  },
+  "fez-08202016-bin": {
+    "ideal": "FEZ"
+  },
+  "Sally Face [Linux].tar.gz": {
+    "ideal": "Sally Face"
+  },
+  "flipriders_r1547_linux_universal.zip": {
+    "ideal": "Flipriders"
+  },
+  "KillTheBadGuy_1.1.4_Linux.rar": {
+    "ideal": "Kill the Bad Guy"
+  },
+  "Looticrous_LINUX.zip": {
+    "ideal": "Looticrous"
+  },
+  "Poker-Kingdoms-20160323-6-Linux-Universal.zip": {
+    "ideal": "Poker Kingdoms"
+  },
+  "dungeon-lurk-ii-leona-1247.tar.bz2": {
+    "ideal": "Dungeon Lurk II: Leona"
+  },
+  "Hell Is A Mountain Flower Linux.zip": {
+    "ideal": "Hell is a Mountain Flower"
+  },
+  "galimulator-linux-64bit.zip": {
+    "ideal": "Galimulator"
+  },
+  "ys": {
+    "ideal": "Ys"
+  },
+  "Dont Move": {
+    "acceptable": [
+      "Dont Move"
+    ],
+    "ideal": "Don't Move"
+  },
+  "Rijn_Full_Linux32-64.tar.gz": {
+    "ideal": "Rijn"
+  },
+  "Hexcells Infinite - Linux": {
+    "ideal": "Hexcells Infinite"
+  },
+  "Quest For Infamy": {
+    "ideal": "Quest for Infamy"
+  },
+  "Commander Cool 2 - Linux.zip": {
+    "ideal": "Commander Cool 2"
+  },
+  "DeusExMachinaLinux64.zip": {
+    "ideal": "Deus Ex Machina"
+  },
+  "Read_Only_Memories_v1.2d_-_Linux.zip": {
+    "ideal": "Read Only Memories"
+  },
+  "DungeonsOfDredmor": {
+    "acceptable": [
+      "Dungeons Of Dredmor"
+    ],
+    "ideal": "Dungeons of Dredmor"
+  },
+  "testilizationVI": {
+    "ideal": "Testilization VI"
+  },
+  "gog_terraria_2.14.0.18.sh": {
+    "ideal": "Terraria"
+  },
+  "StrikeSuitZero_linux_1389211698": {
+    "ideal": "Strike Suit Zero"
+  },
+  "gog_the_escapists_duct_tapes_are_forever_dlc_2.0.0.1.sh": {
+    "attainable": "The Escapists Duct Tapes Are Forever DLC",
+    "ideal": "The Escapists: Duct Tapes Are Forever DLC"
+  },
+  "nihilumbra": {
+    "ideal": "Nihilumbra"
+  },
+  "MalditaCastilla": {
+    "ideal": "Maldita Castilla"
+  },
+  "expand-linux-1.0.1d.tar.gz": {
+    "ideal": "Expand"
+  },
+  "Shadow Warrior (2013)": {
+    "ideal": "Shadow Warrior (2013)"
+  },
+  "CustomFollower_Linux.tar.gz": {
+    "ideal": "Custom Follower"
+  },
+  "GrooveCity_Linux_1010_1407441699.zip": {
+    "ideal": "Groove City"
+  },
+  "gog_flatout_2.1.0.8.sh": {
+    "ideal": "Flatout"
+  },
+  "Parcel_linux.zip": {
+    "ideal": "Parcel"
+  },
+  "Snakebird_linux.zip": {
+    "ideal": "Snakebird"
+  },
+  "Ultionus": {
+    "ideal": "Ultionus"
+  },
+  "Noire 1.01.swf": {
+    "ideal": "Noire"
+  },
+  "BraidSetup-2015-06-11.sh": {
     "ideal": "Braid"
+  },
+  "Terminal Velocity": {
+    "ideal": "Terminal Velocity"
+  },
+  "Dyno-Linux.rar": {
+    "ideal": "Dyno"
+  },
+  "StardustVanguards_1.2.1_Linux.zip": {
+    "ideal": "Stardust Vanguards"
+  },
+  "los_cuervos_linux.zip": {
+    "ideal": "Los Cuervos"
+  },
+  "Mountain_v1_2_Linux.zip": {
+    "ideal": "Mountain"
+  },
+  "ZombieRun1.0.9.tar.gz": {
+    "ideal": "Zombie Run"
+  },
+  "rocketsrocketsrockets_Linux.zip": {
+    "attainable": "Rocketsrocketsrockets",
+    "ideal": "Rockets Rockets Rockets"
+  },
+  "OpenUHS 0.6.6": {
+    "acceptable": [
+      "Open UHS"
+    ],
+    "ideal": "OpenUHS"
+  },
+  "reus": {
+    "ideal": "Reus"
+  },
+  "knockknock_linux_1393371335.tar.gz": {
+    "attainable": "Knockknock",
+    "ideal": "Knock Knock"
+  },
+  "gog_unmechanical_2.1.0.4.sh": {
+    "ideal": "Unmechanical"
+  },
+  "gog_door_kickers_2.7.0.10.sh": {
+    "ideal": "Door Kickers"
+  },
+  "TLD_CE_Linux.tar.gz": {
+    "ideal": "TLD CE"
+  },
+  "Monster Bash": {
+    "ideal": "Monster Bash"
+  },
+  "Apotheon": {
+    "ideal": "Apotheon"
+  },
+  "gog_wasteland_1_the_original_classic_2.0.0.3.sh": {
+    "ideal": "Wasteland 1: The Original Classic"
+  },
+  "Cubot_linux_1.4.3.x86_64.tar.gz": {
+    "ideal": "Cubot"
+  },
+  "TwinRobots_LIN.tar.gz": {
+    "ideal": "Twin Robots"
+  },
+  "firefox_4.0": {
+    "ideal": "Firefox"
+  },
+  "MinisMagicWorld-v1-LINUX.zip": {
+    "ideal": "Mini's Magic World",
+    "attainable": "Minis Magic World"
+  },
+  "gog_falcon_2.0.0.1.sh": {
+    "ideal": "Falcon"
+  },
+  "TenshuGeneral-Linux-v1.1-build378.tar.gz": {
+    "ideal": "Tenshu General"
+  },
+  "Soundfonts": {
+    "acceptable": [
+      "Sound Fonts"
+    ],
+    "ideal": "Soundfonts"
+  },
+  "missing_translation_groupees_lin.zip": {
+    "ideal": "Missing Translation"
+  },
+  "ClergySplode-linux.zip": {
+    "ideal": "Clergy Splode"
+  },
+  "SuperHelmetsOnFireDX_Alpha_LINUX.zip": {
+    "ideal": "Super Helmets on Fire DX"
+  },
+  "Eron_Linux.zip": {
+    "ideal": "Eron"
+  },
+  "Rats_Alpha3.tar.gz": {
+    "ideal": "Rats"
+  },
+  "gog_crypt_of_the_necrodancer_2.3.0.5.sh": {
+    "ideal": "Crypt of the Necrodancer"
+  },
+  "undertale_2.0.0.1": {
+    "ideal": "Undertale"
+  },
+  "StarshipCommand-1_05-linux32.zip": {
+    "ideal": "Starship Command"
+  },
+  "BlockLegendLinux.rar": {
+    "ideal": "Block Legend"
+  },
+  "TinyKeep_v2_3_Linux.zip": {
+    "ideal": "Tiny Keep"
+  },
+  "all_haze_eve_v4_linux-amd64.tar.gz": {
+    "ideal": "All Haze Eve"
+  },
+  "Blake Stone Aliens of Gold": {
+    "attainable": "Blake Stone Aliens of Gold",
+    "ideal": "Blake Stone: Aliens of Gold"
+  },
+  "Deponia": {
+    "ideal": "Deponia"
+  },
+  "shmadowX86.zip": {
+    "ideal": "Shmadow"
+  },
+  "gog_cannon_fodder_2_2.0.0.1.sh": {
+    "ideal": "Cannon Fodder 2"
+  },
+  "Klabi_linux64.rar": {
+    "ideal": "Klabi"
+  },
+  "steelstorm-br-2.00.02818-release.tar.gz": {
+    "attainable": "Steelstorm",
+    "ideal": "Steel Storm"
+  },
+  "Braveland": {
+    "ideal": "Braveland"
+  },
+  "gog_eschalon_book_i_2.0.0.5.sh": {
+    "ideal": "Eschalon Book I"
+  },
+  "Cube_and_Star_Linux_Warped_Edition.zip": {
+    "acceptable": [
+      "Cube and Star: Warped Edition"
+    ],
+    "ideal": "Cube and Star: Warped Edition"
+  },
+  "gog_prehistorik_2.0.0.5.sh": {
+    "ideal": "Prehistorik"
+  },
+  "LanguageTool": {
+    "attainable": "Language Tool",
+    "ideal": "LanguageTool"
+  },
+  "LollyPawJoeAlpha.zip": {
+    "ideal": "Lolly Paw Joe"
+  },
+  "Don't Move": {
+    "ideal": "Don't Move"
+  },
+  "gog_terraria_2.13.0.16.sh": {
+    "ideal": "Terraria"
+  },
+  "litil_divil_1.0.0.20.tar.gz": {
+    "ideal": "Litil Divil"
+  },
+  "patch_among_the_sleep_2.2.3.6.sh": {
+    "ideal": "Among the Sleep"
+  },
+  "a_boy_and_his_blob_2.1.0.2": {
+    "acceptable": [
+      "A Boy And His Blob"
+    ],
+    "ideal": "A Boy and His Blob"
+  },
+  "StarNomad": {
+    "ideal": "Star Nomad"
+  },
+  "kilgazar-1.1-linux.1.tar": {
+    "ideal": "Kilgazar"
+  },
+  "Hacknet_v4.0547_Linux.zip": {
+    "ideal": "Hacknet"
+  },
+  "AnomalyWarzoneEarth-Installer_Humble_Linux_1364850491.zip": {
+    "ideal": "Anomaly Warzone Earth"
+  },
+  "darwin_pond": {
+    "ideal": "Darwin Pond"
+  },
+  "gog_star_wars_rebel_assault_2_2.0.0.4.sh": {
+    "acceptable": [
+      "Star Wars: Rebel Assault 2"
+    ],
+    "ideal": "Star Wars: Rebel Assault 2"
+  },
+  "Alter-linux.zip": {
+    "ideal": "Alter"
+  },
+  "Gunpoint": {
+    "ideal": "Gunpoint"
+  },
+  "Asphyxia-1.0-linux.tar.bz2": {
+    "ideal": "Asphyxia"
+  },
+  "Crystal_Catacombs_Linux.zip": {
+    "ideal": "Crystal Catacombs"
+  },
+  "Symphony-Linux-2014-07-15.sh": {
+    "ideal": "Symphony"
+  },
+  "offspring_fling-linux-1.1.3.tar.gz": {
+    "ideal": "Offspring Fling"
+  },
+  "gog_feist_2.4.0.7.sh": {
+    "ideal": "Feist"
+  },
+  "The Deer God.zip": {
+    "ideal": "The Deer God"
+  },
+  "bernie-needs-love-0.81-linux64.7z": {
+    "ideal": "Bernie Needs Love"
+  },
+  "LoversInADangerousSpacetime-1.4.4_Linux.zip": {
+    "ideal": "Lovers In A Dangerous Spacetime"
+  },
+  "Blackwell3_Convergence_1411180371.sh": {
+    "ideal": "Blackwell 3: Convergence"
+  },
+  "Secret Agent": {
+    "ideal": "Secret Agent"
+  },
+  "gog_defender_s_quest_2.2.0.3": {
+    "ideal": "Defender's Quest"
+  },
+  "gog_transistor_2.0.0.3.sh": {
+    "ideal": "Transistor"
+  },
+  "all_haze_eve_v4_linux.zip": {
+    "ideal": "All Haze Eve"
+  },
+  "Badland_GotY_121.tar.gz": {
+    "ideal": "Badland GotY"
+  },
+  "NBTExplorer": {
+    "ideal": "NBT Explorer"
+  },
+  "STFU-DRMFree-Linux-2016-09-06.sh": {
+    "ideal": "STFU"
+  },
+  "inescapable_linux.tgz": {
+    "ideal": "Inescapable"
+  },
+  "hawkthorne.love": {
+    "ideal": "Hawkthorne"
+  },
+  "TheNovelistLin112.zip": {
+    "ideal": "The Novelist"
+  },
+  "gog_renowned_explorers_international_society_2.33.0.34.sh": {
+    "ideal": "Renowned Explorers International Society"
+  },
+  "gog_halfway_2.7.0.10.sh": {
+    "ideal": "Halfway"
+  },
+  "GravityGobblerLinux.zip": {
+    "ideal": "Gravity Gobbler"
+  },
+  "Alarameth-TD_1.0.4.tar.gz": {
+    "ideal": "Alarameth TD"
+  },
+  "Tulpa_Linux_1423847478.zip": {
+    "ideal": "Tulpa"
+  },
+  "capsized": {
+    "ideal": "Capsized"
+  },
+  "PlatformGolf-linux64-v1_tar.gz": {
+    "ideal": "Platform Golf"
+  },
+  "Parallax_Linux_530.zip": {
+    "ideal": "Parallax"
+  },
+  "GraveyardSmash_LinuxBuild_1.0.zip": {
+    "ideal": "Graveyard Smash"
+  },
+  "Pills4Skills_Linux.zip": {
+    "ideal": "Pills 4 Skills"
+  },
+  "Hook_-_Linux.rar": {
+    "ideal": "Hook"
+  },
+  "Ripstone_2c4f2_Knytt_Underground_1.2.1_64bit.tar.gz": {
+    "attainable": "Ripstone Knytt Underground",
+    "ideal": "Knytt Underground"
+  },
+  "gog_shadowgate_2.2.0.5.sh": {
+    "ideal": "Shadowgate"
+  },
+  "ThatDamLevel-linux.zip": {
+    "ideal": "That Dam Level"
+  },
+  "Oscura_Linux2015.zip": {
+    "ideal": "Oscura"
+  },
+  "LaMulanaSetup-2015-04-27.sh": {
+    "attainable": "La Mulana",
+    "ideal": "La-Mulana"
+  },
+  "Another World - 20th Anniversary Edition": {
+    "acceptable": [
+      "Another World - 20th Anniversary Edition"
+    ],
+    "ideal": "Another World: 20th Anniversary Edition"
+  },
+  "gog_baldur_s_gate_enhanced_edition_2.5.0.7.sh": {
+    "ideal": "Baldur's Gate Enhanced Edition"
+  },
+  "TestyMacJohnson": {
+    "ideal": "Testy MacJohnson"
+  },
+  "torchlight": {
+    "acceptable": [
+      "Torch Light"
+    ],
+    "ideal": "Torchlight"
+  },
+  "hobl_linux64": {
+    "attainable": "Hobl",
+    "ideal": "HOBL"
+  },
+  "Caravanserail_LINUX.zip": {
+    "ideal": "Caravanserail"
+  },
+  "teensyduino": {
+    "ideal": "Teensyduino"
+  },
+  "QUBE-Linux-2015052901.sh": {
+    "attainable": "QUBE",
+    "ideal": "Q.U.B.E."
+  },
+  "gog_blackhole_complete_edition_upgrade_2.0.0.2.sh": {
+    "ideal": "Blackhole Complete Edition Upgrade"
+  },
+  "gog_eschalon_book_iii_2.0.0.4.sh": {
+    "ideal": "Eschalon Book III"
+  },
+  "waytogo_1.0_all.deb": {
+    "ideal": "Waytogo"
+  },
+  "Pixel Piracy": {
+    "ideal": "Pixel Piracy"
+  },
+  "gunslugs2_linux.zip": {
+    "ideal": "Gunslugs 2"
+  },
+  "gog_xenonauts_2.1.0.3.sh": {
+    "ideal": "Xenonauts"
   },
   "The_39_Steps_Linux.zip": {
     "ideal": "The 39 Steps"
+  },
+  "BionicDuesWinMacLin1008.zip": {
+    "ideal": "Bionic Dues"
+  },
+  "Metagun.jar": {
+    "ideal": "Metagun"
+  },
+  "Knytt Underground": {
+    "ideal": "Knytt Underground"
+  },
+  "kagbeta-linux32-client": {
+    "acceptable": [
+      "KAG",
+      "Kag"
+    ],
+    "ideal": "KAG Client"
+  },
+  "Super Mega Berry - Linux64.zip": {
+    "ideal": "Super Mega Berry"
+  },
+  "gog_the_last_federation_the_lost_technologies_dlc_2.0.0.1.sh": {
+    "attainable": "The Last Federation the Lost Technologies DLC",
+    "ideal": "The Last Federation: The Lost Technologie's Dlc"
+  },
+  "DustAET_Completed_Save.zip": {
+    "ideal": "DustAET Completed Save"
+  },
+  "titanattacks": {
+    "attainable": "Titanattacks",
+    "ideal": "Titan Attacks"
+  },
+  "Monster_Loves_You_Linux.zip": {
+    "ideal": "Monster Loves You"
+  },
+  "pongball_0.1.1_5dc8d48_linux.zip": {
+    "ideal": "Pongball"
+  },
+  "McPixel": {
+    "ideal": "McPixel"
+  },
+  "chocolate-castle": {
+    "ideal": "Chocolate Castle"
+  },
+  "gog_the_escapists_escape_team_dlc_2.0.0.1.sh": {
+    "attainable": "The Escapists Escape Team DLC",
+    "ideal": "The Escapists: Escape Team DLC"
+  },
+  "particulars_lin_latest1416421559.zip": {
+    "ideal": "Particulars"
+  },
+  "gog_the_escapists_alcatraz_dlc_2.0.0.1.sh": {
+    "attainable": "The Escapists Alcatraz DLC",
+    "ideal": "The Escapists: Alcatraz DLC"
+  },
+  "ArkDefenseLinux.zip": {
+    "ideal": "Ark Defense"
+  },
+  "Cubemen2_Linux_1411180371.zip": {
+    "ideal": "Cubemen 2"
+  },
+  "SkyFlower_-_Linux.rar": {
+    "ideal": "Sky Flower"
+  },
+  "IttleDewLinux": {
+    "ideal": "Ittle Dew"
+  },
+  "x-com db 1.4": {
+    "ideal": "X-Com DB"
+  },
+  "Galactic_Fighters__Linux__64_bit_-_27_July.zip": {
+    "ideal": "Galactic Fighters"
+  },
+  "braid": {
+    "ideal": "Braid"
+  },
+  "Savant-Ascent-Default-linux-1.32.99.2.zip": {
+    "ideal": "Savant Ascent"
+  },
+  "Executor": {
+    "ideal": "Executor"
+  },
+  "TowerOfGuns": {
+    "acceptable": [
+      "Tower Of Guns"
+    ],
+    "ideal": "Tower of Guns"
+  },
+  "Testy_MacJohnson": {
+    "ideal": "Testy MacJohnson"
+  },
+  "Amygdala-Linux.14.12.23.02.tar.bz2.zip": {
+    "ideal": "Amygdala"
+  },
+  "gog_tri_1.4.0.6.tar.gz": {
+    "ideal": "TRI"
+  },
+  "Sometimes B0.51 linux.zip": {
+    "ideal": "Sometimes"
+  },
+  "gog_fist_puncher_1.0.0.2.tar.gz": {
+    "ideal": "Fist Puncher"
+  },
+  "gog_drod_rpg_tendry_s_tale_2.4.0.7.sh": {
+    "attainable": "Drod RPG Tendry's Tale",
+    "ideal": "DROD RPG: Tendry's Tale"
+  },
+  "BootHillBlaster-1.3-linux.tar": {
+    "ideal": "Boot Hill Blaster"
   }
 }
