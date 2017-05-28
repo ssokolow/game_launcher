@@ -1,6 +1,7 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""[application description here]"""
+"""Simple helper to reduce the drudgery of adding new cases to a
+filename_to_name test corpus."""
 
 from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
@@ -10,10 +11,13 @@ __appname__ = "[application name here]"
 __version__ = "0.0pre0"
 __license__ = "GNU GPL 3.0 or later"
 
-import json, logging, os
+import json, logging, os, sys
 log = logging.getLogger(__name__)
 
 from src.util.naming import filename_to_name
+
+if sys.version_info.major > 2:
+    basestring = str  # pylint: disable=redefined-builtin,invalid-name
 
 def make_test_defs(acceptable):
     """Code shared between process_folder and --migrate"""
@@ -48,46 +52,54 @@ def merge(existing, updates):
 
 def main():
     """The main entry point, compatible with setuptools entry points."""
-    from optparse import OptionParser
-    parser = OptionParser(version="%%prog v%s" % __version__,
-            usage="%prog [options] <argument> ...",
-            description=__doc__.replace('\r\n', '\n').split('\n--snip--\n')[0])
-    parser.add_option('-v', '--verbose', action="count", dest="verbose",
+    # If we're running on Python 2, take responsibility for preventing
+    # output from causing UnicodeEncodeErrors. (Done here so it should only
+    # happen when not being imported by some other program.)
+    import sys
+    if sys.version_info.major < 3:
+        reload(sys)
+        sys.setdefaultencoding('utf-8')  # pylint: disable=no-member
+
+    from argparse import ArgumentParser, RawTextHelpFormatter
+    parser = ArgumentParser(
+        description=__doc__.replace('\r\n', '\n').split('\n--snip--\n')[0])
+    parser.add_argument('--version', action='version',
+        version="%%(prog)s v%s" % __version__)
+    parser.add_argument('-v', '--verbose', action="count",
         default=2, help="Increase the verbosity. Use twice for extra effect")
-    parser.add_option('-q', '--quiet', action="count", dest="quiet",
+    parser.add_argument('-q', '--quiet', action="count",
         default=0, help="Decrease the verbosity. Use twice for extra effect")
-    parser.add_option('--update', action="append", dest="update",
+    parser.add_argument('--update', action="append", dest="update", default=[],
         help="Specify an existing file to be overlaid on the results. "
              "(Existing hand-audited entries will not be replaced)")
-    parser.add_option('--migrate', action="store_true", dest="migrate",
+    parser.add_argument('--migrate', action="store_true", dest="migrate",
         default=False, help="Migrate the hard-coded keys from an early version"
         " of the test suite.")
+    parser.add_argument('input_paths', nargs='+', metavar='PATH',
+        help="Path of a directory containing source file/directory names")
 
-    # Allow pre-formatted descriptions
-    parser.formatter.format_description = lambda description: description
-
-    opts, args = parser.parse_args()
+    args = parser.parse_args()
 
     # Set up clean logging to stderr
     log_levels = [logging.CRITICAL, logging.ERROR, logging.WARNING,
                   logging.INFO, logging.DEBUG]
-    opts.verbose = min(opts.verbose - opts.quiet, len(log_levels) - 1)
-    opts.verbose = max(opts.verbose, 0)
-    logging.basicConfig(level=log_levels[opts.verbose],
+    args.verbose = min(args.verbose - args.quiet, len(log_levels) - 1)
+    args.verbose = max(args.verbose, 0)
+    logging.basicConfig(level=log_levels[args.verbose],
                         format='%(levelname)s: %(message)s')
 
     accum = {}
 
-    if opts.migrate:
+    if args.migrate:
         from test.util.test_naming import filename_test_map
         merge(accum, {x: make_test_defs(y)
                       for x, y in filename_test_map.items()})
 
-    for path in opts.update:
+    for path in args.update:
         with open(path, 'rU') as fobj:
             merge(accum, json.load(fobj))
 
-    for path in args:
+    for path in args.input_paths:
         merge(accum, process_folder(path))
 
     print(json.dumps(accum, indent=2))
