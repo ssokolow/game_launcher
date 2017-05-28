@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Routines for inferring a game's name"""
 
 from __future__ import (absolute_import, division, print_function,
