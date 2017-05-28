@@ -163,6 +163,10 @@ cruft_tokens = [
     'lin', 'lin32', 'lin64', 'linux', 'lnx', 'win', 'win32', 'win64',
     'nw',  # NW.js, as seen in the wild
 
+    # Shorthand for DOSBox seen in the wild
+    # MobyGames corpus says it only occurs once and only in a *company* name
+    'db',
+
     # release-type classifiers which could present a Scunthorpe problem
     'indev', 'patch',
 
