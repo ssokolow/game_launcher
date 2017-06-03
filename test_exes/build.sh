@@ -168,16 +168,19 @@ echo " * Compiling for DOS with DJGPP (Protected Mode)"; (
 #   - http://freedos.sourceforge.net/software/?prog=cc386
 #   - http://ladsoft.tripod.com/orange_c_compiler.html
 #   - http://www.desmet-c.com/
-#   - https://github.com/alexfru/SmallerC
 #     + the various assemblers in the FreeDOS library
 #   - http://www.t3x.org/subc/
+#   - http://www.freepascal.org/ (Win32, Win64, GO32v2, and i8086 targets)
 #   - http://www.program-transformation.org/Transform/PcExeFormat
 #   - https://github.com/madebits/msnet-netz-compressor
 #   - gzexe for ELF
 #   - UPX's -8086 compression mode for DOS targets
 #   - LxLite-compressed DOS/Win31 programs instead of UPX-compressed
+#   - http://www.compression.dk/cmview/View?id=10005
 # - Decide whether there's enough PlayStation homebrew to justify generating
 #   a PlayStation test EXE plus associated UPX-compressed version.
+# - Is there anything useful I can learn from this tool?
+#   http://unp.bencastricum.nl/
 
 # References used:
 #  ftp://ftp.openwatcom.org/pub/manuals/current/lguide.pdf#page=15
@@ -238,6 +241,13 @@ gcc $GCC_COMMON_ARGS -ohello_gcc.x86_64
 echo " * Compiling native ELF32 binary with GCC for comparison"
 # shellcheck disable=SC2086
 gcc $GCC_COMMON_ARGS -m32 -ohello_gcc.x86
+
+# TODO: Make this work
+# - https://stackoverflow.com/questions/8303536/generating-a-out-file-format-with-gcc
+# - https://groups.google.com/forum/#!topic/comp.os.linux.development.system/uIrJI1wNdOs
+echo " * Compiling native 32-bit a.out binary with GCC for comparison"
+# shellcheck disable=SC2086
+gcc -Wl,--oformat=a.out-i386-linux -static-libgcc $GCC_COMMON_ARGS -m32 -ohello_gcc.aout
 
 # TODO: Adjust ELF GCC output to avoid NotCompressibleException
 echo ""
