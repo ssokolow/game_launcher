@@ -1231,7 +1231,8 @@
     "ideal": "Heavy Bullets"
   },
   "ADventureLib_Linux_tar.gz": {
-    "ideal": "ADventure Lib"
+    "ideal": "ADventure Lib",
+    "attainable": "A Dventure Lib"
   },
   "towerfall-07212016-bin": {
     "attainable": "Towerfall",
@@ -1499,10 +1500,11 @@
   "Particula__linux_full.1.1_.zip": {
     "ideal": "Particula"
   },
+  "n++": {
+    "ideal": "N++"
+  },
   "CSDLinux_261.zip": {
-    "acceptable": [
-      "CSD"
-    ],
+    "attainable": "CSD",
     "ideal": "C.S.D."
   },
   "gog_brutal_legend_2.0.0.3.sh": {
