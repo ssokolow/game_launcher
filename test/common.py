@@ -49,7 +49,7 @@ def assert_aggregate(total_count, score, failures,
     fail_count = len(failures)
     message = "\nFailed to attainably guess %s of %s values (%.2f%%):\n" % (
                 fail_count, total_count, (fail_count / total_count * 100))
-    for val in failures:
+    for val in sorted(failures):
         message += "\t%s\n" % row_formatter_cb(val)
     message += "Final accuracy score: %s" % score
     print(message)
