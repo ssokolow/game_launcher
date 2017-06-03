@@ -96,6 +96,8 @@ Ideas (Incomplete)
 #. Debug logging for anything eliminated from consideration when gathering the
    game list and why. (eg. ``TryExec`` failed, eliminated by deduplication,
    etc.)
+#. Support for setting ``SDL_GAMECONTROLLERCONFIG`` (possibly by integrating
+   with `SDL2 Gamepad Tool`_ somehow.
 #. Look into merging with Lutris_. They've got a GUI and plans for more
    backends. I'm writing more backends and may be satisfied with their GUI.
 
@@ -202,6 +204,7 @@ Ideas: Per-game Workarounds for Broken Games
 .. _LD_PRELOAD: http://www.linuxjournal.com/article/7795
 .. _MetaModes: https://help.ubuntu.com/community/VideoDriverHowto#Twin_View_or_Dual_Head_displays
 .. _open(2): http://linux.die.net/man/2/open
+.. _SDL2 Gamepad Tool: http://generalarcade.com/gamepadtool/
 .. _uinput: http://who-t.blogspot.ca/2013/09/libevdev-creating-uinput-devices.html
 .. _xboxdrv: http://pingus.seul.org/~grumbel/xboxdrv/
 .. _x360ce: http://www.x360ce.com/default.aspx
