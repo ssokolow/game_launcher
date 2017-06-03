@@ -28,6 +28,7 @@ check:
 		print("* Clippy not found. Using `cargo check`...")
 		sys.exit(subprocess.call(['cargo', 'check']))
 		# Use sys.exit() rather than check_call() to avoid traceback
+		# (no conditional since it's the last thing in the task anyway)
 
 # Rebuild the Rust `core` module
 rebuild:
