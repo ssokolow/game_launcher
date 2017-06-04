@@ -260,86 +260,96 @@ mod tests {
     // -- camelcase_to_spaces --
     // TODO: Now that I have a better understanding of the state machine underlying CamelCase,
     //       I should refactor these tests to be more comprehensive and less duplication-heavy.
+    // TODO: Run each camelcase_to_spaces twice to ensure a second run is a no-op.
+
+    /// Helper to deduplicate verifying that camelcase_to_spaces output is stable
+    fn check_camelcase_to_spaces(input: &str, expected: &str) {
+        let result = camelcase_to_spaces(input);
+        assert_eq!(result, expected, "(with input {:?})", input);
+        assert_eq!(camelcase_to_spaces(&result), result,
+                   "camelcase_to_spaces should be a no-op when re-run on its own output");
+    }
 
     #[test]
     fn camelcase_to_spaces_basic_function() {
-        assert_eq!(camelcase_to_spaces("fooBar"), "foo Bar");
-        assert_eq!(camelcase_to_spaces("FooBar"), "Foo Bar");
-        assert_eq!(camelcase_to_spaces("AndroidVM"), "Android VM");
-        assert_eq!(camelcase_to_spaces("RARFile"), "RAR File");
-        assert_eq!(camelcase_to_spaces("ADruidsDuel"), "A Druids Duel");
-        assert_eq!(camelcase_to_spaces("PickACard"), "Pick A Card");
+        check_camelcase_to_spaces("fooBar", "foo Bar");
+        check_camelcase_to_spaces("FooBar", "Foo Bar");
+        check_camelcase_to_spaces("AndroidVM", "Android VM");
+        check_camelcase_to_spaces("RARFile", "RAR File");
+        check_camelcase_to_spaces("ADruidsDuel", "A Druids Duel");
+        check_camelcase_to_spaces("PickACard", "Pick A Card");
     }
 
     #[test]
     fn camelcase_to_spaces_leaves_capitalization_alone() {
-        assert_eq!(camelcase_to_spaces("foo"), "foo");
-        assert_eq!(camelcase_to_spaces("Foo"), "Foo");
-        assert_eq!(camelcase_to_spaces("fooBar"), "foo Bar");
-        assert_eq!(camelcase_to_spaces("FooBar"), "Foo Bar");
-        assert_eq!(camelcase_to_spaces("foo bar"), "foo bar");
-        assert_eq!(camelcase_to_spaces("Foo Bar"), "Foo Bar");
+        check_camelcase_to_spaces("foo", "foo");
+        check_camelcase_to_spaces("Foo", "Foo");
+        check_camelcase_to_spaces("fooBar", "foo Bar");
+        check_camelcase_to_spaces("FooBar", "Foo Bar");
+        check_camelcase_to_spaces("foo bar", "foo bar");
+        check_camelcase_to_spaces("Foo Bar", "Foo Bar");
     }
 
     #[test]
     fn camelcase_to_spaces_ascii_number_handling() {
-        assert_eq!(camelcase_to_spaces("6LittleEggs"), "6 Little Eggs");
-        assert_eq!(camelcase_to_spaces("6 Little Eggs"), "6 Little Eggs");
-        assert_eq!(camelcase_to_spaces("the12chairs"), "the 12 chairs");
-        assert_eq!(camelcase_to_spaces("The12Chairs"), "The 12 Chairs");
-        assert_eq!(camelcase_to_spaces("The 12 Chairs"), "The 12 Chairs");
-        assert_eq!(camelcase_to_spaces("1.5 Children"), "1.5 Children");
-        assert_eq!(camelcase_to_spaces("The1.5Children"), "The 1.5 Children");
-        assert_eq!(camelcase_to_spaces("the1.5children"), "the 1.5 children");
-        assert_eq!(camelcase_to_spaces("Version1.1"), "Version 1.1");
-        assert_eq!(camelcase_to_spaces("Version 1.1"), "Version 1.1");
-        assert_eq!(camelcase_to_spaces("catch22"), "catch 22");
-        assert_eq!(camelcase_to_spaces("Catch 22"), "Catch 22");
-        assert_eq!(camelcase_to_spaces("1Two3"), "1 Two 3");
-        assert_eq!(camelcase_to_spaces("One2Three"), "One 2 Three");
+        check_camelcase_to_spaces("6LittleEggs", "6 Little Eggs");
+        check_camelcase_to_spaces("6 Little Eggs", "6 Little Eggs");
+        check_camelcase_to_spaces("the12chairs", "the 12 chairs");
+        check_camelcase_to_spaces("The12Chairs", "The 12 Chairs");
+        check_camelcase_to_spaces("The 12 Chairs", "The 12 Chairs");
+        check_camelcase_to_spaces("1.5 Children", "1.5 Children");
+        check_camelcase_to_spaces("The1.5Children", "The 1.5 Children");
+        check_camelcase_to_spaces("the1.5children", "the 1.5 children");
+        check_camelcase_to_spaces("Version1.1", "Version 1.1");
+        check_camelcase_to_spaces("Version 1.1", "Version 1.1");
+        check_camelcase_to_spaces("catch22", "catch 22");
+        check_camelcase_to_spaces("Catch 22", "Catch 22");
+        check_camelcase_to_spaces("1Two3", "1 Two 3");
+        check_camelcase_to_spaces("One2Three", "One 2 Three");
     }
 
     #[test]
     fn camelcase_to_spaces_basic_unicode_handling() {
-        assert_eq!(camelcase_to_spaces("\u{1D7DE}ŁittléEggs"), "\u{1D7DE} Łittlé Eggs");
-        assert_eq!(camelcase_to_spaces("ⅥŁittłeEggs"), "Ⅵ Łittłe Eggs");
-        assert_eq!(camelcase_to_spaces("➅LittleEggs"), "➅ Little Eggs");
-        assert_eq!(camelcase_to_spaces("\u{1D7DE} Łittlé Eggs"), "\u{1D7DE} Łittlé Eggs");
-        assert_eq!(camelcase_to_spaces("Ⅵ Łittłe Eggs"), "Ⅵ Łittłe Eggs");
-        assert_eq!(camelcase_to_spaces("➅ Little Eggs"), "➅ Little Eggs");
+        check_camelcase_to_spaces("\u{1D7DE}ŁittléEggs", "\u{1D7DE} Łittlé Eggs");
+        check_camelcase_to_spaces("ⅥŁittłeEggs", "Ⅵ Łittłe Eggs");
+        check_camelcase_to_spaces("➅LittleEggs", "➅ Little Eggs");
+        check_camelcase_to_spaces("\u{1D7DE} Łittlé Eggs", "\u{1D7DE} Łittlé Eggs");
+        check_camelcase_to_spaces("Ⅵ Łittłe Eggs", "Ⅵ Łittłe Eggs");
+        check_camelcase_to_spaces("➅ Little Eggs", "➅ Little Eggs");
     }
 
     #[test]
     fn camelcase_to_spaces_titlecase_handling() {
-        assert_eq!(camelcase_to_spaces("ǅ"), "ǅ");
-        assert_eq!(camelcase_to_spaces("ǅxx"), "ǅxx");
-        assert_eq!(camelcase_to_spaces("ǅX"), "ǅ X");
-        assert_eq!(camelcase_to_spaces("Xǅ"), "X ǅ");
-        assert_eq!(camelcase_to_spaces("Xxǅ"), "Xx ǅ");
-        assert_eq!(camelcase_to_spaces("ǅXx"), "ǅ Xx");
-        assert_eq!(camelcase_to_spaces("1ǅ2"), "1 ǅ 2");
+        check_camelcase_to_spaces("ǅ", "ǅ");
+        check_camelcase_to_spaces("ǅxx", "ǅxx");
+        check_camelcase_to_spaces("ǅX", "ǅ X");
+        check_camelcase_to_spaces("Xǅ", "X ǅ");
+        check_camelcase_to_spaces("Xxǅ", "Xx ǅ");
+        check_camelcase_to_spaces("ǅXx", "ǅ Xx");
+        check_camelcase_to_spaces("1ǅ2", "1 ǅ 2");
     }
 
     #[test]
     fn camelcase_to_spaces_ampersand_handling() {
-        assert_eq!(camelcase_to_spaces("TheKing&I"), "The King & I");
-        assert_eq!(camelcase_to_spaces("TheKing﹠I"), "The King ﹠ I");
-        assert_eq!(camelcase_to_spaces("TheKing＆I"), "The King ＆ I");
-        assert_eq!(camelcase_to_spaces("TheKing\u{1F674}I"), "The King \u{1F674} I");
-        assert_eq!(camelcase_to_spaces("A&b"), "A & b");
-        assert_eq!(camelcase_to_spaces("A﹠b"), "A ﹠ b");
-        assert_eq!(camelcase_to_spaces("A＆b"), "A ＆ b");
-        assert_eq!(camelcase_to_spaces("A\u{1F674}b"), "A \u{1F674} b");
-        assert_eq!(camelcase_to_spaces("1&2"), "1 & 2");
-        assert_eq!(camelcase_to_spaces("ǅ&ǅ"), "ǅ & ǅ");
+        check_camelcase_to_spaces("TheKing&I", "The King & I");
+        check_camelcase_to_spaces("TheKing﹠I", "The King ﹠ I");
+        check_camelcase_to_spaces("TheKing＆I", "The King ＆ I");
+        check_camelcase_to_spaces("TheKing\u{1F674}I", "The King \u{1F674} I");
+        check_camelcase_to_spaces("A&b", "A & b");
+        check_camelcase_to_spaces("A﹠b", "A ﹠ b");
+        check_camelcase_to_spaces("A＆b", "A ＆ b");
+        check_camelcase_to_spaces("A\u{1F674}b", "A \u{1F674} b");
+        check_camelcase_to_spaces("1&2", "1 & 2");
+        check_camelcase_to_spaces("ǅ&ǅ", "ǅ & ǅ");
     }
 
     #[test]
     fn camelcase_to_spaces_doesnt_subdivide_numbers() {
-        assert_eq!(camelcase_to_spaces("3.14"), "3.14");
-        assert_eq!(camelcase_to_spaces("255"), "255");
-        assert_eq!(camelcase_to_spaces("1000000"), "1000000");
-        assert_eq!(camelcase_to_spaces("ut2003"), "ut 2003");
+        check_camelcase_to_spaces("3.14", "3.14");
+        check_camelcase_to_spaces("255", "255");
+        check_camelcase_to_spaces("1000000", "1000000");
+        check_camelcase_to_spaces("ut2003", "ut 2003");
+    }
     }
 
     // -- titlecase_up --
