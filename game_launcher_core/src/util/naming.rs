@@ -357,7 +357,7 @@ mod tests {
     fn check_titlecase_up(input: &str, expected: &str) {
         let result = titlecase_up(input);
         assert_eq!(result, expected, "(with input {:?})", input);
-        assert_eq!(titlecase_up(&result), expected,
+        assert_eq!(titlecase_up(&result), result,
                    "titlecase_up should be a no-op when re-run on its own output");
     }
 
