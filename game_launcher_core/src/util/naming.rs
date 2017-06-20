@@ -11,6 +11,8 @@ use std::path::Path;
 
 use regex::Regex;
 use cpython::{PyModule, PyResult, Python};
+use unicode_segmentation::UnicodeSegmentation;
+use unicode_categories::UnicodeCategories;
 
 // --== Constants and Statics ==--
 
@@ -19,10 +21,9 @@ use super::constants::{
     PROGRAM_EXTS, SUBTITLE_START_RE, WHITESPACE_RE, WORD_BOUNDARY_CHARS
 };
 
-/// Used by `naming::camelcase_to_spaces` to insert spaces at word boundaries
-const CAMELCASE_REPLACEMENT: &str = "${1}${3}${5}${7} ${2}${4}${6}${8}";
 lazy_static! {
     /// Used by `naming::camelcase_to_spaces` to match word boundaries
+    ///
     /// TODO: Move this to `super::constants` once `pub(restricted)` is stable
     static ref CAMELCASE_RE: Regex = Regex::new(r"(?x)
         # == Ampersand (definitely end) followed by anything not already whitespace ==
@@ -82,6 +83,52 @@ impl ConvenientCharCount for str {
 
 // --== Loose Functions ==--
 
+/// Phase 1 intermediate representation used to separate classifying Unicode grapheme clusters from
+/// defining state transitions between classes.
+#[derive(PartialEq)]
+enum CharType {
+    /// No data has yet been processed
+    Start,
+    /// Uppercase
+    Uppercase,
+    /// Lowercase
+    Lowercase,
+    /// Character which combines an uppercase and lowercase character in the same glyph to allow
+    /// round-trip compatibility with legacy encodings.
+    Titlecase,
+    /// One of the various types of ampersands Unicode defines
+    Ampersand,
+    /// One of the various types of apostrophes Unicode defines
+    Apostrophe,
+    /// A "numeric" character, as defined by Unicode
+    Numeric,
+    /// A decimal separator, thousands separator, or other "Common Number Separator"
+    NumSep,
+    /// A piece of punctuation which should not have a space after it, such as "(" or "#"
+    StartPunct,
+    /// A piece of punctuation which should not have a space before it, such as ")" or "%"
+    EndPunct,
+    /// A whitespace character
+    Space,
+    /// Any character which does not fall into the other classes
+    Other
+}
+
+/// Phase 2 intermediate representation used to separate defining state transitions between
+/// character classes from actually processing the text to apply the defined transitions.
+#[derive(PartialEq)]
+enum CCaseAction {
+    /// Pass the character through without any changes
+    Literal,
+    /// Insert a space before the character
+    SpaceBefore,
+    /// Insert a space before the previous character, if it was `Defer`ed
+    SpaceDeferred,
+    /// Delay passing the character through until the following character is identified
+    Defer
+}
+
+
 // TODO: Write a function which generates sorting keys like "Boy And His Blob, A" from titles.
 
 // TODO: Update this docstring once I've tested against the additional 850+ filenames still to be
@@ -102,8 +149,131 @@ impl ConvenientCharCount for str {
 /// The test data in question can be found in the `filename_to_name_data.json` file used by the
 /// top-level integration tests for this project.
 pub fn camelcase_to_spaces(in_str: &str) -> String {
-        let in_str2 = CAMELCASE_RE.replace_all(in_str, CAMELCASE_REPLACEMENT);
-        CAMELCASE_RE.replace_all(&in_str2, CAMELCASE_REPLACEMENT).into_owned()
+    // TODO: Rewrite this as a wordwise iterator so count and space-insertion both come free
+
+    // State for basic comparisons like "lowercase followed by uppercase"
+    let mut prev_type = CharType::Start;
+
+    // State for deferred space insertion (For "ABc", "c" triggers insertion BEFORE "B")
+    let mut prev_cluster = "";
+    let mut prev_action = CCaseAction::Literal;
+
+    // Output accumulator (TODO: Don't just guess at how much slack to allocate)
+    let mut output = String::with_capacity(in_str.len().saturating_add(6));
+
+    for grapheme_cluster in in_str.graphemes(true) {
+        // Extract the base `char` so we can call things like is_uppercase()
+        let base = grapheme_cluster.chars().nth(0).expect("non-empty grapheme cluster");
+
+        // Identify character types for comparison
+        let curr_type = match base {
+            // TODO: Find a crate to which I can delegate "BIDI" category membership checking
+            //       (Membership checked at http://www.unicode.org/Public/UNIDATA/UnicodeData.txt)
+
+            x if x.is_whitespace() => CharType::Space,
+
+            // TODO: Is there any database I can use to delegate "Ampersand" and "Apostrophe" DefN?
+            '\u{26}' | '\u{FE60}' | '\u{FF06}' | '\u{1F674}' => CharType::Ampersand,
+
+            // NOTE: U+2019 (Right Single Quotation Mark)" is included here because FileFormat.info
+            //       includes "U+2019 is preferred for apostrophe" in the "Comments" field.
+            '\u{27}' | '\u{2019}' | '\u{FF07}' => CharType::Apostrophe,
+
+            // Include "BIDI: Common Number Separators [CS]" as non-space-inducing
+            // TODO: Add unit tests for all of these
+            '\u{2c}' | '\u{2e}' | '\u{2f}' | '\u{3a}' | '\u{a0}' | '\u{60c}' | '\u{202f}' |
+                       '\u{2044}' | '\u{FE50}' | '\u{FE52}' | '\u{FE55}' | '\u{FF0C}' |
+                       '\u{FF0E}' | '\u{FF0F}' | '\u{FF1A}' |
+
+            // Include "BIDI: ES" as non-space-inducing characters based on test corpus
+            // TODO: Add unit tests for all of these
+                        '\u{2b}' | '\u{2d}' | '\u{207A}' | '\u{207B}' | '\u{208A}' | '\u{208B}' |
+                        '\u{2212}' | '\u{FB29}' | '\u{FE62}' | '\u{FE63}' | '\u{FF0B}' | '\u{FF0D}'
+                => CharType::NumSep,
+
+            // Punctuation which should only trigger whitespace on one side
+            // TODO: Add unit tests for all of these
+           '\u{23}' | '\u{FE5F}' | '\u{A1}' | '\u{BF}' | '\u{2E18}' | '\u{FF03}' | '\u{1F679}'
+               => CharType::StartPunct,
+           '\u{21}' | '\u{25}' | '\u{3b}' | '\u{3f}' | '\u{2030}' | '\u{2031}' | '\u{203c}' |
+                      '\u{203d}' | '\u{2047}' | '\u{2048}' | '\u{2049}' | '\u{2762}' | '\u{FE54}' |
+                      '\u{FE56}' | '\u{FE57}' | '\u{FE6A}' | '\u{FF01}' | '\u{FF05}' | '\u{FF1B}' |
+                      '\u{FF1F}'
+               => CharType::EndPunct,
+            x if x.is_punctuation_open() => CharType::StartPunct,
+            x if x.is_punctuation_close() => CharType::EndPunct,
+
+            // Basic numbers and letters
+            x if x.is_numeric() => CharType::Numeric,
+            x if x.is_uppercase() => CharType::Uppercase,
+            x if x.is_lowercase() => CharType::Lowercase,
+            x if x.is_letter_titlecase() => CharType::Titlecase,
+
+            // Fall through to other types of symbols
+            _ => CharType::Other
+        };
+
+        // Determine what action to take for each transition type
+        // FIXME: Silence `match_same_arms` lint. It could prompt someone to mess with precedence.
+        let curr_action = match (&prev_type, &curr_type) {
+            // Don't insert a space at the beginning or where one already exists (must come first)
+            // TODO: Actually collapse and normalize whitespace
+            (&CharType::Start, _) |
+            (&CharType::Space, _) | (_, &CharType::Space) => CCaseAction::Literal,
+
+            // Always insert space before and after ampersands (must be between Space and NumSep)
+            // TODO: Unit test the interaction between Ampersand and NumSep
+            (&CharType::Ampersand, _) | (_, &CharType::Ampersand) => CCaseAction::SpaceBefore,
+
+            // Don't insert space around a "Common Number Separator" or apostrophe
+            (&CharType::NumSep, _) | (_, &CharType::NumSep) |
+            (&CharType::Apostrophe, _) | (_, &CharType::Apostrophe) => CCaseAction::Literal,
+
+            // Don't insert spaces after opening or before closing punctuation (eg. parens)
+            (&CharType::StartPunct, _) | (_, &CharType::EndPunct) => CCaseAction::Literal,
+
+            // Defer space insertion between uppercase characters until we know whether the second
+            // is starting a new word
+            (&CharType::Uppercase, &CharType::Uppercase) => CCaseAction::Defer,
+
+            // Don't insert a space after the first letter of a new word
+            (&CharType::Titlecase, &CharType::Lowercase) |
+            (&CharType::Uppercase, &CharType::Lowercase) => CCaseAction::SpaceDeferred,
+
+            // If we reach this point and the character types differ, insert a space.
+            (x, y) if x != y => CCaseAction::SpaceBefore,
+
+            // ...otherwise, just pass it through verbatim
+            _ => CCaseAction::Literal
+        };
+
+        // Actually take action
+        if prev_action == CCaseAction::Defer {
+            if curr_action == CCaseAction::SpaceDeferred {
+                    output.push(' ');
+            }
+            output.push_str(prev_cluster);
+        }
+        if curr_action != CCaseAction::Defer {
+            if curr_action == CCaseAction::SpaceBefore {
+                output.push(' ');
+            }
+            output.push_str(grapheme_cluster);
+        };
+
+        // Set up for the next iteration
+        prev_type = curr_type;
+        prev_action = curr_action;
+        prev_cluster = grapheme_cluster;
+    }
+
+    // If the last character was `Defer`ed, flush it into the output string
+    if prev_action == CCaseAction::Defer {
+        output.push_str(prev_cluster);
+    }
+
+    // Return the final result
+    output
 }
 
 /// Helper for `filename_to_name` to strip recognized extensions without over-stripping when
@@ -278,6 +448,7 @@ mod tests {
         check_camelcase_to_spaces("RARFile", "RAR File");
         check_camelcase_to_spaces("ADruidsDuel", "A Druids Duel");
         check_camelcase_to_spaces("PickACard", "Pick A Card");
+        check_camelcase_to_spaces("AxelF", "Axel F");
     }
 
     #[test]
@@ -306,6 +477,8 @@ mod tests {
         check_camelcase_to_spaces("Catch 22", "Catch 22");
         check_camelcase_to_spaces("1Two3", "1 Two 3");
         check_camelcase_to_spaces("One2Three", "One 2 Three");
+        check_camelcase_to_spaces("ONE2", "ONE 2");
+        check_camelcase_to_spaces("ONE2THREE", "ONE 2 THREE");
     }
 
     #[test]
@@ -344,12 +517,51 @@ mod tests {
     }
 
     #[test]
+    fn camelcase_to_spaces_apostrophe_handling() {
+        check_camelcase_to_spaces("Don'tMove", "Don't Move");
+        check_camelcase_to_spaces("Don\u{2019}tMove", "Don\u{2019}t Move");
+        check_camelcase_to_spaces("Don\u{FF07}tMove", "Don\u{FF07}t Move");
+        check_camelcase_to_spaces("It's my kids' kids'", "It's my kids' kids'");
+        check_camelcase_to_spaces("it\u{2019}s my kids\u{2019} kids\u{2019}",
+                                  "it\u{2019}s my kids\u{2019} kids\u{2019}");
+        check_camelcase_to_spaces("it\u{FF07}s my kids\u{FF07} kids\u{FF07}",
+                                  "it\u{FF07}s my kids\u{FF07} kids\u{FF07}");
+    }
+
+    #[test]
+    fn camelcase_to_spaces_open_close_handling() {
+        check_camelcase_to_spaces("Who?Him!Really?Yeah!", "Who? Him! Really? Yeah!");
+        check_camelcase_to_spaces("100%Juice", "100% Juice");
+        check_camelcase_to_spaces("WeAre#1", "We Are #1");
+        check_camelcase_to_spaces("ShadowWarrior(2013)", "Shadow Warrior (2013)");
+        check_camelcase_to_spaces("SallyFace[Linux]", "Sally Face [Linux]");
+        check_camelcase_to_spaces("TestyFoo{Bar}", "Testy Foo {Bar}");
+        check_camelcase_to_spaces("ShadowWarrior\u{FF08}2013\u{FF09}",
+                                  "Shadow Warrior \u{FF08}2013\u{FF09}");
+    }
+
+    #[test]
     fn camelcase_to_spaces_doesnt_subdivide_numbers() {
         check_camelcase_to_spaces("3.14", "3.14");
         check_camelcase_to_spaces("255", "255");
         check_camelcase_to_spaces("1000000", "1000000");
         check_camelcase_to_spaces("ut2003", "ut 2003");
     }
+
+    #[test]
+    fn camelcase_to_spaces_unicode_segmentation() {
+        /// Zalgo text generated using http://eeemo.net/
+        check_camelcase_to_spaces("f̴͘͟͜ǫ̴̸̧͘ó̵̢̢͏B̴̨͠á̵̸͡r̶̵͢͠", "f̴͘͟͜ǫ̴̸̧͘ó̵̢̢͏ B̴̨͠á̵̸͡r̶̵͢͠");
+        check_camelcase_to_spaces("Ŕ̀̕͟͞À̸̛͞͞Ŕ̨̕F̕͜͟͠í̵͜l҉̨e̶̵", "Ŕ̀̕͟͞À̸̛͞͞Ŕ̨̕ F̕͜͟͠í̵͜l҉̨e̶̵");
+        check_camelcase_to_spaces("P̕͟͠i҉͢c̨̨͞͡ḱ̸̕Ą̸Ç͘͜a͘͟r̀͟͢҉̵d̕͜", "P̕͟͠i҉͢c̨̨͞͡ḱ̸̕ Ą̸ Ç͘͜a͘͟r̀͟͢҉̵d̕͜");
+        check_camelcase_to_spaces("6̢L̢͏͏͠i̷̛͜t̷̕t̷͟ļ͟͢ȩ̨̕̕È̷̸g̵̷̨͢͡g̷s͟͞", "6̢ L̢͏͏͠i̷̛͜t̷̕t̷͟ļ͟͢ȩ̨̕̕ È̷̸g̵̷̨͢͡g̷s͟͞");
+        check_camelcase_to_spaces("t̶̨͞h̨͝͝e̡͟͢1̴̧̀͘͟2͘͘c̷̴̢͘h̶̴̢͢à͘͏i̡̛r͜s̷͏", "t̶̨͞h̨͝͝e̡͟͢ 1̴̧̀͘͟2͘͘ c̷̴̢͘h̶̴̢͢à͘͏i̡̛r͜s̷͏");
+        check_camelcase_to_spaces("T̶͡ḩ̷̷͟ȩ̛́͘͡1̵̨̕͢2̕͝C̸̡͞͏͟h̴̵̀a҉͜͢i̵̸̡̕ŗ̴͢s̴͏͘͡", "T̶͡ḩ̷̷͟ȩ̛́͘͡ 1̵̨̕͢2̕͝ C̸̡͞͏͟h̴̵̀a҉͜͢i̵̸̡̕ŗ̴͢s̴͏͘͡");
+        check_camelcase_to_spaces("T͠҉̸̷h̀͡e̡̨͝͠1̴́͏.͏̨́͠͝5̨́̕C̷͜͏͠h̢̧͝ì̡̢̕l̸͞͡d̵̕͢͡ŕ̶͘͡͞e͜͝n̨҉̕", "T͠҉̸̷h̀͡e̡̨͝͠ 1̴́͏.͏̨́͠͝5̨́̕ C̷͜͏͠h̢̧͝ì̡̢̕l̸͞͡d̵̕͢͡ŕ̶͘͡͞e͜͝n̨҉̕");
+        check_camelcase_to_spaces("t̡̛͟h͏҉҉́è͝͠1̢̕͟͟.̶̛5̶͜ć̀ḩ̶̸̕͜i̸̕͢l̢͡͝͝͏d͘͟r̨͢e̢҉̵͞͠n̛", "t̡̛͟h͏҉҉́è͝͠ 1̢̕͟͟.̶̛5̶͜ ć̀ḩ̶̸̕͜i̸̕͢l̢͡͝͝͏d͘͟r̨͢e̢҉̵͞͠n̛");
+        check_camelcase_to_spaces("V̶͞e̡͜͟͠r̢͟s̀͏̧̢̕i̸̧͞͠o̷̸̧n̡͞1̧̀͘͟͞.̸̕1́͞҉", "V̶͞e̡͜͟͠r̢͟s̀͏̧̢̕i̸̧͞͠o̷̸̧n̡͞ 1̧̀͘͟͞.̸̕1́͞҉");
+        check_camelcase_to_spaces("A̴&͏̵̛b͝", "A̴ &͏̵̛ b͝");
+        check_camelcase_to_spaces("u̢҉͡t̸̷̛2̶͏͡0́̕҉̶0̡͞͡3̴̷͟", "u̢҉͡t̸̷̛ 2̶͏͡0́̕҉̶0̡͞͡3̴̷͟");
     }
 
     // -- titlecase_up --

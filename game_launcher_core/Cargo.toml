@@ -10,6 +10,8 @@ crate-type = ["cdylib"]
 [dependencies]
 lazy_static = "0.2.6"
 regex = "0.2.1"
+unicode-segmentation = "1.1.0"
+unicode_categories = "0.1.1"
 
 [dependencies.cpython]
 version = "0.1"

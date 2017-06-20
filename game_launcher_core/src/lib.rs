@@ -26,6 +26,8 @@ extern crate cpython;
 extern crate lazy_static;
 
 extern crate regex;
+extern crate unicode_segmentation;
+extern crate unicode_categories;
 
 use cpython::{PyModule, PyResult};
 
