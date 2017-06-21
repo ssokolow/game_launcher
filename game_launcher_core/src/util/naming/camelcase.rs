@@ -102,6 +102,56 @@ enum CCaseAction {
 
 // --== Loose Functions ==--
 
+/// Identify what role a given character plays in the string
+fn classify_char(in_char: char) -> CharType {
+    match in_char {
+        // TODO: Find a crate to which I can delegate "BIDI" category membership checking
+        //       (Membership checked at http://www.unicode.org/Public/UNIDATA/UnicodeData.txt)
+
+        x if x.is_whitespace() => CharType::Space,
+
+        // TODO: Is there any database I can use to delegate "Ampersand" and "Apostrophe" DefN?
+        '\u{26}' | '\u{FE60}' | '\u{FF06}' | '\u{1F674}' => CharType::Ampersand,
+
+        // NOTE: U+2019 (Right Single Quotation Mark)" is included here because FileFormat.info
+        //       includes "U+2019 is preferred for apostrophe" in the "Comments" field.
+        '\u{27}' | '\u{2019}' | '\u{FF07}' => CharType::Apostrophe,
+
+        // Include "BIDI: Common Number Separators [CS]" as non-space-inducing
+        // TODO: Add unit tests for all of these
+        '\u{2c}' | '\u{2e}' | '\u{2f}' | '\u{3a}' | '\u{a0}' | '\u{60c}' | '\u{202f}' |
+                   '\u{2044}' | '\u{FE50}' | '\u{FE52}' | '\u{FE55}' | '\u{FF0C}' |
+                   '\u{FF0E}' | '\u{FF0F}' | '\u{FF1A}' |
+
+        // Include "BIDI: ES" as non-space-inducing characters based on test corpus
+        // TODO: Add unit tests for all of these
+                    '\u{2b}' | '\u{2d}' | '\u{207A}' | '\u{207B}' | '\u{208A}' | '\u{208B}' |
+                    '\u{2212}' | '\u{FB29}' | '\u{FE62}' | '\u{FE63}' | '\u{FF0B}' | '\u{FF0D}'
+            => CharType::NumSep,
+
+        // Punctuation which should only trigger whitespace on one side
+        // TODO: Add unit tests for all of these
+       '\u{23}' | '\u{FE5F}' | '\u{A1}' | '\u{BF}' | '\u{2E18}' | '\u{FF03}' | '\u{1F679}'
+           => CharType::StartPunct,
+       '\u{21}' | '\u{25}' | '\u{3b}' | '\u{3f}' | '\u{2030}' | '\u{2031}' | '\u{203c}' |
+                  '\u{203d}' | '\u{2047}' | '\u{2048}' | '\u{2049}' | '\u{2762}' | '\u{FE54}' |
+                  '\u{FE56}' | '\u{FE57}' | '\u{FE6A}' | '\u{FF01}' | '\u{FF05}' | '\u{FF1B}' |
+                  '\u{FF1F}'
+           => CharType::EndPunct,
+        x if x.is_punctuation_open() => CharType::StartPunct,
+        x if x.is_punctuation_close() => CharType::EndPunct,
+
+        // Basic numbers and letters
+        x if x.is_numeric() => CharType::Numeric,
+        x if x.is_uppercase() => CharType::Uppercase,
+        x if x.is_lowercase() => CharType::Lowercase,
+        x if x.is_letter_titlecase() => CharType::Titlecase,
+
+        // Fall through to other types of symbols
+        _ => CharType::Other
+    }
+}
+
 // TODO: Update this docstring once I've tested against the additional 850+ filenames still to be
 // added to the corpus.
 /// Insert spaces at word boundaries in a camelcase string.
@@ -137,52 +187,7 @@ pub fn camelcase_to_spaces(in_str: &str) -> String {
         let base = grapheme_cluster.chars().nth(0).expect("non-empty grapheme cluster");
 
         // Identify character types for comparison
-        let curr_type = match base {
-            // TODO: Find a crate to which I can delegate "BIDI" category membership checking
-            //       (Membership checked at http://www.unicode.org/Public/UNIDATA/UnicodeData.txt)
-
-            x if x.is_whitespace() => CharType::Space,
-
-            // TODO: Is there any database I can use to delegate "Ampersand" and "Apostrophe" DefN?
-            '\u{26}' | '\u{FE60}' | '\u{FF06}' | '\u{1F674}' => CharType::Ampersand,
-
-            // NOTE: U+2019 (Right Single Quotation Mark)" is included here because FileFormat.info
-            //       includes "U+2019 is preferred for apostrophe" in the "Comments" field.
-            '\u{27}' | '\u{2019}' | '\u{FF07}' => CharType::Apostrophe,
-
-            // Include "BIDI: Common Number Separators [CS]" as non-space-inducing
-            // TODO: Add unit tests for all of these
-            '\u{2c}' | '\u{2e}' | '\u{2f}' | '\u{3a}' | '\u{a0}' | '\u{60c}' | '\u{202f}' |
-                       '\u{2044}' | '\u{FE50}' | '\u{FE52}' | '\u{FE55}' | '\u{FF0C}' |
-                       '\u{FF0E}' | '\u{FF0F}' | '\u{FF1A}' |
-
-            // Include "BIDI: ES" as non-space-inducing characters based on test corpus
-            // TODO: Add unit tests for all of these
-                        '\u{2b}' | '\u{2d}' | '\u{207A}' | '\u{207B}' | '\u{208A}' | '\u{208B}' |
-                        '\u{2212}' | '\u{FB29}' | '\u{FE62}' | '\u{FE63}' | '\u{FF0B}' | '\u{FF0D}'
-                => CharType::NumSep,
-
-            // Punctuation which should only trigger whitespace on one side
-            // TODO: Add unit tests for all of these
-           '\u{23}' | '\u{FE5F}' | '\u{A1}' | '\u{BF}' | '\u{2E18}' | '\u{FF03}' | '\u{1F679}'
-               => CharType::StartPunct,
-           '\u{21}' | '\u{25}' | '\u{3b}' | '\u{3f}' | '\u{2030}' | '\u{2031}' | '\u{203c}' |
-                      '\u{203d}' | '\u{2047}' | '\u{2048}' | '\u{2049}' | '\u{2762}' | '\u{FE54}' |
-                      '\u{FE56}' | '\u{FE57}' | '\u{FE6A}' | '\u{FF01}' | '\u{FF05}' | '\u{FF1B}' |
-                      '\u{FF1F}'
-               => CharType::EndPunct,
-            x if x.is_punctuation_open() => CharType::StartPunct,
-            x if x.is_punctuation_close() => CharType::EndPunct,
-
-            // Basic numbers and letters
-            x if x.is_numeric() => CharType::Numeric,
-            x if x.is_uppercase() => CharType::Uppercase,
-            x if x.is_lowercase() => CharType::Lowercase,
-            x if x.is_letter_titlecase() => CharType::Titlecase,
-
-            // Fall through to other types of symbols
-            _ => CharType::Other
-        };
+        let curr_type = classify_char(base);
 
         // Determine what action to take for each transition type
         // FIXME: Silence `match_same_arms` lint. It could prompt someone to mess with precedence.
