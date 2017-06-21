@@ -46,8 +46,6 @@ test: check
 	cd game_launcher_core && cargo outdated || true
 	@printf "\n--== Dead Internal Documentation Links ==--\n"
 	cd game_launcher_core && cargo doc && cargo deadlinks || true
-	@printf "\n--== Clippy Lints ==--\n"
-	cd game_launcher_core && cargo +nightly clippy || true # Run clippy for maximum pedantry
 	@printf "\n--== Rust Test Suite (on stable) ==--\n"
 	cd game_launcher_core && cargo +stable test  # Test with stable so nightly dependencies don't slip in
 	@printf "\n--== Python Test Suite ==--\n"
