@@ -192,20 +192,21 @@ pub fn camelcase_to_spaces(in_str: &str) -> String {
         // Determine what action to take for each transition type
         // FIXME: Silence `match_same_arms` lint. It could prompt someone to mess with precedence.
         let curr_action = match (&prev_type, &curr_type) {
-            // Don't insert a space at the beginning or where one already exists (must come first)
+            // Don't insert a space at the beginning or where one already exists
+            // (This match arm must come first in the listi)
             // TODO: Actually collapse and normalize whitespace
             (&CharType::Start, _) |
             (&CharType::Space, _) | (_, &CharType::Space) => CCaseAction::Literal,
 
-            // Always insert space before and after ampersands (must be between Space and NumSep)
-            // TODO: Unit test the interaction between Ampersand and NumSep
+            // Always insert space before and after ampersands
+            // (This match arm must come after Start/Space but before NumSep/etc.)
+            // TODO: Unit test the interaction between Ampersand and NumSep/etc.
             (&CharType::Ampersand, _) | (_, &CharType::Ampersand) => CCaseAction::SpaceBefore,
 
             // Don't insert space around a "Common Number Separator" or apostrophe
+            // or after opening or before closing punctuation (eg. parens)
             (&CharType::NumSep, _) | (_, &CharType::NumSep) |
-            (&CharType::Apostrophe, _) | (_, &CharType::Apostrophe) => CCaseAction::Literal,
-
-            // Don't insert spaces after opening or before closing punctuation (eg. parens)
+            (&CharType::Apostrophe, _) | (_, &CharType::Apostrophe) |
             (&CharType::StartPunct, _) | (_, &CharType::EndPunct) => CCaseAction::Literal,
 
             // Defer space insertion between uppercase characters until we know whether the second
