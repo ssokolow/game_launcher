@@ -2,7 +2,7 @@
 //!
 
 use regex::Regex;
-use unicode_segmentation::UnicodeSegmentation;
+use unicode_segmentation::{GraphemeIndices,UnicodeSegmentation};
 use unicode_categories::UnicodeCategories;
 
 // --== Constants and Statics ==--
@@ -57,10 +57,12 @@ lazy_static! {
 
 /// Phase 1 intermediate representation used to separate classifying Unicode grapheme clusters from
 /// defining state transitions between classes.
-#[derive(PartialEq)]
+#[derive(Clone, Copy, PartialEq)]
 enum CharType {
     /// No data has yet been processed
-    Start,
+    Start,  // TODO: Is there any way to make this only usable as an initialization value?
+    /// We're at the end of the string
+    End,
     /// Uppercase
     Uppercase,
     /// Lowercase
@@ -88,7 +90,7 @@ enum CharType {
 
 /// Phase 2 intermediate representation used to separate defining state transitions between
 /// character classes from actually processing the text to apply the defined transitions.
-#[derive(PartialEq)]
+#[derive(Clone, Copy, PartialEq)]
 enum CCaseAction {
     /// Pass the character through without any changes
     Literal,
@@ -98,6 +100,93 @@ enum CCaseAction {
     SpaceDeferred,
     /// Delay passing the character through until the following character is identified
     Defer
+}
+
+// --== Iterator ==--
+
+/// External iterator for words as defined by camelcase rules.
+pub struct Words<'a> {
+    /// Reference to the source string
+    in_str: &'a str,
+    /// Grapheme iterator wrapping the source string
+    in_iter: GraphemeIndices<'a>,
+    /// If true, don't split on existing runs of whitespace (useful for stats gathering)
+    literal_ws: bool,
+
+    // Used by the middle phase of each next() call
+    /// The abstract type of the previous grapheme's base `char`
+    prev_type: CharType,
+
+    // Used by the final phase of each next() call
+    /// The start offset (in bytes) for the word currently being accumulated
+    start_offset: usize,
+    /// The tentative end offset (in bytes) for the word currently being accumulated
+    end_offset: usize,
+}
+
+/// Returns an iterator over the words of `in_str`, separated by camelcase rules.
+///
+/// TODO: Turn this into a trait on &str
+pub fn iter_words(in_str: &str, literal_ws: bool) -> Words {
+    Words {
+        in_str,
+        in_iter: in_str.grapheme_indices(true),
+        literal_ws,
+        // TODO: Unit tests for literal_ws
+
+        prev_type: CharType::Start,
+        start_offset: 0,
+        end_offset: 0,
+    }
+}
+
+impl<'a> Iterator for Words<'a> {
+    type Item = &'a str;
+
+    fn next(&mut self) -> Option<&'a str> {
+        // Get the next grapheme cluster and its byte index
+        while let Some((byte_offset, grapheme)) = self.in_iter.next() {
+            // Extract the base `char` so we can call things like is_uppercase()
+            let base = grapheme.chars().nth(0).expect("non-empty grapheme cluster");
+
+            // Identify character types and map the transition between them to an action
+            let curr_type = classify_char(base);
+            let curr_action = transition_to_action(self.prev_type, curr_type);
+            self.prev_type = curr_type;
+
+            // Store temporaries of the old start_offset and end_offset so we can reference them
+            // after updating the persistent copies. (This would be simpler with a `yield` keyword)
+            let start_offset = self.start_offset;
+            let end_offset = self.end_offset;
+
+            // Actually take action
+            match curr_action {
+                CCaseAction::SpaceDeferred => {
+                    self.start_offset = end_offset;
+                    self.end_offset = byte_offset;
+
+                    // Return up to before previous
+                    return Some(&self.in_str[start_offset..end_offset]);
+                },
+                CCaseAction::SpaceBefore => {
+                    self.start_offset = byte_offset;
+                    self.end_offset = byte_offset;
+
+                    // Return up to before current
+                    return Some(&self.in_str[start_offset..byte_offset]);
+                },
+                _ => { self.end_offset = byte_offset; } // Just increment the tentative end offset
+            }
+        }
+
+        // Return the final result
+        if self.prev_type != CharType::End {
+            self.prev_type = CharType::End;
+            Some(&self.in_str[self.start_offset..])
+        } else {
+            None
+        }
+    }
 }
 
 // --== Loose Functions ==--
@@ -152,6 +241,43 @@ fn classify_char(in_char: char) -> CharType {
     }
 }
 
+/// Identify the action to take for a given character-type transition
+fn transition_to_action(old_type: CharType, new_type: CharType) -> CCaseAction {
+    // FIXME: Silence `match_same_arms` lint. It could prompt someone to mess with precedence.
+    match (old_type, new_type) {
+        // Don't insert a space at the beginning or where one already exists
+        // (This match arm must come first in the listi)
+        // TODO: Actually collapse and normalize whitespace
+        (CharType::Start, _) |
+        (CharType::Space, _) | (_, CharType::Space) => CCaseAction::Literal,
+
+        // Always insert space before and after ampersands
+        // (This match arm must come after Start/Space but before NumSep/etc.)
+        // TODO: Unit test the interaction between Ampersand and NumSep/etc.
+        (CharType::Ampersand, _) | (_, CharType::Ampersand) => CCaseAction::SpaceBefore,
+
+        // Don't insert space around a "Common Number Separator" or apostrophe
+        // or after opening or before closing punctuation (eg. parens)
+        (CharType::NumSep, _) | (_, CharType::NumSep) |
+        (CharType::Apostrophe, _) | (_, CharType::Apostrophe) |
+        (CharType::StartPunct, _) | (_, CharType::EndPunct) => CCaseAction::Literal,
+
+        // Defer space insertion between uppercase characters until we know whether the second
+        // is starting a new word
+        (CharType::Uppercase, CharType::Uppercase) => CCaseAction::Defer,
+
+        // Don't insert a space after the first letter of a new word
+        (CharType::Titlecase, CharType::Lowercase) |
+        (CharType::Uppercase, CharType::Lowercase) => CCaseAction::SpaceDeferred,
+
+        // If we reach this point and the character types differ, insert a space.
+        (x, y) if x != y => CCaseAction::SpaceBefore,
+
+        // ...otherwise, just pass it through verbatim
+        _ => CCaseAction::Literal
+    }
+}
+
 // TODO: Update this docstring once I've tested against the additional 850+ filenames still to be
 // added to the corpus.
 /// Insert spaces at word boundaries in a camelcase string.
@@ -170,87 +296,8 @@ fn classify_char(in_char: char) -> CharType {
 /// The test data in question can be found in the `filename_to_name_data.json` file used by the
 /// top-level integration tests for this project.
 pub fn camelcase_to_spaces(in_str: &str) -> String {
-    // TODO: Rewrite this as a wordwise iterator so count and space-insertion both come free
-
-    // State for basic comparisons like "lowercase followed by uppercase"
-    let mut prev_type = CharType::Start;
-
-    // State for deferred space insertion (For "ABc", "c" triggers insertion BEFORE "B")
-    let mut prev_cluster = "";
-    let mut prev_action = CCaseAction::Literal;
-
-    // Output accumulator (TODO: Don't just guess at how much slack to allocate)
-    let mut output = String::with_capacity(in_str.len().saturating_add(6));
-
-    for grapheme_cluster in in_str.graphemes(true) {
-        // Extract the base `char` so we can call things like is_uppercase()
-        let base = grapheme_cluster.chars().nth(0).expect("non-empty grapheme cluster");
-
-        // Identify character types for comparison
-        let curr_type = classify_char(base);
-
-        // Determine what action to take for each transition type
-        // FIXME: Silence `match_same_arms` lint. It could prompt someone to mess with precedence.
-        let curr_action = match (&prev_type, &curr_type) {
-            // Don't insert a space at the beginning or where one already exists
-            // (This match arm must come first in the listi)
-            // TODO: Actually collapse and normalize whitespace
-            (&CharType::Start, _) |
-            (&CharType::Space, _) | (_, &CharType::Space) => CCaseAction::Literal,
-
-            // Always insert space before and after ampersands
-            // (This match arm must come after Start/Space but before NumSep/etc.)
-            // TODO: Unit test the interaction between Ampersand and NumSep/etc.
-            (&CharType::Ampersand, _) | (_, &CharType::Ampersand) => CCaseAction::SpaceBefore,
-
-            // Don't insert space around a "Common Number Separator" or apostrophe
-            // or after opening or before closing punctuation (eg. parens)
-            (&CharType::NumSep, _) | (_, &CharType::NumSep) |
-            (&CharType::Apostrophe, _) | (_, &CharType::Apostrophe) |
-            (&CharType::StartPunct, _) | (_, &CharType::EndPunct) => CCaseAction::Literal,
-
-            // Defer space insertion between uppercase characters until we know whether the second
-            // is starting a new word
-            (&CharType::Uppercase, &CharType::Uppercase) => CCaseAction::Defer,
-
-            // Don't insert a space after the first letter of a new word
-            (&CharType::Titlecase, &CharType::Lowercase) |
-            (&CharType::Uppercase, &CharType::Lowercase) => CCaseAction::SpaceDeferred,
-
-            // If we reach this point and the character types differ, insert a space.
-            (x, y) if x != y => CCaseAction::SpaceBefore,
-
-            // ...otherwise, just pass it through verbatim
-            _ => CCaseAction::Literal
-        };
-
-        // Actually take action
-        if prev_action == CCaseAction::Defer {
-            if curr_action == CCaseAction::SpaceDeferred {
-                    output.push(' ');
-            }
-            output.push_str(prev_cluster);
-        }
-        if curr_action != CCaseAction::Defer {
-            if curr_action == CCaseAction::SpaceBefore {
-                output.push(' ');
-            }
-            output.push_str(grapheme_cluster);
-        };
-
-        // Set up for the next iteration
-        prev_type = curr_type;
-        prev_action = curr_action;
-        prev_cluster = grapheme_cluster;
-    }
-
-    // If the last character was `Defer`ed, flush it into the output string
-    if prev_action == CCaseAction::Defer {
-        output.push_str(prev_cluster);
-    }
-
-    // Return the final result
-    output
+    // TODO: Depend on itertools and use join() instead
+    iter_words(in_str, false).collect::<Vec<_>>().connect(" ")
 }
 
 // TODO: Replace everything below except tests with the Iterator-ified version of the code above.
@@ -264,6 +311,7 @@ const CAMELCASE_COUNT_REPLACEMENT: &str = "${1}${3}${5}${7}\0${2}${4}${6}${8}";
 /// **NOTE:** This is a temporary implementation to allow the dependent code to be refined. It will
 ///     be replaced by a properly efficient, non-regex-based solution.
 pub fn camelcase_count(in_str: &str) -> usize {
+        // TODO: Unit test, then replace with iter_words(in_str, true).count()
         let in_str2 = CAMELCASE_RE.replace_all(in_str, CAMELCASE_COUNT_REPLACEMENT);
         CAMELCASE_RE.replace_all(&in_str2, CAMELCASE_COUNT_REPLACEMENT).count_char('\0')
 }
