@@ -209,6 +209,7 @@ impl<'a> Iterator for Words<'a> {
 /// Identify what role a given character plays in the string
 fn classify_char(in_char: char) -> CharType {
     match in_char {
+        // TODO: Adapt unicode.py from unicode-categories and auto-generate the "BIDI" categories
         // TODO: Find a crate to which I can delegate "BIDI" category membership checking
         //       (Membership checked at http://www.unicode.org/Public/UNIDATA/UnicodeData.txt)
 
@@ -225,25 +226,38 @@ fn classify_char(in_char: char) -> CharType {
 
         // Include "BIDI: Common Number Separators [CS]" as non-space-inducing
         // TODO: Add unit tests for all of these
-        '\u{2c}' | '\u{2e}' | '\u{2f}' | '\u{3a}' | '\u{a0}' | '\u{60c}' | '\u{202f}' |
-                   '\u{2044}' | '\u{FE50}' | '\u{FE52}' | '\u{FE55}' | '\u{FF0C}' |
-                   '\u{FF0E}' | '\u{FF0F}' | '\u{FF1A}' |
+        '\u{2c}' | '\u{2e}' | '\u{2f}' | '\u{3a}' | '\u{60c}' | '\u{2044}' | '\u{FE50}' |
+                   '\u{FE52}' | '\u{FE55}' | '\u{FF0C}' | '\u{FF0E}' | '\u{FF0F}' | '\u{FF1A}' |
 
-        // Include "BIDI: ES" as non-space-inducing characters based on test corpus
+        // Include "BIDI: European Number Separator [ES]" as non-breaking based on test corpus
         // TODO: Add unit tests for all of these
                     '\u{2b}' | '\u{2d}' | '\u{207A}' | '\u{207B}' | '\u{208A}' | '\u{208B}' |
                     '\u{2212}' | '\u{FB29}' | '\u{FE62}' | '\u{FE63}' | '\u{FF0B}' | '\u{FF0D}'
             => CharType::NumSep,
 
-        // Punctuation which should only trigger whitespace on one side
-        // TODO: Add unit tests for all of these
-       '\u{23}' | '\u{FE5F}' | '\u{A1}' | '\u{BF}' | '\u{2E18}' | '\u{FF03}' | '\u{1F679}'
+        // Include "BIDI: European Number Terminator [ET]" as asymmetrically non-breaking based on
+        // hard-coded rules like "$ breaks before" and "% breaks after".
+        // TODO: Add unit tests for at least a large swathe of these
+        // XXX: Try to build/intuit a corpus which would tell me whether it's feasible to make
+        //      the "BIDI:ET" elements their own class which autodetects which side to break on
+        //      based on surrounding characters. (Because that'd let me autogenerate it)
+       '\u{23}' | '\u{24}' | '\u{a3}' | '\u{a4}' | '\u{a5}' | '\u{b1}' | '\u{20a0}' | '\u{20ac}' |
+                  '\u{FE5F}' | '\u{FE69}' | '\u{FF03}' | '\u{FF04}' | '\u{ffe1}'
            => CharType::StartPunct,
-       '\u{21}' | '\u{25}' | '\u{3b}' | '\u{3f}' | '\u{2030}' | '\u{2031}' | '\u{203c}' |
-                  '\u{203d}' | '\u{2047}' | '\u{2048}' | '\u{2049}' | '\u{2762}' | '\u{FE54}' |
-                  '\u{FE56}' | '\u{FE57}' | '\u{FE6A}' | '\u{FF01}' | '\u{FF05}' | '\u{FF1B}' |
-                  '\u{FF1F}'
+       '\u{25}' | '\u{a2}' | '\u{b0}' | '\u{2030}' | '\u{2031}' | '\u{2032}' | '\u{2033}' |
+                  '\u{2034}' | '\u{FE6A}' | '\u{ff05}' | '\u{ffe0}'
            => CharType::EndPunct,
+
+        // Manually include a subset of "BIDI: Other Neutrals [ON]" as asymmetrically non-breaking
+        // TODO: Which side should U+2E2E break on?
+        '\u{A1}' | '\u{bf}' | '\u{2E18}' // Inverted question, exclamation, and interrobang
+           => CharType::StartPunct,
+        '\u{21}' | '\u{3b}' | '\u{3f}' | '\u{37e}' | '\u{2026}' | '\u{203c}' | '\u{203d}' |
+                   '\u{2047}' | '\u{2048}' | '\u{2049}' | '\u{2762}' | '\u{FE54}' | '\u{FE56}' |
+                   '\u{FE57}' | '\u{FF01}' | '\u{ff02}' | '\u{FF1B}' | '\u{FF1F}' | '\u{1F679}'
+           => CharType::EndPunct,
+
+        // Punctuation which should only trigger whitespace on one side
         x if x.is_punctuation_open() => CharType::StartPunct,
         x if x.is_punctuation_close() => CharType::EndPunct,
 
