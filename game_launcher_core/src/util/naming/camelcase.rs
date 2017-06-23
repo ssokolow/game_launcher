@@ -1,6 +1,7 @@
 //! Routines for parsing camelcase strings
 //!
 
+use std::mem::replace;
 use regex::Regex;
 use unicode_segmentation::{GraphemeIndices,UnicodeSegmentation};
 use unicode_categories::UnicodeCategories;
@@ -57,12 +58,10 @@ lazy_static! {
 
 /// Phase 1 intermediate representation used to separate classifying Unicode grapheme clusters from
 /// defining state transitions between classes.
-#[derive(Clone, Copy, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 enum CharType {
     /// No data has yet been processed
     Start,  // TODO: Is there any way to make this only usable as an initialization value?
-    /// We're at the end of the string
-    End,
     /// Uppercase
     Uppercase,
     /// Lowercase
@@ -90,26 +89,33 @@ enum CharType {
 
 /// Phase 2 intermediate representation used to separate defining state transitions between
 /// character classes from actually processing the text to apply the defined transitions.
-#[derive(Clone, Copy, PartialEq)]
+///
+/// This acts as input to an algorithm which walks a `start_offset` and `end_offset` along the
+/// input string, with `end_offset` always remaining one character behind the word's actual end
+/// so that no fancy reverse-walking of UTF-8 is necessary to detect an <upper><lower> digraph
+/// and then break before, rather than within it.
+#[derive(Clone, Copy, Debug, PartialEq)]
 enum CCaseAction {
-    /// Pass the character through without any changes
+    /// Advance end_offset
     Literal,
-    /// Insert a space before the character
-    SpaceBefore,
-    /// Insert a space before the previous character, if it was `Defer`ed
-    SpaceDeferred,
-    /// Delay passing the character through until the following character is identified
-    Defer
+    /// Emit accumulated word (if non-empty) and begin a new word starting with this grapheme
+    StartWord,
+    /// Shift a grapheme back out of the accumulator, then operate as in `StartWord`
+    /// (Necessary to implement camelcase "<upper><lower>" handling in a single pass)
+    AlreadyStartedWord,
+    /// Emit accumulated word (if non-empty) and reset accumulator WITHOUT adding this grapheme
+    /// (Necessary to skip whitespace characters)
+    Skip,
 }
 
 // --== Iterator ==--
 
-/// External iterator for words as defined by camelcase rules.
-pub struct Words<'a> {
-    /// Reference to the source string
-    in_str: &'a str,
+/// External iterator for offsets of words as defined by camelcase rules.
+pub struct WordOffsets<'a> {
     /// Grapheme iterator wrapping the source string
     in_iter: GraphemeIndices<'a>,
+    /// Maximum offset used for final drain operation
+    in_len: usize,
     /// If true, don't split on existing runs of whitespace (useful for stats gathering)
     literal_ws: bool,
 
@@ -120,30 +126,30 @@ pub struct Words<'a> {
     // Used by the final phase of each next() call
     /// The start offset (in bytes) for the word currently being accumulated
     start_offset: usize,
-    /// The tentative end offset (in bytes) for the word currently being accumulated
-    end_offset: usize,
+    prev_offset: usize,
+    /// Used to allow `CCaseAction::Skip` to not emit whitespace-only words
+    skipping: bool,
 }
 
-/// Returns an iterator over the words of `in_str`, separated by camelcase rules.
-///
-/// TODO: Turn this into a trait on &str
-pub fn iter_words(in_str: &str, literal_ws: bool) -> Words {
-    Words {
-        in_str,
-        in_iter: in_str.grapheme_indices(true),
-        literal_ws,
-        // TODO: Unit tests for literal_ws
+impl<'a> WordOffsets<'a> {
+    /// Helper to deduplicate the code involved in advancing to the next word in the iterator
+    fn _next_word(&mut self, end_offset: usize, skip: bool) -> Option<(usize, usize)> {
+        // We have to update our state variables no matter what the outcome, so do this first.
+        let skipping = replace(&mut self.skipping, skip);
+        let start_offset = replace(&mut self.start_offset, end_offset);
 
-        prev_type: CharType::Start,
-        start_offset: 0,
-        end_offset: 0,
+        // If our previous "word" is non-empty and we're not skipping it, return it
+        if start_offset < end_offset && !skipping {
+            Some((start_offset, end_offset))
+        } else {
+            None
+        }
     }
 }
+impl<'a> Iterator for WordOffsets<'a> {
+    type Item = (usize, usize);
 
-impl<'a> Iterator for Words<'a> {
-    type Item = &'a str;
-
-    fn next(&mut self) -> Option<&'a str> {
+    fn next(&mut self) -> Option<(usize, usize)> {
         // Get the next grapheme cluster and its byte index
         while let Some((byte_offset, grapheme)) = self.in_iter.next() {
             // Extract the base `char` so we can call things like is_uppercase()
@@ -151,40 +157,47 @@ impl<'a> Iterator for Words<'a> {
 
             // Identify character types and map the transition between them to an action
             let curr_type = classify_char(base);
-            let curr_action = transition_to_action(self.prev_type, curr_type);
-            self.prev_type = curr_type;
+            let curr_action = transition_to_action(replace(&mut self.prev_type, curr_type),
+                                                   curr_type);
 
-            // Store temporaries of the old start_offset and end_offset so we can reference them
-            // after updating the persistent copies. (This would be simpler with a `yield` keyword)
-            let start_offset = self.start_offset;
-            let end_offset = self.end_offset;
+            // Actually apply the action to the iterator's state and possibly extract a word
+            let prev_offset = replace(&mut self.prev_offset, byte_offset);
+            let pair = match curr_action {
+                CCaseAction::Literal => { None }, // The grapheme iterator will advance it for us
+                CCaseAction::Skip => { self._next_word(byte_offset, true) },
+                CCaseAction::StartWord => { self._next_word(byte_offset, false) },
+                CCaseAction::AlreadyStartedWord => { self._next_word(prev_offset, false) },
+            };
 
-            // Actually take action
-            match curr_action {
-                CCaseAction::SpaceDeferred => {
-                    self.start_offset = end_offset;
-                    self.end_offset = byte_offset;
-
-                    // Return up to before previous
-                    return Some(&self.in_str[start_offset..end_offset]);
-                },
-                CCaseAction::SpaceBefore => {
-                    self.start_offset = byte_offset;
-                    self.end_offset = byte_offset;
-
-                    // Return up to before current
-                    return Some(&self.in_str[start_offset..byte_offset]);
-                },
-                _ => { self.end_offset = byte_offset; } // Just increment the tentative end offset
+            // If a previous word had accumulated, return it.
+            if let Some(pair) = pair {
+                return Some(pair);
             }
         }
 
-        // Return the final result
-        if self.prev_type != CharType::End {
-            self.prev_type = CharType::End;
-            Some(&self.in_str[self.start_offset..])
-        } else {
-            None
+        // Drain the remaining graphemes into a final word, if present
+        let in_len = self.in_len;
+        self._next_word(in_len, true)
+    }
+}
+
+
+/// External iterator for words in a string as defined by camelcase rules.
+///
+/// Note: This API should be considered unstable as I have plans to rewrite it once
+/// `impl Iterator<Item=&str>` is stabilized.
+pub struct Words<'a> {
+    in_str: &'a str,
+    /// Offset iterator wrapping the source string
+    in_iter: WordOffsets<'a>,
+}
+impl<'a> Iterator for Words<'a> {
+    type Item = &'a str;
+
+    fn next(&mut self) -> Option<&'a str> {
+        match self.in_iter.next() {
+            Some((start, end)) => Some(&self.in_str[start..end]),
+            None => None
         }
     }
 }
@@ -202,7 +215,7 @@ fn classify_char(in_char: char) -> CharType {
         // TODO: Is there any database I can use to delegate "Ampersand" and "Apostrophe" DefN?
         '\u{26}' | '\u{FE60}' | '\u{FF06}' | '\u{1F674}' => CharType::Ampersand,
 
-        // NOTE: U+2019 (Right Single Quotation Mark)" is included here because FileFormat.info
+        // Note: U+2019 (Right Single Quotation Mark)" is included here because FileFormat.info
         //       includes "U+2019 is preferred for apostrophe" in the "Comments" field.
         '\u{27}' | '\u{2019}' | '\u{FF07}' => CharType::Apostrophe,
 
@@ -245,16 +258,8 @@ fn classify_char(in_char: char) -> CharType {
 fn transition_to_action(old_type: CharType, new_type: CharType) -> CCaseAction {
     // FIXME: Silence `match_same_arms` lint. It could prompt someone to mess with precedence.
     match (old_type, new_type) {
-        // Don't insert a space at the beginning or where one already exists
-        // (This match arm must come first in the listi)
-        // TODO: Actually collapse and normalize whitespace
-        (CharType::Start, _) |
-        (CharType::Space, _) | (_, CharType::Space) => CCaseAction::Literal,
-
-        // Always insert space before and after ampersands
-        // (This match arm must come after Start/Space but before NumSep/etc.)
-        // TODO: Unit test the interaction between Ampersand and NumSep/etc.
-        (CharType::Ampersand, _) | (_, CharType::Ampersand) => CCaseAction::SpaceBefore,
+        // Split instead of emitting whitespace
+        (_, CharType::Space) => CCaseAction::Skip,
 
         // Don't insert space around a "Common Number Separator" or apostrophe
         // or after opening or before closing punctuation (eg. parens)
@@ -262,16 +267,19 @@ fn transition_to_action(old_type: CharType, new_type: CharType) -> CCaseAction {
         (CharType::Apostrophe, _) | (_, CharType::Apostrophe) |
         (CharType::StartPunct, _) | (_, CharType::EndPunct) => CCaseAction::Literal,
 
-        // Defer space insertion between uppercase characters until we know whether the second
-        // is starting a new word
-        (CharType::Uppercase, CharType::Uppercase) => CCaseAction::Defer,
+        // Always insert space before titlecase glyphs and before and after ampersands
+        // (This match arm must come after Start/Space but before NumSep/etc.)
+        // TODO: Unit test the interaction between Ampersand and NumSep/etc.
+        (_, CharType::Titlecase) |
+        (CharType::Ampersand, _) | (_, CharType::Ampersand) => CCaseAction::StartWord,
 
-        // Don't insert a space after the first letter of a new word
+        // Retroactively locate the word-break if we find a lowercase after a titlecase/uppercase
         (CharType::Titlecase, CharType::Lowercase) |
-        (CharType::Uppercase, CharType::Lowercase) => CCaseAction::SpaceDeferred,
+        (CharType::Uppercase, CharType::Lowercase) => CCaseAction::AlreadyStartedWord,
 
-        // If we reach this point and the character types differ, insert a space.
-        (x, y) if x != y => CCaseAction::SpaceBefore,
+        // If we reach this point and the character types differ, start a new word
+        // TODO: I'll probably want to refine this with regards to CCaseAction::Other
+        (x, y) if x != y => CCaseAction::StartWord,
 
         // ...otherwise, just pass it through verbatim
         _ => CCaseAction::Literal
@@ -297,7 +305,7 @@ fn transition_to_action(old_type: CharType, new_type: CharType) -> CCaseAction {
 /// top-level integration tests for this project.
 pub fn camelcase_to_spaces(in_str: &str) -> String {
     // TODO: Depend on itertools and use join() instead
-    iter_words(in_str, false).collect::<Vec<_>>().connect(" ")
+    in_str.camelcase_words(false).collect::<Vec<_>>().join(" ")
 }
 
 // TODO: Replace everything below except tests with the Iterator-ified version of the code above.
@@ -315,6 +323,49 @@ pub fn camelcase_count(in_str: &str) -> usize {
         let in_str2 = CAMELCASE_RE.replace_all(in_str, CAMELCASE_COUNT_REPLACEMENT);
         CAMELCASE_RE.replace_all(&in_str2, CAMELCASE_COUNT_REPLACEMENT).count_char('\0')
 }
+
+// --== Extension trait for &str ==--
+
+pub trait CamelCaseIterators {
+    /// Returns an iterator over the `(start_offset, end_offset)` tuples defining words within the
+    /// string, as separated by camelcase rules.
+    ///
+    /// TODO: If literal_whitespace is `true`, only split on camelcase boundaries, passing
+    /// whitespace through literally. (Useful for stats-gathering)
+    fn camelcase_offsets<'a>(&'a self, literal_whitespace: bool) -> WordOffsets<'a>;
+
+    /// Returns an iterator over the words of the string, separated by camelcase rules.
+    ///
+    /// TODO: If literal_whitespace is `true`, only split on camelcase boundaries, passing
+    /// whitespace through literally. (Useful for stats-gathering)
+    fn camelcase_words<'a>(&'a self, literal_whitespace: bool) -> Words<'a>;
+}
+
+impl CamelCaseIterators for str {
+    fn camelcase_offsets(&self, literal_whitespace: bool) -> WordOffsets {
+    WordOffsets {
+        in_iter: self.grapheme_indices(true),
+        in_len: self.len(),
+        literal_ws: literal_whitespace,
+        // TODO: Unit tests for literal_ws
+
+        prev_type: CharType::Start,
+
+        skipping: false,
+        start_offset: 0,
+        prev_offset: 0,
+    }
+}
+
+    // TODO: How do I avoid making a whole new struct just to map() cleanly?
+    fn camelcase_words(&self, literal_whitespace: bool) -> Words {
+        Words {
+            in_str: self,
+            in_iter: self.camelcase_offsets(literal_whitespace),
+        }
+    }
+}
+
 
 // --== Tests ==--
 
