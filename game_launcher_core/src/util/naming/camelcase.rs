@@ -110,101 +110,7 @@ enum CCaseAction {
     Skip,
 }
 
-// --== Iterator ==--
-
-/// External iterator for offsets of words as defined by camelcase rules.
-pub struct WordOffsets<'a> {
-    /// Grapheme iterator wrapping the source string
-    in_iter: GraphemeIndices<'a>,
-    /// Maximum offset used for final drain operation
-    in_len: usize,
-    /// If true, don't split on existing runs of whitespace (useful for stats gathering)
-    literal_ws: bool,
-
-    // Used by the middle phase of each next() call
-    /// The abstract type of the previous grapheme's base `char`
-    prev_type: CharType,
-
-    // Used by the final phase of each next() call
-    /// The start offset (in bytes) for the word currently being accumulated
-    start_offset: usize,
-    prev_offset: usize,
-    /// Used to allow `CCaseAction::Skip` to not emit whitespace-only words
-    skipping: bool,
-}
-
-impl<'a> WordOffsets<'a> {
-    /// Helper to deduplicate the code involved in advancing to the next word in the iterator
-    fn _next_word(&mut self, end_offset: usize, skip: bool) -> Option<(usize, usize)> {
-        // We have to update our state variables no matter what the outcome, so do this first.
-        let skipping = replace(&mut self.skipping, skip);
-        let start_offset = replace(&mut self.start_offset, end_offset);
-
-        // If our previous "word" is non-empty and we're not skipping it, return it
-        if start_offset < end_offset && !skipping {
-            Some((start_offset, end_offset))
-        } else {
-            None
-        }
-    }
-}
-impl<'a> Iterator for WordOffsets<'a> {
-    type Item = (usize, usize);
-
-    fn next(&mut self) -> Option<(usize, usize)> {
-        // Get the next grapheme cluster and its byte index
-        while let Some((byte_offset, grapheme)) = self.in_iter.next() {
-            // Extract the base `char` so we can call things like is_uppercase()
-            let base = grapheme.chars().nth(0).expect("non-empty grapheme cluster");
-
-            // Identify character types and map the transition between them to an action
-            let curr_type = classify_char(base);
-            let curr_action = transition_to_action(replace(&mut self.prev_type, curr_type),
-                                                   curr_type);
-
-            // Actually apply the action to the iterator's state and possibly extract a word
-            let prev_offset = replace(&mut self.prev_offset, byte_offset);
-            let pair = match curr_action {
-                CCaseAction::Literal => { None }, // The grapheme iterator will advance it for us
-                CCaseAction::Skip => { self._next_word(byte_offset, true) },
-                CCaseAction::StartWord => { self._next_word(byte_offset, false) },
-                CCaseAction::AlreadyStartedWord => { self._next_word(prev_offset, false) },
-            };
-
-            // If a previous word had accumulated, return it.
-            if let Some(pair) = pair {
-                return Some(pair);
-            }
-        }
-
-        // Drain the remaining graphemes into a final word, if present
-        let in_len = self.in_len;
-        self._next_word(in_len, true)
-    }
-}
-
-
-/// External iterator for words in a string as defined by camelcase rules.
-///
-/// Note: This API should be considered unstable as I have plans to rewrite it once
-/// `impl Iterator<Item=&str>` is stabilized.
-pub struct Words<'a> {
-    in_str: &'a str,
-    /// Offset iterator wrapping the source string
-    in_iter: WordOffsets<'a>,
-}
-impl<'a> Iterator for Words<'a> {
-    type Item = &'a str;
-
-    fn next(&mut self) -> Option<&'a str> {
-        match self.in_iter.next() {
-            Some((start, end)) => Some(&self.in_str[start..end]),
-            None => None
-        }
-    }
-}
-
-// --== Loose Functions ==--
+// --== Classifier Functions ==--
 
 /// Identify what role a given character plays in the string
 fn classify_char(in_char: char) -> CharType {
@@ -304,45 +210,99 @@ fn transition_to_action(old_type: CharType, new_type: CharType) -> CCaseAction {
     }
 }
 
-// TODO: Update this docstring once I've tested against the additional 850+ filenames still to be
-// added to the corpus.
-/// Insert spaces at word boundaries in a camelcase string.
-///
-/// This implementation differs from the form of camelcase typically used for function names in
-/// that it will insert spaces between words and numbers.
-/// (ie. "Thing Part 1" rather than "Thing Part1")
-///
-/// This decision was made based on the following observations taken from a corpus of over 800
-/// real-world computer game directory and installer/archive file names:
-///
-/// 1. It produces a more accurate translation to the intended titles.
-/// 2. It is in accordance with how, unlike method names, `snake_case` in video game filenames
-///    separates numbers from the words they follow.
-///
-/// The test data in question can be found in the `filename_to_name_data.json` file used by the
-/// top-level integration tests for this project.
-pub fn camelcase_to_spaces(in_str: &str) -> String {
-    // TODO: Depend on itertools and use join() instead
-    in_str.camelcase_words(false).collect::<Vec<_>>().join(" ")
+// --== Iterators ==--
+
+/// External iterator for offsets of words as defined by camelcase rules.
+pub struct WordOffsets<'a> {
+    /// Grapheme iterator wrapping the source string
+    in_iter: GraphemeIndices<'a>,
+    /// Maximum offset used for final drain operation
+    in_len: usize,
+    /// If true, don't split on existing runs of whitespace (useful for stats gathering)
+    literal_ws: bool,
+
+    // Used by the middle phase of each next() call
+    /// The abstract type of the previous grapheme's base `char`
+    prev_type: CharType,
+
+    // Used by the final phase of each next() call
+    /// The start offset (in bytes) for the word currently being accumulated
+    start_offset: usize,
+    prev_offset: usize,
+    /// Used to allow `CCaseAction::Skip` to not emit whitespace-only words
+    skipping: bool,
 }
 
-// TODO: Replace everything below except tests with the Iterator-ified version of the code above.
-use super::ConvenientCharCount;
-const CAMELCASE_COUNT_REPLACEMENT: &str = "${1}${3}${5}${7}\0${2}${4}${6}${8}";
+impl<'a> WordOffsets<'a> {
+    /// Helper to deduplicate the code involved in advancing to the next word in the iterator
+    fn _next_word(&mut self, end_offset: usize, skip: bool) -> Option<(usize, usize)> {
+        // We have to update our state variables no matter what the outcome, so do this first.
+        let skipping = replace(&mut self.skipping, skip);
+        let start_offset = replace(&mut self.start_offset, end_offset);
 
-/// Return the number of camelcase word boundaries in a string.
-///
-/// See `camelcase_to_spaces` for further details.
-///
-/// **NOTE:** This is a temporary implementation to allow the dependent code to be refined. It will
-///     be replaced by a properly efficient, non-regex-based solution.
-pub fn camelcase_count(in_str: &str) -> usize {
-        // TODO: Unit test, then replace with iter_words(in_str, true).count()
-        let in_str2 = CAMELCASE_RE.replace_all(in_str, CAMELCASE_COUNT_REPLACEMENT);
-        CAMELCASE_RE.replace_all(&in_str2, CAMELCASE_COUNT_REPLACEMENT).count_char('\0')
+        // If our previous "word" is non-empty and we're not skipping it, return it
+        if start_offset < end_offset && !skipping {
+            Some((start_offset, end_offset))
+        } else {
+            None
+        }
+    }
+}
+impl<'a> Iterator for WordOffsets<'a> {
+    type Item = (usize, usize);
+
+    fn next(&mut self) -> Option<(usize, usize)> {
+        // Get the next grapheme cluster and its byte index
+        while let Some((byte_offset, grapheme)) = self.in_iter.next() {
+            // Extract the base `char` so we can call things like is_uppercase()
+            let base = grapheme.chars().nth(0).expect("non-empty grapheme cluster");
+
+            // Identify character types and map the transition between them to an action
+            let curr_type = classify_char(base);
+            let curr_action = transition_to_action(replace(&mut self.prev_type, curr_type),
+                                                   curr_type);
+
+            // Actually apply the action to the iterator's state and possibly extract a word
+            let prev_offset = replace(&mut self.prev_offset, byte_offset);
+            let pair = match curr_action {
+                CCaseAction::Literal => { None }, // The grapheme iterator will advance it for us
+                CCaseAction::Skip => { self._next_word(byte_offset, true) },
+                CCaseAction::StartWord => { self._next_word(byte_offset, false) },
+                CCaseAction::AlreadyStartedWord => { self._next_word(prev_offset, false) },
+            };
+
+            // If a previous word had accumulated, return it.
+            if let Some(pair) = pair {
+                return Some(pair);
+            }
+        }
+
+        // Drain the remaining graphemes into a final word, if present
+        let in_len = self.in_len;
+        self._next_word(in_len, true)
+    }
 }
 
-// --== Extension trait for &str ==--
+
+/// External iterator for words in a string as defined by camelcase rules.
+///
+/// Note: This API should be considered unstable as I have plans to rewrite it once
+/// `impl Iterator<Item=&str>` is stabilized.
+pub struct Words<'a> {
+    in_str: &'a str,
+    /// Offset iterator wrapping the source string
+    in_iter: WordOffsets<'a>,
+}
+impl<'a> Iterator for Words<'a> {
+    type Item = &'a str;
+
+    fn next(&mut self) -> Option<&'a str> {
+        match self.in_iter.next() {
+            Some((start, end)) => Some(&self.in_str[start..end]),
+            None => None
+        }
+    }
+}
 
 pub trait CamelCaseIterators {
     /// Returns an iterator over the `(start_offset, end_offset)` tuples defining words within the
@@ -383,6 +343,47 @@ impl CamelCaseIterators for str {
         }
     }
 }
+
+// --== Loose Functions ==--
+
+// TODO: Update this docstring once I've tested against the additional 850+ filenames still to be
+// added to the corpus.
+/// Insert spaces at word boundaries in a camelcase string.
+///
+/// This implementation differs from the form of camelcase typically used for function names in
+/// that it will insert spaces between words and numbers.
+/// (ie. "Thing Part 1" rather than "Thing Part1")
+///
+/// This decision was made based on the following observations taken from a corpus of over 800
+/// real-world computer game directory and installer/archive file names:
+///
+/// 1. It produces a more accurate translation to the intended titles.
+/// 2. It is in accordance with how, unlike method names, `snake_case` in video game filenames
+///    separates numbers from the words they follow.
+///
+/// The test data in question can be found in the `filename_to_name_data.json` file used by the
+/// top-level integration tests for this project.
+pub fn camelcase_to_spaces(in_str: &str) -> String {
+    // TODO: Depend on itertools and use join() instead
+    in_str.camelcase_words(false).collect::<Vec<_>>().join(" ")
+}
+
+// TODO: Replace everything below except tests with the Iterator-ified version of the code above.
+use super::ConvenientCharCount;
+const CAMELCASE_COUNT_REPLACEMENT: &str = "${1}${3}${5}${7}\0${2}${4}${6}${8}";
+
+/// Return the number of camelcase word boundaries in a string.
+///
+/// See `camelcase_to_spaces` for further details.
+///
+/// **NOTE:** This is a temporary implementation to allow the dependent code to be refined. It will
+///     be replaced by a properly efficient, non-regex-based solution.
+pub fn camelcase_count(in_str: &str) -> usize {
+        // TODO: Unit test, then replace with iter_words(in_str, true).count()
+        let in_str2 = CAMELCASE_RE.replace_all(in_str, CAMELCASE_COUNT_REPLACEMENT);
+        CAMELCASE_RE.replace_all(&in_str2, CAMELCASE_COUNT_REPLACEMENT).count_char('\0')
+}
+
 
 
 // --== Tests ==--
