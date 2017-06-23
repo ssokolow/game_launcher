@@ -77,7 +77,7 @@ enum CharType {
     Apostrophe,
     /// A "numeric" character, as defined by Unicode
     Numeric,
-    /// A decimal separator, thousands separator, or other "Common Number Separator"
+    /// A decimal separator, thousands separator, or other "Number Separator"
     NumSep,
     /// A piece of punctuation which should not have a space after it, such as "(" or "#"
     StartPunct,
@@ -178,14 +178,14 @@ fn classify_char(in_char: char) -> CharType {
     }
 }
 
-/// Identify the action to take for a given character-type transition
+/// Identify the action to take for a given transition between character roles
 fn transition_to_action(old_type: CharType, new_type: CharType) -> CCaseAction {
     // FIXME: Silence `match_same_arms` lint. It could prompt someone to mess with precedence.
     match (old_type, new_type) {
         // Split instead of emitting whitespace
         (_, CharType::Whitespace) => CCaseAction::Skip,
 
-        // Don't insert space around a "Common Number Separator" or apostrophe
+        // Don't insert space around a "Number Separator", apostrophe,
         // or after opening or before closing punctuation (eg. parens)
         (CharType::NumSep, _) | (_, CharType::NumSep) |
         (CharType::Apostrophe, _) | (_, CharType::Apostrophe) |
