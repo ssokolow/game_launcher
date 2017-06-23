@@ -498,10 +498,13 @@ mod tests {
         check_camelcase_to_spaces("100%Juice", "100% Juice");
         check_camelcase_to_spaces("WeAre#1", "We Are #1");
         check_camelcase_to_spaces("ShadowWarrior(2013)", "Shadow Warrior (2013)");
+        check_camelcase_to_spaces("SallyFace[linux]", "Sally Face [linux]");
         check_camelcase_to_spaces("SallyFace[Linux]", "Sally Face [Linux]");
         check_camelcase_to_spaces("TestyFoo{Bar}Baz", "Testy Foo {Bar} Baz");
         check_camelcase_to_spaces("ShadowWarrior\u{FF08}2013\u{FF09}",
                                   "Shadow Warrior \u{FF08}2013\u{FF09}");
+        check_camelcase_to_spaces("[ǅxx]", "[ǅxx]");
+        check_camelcase_to_spaces(" [ǅxx] ", "[ǅxx]");
     }
 
     #[test]
