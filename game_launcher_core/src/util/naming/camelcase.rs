@@ -9,7 +9,7 @@ use unicode_categories::UnicodeCategories;
 // --== Constants and Statics ==--
 
 lazy_static! {
-    /// Used by `naming::camelcase_to_spaces` to match word boundaries
+    /// Used by `naming::camelcase_count` to match word boundaries
     ///
     /// TODO: Remove this once I've replaced the counting code
     static ref CAMELCASE_RE: Regex = Regex::new(r"(?x)
@@ -330,6 +330,9 @@ pub trait CamelCaseIterators {
 }
 
 impl CamelCaseIterators for str {
+    // TODO: Once I'm set up for benchmarking, check whether I should copy the tactic
+    // unicode_segmentation applies involving #[inline] annotations
+
     fn camelcase_offsets(&self, literal_whitespace: bool) -> WordOffsets {
     WordOffsets {
         in_iter: self.grapheme_indices(true),
@@ -383,8 +386,6 @@ const CAMELCASE_COUNT_REPLACEMENT: &str = "${1}${3}${5}${7}\0${2}${4}${6}${8}";
 
 /// Return the number of camelcase word boundaries in a string.
 ///
-/// See `camelcase_to_spaces` for further details.
-///
 /// **NOTE:** This is a temporary implementation to allow the dependent code to be refined. It will
 ///     be replaced by a properly efficient, non-regex-based solution.
 pub fn camelcase_count(in_str: &str) -> usize {
@@ -397,141 +398,148 @@ pub fn camelcase_count(in_str: &str) -> usize {
 
 #[cfg(test)]
 mod tests {
-    use super::camelcase_to_spaces;
+    use super::CamelCaseIterators;
 
-    /// Helper to deduplicate verifying that camelcase_to_spaces output is stable
-    fn check_camelcase_to_spaces(input: &str, expected: &str) {
-        let result = camelcase_to_spaces(input);
+    /// Helper to deduplicate verifying that CamelCaseIterators output is stable
+    fn check_camelcase_words(input: &str, expected: &[&str]) {
+        let result = input.camelcase_words(false).collect::<Vec<_>>();
         assert_eq!(result, expected, "(with input {:?})", input);
-        assert_eq!(camelcase_to_spaces(&result), result,
-                   "camelcase_to_spaces should be a no-op when re-run on its own output");
+
+        let result_j = result.join(" ");
+        assert_eq!(result_j.camelcase_words(false).collect::<Vec<_>>(), result,
+                   "camelcase_words should be a no-op when re-run on its own output");
+
+        assert_eq!(input.camelcase_offsets(false).count(), expected.len());
+    }
+
+    // TODO: Factor out camelcase_to_spaces rather than testing it.
+    // TODO: Tests for camelcase_offsets
+
+    #[test]
+    fn camelcase_words_basic_function() {
+        check_camelcase_words("fooBar", &["foo", "Bar"]);
+        check_camelcase_words("FooBar", &["Foo", "Bar"]);
+        check_camelcase_words("AndroidVM", &["Android", "VM"]);
+        check_camelcase_words("RARFile", &["RAR", "File"]);
+        check_camelcase_words("ADruidsDuel", &["A", "Druids", "Duel"]);
+        check_camelcase_words("PickACard", &["Pick", "A", "Card"]);
+        check_camelcase_words("AxelF", &["Axel", "F"]);
     }
 
     #[test]
-    fn camelcase_to_spaces_basic_function() {
-        check_camelcase_to_spaces("fooBar", "foo Bar");
-        check_camelcase_to_spaces("FooBar", "Foo Bar");
-        check_camelcase_to_spaces("AndroidVM", "Android VM");
-        check_camelcase_to_spaces("RARFile", "RAR File");
-        check_camelcase_to_spaces("ADruidsDuel", "A Druids Duel");
-        check_camelcase_to_spaces("PickACard", "Pick A Card");
-        check_camelcase_to_spaces("AxelF", "Axel F");
+    fn camelcase_words_leaves_capitalization_alone() {
+        check_camelcase_words("foo", &["foo"]);
+        check_camelcase_words("Foo", &["Foo"]);
+        check_camelcase_words("fooBar", &["foo", "Bar"]);
+        check_camelcase_words("FooBar", &["Foo", "Bar"]);
+        check_camelcase_words("foo bar", &["foo", "bar"]);
+        check_camelcase_words("Foo Bar", &["Foo", "Bar"]);
     }
 
     #[test]
-    fn camelcase_to_spaces_leaves_capitalization_alone() {
-        check_camelcase_to_spaces("foo", "foo");
-        check_camelcase_to_spaces("Foo", "Foo");
-        check_camelcase_to_spaces("fooBar", "foo Bar");
-        check_camelcase_to_spaces("FooBar", "Foo Bar");
-        check_camelcase_to_spaces("foo bar", "foo bar");
-        check_camelcase_to_spaces("Foo Bar", "Foo Bar");
+    fn camelcase_words_ascii_number_handling() {
+        check_camelcase_words("6LittleEggs", &["6", "Little", "Eggs"]);
+        check_camelcase_words("the12chairs", &["the", "12", "chairs"]);
+        check_camelcase_words("The12Chairs", &["The", "12", "Chairs"]);
+        check_camelcase_words("1.5 Children", &["1.5", "Children"]);
+        check_camelcase_words("The1.5Children", &["The", "1.5", "Children"]);
+        check_camelcase_words("the1.5children", &["the", "1.5", "children"]);
+        check_camelcase_words("Version1.1", &["Version", "1.1"]);
+        check_camelcase_words("catch22", &["catch", "22"]);
+        check_camelcase_words("Catch22", &["Catch", "22"]);
+        check_camelcase_words("1Two3", &["1", "Two", "3"]);
+        check_camelcase_words("One2Three", &["One", "2", "Three"]);
+        check_camelcase_words("ONE2", &["ONE", "2"]);
+        check_camelcase_words("ONE2THREE", &["ONE", "2", "THREE"]);
     }
 
     #[test]
-    fn camelcase_to_spaces_ascii_number_handling() {
-        check_camelcase_to_spaces("6LittleEggs", "6 Little Eggs");
-        check_camelcase_to_spaces("6 Little Eggs", "6 Little Eggs");
-        check_camelcase_to_spaces("the12chairs", "the 12 chairs");
-        check_camelcase_to_spaces("The12Chairs", "The 12 Chairs");
-        check_camelcase_to_spaces("The 12 Chairs", "The 12 Chairs");
-        check_camelcase_to_spaces("1.5 Children", "1.5 Children");
-        check_camelcase_to_spaces("The1.5Children", "The 1.5 Children");
-        check_camelcase_to_spaces("the1.5children", "the 1.5 children");
-        check_camelcase_to_spaces("Version1.1", "Version 1.1");
-        check_camelcase_to_spaces("Version 1.1", "Version 1.1");
-        check_camelcase_to_spaces("catch22", "catch 22");
-        check_camelcase_to_spaces("Catch 22", "Catch 22");
-        check_camelcase_to_spaces("1Two3", "1 Two 3");
-        check_camelcase_to_spaces("One2Three", "One 2 Three");
-        check_camelcase_to_spaces("ONE2", "ONE 2");
-        check_camelcase_to_spaces("ONE2THREE", "ONE 2 THREE");
+    fn camelcase_words_basic_unicode_handling() {
+        check_camelcase_words("\u{1D7DE}ŁittléEggs", &["\u{1D7DE}", "Łittlé", "Eggs"]);
+        check_camelcase_words("ⅥŁittłeEggs", &["Ⅵ", "Łittłe", "Eggs"]);
+        check_camelcase_words("➅LittleEggs", &["➅", "Little", "Eggs"]);
+        check_camelcase_words("\u{1D7DE} Łittlé Eggs", &["\u{1D7DE}", "Łittlé", "Eggs"]);
+        check_camelcase_words("Ⅵ Łittłe Eggs", &["Ⅵ", "Łittłe", "Eggs"]);
+        check_camelcase_words("➅ Little Eggs", &["➅", "Little", "Eggs"]);
     }
 
     #[test]
-    fn camelcase_to_spaces_basic_unicode_handling() {
-        check_camelcase_to_spaces("\u{1D7DE}ŁittléEggs", "\u{1D7DE} Łittlé Eggs");
-        check_camelcase_to_spaces("ⅥŁittłeEggs", "Ⅵ Łittłe Eggs");
-        check_camelcase_to_spaces("➅LittleEggs", "➅ Little Eggs");
-        check_camelcase_to_spaces("\u{1D7DE} Łittlé Eggs", "\u{1D7DE} Łittlé Eggs");
-        check_camelcase_to_spaces("Ⅵ Łittłe Eggs", "Ⅵ Łittłe Eggs");
-        check_camelcase_to_spaces("➅ Little Eggs", "➅ Little Eggs");
+    fn camelcase_words_titlecase_handling() {
+        check_camelcase_words("ǅ", &["ǅ"]);
+        check_camelcase_words("ǅxx", &["ǅxx"]);
+        check_camelcase_words("ǅX", &["ǅ", "X"]);
+        check_camelcase_words("Xǅ", &["X", "ǅ"]);
+        check_camelcase_words("Xxǅ", &["Xx", "ǅ"]);
+        check_camelcase_words("ǅXx", &["ǅ", "Xx"]);
+        check_camelcase_words("1ǅ2", &["1", "ǅ", "2"]);
     }
 
     #[test]
-    fn camelcase_to_spaces_titlecase_handling() {
-        check_camelcase_to_spaces("ǅ", "ǅ");
-        check_camelcase_to_spaces("ǅxx", "ǅxx");
-        check_camelcase_to_spaces("ǅX", "ǅ X");
-        check_camelcase_to_spaces("Xǅ", "X ǅ");
-        check_camelcase_to_spaces("Xxǅ", "Xx ǅ");
-        check_camelcase_to_spaces("ǅXx", "ǅ Xx");
-        check_camelcase_to_spaces("1ǅ2", "1 ǅ 2");
+    fn camelcase_words_ampersand_handling() {
+        check_camelcase_words("TheKing&I", &["The", "King", "&", "I"]);
+        check_camelcase_words("TheKing﹠I", &["The", "King", "﹠", "I"]);
+        check_camelcase_words("TheKing＆I", &["The", "King", "＆", "I"]);
+        check_camelcase_words("TheKing\u{1F674}I", &["The", "King", "\u{1F674}", "I"]);
+        check_camelcase_words("A&b", &["A", "&", "b"]);
+        check_camelcase_words("A﹠b", &["A", "﹠", "b"]);
+        check_camelcase_words("A＆b", &["A", "＆", "b"]);
+        check_camelcase_words("A\u{1F674}b", &["A", "\u{1F674}", "b"]);
+        check_camelcase_words("1&2", &["1", "&", "2"]);
+        check_camelcase_words("ǅ&ǅ", &["ǅ", "&", "ǅ"]);
+        check_camelcase_words("Forsooth&'tisTrue", &["Forsooth", "&", "'tis", "True"]);
     }
 
     #[test]
-    fn camelcase_to_spaces_ampersand_handling() {
-        check_camelcase_to_spaces("TheKing&I", "The King & I");
-        check_camelcase_to_spaces("TheKing﹠I", "The King ﹠ I");
-        check_camelcase_to_spaces("TheKing＆I", "The King ＆ I");
-        check_camelcase_to_spaces("TheKing\u{1F674}I", "The King \u{1F674} I");
-        check_camelcase_to_spaces("A&b", "A & b");
-        check_camelcase_to_spaces("A﹠b", "A ﹠ b");
-        check_camelcase_to_spaces("A＆b", "A ＆ b");
-        check_camelcase_to_spaces("A\u{1F674}b", "A \u{1F674} b");
-        check_camelcase_to_spaces("1&2", "1 & 2");
-        check_camelcase_to_spaces("ǅ&ǅ", "ǅ & ǅ");
-        check_camelcase_to_spaces("Forsooth&'tisTrue", "Forsooth & 'tis True");
+    fn camelcase_words_apostrophe_handling() {
+        check_camelcase_words("Don'tMove", &["Don't", "Move"]);
+        check_camelcase_words("Don\u{2019}tMove", &["Don\u{2019}t", "Move"]);
+        check_camelcase_words("Don\u{FF07}tMove", &["Don\u{FF07}t", "Move"]);
+        check_camelcase_words("It's my kids' kids'", &["It's", "my", "kids'", "kids'"]);
+        check_camelcase_words("it\u{2019}s my kids\u{2019} kids\u{2019}",
+                                  &["it\u{2019}s", "my", "kids\u{2019}", "kids\u{2019}"]);
+        check_camelcase_words("it\u{FF07}s my kids\u{FF07} kids\u{FF07}",
+                                  &["it\u{FF07}s", "my", "kids\u{FF07}", "kids\u{FF07}"]);
     }
 
     #[test]
-    fn camelcase_to_spaces_apostrophe_handling() {
-        check_camelcase_to_spaces("Don'tMove", "Don't Move");
-        check_camelcase_to_spaces("Don\u{2019}tMove", "Don\u{2019}t Move");
-        check_camelcase_to_spaces("Don\u{FF07}tMove", "Don\u{FF07}t Move");
-        check_camelcase_to_spaces("It's my kids' kids'", "It's my kids' kids'");
-        check_camelcase_to_spaces("it\u{2019}s my kids\u{2019} kids\u{2019}",
-                                  "it\u{2019}s my kids\u{2019} kids\u{2019}");
-        check_camelcase_to_spaces("it\u{FF07}s my kids\u{FF07} kids\u{FF07}",
-                                  "it\u{FF07}s my kids\u{FF07} kids\u{FF07}");
     }
 
     #[test]
-    fn camelcase_to_spaces_open_close_handling() {
-        check_camelcase_to_spaces("Who?Him!Really?Yeah!", "Who? Him! Really? Yeah!");
-        check_camelcase_to_spaces("100%Juice", "100% Juice");
-        check_camelcase_to_spaces("WeAre#1", "We Are #1");
-        check_camelcase_to_spaces("ShadowWarrior(2013)", "Shadow Warrior (2013)");
-        check_camelcase_to_spaces("SallyFace[linux]", "Sally Face [linux]");
-        check_camelcase_to_spaces("SallyFace[Linux]", "Sally Face [Linux]");
-        check_camelcase_to_spaces("TestyFoo{Bar}Baz", "Testy Foo {Bar} Baz");
-        check_camelcase_to_spaces("ShadowWarrior\u{FF08}2013\u{FF09}",
-                                  "Shadow Warrior \u{FF08}2013\u{FF09}");
-        check_camelcase_to_spaces("[ǅxx]", "[ǅxx]");
-        check_camelcase_to_spaces(" [ǅxx] ", "[ǅxx]");
+    fn camelcase_words_open_close_handling() {
+        check_camelcase_words("Who?Him!Really?Yeah!", &["Who?", "Him!", "Really?", "Yeah!"]);
+        check_camelcase_words("100%Juice", &["100%", "Juice"]);
+        check_camelcase_words("WeAre#1", &["We", "Are", "#1"]);
+        check_camelcase_words("ShadowWarrior(2013)", &["Shadow", "Warrior", "(2013)"]);
+        check_camelcase_words("SallyFace[linux]", &["Sally", "Face", "[linux]"]);
+        check_camelcase_words("SallyFace[Linux]", &["Sally", "Face", "[Linux]"]);
+        check_camelcase_words("TestyFoo{Bar}Baz", &["Testy", "Foo", "{Bar}", "Baz"]);
+        check_camelcase_words("ShadowWarrior\u{FF08}2013\u{FF09}",
+                                  &["Shadow", "Warrior", "\u{FF08}2013\u{FF09}"]);
+        check_camelcase_words("[ǅxx]", &["[ǅxx]"]);
+        check_camelcase_words(" [ǅxx] ", &["[ǅxx]"]);
     }
 
     #[test]
-    fn camelcase_to_spaces_doesnt_subdivide_numbers() {
-        check_camelcase_to_spaces("3.14", "3.14");
-        check_camelcase_to_spaces("255", "255");
-        check_camelcase_to_spaces("1000000", "1000000");
-        check_camelcase_to_spaces("ut2003", "ut 2003");
+    fn camelcase_words_doesnt_subdivide_numbers() {
+        check_camelcase_words("3.14", &["3.14"]);
+        check_camelcase_words("255", &["255"]);
+        check_camelcase_words("1000000", &["1000000"]);
+        check_camelcase_words("ut2003", &["ut", "2003"]);
     }
 
     #[test]
-    fn camelcase_to_spaces_unicode_segmentation() {
-        /// Zalgo text generated using http://eeemo.net/
-        check_camelcase_to_spaces("f̴͘͟͜ǫ̴̸̧͘ó̵̢̢͏B̴̨͠á̵̸͡r̶̵͢͠", "f̴͘͟͜ǫ̴̸̧͘ó̵̢̢͏ B̴̨͠á̵̸͡r̶̵͢͠");
-        check_camelcase_to_spaces("Ŕ̀̕͟͞À̸̛͞͞Ŕ̨̕F̕͜͟͠í̵͜l҉̨e̶̵", "Ŕ̀̕͟͞À̸̛͞͞Ŕ̨̕ F̕͜͟͠í̵͜l҉̨e̶̵");
-        check_camelcase_to_spaces("P̕͟͠i҉͢c̨̨͞͡ḱ̸̕Ą̸Ç͘͜a͘͟r̀͟͢҉̵d̕͜", "P̕͟͠i҉͢c̨̨͞͡ḱ̸̕ Ą̸ Ç͘͜a͘͟r̀͟͢҉̵d̕͜");
-        check_camelcase_to_spaces("6̢L̢͏͏͠i̷̛͜t̷̕t̷͟ļ͟͢ȩ̨̕̕È̷̸g̵̷̨͢͡g̷s͟͞", "6̢ L̢͏͏͠i̷̛͜t̷̕t̷͟ļ͟͢ȩ̨̕̕ È̷̸g̵̷̨͢͡g̷s͟͞");
-        check_camelcase_to_spaces("t̶̨͞h̨͝͝e̡͟͢1̴̧̀͘͟2͘͘c̷̴̢͘h̶̴̢͢à͘͏i̡̛r͜s̷͏", "t̶̨͞h̨͝͝e̡͟͢ 1̴̧̀͘͟2͘͘ c̷̴̢͘h̶̴̢͢à͘͏i̡̛r͜s̷͏");
-        check_camelcase_to_spaces("T̶͡ḩ̷̷͟ȩ̛́͘͡1̵̨̕͢2̕͝C̸̡͞͏͟h̴̵̀a҉͜͢i̵̸̡̕ŗ̴͢s̴͏͘͡", "T̶͡ḩ̷̷͟ȩ̛́͘͡ 1̵̨̕͢2̕͝ C̸̡͞͏͟h̴̵̀a҉͜͢i̵̸̡̕ŗ̴͢s̴͏͘͡");
-        check_camelcase_to_spaces("T͠҉̸̷h̀͡e̡̨͝͠1̴́͏.͏̨́͠͝5̨́̕C̷͜͏͠h̢̧͝ì̡̢̕l̸͞͡d̵̕͢͡ŕ̶͘͡͞e͜͝n̨҉̕", "T͠҉̸̷h̀͡e̡̨͝͠ 1̴́͏.͏̨́͠͝5̨́̕ C̷͜͏͠h̢̧͝ì̡̢̕l̸͞͡d̵̕͢͡ŕ̶͘͡͞e͜͝n̨҉̕");
-        check_camelcase_to_spaces("t̡̛͟h͏҉҉́è͝͠1̢̕͟͟.̶̛5̶͜ć̀ḩ̶̸̕͜i̸̕͢l̢͡͝͝͏d͘͟r̨͢e̢҉̵͞͠n̛", "t̡̛͟h͏҉҉́è͝͠ 1̢̕͟͟.̶̛5̶͜ ć̀ḩ̶̸̕͜i̸̕͢l̢͡͝͝͏d͘͟r̨͢e̢҉̵͞͠n̛");
-        check_camelcase_to_spaces("V̶͞e̡͜͟͠r̢͟s̀͏̧̢̕i̸̧͞͠o̷̸̧n̡͞1̧̀͘͟͞.̸̕1́͞҉", "V̶͞e̡͜͟͠r̢͟s̀͏̧̢̕i̸̧͞͠o̷̸̧n̡͞ 1̧̀͘͟͞.̸̕1́͞҉");
-        check_camelcase_to_spaces("A̴&͏̵̛b͝", "A̴ &͏̵̛ b͝");
-        check_camelcase_to_spaces("u̢҉͡t̸̷̛2̶͏͡0́̕҉̶0̡͞͡3̴̷͟", "u̢҉͡t̸̷̛ 2̶͏͡0́̕҉̶0̡͞͡3̴̷͟");
+    fn camelcase_words_unicode_segmentation() {
+        // Zalgo text generated using http://eeemo.net/
+        check_camelcase_words("f̴͘͟͜ǫ̴̸̧͘ó̵̢̢͏B̴̨͠á̵̸͡r̶̵͢͠", &["f̴͘͟͜ǫ̴̸̧͘ó̵̢̢͏", "B̴̨͠á̵̸͡r̶̵͢͠"]);
+        check_camelcase_words("Ŕ̀̕͟͞À̸̛͞͞Ŕ̨̕F̕͜͟͠í̵͜l҉̨e̶̵", &["Ŕ̀̕͟͞À̸̛͞͞Ŕ̨̕", "F̕͜͟͠í̵͜l҉̨e̶̵"]);
+        check_camelcase_words("P̕͟͠i҉͢c̨̨͞͡ḱ̸̕Ą̸Ç͘͜a͘͟r̀͟͢҉̵d̕͜", &["P̕͟͠i҉͢c̨̨͞͡ḱ̸̕", "Ą̸", "Ç͘͜a͘͟r̀͟͢҉̵d̕͜"]);
+        check_camelcase_words("6̢L̢͏͏͠i̷̛͜t̷̕t̷͟ļ͟͢ȩ̨̕̕È̷̸g̵̷̨͢͡g̷s͟͞", &["6̢", "L̢͏͏͠i̷̛͜t̷̕t̷͟ļ͟͢ȩ̨̕̕", "È̷̸g̵̷̨͢͡g̷s͟͞"]);
+        check_camelcase_words("t̶̨͞h̨͝͝e̡͟͢1̴̧̀͘͟2͘͘c̷̴̢͘h̶̴̢͢à͘͏i̡̛r͜s̷͏", &["t̶̨͞h̨͝͝e̡͟͢", "1̴̧̀͘͟2͘͘", "c̷̴̢͘h̶̴̢͢à͘͏i̡̛r͜s̷͏"]);
+        check_camelcase_words("T̶͡ḩ̷̷͟ȩ̛́͘͡1̵̨̕͢2̕͝C̸̡͞͏͟h̴̵̀a҉͜͢i̵̸̡̕ŗ̴͢s̴͏͘͡", &["T̶͡ḩ̷̷͟ȩ̛́͘͡", "1̵̨̕͢2̕͝", "C̸̡͞͏͟h̴̵̀a҉͜͢i̵̸̡̕ŗ̴͢s̴͏͘͡"]);
+        check_camelcase_words("T͠҉̸̷h̀͡e̡̨͝͠1̴́͏.͏̨́͠͝5̨́̕C̷͜͏͠h̢̧͝ì̡̢̕l̸͞͡d̵̕͢͡ŕ̶͘͡͞e͜͝n̨҉̕", &["T͠҉̸̷h̀͡e̡̨͝͠", "1̴́͏.͏̨́͠͝5̨́̕", "C̷͜͏͠h̢̧͝ì̡̢̕l̸͞͡d̵̕͢͡ŕ̶͘͡͞e͜͝n̨҉̕"]);
+        check_camelcase_words("t̡̛͟h͏҉҉́è͝͠1̢̕͟͟.̶̛5̶͜ć̀ḩ̶̸̕͜i̸̕͢l̢͡͝͝͏d͘͟r̨͢e̢҉̵͞͠n̛", &["t̡̛͟h͏҉҉́è͝͠", "1̢̕͟͟.̶̛5̶͜", "ć̀ḩ̶̸̕͜i̸̕͢l̢͡͝͝͏d͘͟r̨͢e̢҉̵͞͠n̛"]);
+        check_camelcase_words("V̶͞e̡͜͟͠r̢͟s̀͏̧̢̕i̸̧͞͠o̷̸̧n̡͞1̧̀͘͟͞.̸̕1́͞҉", &["V̶͞e̡͜͟͠r̢͟s̀͏̧̢̕i̸̧͞͠o̷̸̧n̡͞", "1̧̀͘͟͞.̸̕1́͞҉"]);
+        check_camelcase_words("A̴&͏̵̛b͝", &["A̴", "&͏̵̛", "b͝"]);
+        check_camelcase_words("u̢҉͡t̸̷̛2̶͏͡0́̕҉̶0̡͞͡3̴̷͟", &["u̢҉͡t̸̷̛", "2̶͏͡0́̕҉̶0̡͞͡3̴̷͟"]);
     }
 }
