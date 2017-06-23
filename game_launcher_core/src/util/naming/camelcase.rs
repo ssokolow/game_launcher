@@ -2,57 +2,8 @@
 //!
 
 use std::mem::replace;
-use regex::Regex;
 use unicode_segmentation::{GraphemeIndices,UnicodeSegmentation};
 use unicode_categories::UnicodeCategories;
-
-// --== Constants and Statics ==--
-
-lazy_static! {
-    /// Used by `naming::camelcase_count` to match word boundaries
-    ///
-    /// TODO: Remove this once I've replaced the counting code
-    static ref CAMELCASE_RE: Regex = Regex::new(r"(?x)
-        # == Ampersand (definitely end) followed by anything not already whitespace ==
-        #    ('Ampersand' or 'Small Ampersand', or 'Fullwidth Ampersand' or...
-        #     'Heavy Ampersand Ornament')
-        ([\x{26}\x{FE60}\x{FF06}\x{1F674}])
-        #    (Something not 'Separator, Space')
-        (\P{Zs})
-
-        # == OR ==
-        |
-
-        # == Lower/titlecase (possible end) followed by upper/titlecase/number (possible start) ==
-        #    ('Letter, Lowercase' or 'Letter, Titlecase', 'Ampersand' or 'Small Ampersand', or...
-        #     'Fullwidth Ampersand' or 'Heavy Ampersand Ornament')
-        ([\p{Ll}\p{Lt}])
-        #    ('Letter, Uppercase' or 'Number, Decimal Digit' or 'Number, Letter' or...
-        #     'Number, Other' or 'Ampersand' or 'Small Ampersand' or...
-        #     'Fullwidth Ampersand' or 'Heavy Ampersand Ornament')
-        ([\p{Lu}\p{Lt}\p{Nd}\p{Nl}\p{No}])
-
-        # == OR ==
-        |
-
-        # == Number followed by an un-capitalized word ==
-        #  ('Number, Decimal Digit' or 'Number, Letter' or 'Number, Other')
-        ([\p{Nd}\p{Nl}\p{No}])
-        #  ('Letter, Lowercase')
-        (\p{Ll})
-
-        #  == OR ==
-        |
-
-        # == Anything not whitespace, followed by ampersand or unambiguous beginnings of word ==
-        #    (Something not 'Separator, Space')
-        (\P{Zs})
-        #    ('Letter, Titlecase' or ['Letter, Uppercase' followed by 'Letter, Lowercase'] or...
-        #     'Ampersand' or 'Small Ampersand' or 'Fullwidth Ampersand' or ...
-        #     'Heavy Ampersand Ornament')
-        (\p{Lt} | \p{Lu}\p{Ll} | [\x{26}\x{FE60}\x{FF06}\x{1F674}])
-        ").expect("compiled regex in string literal");
-}
 
 // --== Enums ==--
 
@@ -312,7 +263,7 @@ impl<'a> Iterator for WordOffsets<'a> {
 
 /// External iterator for words in a string as defined by camelcase rules.
 ///
-/// Note: This API should be considered unstable as I have plans to rewrite it once
+/// NOTE: This API should be considered unstable as I have plans to rewrite it once
 /// `impl Iterator<Item=&str>` is stabilized.
 pub struct Words<'a> {
     /// Source string from which slices will be returned
@@ -337,11 +288,27 @@ pub trait CamelCaseIterators {
     /// Returns an iterator over the `(start_offset, end_offset)` tuples defining words within the
     /// string, as separated by camelcase rules.
     ///
+    /// This implementation differs from the form of camelcase typically used for function names in
+    /// that it will insert spaces between words and numbers.
+    /// (ie. "Thing Part 1" rather than "Thing Part1")
+    ///
+    /// This decision was made based on the following observations taken from a corpus of over 800
+    /// real-world computer game directory and installer/archive file names:
+    ///
+    /// 1. It produces a more accurate translation to the intended titles.
+    /// 2. It is in accordance with how, unlike method names, `snake_case` in video game filenames
+    ///    separates numbers from the words they follow.
+    ///
+    /// The test data in question can be found in the `filename_to_name_data.json` file used by the
+    /// top-level integration tests for this project.
+    ///
     /// TODO: If literal_whitespace is `true`, only split on camelcase boundaries, passing
     /// whitespace through literally. (Useful for stats-gathering)
     fn camelcase_offsets(&self, literal_whitespace: bool) -> WordOffsets;
 
     /// Returns an iterator over the words of the string, separated by camelcase rules.
+    ///
+    /// See `camelcase_offsets` for details.
     ///
     /// TODO: If literal_whitespace is `true`, only split on camelcase boundaries, passing
     /// whitespace through literally. (Useful for stats-gathering)
@@ -353,6 +320,8 @@ impl CamelCaseIterators for str {
     // unicode_segmentation applies involving #[inline] annotations
 
     fn camelcase_offsets(&self, literal_whitespace: bool) -> WordOffsets {
+    if literal_whitespace { unimplemented!(); }
+
     WordOffsets {
         in_iter: self.grapheme_indices(true),
         in_len: self.len(),
@@ -361,13 +330,13 @@ impl CamelCaseIterators for str {
 
         prev_type: CharType::Start,
 
-        skipping: false,
         start_offset: 0,
         prev_offset: 0,
 
         // Use the maximum possible value for `suppress` to mean "unset" because the whole point is
         // to affect the behaviour of suppress+1... which means this can't collide with anything.
-        suppress: usize::max_value() // Use the maximum value for "unset" since
+        suppress: usize::max_value(), // Use the maximum value for "unset" since
+        skipping: false,
     }
 }
 
@@ -377,44 +346,6 @@ impl CamelCaseIterators for str {
             in_iter: self.camelcase_offsets(literal_whitespace),
         }
     }
-}
-
-// --== Loose Functions ==--
-
-// TODO: Update this docstring once I've tested against the additional 850+ filenames still to be
-// added to the corpus.
-/// Insert spaces at word boundaries in a camelcase string.
-///
-/// This implementation differs from the form of camelcase typically used for function names in
-/// that it will insert spaces between words and numbers.
-/// (ie. "Thing Part 1" rather than "Thing Part1")
-///
-/// This decision was made based on the following observations taken from a corpus of over 800
-/// real-world computer game directory and installer/archive file names:
-///
-/// 1. It produces a more accurate translation to the intended titles.
-/// 2. It is in accordance with how, unlike method names, `snake_case` in video game filenames
-///    separates numbers from the words they follow.
-///
-/// The test data in question can be found in the `filename_to_name_data.json` file used by the
-/// top-level integration tests for this project.
-pub fn camelcase_to_spaces(in_str: &str) -> String {
-    // TODO: Depend on itertools and use join() directly on the iterator instead
-    in_str.camelcase_words(false).collect::<Vec<_>>().join(" ")
-}
-
-// TODO: Replace everything below except tests with the Iterator-ified version of the code above.
-use super::ConvenientCharCount;
-const CAMELCASE_COUNT_REPLACEMENT: &str = "${1}${3}${5}${7}\0${2}${4}${6}${8}";
-
-/// Return the number of camelcase word boundaries in a string.
-///
-/// **NOTE:** This is a temporary implementation to allow the dependent code to be refined. It will
-///     be replaced by a properly efficient, non-regex-based solution.
-pub fn camelcase_count(in_str: &str) -> usize {
-        // TODO: Unit test, then replace with .camelcase_words(false).count()
-        let in_str2 = CAMELCASE_RE.replace_all(in_str, CAMELCASE_COUNT_REPLACEMENT);
-        CAMELCASE_RE.replace_all(&in_str2, CAMELCASE_COUNT_REPLACEMENT).count_char('\0')
 }
 
 // --== Tests ==--
@@ -435,7 +366,6 @@ mod tests {
         assert_eq!(input.camelcase_offsets(false).count(), expected.len());
     }
 
-    // TODO: Factor out camelcase_to_spaces rather than testing it.
     // TODO: Tests for camelcase_offsets
 
     #[test]

@@ -20,8 +20,7 @@ use super::constants::{
 
 mod camelcase;
 
-pub use self::camelcase::camelcase_to_spaces;
-pub use self::camelcase::camelcase_count;
+pub use self::camelcase::CamelCaseIterators;
 
 // --== Traits ==--
 
@@ -162,7 +161,7 @@ enum SeparatorType {
 pub fn normalize_whitespace(in_str: &str) -> Cow<str> {
     // TODO: I think I'm going to have to constrain `CamelCase` and `Period` to the second pass.
     //let counts = [
-    //    (SeparatorType::CamelCase, camelcase_count(in_str)),
+    //    (SeparatorType::CamelCase, in_str.camelcase_offsets(true).count()),
     //    (SeparatorType::Dash, in_str.count_char('-')),
     //    //(SeparatorType::Period, in_str.count_char('.')), // FIXME: Don't get fooled by versions
     //    (SeparatorType::Plus, in_str.count_char('+')),  // TODO: ignore ++ as in C++/N++
@@ -176,7 +175,7 @@ pub fn normalize_whitespace(in_str: &str) -> Cow<str> {
     //    SeparatorType::Underscore => Cow::Owned(in_str.replace("_", " ")),
     //    SeparatorType::Dash => Cow::Owned(in_str.replace("-", " ")),
     //    SeparatorType::Plus => Cow::Owned(in_str.replace("+", " ")),  // TODO: ignore ++ as in C++/N++
-    //    _ => Cow::Owned(camelcase_to_spaces(in_str))
+    //    _ => Cow::Owned(in_str.camelcase_words(false).collect::<Vec<_>>().join(" "))
     //};
 
     let underscore_count = in_str.count_char('_');
@@ -194,7 +193,7 @@ pub fn normalize_whitespace(in_str: &str) -> Cow<str> {
         }
     } else {
         // Handle CamelCase cues
-        Cow::Owned(camelcase_to_spaces(in_str))
+        Cow::Owned(in_str.camelcase_words(false).collect::<Vec<_>>().join(" "))
 
         // TODO: If the string is fully lowercase before any case normalization occurs, or there
         // are no spaces, and + characters occur in more than two disjoint locations
@@ -224,9 +223,10 @@ pub fn titlecase_up(in_str: &str) -> String {
 
 // --== CPython API ==--
 
-/// `rust-cpython` API wrapper for `camelcase_to_spaces`
+/// `rust-cpython` API wrapper for `CamelCaseIterators::camelcase_words`
+/// TODO: Finish factoring out the "join"
 fn py_camelcase_to_spaces(_: Python, in_str: &str) -> PyResult<String> {
-    Ok(camelcase_to_spaces(in_str))
+    Ok(in_str.camelcase_words(false).collect::<Vec<_>>().join(" "))
 }
 
 /// `rust-cpython` API wrapper for `normalize_whitespace`
