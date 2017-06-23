@@ -56,6 +56,8 @@ lazy_static! {
 
 // --== Enums ==--
 
+// TODO: Refresh my memory of which other traits I'm advised to derive on this.
+
 /// Phase 1 intermediate representation used to separate classifying Unicode grapheme clusters from
 /// defining state transitions between classes.
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -82,7 +84,7 @@ enum CharType {
     /// A piece of punctuation which should not have a space before it, such as ")" or "%"
     EndPunct,
     /// A whitespace character
-    Space,
+    Whitespace,
     /// Any character which does not fall into the other classes
     Other
 }
@@ -210,7 +212,9 @@ fn classify_char(in_char: char) -> CharType {
         // TODO: Find a crate to which I can delegate "BIDI" category membership checking
         //       (Membership checked at http://www.unicode.org/Public/UNIDATA/UnicodeData.txt)
 
-        x if x.is_whitespace() => CharType::Space,
+        // Note: Keep this at the top in case things like U+00A0 make it into other matchers
+        //       because of attributes like "BIDI: CS" classifications.
+        x if x.is_whitespace() => CharType::Whitespace,
 
         // TODO: Is there any database I can use to delegate "Ampersand" and "Apostrophe" DefN?
         '\u{26}' | '\u{FE60}' | '\u{FF06}' | '\u{1F674}' => CharType::Ampersand,
@@ -259,7 +263,7 @@ fn transition_to_action(old_type: CharType, new_type: CharType) -> CCaseAction {
     // FIXME: Silence `match_same_arms` lint. It could prompt someone to mess with precedence.
     match (old_type, new_type) {
         // Split instead of emitting whitespace
-        (_, CharType::Space) => CCaseAction::Skip,
+        (_, CharType::Whitespace) => CCaseAction::Skip,
 
         // Don't insert space around a "Common Number Separator" or apostrophe
         // or after opening or before closing punctuation (eg. parens)
