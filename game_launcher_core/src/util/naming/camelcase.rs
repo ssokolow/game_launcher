@@ -105,6 +105,9 @@ enum CCaseAction {
     /// Shift a grapheme back out of the accumulator, then operate as in `StartWord`
     /// (Necessary to implement camelcase "<upper><lower>" handling in a single pass)
     AlreadyStartedWord,
+    /// Like `Literal`, but prevent the following character from being the split point for a new
+    /// word (Used to suppress AlreadyStartedWord in cases like "[Hello]")
+    Suppress,
     /// Emit accumulated word (if non-empty) and reset accumulator WITHOUT adding this grapheme
     /// (Necessary to skip whitespace characters)
     Skip,
@@ -191,18 +194,20 @@ fn transition_to_action(old_type: CharType, new_type: CharType) -> CCaseAction {
         // Split instead of emitting whitespace (must have highest precedence)
         (_, CharType::Whitespace) => CCaseAction::Skip,
 
+        // Block AlreadyStartedWord in situations like "(Hello"
+        (CharType::StartPunct, _) => CCaseAction::Suppress,
+
         // Always start a new word after whitespace, before titlecase, and before/after ampersands
         // TODO: More unit tests for the interaction between Ampersand and NumSep/etc.
         (CharType::Whitespace, _) |
         (_, CharType::Titlecase) |
         (CharType::Ampersand, _) | (_, CharType::Ampersand) => CCaseAction::StartWord,
 
-        // Don't split before or after a "Number Separator" or apostrophe,
-        // after opening punctuation, or before closing punctuation (eg. parens) unless overruled
-        // by a higher-precedence rule.
+        // Don't split before or after a "Number Separator" or apostrophe
+        // or before closing punctuation (eg. parens) unless overruled by a higher-precedence rule.
         (CharType::NumSep, _) | (_, CharType::NumSep) |
         (CharType::Apostrophe, _) | (_, CharType::Apostrophe) |
-        (CharType::StartPunct, _) | (_, CharType::EndPunct) => CCaseAction::Literal,
+        (_, CharType::EndPunct) => CCaseAction::Literal,
 
         // Retroactively locate the word-break if we find a lowercase after a titlecase/uppercase
         // FIXME: An additional CCaseAction needs to be defined so StartPunct can overrule this
@@ -244,6 +249,8 @@ pub struct WordOffsets<'a> {
     prev_offset: usize,
     /// Used to allow `CCaseAction::Skip` to not emit whitespace-only words
     skipping: bool,
+    /// Used to allow `CCaseAction::Suppress` to block `AlreadyStartedWord`
+    suppress: usize,
 }
 
 impl<'a> WordOffsets<'a> {
@@ -282,10 +289,15 @@ impl<'a> Iterator for WordOffsets<'a> {
             // TODO: Consider using an enum for the skip=true/false
             let prev_offset = replace(&mut self.prev_offset, byte_offset);
             if let Some(pair) = match curr_action {
-                CCaseAction::Literal => { None }, // The grapheme iterator will advance it for us
                 CCaseAction::Skip => { self._next_word(byte_offset, true) },
-                CCaseAction::StartWord => { self._next_word(byte_offset, false) },
-                CCaseAction::AlreadyStartedWord => { self._next_word(prev_offset, false) },
+                CCaseAction::StartWord if self.suppress != byte_offset => {
+                    self._next_word(byte_offset, false) },
+                CCaseAction::AlreadyStartedWord if self.suppress != prev_offset => {
+                    self._next_word(prev_offset, false)
+                },
+                CCaseAction::Suppress => { self.suppress = byte_offset; None },
+                _ => { None }, // Use Literal as the fallback behaviour
+
             } {
                 return Some(pair);
             }
@@ -352,6 +364,10 @@ impl CamelCaseIterators for str {
         skipping: false,
         start_offset: 0,
         prev_offset: 0,
+
+        // Use the maximum possible value for `suppress` to mean "unset" because the whole point is
+        // to affect the behaviour of suppress+1... which means this can't collide with anything.
+        suppress: usize::max_value() // Use the maximum value for "unset" since
     }
 }
 
