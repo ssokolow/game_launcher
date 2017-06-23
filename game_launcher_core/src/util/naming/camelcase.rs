@@ -182,19 +182,21 @@ fn classify_char(in_char: char) -> CharType {
 fn transition_to_action(old_type: CharType, new_type: CharType) -> CCaseAction {
     // FIXME: Silence `match_same_arms` lint. It could prompt someone to mess with precedence.
     match (old_type, new_type) {
-        // Split instead of emitting whitespace
+        // Split instead of emitting whitespace (must have highest precedence)
         (_, CharType::Whitespace) => CCaseAction::Skip,
 
-        // Don't insert space around a "Number Separator" or apostrophe,
-        // after opening punctuation, or before closing punctuation (eg. parens)
+        // Always start a new word after whitespace, before titlecase, and before/after ampersands
+        // TODO: More unit tests for the interaction between Ampersand and NumSep/etc.
+        (CharType::Whitespace, _) |
+        (_, CharType::Titlecase) |
+        (CharType::Ampersand, _) | (_, CharType::Ampersand) => CCaseAction::StartWord,
+
+        // Don't split before or after a "Number Separator" or apostrophe,
+        // after opening punctuation, or before closing punctuation (eg. parens) unless overruled
+        // by a higher-precedence rule.
         (CharType::NumSep, _) | (_, CharType::NumSep) |
         (CharType::Apostrophe, _) | (_, CharType::Apostrophe) |
         (CharType::StartPunct, _) | (_, CharType::EndPunct) => CCaseAction::Literal,
-
-        // Always insert space before titlecase glyphs and before and after ampersands
-        // TODO: Unit test the interaction between Ampersand and NumSep/etc.
-        (_, CharType::Titlecase) |
-        (CharType::Ampersand, _) | (_, CharType::Ampersand) => CCaseAction::StartWord,
 
         // Retroactively locate the word-break if we find a lowercase after a titlecase/uppercase
         (CharType::Titlecase, CharType::Lowercase) |
@@ -479,6 +481,7 @@ mod tests {
         check_camelcase_to_spaces("A\u{1F674}b", "A \u{1F674} b");
         check_camelcase_to_spaces("1&2", "1 & 2");
         check_camelcase_to_spaces("ǅ&ǅ", "ǅ & ǅ");
+        check_camelcase_to_spaces("Forsooth&'tisTrue", "Forsooth & 'tis True");
     }
 
     #[test]
