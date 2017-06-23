@@ -123,7 +123,7 @@ fn classify_char(in_char: char) -> CharType {
         //       because of attributes like "BIDI: CS" classifications.
         x if x.is_whitespace() => CharType::Whitespace,
 
-        // TODO: Is there any DB I can use to delegate "Ampersand" and "Apostrophe" definitisions?
+        // TODO: Is there any DB I can use to delegate "Ampersand" and "Apostrophe" definitions?
         '\u{26}' | '\u{FE60}' | '\u{FF06}' | '\u{1F674}' => CharType::Ampersand,
 
         // Note: U+2019 (Right Single Quotation Mark)" is included here because FileFormat.info
@@ -143,24 +143,30 @@ fn classify_char(in_char: char) -> CharType {
 
         // Include "BIDI: European Number Terminator [ET]" as asymmetrically non-breaking based on
         // hard-coded rules like "$ breaks before" and "% breaks after".
+        // TODO: Add characters from these "see also" lists:
+        //       - http://www.fileformat.info/info/unicode/char/003c/index.htm
+        //       - http://www.fileformat.info/info/unicode/char/003e/index.htm
+        //       - http://www.fileformat.info/info/unicode/char/search.htm?q=%22&preview=entity
         // TODO: Add unit tests for at least a large swathe of these
+        // XXX: Is there an attribute that identifies asymmetric quote characters?
         // XXX: Try to build/intuit a corpus which would tell me whether it's feasible to make
         //      the "BIDI:ET" elements their own class which autodetects which side to break on
         //      based on surrounding characters. (Because that'd let me autogenerate it)
-       '\u{23}' | '\u{24}' | '\u{a3}' | '\u{a4}' | '\u{a5}' | '\u{b1}' | '\u{20a0}' | '\u{20ac}' |
-                  '\u{FE5F}' | '\u{FE69}' | '\u{FF03}' | '\u{FF04}' | '\u{ffe1}'
+       '\u{23}' | '\u{24}' | '\u{a3}' | '\u{a4}' | '\u{a5}' | '\u{ab}' | '\u{b1}' | '\u{20a0}' |
+                  '\u{20ac}' | '\u{FE5F}' | '\u{FE69}' | '\u{FF03}' | '\u{FF04}' | '\u{ffe1}'
            => CharType::StartPunct,
-       '\u{25}' | '\u{a2}' | '\u{b0}' | '\u{2030}' | '\u{2031}' | '\u{2032}' | '\u{2033}' |
-                  '\u{2034}' | '\u{FE6A}' | '\u{ff05}' | '\u{ffe0}'
+       '\u{25}' | '\u{a2}' | '\u{b0}' | '\u{bb}' | '\u{2030}' | '\u{2031}' | '\u{2032}' |
+                  '\u{2033}' | '\u{2034}' | '\u{FE6A}' | '\u{ff05}' | '\u{ffe0}'
            => CharType::EndPunct,
 
         // Manually include a subset of "BIDI: Other Neutrals [ON]" as asymmetrically non-breaking
         // TODO: Which side should U+2E2E break on?
-        '\u{A1}' | '\u{bf}' | '\u{2E18}' // Inverted question, exclamation, and interrobang
+        '\u{3c}' | '\u{A1}' | '\u{bf}' | '\u{2E18}' | '\u{fe64}' | '\u{ff1c}'
            => CharType::StartPunct,
-        '\u{21}' | '\u{3b}' | '\u{3f}' | '\u{37e}' | '\u{2026}' | '\u{203c}' | '\u{203d}' |
-                   '\u{2047}' | '\u{2048}' | '\u{2049}' | '\u{2762}' | '\u{FE54}' | '\u{FE56}' |
-                   '\u{FE57}' | '\u{FF01}' | '\u{ff02}' | '\u{FF1B}' | '\u{FF1F}' | '\u{1F679}'
+        '\u{21}' | '\u{3b}' | '\u{3e}' | '\u{3f}' | '\u{37e}' | '\u{2026}' | '\u{203c}' |
+                   '\u{203d}' | '\u{2047}' | '\u{2048}' | '\u{2049}' | '\u{2762}' | '\u{FE54}' |
+                   '\u{FE56}' | '\u{FE57}' | '\u{fe65}' | '\u{FF01}' | '\u{ff02}' | '\u{FF1B}' |
+                   '\u{FF1E}' | '\u{FF1F}' | '\u{1F679}'
            => CharType::EndPunct,
 
         // Punctuation which should only trigger whitespace on one side
@@ -199,6 +205,7 @@ fn transition_to_action(old_type: CharType, new_type: CharType) -> CCaseAction {
         (CharType::StartPunct, _) | (_, CharType::EndPunct) => CCaseAction::Literal,
 
         // Retroactively locate the word-break if we find a lowercase after a titlecase/uppercase
+        // FIXME: An additional CCaseAction needs to be defined so StartPunct can overrule this
         (CharType::Titlecase, CharType::Lowercase) |
         (CharType::Uppercase, CharType::Lowercase) => CCaseAction::AlreadyStartedWord,
 
@@ -502,6 +509,14 @@ mod tests {
     }
 
     #[test]
+    fn camelcase_words_open_close_plus_upper_lower() {
+        check_camelcase_words("Test [Hello]", &["Test", "[Hello]"]);
+        check_camelcase_words("Test (Hello)", &["Test", "(Hello)"]);
+        check_camelcase_words("Test {Hello}", &["Test", "{Hello}"]);
+        check_camelcase_words("Test «Hello»", &["Test", "«Hello»"]);
+        check_camelcase_words("Test <Hello>", &["Test", "<Hello>"]);
+        check_camelcase_words("Test ﹤Hello﹥", &["Test", "﹤Hello﹥"]);
+        check_camelcase_words("Test ＜Hello＞", &["Test", "＜Hello＞"]);
     }
 
     #[test]
@@ -510,6 +525,10 @@ mod tests {
         check_camelcase_words("100%Juice", &["100%", "Juice"]);
         check_camelcase_words("WeAre#1", &["We", "Are", "#1"]);
         check_camelcase_words("ShadowWarrior(2013)", &["Shadow", "Warrior", "(2013)"]);
+        check_camelcase_words("Testy<foo>", &["Testy", "<foo>"]);
+        check_camelcase_words("Testy﹤foo﹥", &["Testy", "﹤foo﹥"]);
+        check_camelcase_words("Testy＜foo＞", &["Testy", "＜foo＞"]);
+        check_camelcase_words("Testy«foo»", &["Testy", "«foo»"]);
         check_camelcase_words("SallyFace[linux]", &["Sally", "Face", "[linux]"]);
         check_camelcase_words("SallyFace[Linux]", &["Sally", "Face", "[Linux]"]);
         check_camelcase_words("TestyFoo{Bar}Baz", &["Testy", "Foo", "{Bar}", "Baz"]);
