@@ -381,7 +381,13 @@ mod tests {
                    "camelcase_words should be a no-op when re-run on its own output (no space)");
     }
 
-    // TODO: Tests for camelcase_offsets
+    /// Basic sanity test to catch if camelcase_words passes the tests because it and
+    /// camelcase_offsets embody compatible misunderstandings of string indexing.
+    #[test]
+    fn camelcase_offsets_basic_function() {
+        assert_eq!("fooBar2 baz".camelcase_offsets(false).collect::<Vec<_>>(),
+                   [(0,3), (3,6), (6,7), (8,11)])
+    }
 
     #[test]
     fn camelcase_words_basic_function() {
