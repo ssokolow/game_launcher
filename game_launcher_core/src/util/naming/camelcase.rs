@@ -182,12 +182,12 @@ pub struct WordOffsets<'a> {
     in_iter: GraphemeIndices<'a>,
     /// Maximum valid end offset. Used for the final drain operation after the iterator runs out.
     in_len: usize,
-    /// If true, don't split on existing runs of whitespace
+    /// If true, split only on CamelCase transitions, passing other delimiters through as literals
     ///
     /// This is useful for counting camelcase transitions relative to other kinds of delimiters
     ///
     /// TODO: Actually implement this
-    literal_ws: bool,
+    strict: bool,
 
     // Used by the middle phase of each next() call
     /// The abstract type of the previous grapheme's base `char`. Used by `transition_to_action`.
@@ -302,31 +302,31 @@ pub trait CamelCaseIterators {
     /// The test data in question can be found in the `filename_to_name_data.json` file used by the
     /// top-level integration tests for this project.
     ///
-    /// TODO: If literal_whitespace is `true`, only split on camelcase boundaries, passing
-    /// whitespace through literally. (Useful for stats-gathering)
-    fn camelcase_offsets(&self, literal_whitespace: bool) -> WordOffsets;
+    /// TODO: If strict `true`, only split on camelcase boundaries, passing other delimiters
+    /// through literally. (Useful for stats gathering)
+    fn camelcase_offsets(&self, strict: bool) -> WordOffsets;
 
     /// Returns an iterator over the words of the string, separated by camelcase rules.
     ///
     /// See `camelcase_offsets` for details.
     ///
-    /// TODO: If literal_whitespace is `true`, only split on camelcase boundaries, passing
-    /// whitespace through literally. (Useful for stats-gathering)
-    fn camelcase_words(&self, literal_whitespace: bool) -> Words;
+    /// TODO: If strict `true`, only split on camelcase boundaries, passing other delimiters
+    /// through literally. (Useful for stats gathering)
+    fn camelcase_words(&self, strict: bool) -> Words;
 }
 
 impl CamelCaseIterators for str {
     // TODO: Once I'm set up for benchmarking, check whether I should copy the tactic
     // unicode_segmentation applies involving #[inline] annotations
 
-    fn camelcase_offsets(&self, literal_whitespace: bool) -> WordOffsets {
-    if literal_whitespace { unimplemented!(); }
+    fn camelcase_offsets(&self, strict: bool) -> WordOffsets {
+    if strict { unimplemented!(); }
 
     WordOffsets {
         in_iter: self.grapheme_indices(true),
         in_len: self.len(),
-        literal_ws: literal_whitespace,
-        // TODO: Implement literal_ws and unit test it
+        strict,
+        // TODO: Implement strict and unit test it
 
         prev_type: CharType::Start,
 
@@ -340,10 +340,10 @@ impl CamelCaseIterators for str {
     }
 }
 
-    fn camelcase_words(&self, literal_whitespace: bool) -> Words {
+    fn camelcase_words(&self, strict: bool) -> Words {
         Words {
             in_str: self,
-            in_iter: self.camelcase_offsets(literal_whitespace),
+            in_iter: self.camelcase_offsets(strict),
         }
     }
 }
