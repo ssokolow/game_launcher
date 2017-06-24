@@ -354,16 +354,31 @@ impl CamelCaseIterators for str {
 mod tests {
     use super::CamelCaseIterators;
 
-    /// Helper to deduplicate verifying that CamelCaseIterators output is stable
-    fn check_camelcase_words(input: &str, expected: &[&str]) {
+    /// Helper for testing `camelcase_words` on strings which rely on whitespace for some of their
+    /// word boundaries.
+    fn check_camelcase_words_limited(input: &str, expected: &[&str]) -> String {
+        // Check that camelcase_words(false) returns the expected output
         let result = input.camelcase_words(false).collect::<Vec<_>>();
         assert_eq!(result, expected, "(with input {:?})", input);
 
+        // Check that re-joining with " " and then re-splitting doesn't change the results
         let result_j = result.join(" ");
-        assert_eq!(result_j.camelcase_words(false).collect::<Vec<_>>(), result,
-                   "camelcase_words should be a no-op when re-run on its own output");
+        let result2 = result_j.camelcase_words(false).collect::<Vec<_>>();
+        assert_eq!(result2, result,
+                   "camelcase_words should be a no-op when re-run on its own output (space)");
 
+        // Basic sanity check that camelcase_offsets produces the same number of values as _words
         assert_eq!(input.camelcase_offsets(false).count(), expected.len());
+
+        // Return the string, joined with "" so we can easily reuse this in check_camelcase_words
+        result2.join("")
+    }
+
+    /// Helper to deduplicate verifying that CamelCaseIterators output is stable
+    fn check_camelcase_words(input: &str, expected: &[&str]) {
+        let result2_j = check_camelcase_words_limited(input, expected);
+        assert_eq!(result2_j.camelcase_words(false).collect::<Vec<_>>(), expected,
+                   "camelcase_words should be a no-op when re-run on its own output (no space)");
     }
 
     // TODO: Tests for camelcase_offsets
@@ -385,8 +400,8 @@ mod tests {
         check_camelcase_words("Foo", &["Foo"]);
         check_camelcase_words("fooBar", &["foo", "Bar"]);
         check_camelcase_words("FooBar", &["Foo", "Bar"]);
-        check_camelcase_words("foo bar", &["foo", "bar"]);
         check_camelcase_words("Foo Bar", &["Foo", "Bar"]);
+        check_camelcase_words_limited("foo bar", &["foo", "bar"]);
     }
 
     #[test]
@@ -447,11 +462,11 @@ mod tests {
         check_camelcase_words("Don'tMove", &["Don't", "Move"]);
         check_camelcase_words("Don\u{2019}tMove", &["Don\u{2019}t", "Move"]);
         check_camelcase_words("Don\u{FF07}tMove", &["Don\u{FF07}t", "Move"]);
-        check_camelcase_words("It's my kids' kids'", &["It's", "my", "kids'", "kids'"]);
-        check_camelcase_words("it\u{2019}s my kids\u{2019} kids\u{2019}",
-                                  &["it\u{2019}s", "my", "kids\u{2019}", "kids\u{2019}"]);
-        check_camelcase_words("it\u{FF07}s my kids\u{FF07} kids\u{FF07}",
-                                  &["it\u{FF07}s", "my", "kids\u{FF07}", "kids\u{FF07}"]);
+        check_camelcase_words_limited("It's my kids' kids'", &["It's", "my", "kids'", "kids'"]);
+        check_camelcase_words_limited("it\u{2019}s my kids\u{2019} kids\u{2019}",
+                                      &["it\u{2019}s", "my", "kids\u{2019}", "kids\u{2019}"]);
+        check_camelcase_words_limited("it\u{FF07}s my kids\u{FF07} kids\u{FF07}",
+                                      &["it\u{FF07}s", "my", "kids\u{FF07}", "kids\u{FF07}"]);
     }
 
     #[test]
