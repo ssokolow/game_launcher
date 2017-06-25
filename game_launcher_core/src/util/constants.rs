@@ -18,10 +18,10 @@ pub const IGNORED_BINARIES: &[&str] =
 ///
 /// **NOTE:** These will be compared against the output of `to_lowercase()`
 pub const INSTALLER_EXTS: &[&str] = &[
-    ".zip", ".rar",
-    ".tar", ".gz", ".tgz", ".bz2", ".tbz2", ".xz", ".txz",
-    ".sh",  ".run", ".bin",
-    ".deb", ".rpm"
+    "zip", "rar",
+    "tar", "gz", "tgz", "bz2", "tbz2", "xz", "txz",
+    "sh",  "run", "bin",
+    "deb", "rpm"
 ];
 
 /// Don't search for metadata inside scripts like `start.sh` if they're bigger
@@ -32,16 +32,16 @@ pub const MAX_SCRIPT_SIZE: u64 = 1024 * 1024; // 1 MiB
 ///
 /// **NOTE:** These will be compared against the output of `to_lowercase()`
 pub const NON_BINARY_EXTS: &[&str] = &[
-    ".dll", ".so", ".dso", ".shlib", ".o", ".dylib",
-    ".ini", ".xml", ".txt",
-    ".assets", ".u", ".frag", ".vert", ".fxg", ".xnb", ".xsb", ".xwb", ".xgs",
-    ".usf", ".msf", ".asi", ".fsb", ".fev", ".mdd", ".lbx", ".zmp",
-    ".as", ".cpp", ".c", ".h", ".java",
-    ".ogg", ".mp3", ".wav", ".spc", ".mid", ".midi", ".rmi",
-    ".png", ".bmp", ".gif", ".jpg", ".jpeg", ".svg", ".tga", ".pcx",
-    ".pdf",
-    ".ttf", ".crt",
-    ".dl_", ".sc_", ".ex_",
+    "dll", "so", "dso", "shlib", "o", "dylib",
+    "ini", "xml", "txt",
+    "assets", "u", "frag", "vert", "fxg", "xnb", "xsb", "xwb", "xgs",
+    "usf", "msf", "asi", "fsb", "fev", "mdd", "lbx", "zmp",
+    "as", "cpp", "c", "h", "java",
+    "ogg", "mp3", "wav", "spc", "mid", "midi", "rmi",
+    "png", "bmp", "gif", "jpg", "jpeg", "svg", "tga", "pcx",
+    "pdf",
+    "ttf", "crt",
+    "dl_", "sc_", "ex_",
 ];
 
 /// Extensions which denote likely candidates for the launcher menu
@@ -55,13 +55,13 @@ pub const NON_BINARY_EXTS: &[&str] = &[
 ///
 /// **TODO:** Find some way to do a coverage test for this.
 pub const PROGRAM_EXTS: &[&str] = &[
-    ".air", ".swf", ".jar",
-    ".sh", ".py", ".pl",
-    ".exe", ".bat", ".cmd", ".pif",
-    ".bin",
-    ".desktop",
-    ".love",
-    ".nes",
+    "air", "swf", "jar",
+    "sh", "py", "pl",
+    "exe", "bat", "cmd", "pif",
+    "bin",
+    "desktop",
+    "love",
+    "nes",
 ];
 
 /// **TODO:** What does the fallback guesser use this for again?
@@ -82,6 +82,10 @@ const RE_EXPECT_MSG: &str = "compiled regex from string literal";
 lazy_static! {
     // TODO: Unit tests for these regexes, independent from the functional test corpus
     // TODO: Move version-matching into its own pass so we can split on periods
+
+    // TODO: Do this once using something like lazy_static
+    pub static ref RECOGNIZED_EXTS: Vec<&'static str> =
+        [PROGRAM_EXTS, INSTALLER_EXTS, NON_BINARY_EXTS, &["app"]].concat();
 
     /// Used by `filename_to_name` to insert colons
     pub static ref SUBTITLE_START_RE: Regex = Regex::new(r"(\d)\s+(\w)").expect(RE_EXPECT_MSG);

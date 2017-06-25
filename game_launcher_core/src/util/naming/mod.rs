@@ -14,8 +14,8 @@ use cpython::{PyModule, PyResult, Python};
 // --== Constants and Statics ==--
 
 use super::constants::{
-    FNAME_WSPACE_RE, FNAME_WSPACE_NODASH_RE,
-    PROGRAM_EXTS, SUBTITLE_START_RE, WHITESPACE_RE, WORD_BOUNDARY_CHARS
+    FNAME_WSPACE_RE, FNAME_WSPACE_NODASH_RE, RECOGNIZED_EXTS,
+    SUBTITLE_START_RE, WHITESPACE_RE, WORD_BOUNDARY_CHARS
 };
 
 mod camelcase;
@@ -42,20 +42,25 @@ impl ConvenientCharCount for str {
 
 // TODO: Write a function which generates sorting keys like "Boy And His Blob, A" from titles.
 
-/// Helper for `filename_to_name` to strip recognized extensions without over-stripping when
-/// periods are used in other ways.
-fn _filename_extensionless<P: AsRef<Path> + ?Sized>(path: &P) -> Cow<str> {
-    let path = path.as_ref();
+/// Strip recognized extensions without over-stripping when periods are used in other ways.
+pub fn filename_extensionless<P: AsRef<Path> + ?Sized>(path: &P) -> Cow<str> {
+    let mut path = path.as_ref();
 
-    // Use the file_stem() if the extension is present and in `PROGRAM_EXTS`, case-insensitively
-    let name = match path.extension().map(|x| x.to_string_lossy().to_lowercase()) {
-        Some(ref ext) if PROGRAM_EXTS.contains(&ext.as_str()) => path.file_stem(),
-        _ => path.file_name()
-    };
+    // TODO: Unit test that this behaves as expected
+    loop {
+        let ext = path.extension().map(|x| x.to_string_lossy().to_lowercase()
+                                       ).unwrap_or(String::new());
 
-    // Ensure we consistently have either an empty string or an escaped string
-    // TODO: Is this still simpler than converting empty strings to Option::None early?
-    name.unwrap_or_else(|| OsStr::new("")).to_string_lossy()
+        // Ensure we consistently have either an empty or escaped string
+        // TODO: Is this still simpler than converting empty strings to Option::None early?
+        let stem = path.file_stem().unwrap_or_else(|| OsStr::new(""));
+
+        if RECOGNIZED_EXTS.contains(&ext.as_str()) {
+            path = Path::new(stem);
+        } else {
+            return path.file_name().unwrap_or_else(|| OsStr::new("")).to_string_lossy()
+        }
+    }
 }
 
 /// Heuristically transform a path or file/directory name to produce a high-accuracy guess at the
@@ -70,7 +75,7 @@ fn _filename_extensionless<P: AsRef<Path> + ?Sized>(path: &P) -> Cow<str> {
 ///  shortcomings in the algorithm which have planned solutions or due to plain-and-simple
 ///  rule-precedence bugs that have yet to be shaken out by the in-progress refactoring.)
 pub fn filename_to_name<P: AsRef<Path> + ?Sized>(path: &P) -> Option<String> {
-    let name_in = _filename_extensionless(path);
+    let name_in = filename_extensionless(path);
 
     // TODO: Refactor this function for simplicity and early return
     // TODO: Group the algorithm into labelled phases
@@ -229,6 +234,11 @@ fn py_camelcase_to_spaces(_: Python, in_str: &str) -> PyResult<String> {
     Ok(in_str.camelcase_words(false).collect::<Vec<_>>().join(" "))
 }
 
+/// `rust-cpython` API wrapper for `filename_extensionless`
+fn py_filename_extensionless(_: Python, in_str: &str) -> PyResult<String> {
+    Ok(filename_extensionless(in_str).into_owned())
+}
+
 /// `rust-cpython` API wrapper for `normalize_whitespace`
 fn py_normalize_whitespace(_: Python, in_str: &str) -> PyResult<String> {
     Ok(normalize_whitespace(in_str).into_owned())
@@ -244,6 +254,8 @@ pub fn into_python_module(py: &Python) -> PyResult<PyModule> {
     let py = *py;
     let py_naming = PyModule::new(py, "naming")?;
     py_naming.add(py, "camelcase_to_spaces", py_fn!(py, py_camelcase_to_spaces(in_str: &str)))?;
+    py_naming.add(py, "filename_extensionless",
+                  py_fn!(py, py_filename_extensionless(in_str: &str)))?;
     py_naming.add(py, "normalize_whitespace", py_fn!(py, py_normalize_whitespace(in_str: &str)))?;
     py_naming.add(py, "titlecase_up", py_fn!(py, py_titlecase_up(in_str: &str)))?;
     Ok(py_naming)
@@ -253,7 +265,22 @@ pub fn into_python_module(py: &Python) -> PyResult<PyModule> {
 
 #[cfg(test)]
 mod tests {
-    use super::titlecase_up;
+    use super::{filename_extensionless,titlecase_up};
+
+    // TODO: Do this more methodically
+    #[test]
+    fn filename_extensionless_basic_functionality() {
+        assert_eq!(filename_extensionless("readme"), "readme");
+        assert_eq!(filename_extensionless("readme.txt"), "readme");
+        assert_eq!(filename_extensionless("read.me"), "read.me");
+        assert_eq!(filename_extensionless("readme.txt.gz"), "readme");
+        assert_eq!(filename_extensionless("read.me.txt.gz"), "read.me");
+        assert_eq!(filename_extensionless(".readme"), ".readme");
+        assert_eq!(filename_extensionless(".readme.txt"), ".readme");
+        assert_eq!(filename_extensionless(".read.me"), ".read.me");
+        assert_eq!(filename_extensionless(".readme.txt.gz"), ".readme");
+        assert_eq!(filename_extensionless(".read.me.txt.gz"), ".read.me");
+    }
 
     // -- titlecase_up --
 
