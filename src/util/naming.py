@@ -13,6 +13,7 @@ import src.core
 camelcase_to_spaces = src.core.util.naming.camelcase_to_spaces
 titlecase_up = src.core.util.naming.titlecase_up
 normalize_whitespace = src.core.util.naming.normalize_whitespace
+filename_extensionless = src.core.util.naming.filename_extensionless
 
 INSTALLER_EXTS = src.core.util.constants.INSTALLER_EXTS
 PROGRAM_EXTS = src.core.util.constants.PROGRAM_EXTS
@@ -259,19 +260,11 @@ def filename_to_name(fname):
     """A heuristic transform to produce pretty good titles from filenames
     without relying on out-of-band information.
     """
-    recognized_exts = (PROGRAM_EXTS + INSTALLER_EXTS + NON_BINARY_EXTS +
-                       ['.app'])
-
-    # Remove recognized program extensions
-    # (But not others because periods may appear in the game name)
-    fbase, fext = os.path.splitext(fname)
-    while fext.lower() in recognized_exts:
-        fname = fbase
-        fbase, fext = os.path.splitext(fname)
+    name = filename_extensionless(fname)
 
     # Remove version information and convert whitespace cues
     # (Two passes required to reliably deal with semi-CamelCase filenames)
-    name = strip_ver_experimental(fname)
+    name = strip_ver_experimental(name)
     name = normalize_whitespace(name)
     name = strip_ver_experimental(name)
 
