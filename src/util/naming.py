@@ -25,8 +25,7 @@ NON_BINARY_EXTS = src.core.util.constants.NON_BINARY_EXTS
 # TODO: Need a filter stage which throws out numeric-only tokens after the
 #      first to accept things like "tbs_2_18_08" as "tbs 2"
 
-# TODO: Unit tests for these regexes, separate from the integrated one
-fname_numspacing_re = re.compile(r'([a-zA-Z])(\d)')
+# TODO: Unit tests for theis regex, separate from the integrated one
 fname_subtitle_start_re = re.compile(r"(\d)(\s\w{2,})")
 
 # TODO: Compare the expected output of the entire test corpus against
@@ -268,11 +267,11 @@ def filename_to_name(fname):
     name = normalize_whitespace(name)
     name = strip_ver_experimental(name)
 
+    # Ensure numbers are preceeded by a space (eg. "Trine2" -> "Trine 2")
+    name = camelcase_to_spaces(name)
+
     # Titlecase... but only in one direction so things like "FTL" remain
     name = titlecase_up(name)
-
-    # Ensure numbers are preceeded by a space (eg. "Trine2" -> "Trine 2")
-    name = fname_numspacing_re.sub(r'\1 \2', name)
 
     # Assume that a number followed by a space and more text marks the
     # beginning of a subtitle and add a colon
