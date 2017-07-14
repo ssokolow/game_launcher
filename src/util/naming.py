@@ -10,14 +10,9 @@ __license__ = "MIT"
 import os, re
 
 import src.core
-camelcase_to_spaces = src.core.util.naming.camelcase_to_spaces
-titlecase_up = src.core.util.naming.titlecase_up
-normalize_whitespace = src.core.util.naming.normalize_whitespace
-filename_extensionless = src.core.util.naming.filename_extensionless
+n = src.core.util.naming
+c = src.core.util.constants
 
-INSTALLER_EXTS = src.core.util.constants.INSTALLER_EXTS
-PROGRAM_EXTS = src.core.util.constants.PROGRAM_EXTS
-NON_BINARY_EXTS = src.core.util.constants.NON_BINARY_EXTS
 
 # TODO: Treat "+" similarly to "-" as a separator
 # TODO: Figure out how to filter "steam" as a version token without trucating
@@ -217,7 +212,7 @@ def strip_ver_experimental(fname):
     # (Since its role in C matches what the heuristic uses such substrings for)
     fname = pre_tokenization_filter.sub('\0', fname).split('\0', 1)[0]
 
-    tokens = normalize_whitespace(fname).split()
+    tokens = n.normalize_whitespace(fname).split()
 
     # Remove pre-cruft without terminating processing
     while tokens and tokens[0].lower() in prefix_cruft_tokens:
@@ -259,19 +254,19 @@ def filename_to_name(fname):
     """A heuristic transform to produce pretty good titles from filenames
     without relying on out-of-band information.
     """
-    name = filename_extensionless(fname)
+    name = n.filename_extensionless(fname)
 
     # Remove version information and convert whitespace cues
     # (Two passes required to reliably deal with semi-CamelCase filenames)
     name = strip_ver_experimental(name)
-    name = normalize_whitespace(name)
+    name = n.normalize_whitespace(name)
     name = strip_ver_experimental(name)
 
     # Ensure numbers are preceeded by a space (eg. "Trine2" -> "Trine 2")
-    name = camelcase_to_spaces(name)
+    name = n.camelcase_to_spaces(name)
 
     # Titlecase... but only in one direction so things like "FTL" remain
-    name = titlecase_up(name)
+    name = n.titlecase_up(name)
 
     # Assume that a number followed by a space and more text marks the
     # beginning of a subtitle and add a colon
@@ -302,7 +297,7 @@ def filename_to_name(fname):
         elif alpha_len > 6 and name.upper() == name:
             # Assume anything entirely uppercase and more than 6 characters is
             # a non-acronym (and stylistically all-uppercase titles)
-            name = titlecase_up(name.lower())
+            name = n.titlecase_up(name.lower())
 
     # Fix capitalization anomalies broken by whitespace conversion
     name = re.sub('|'.join(WHITESPACE_OVERRIDES), _apply_ws_overrides, name)
@@ -317,7 +312,7 @@ def filename_to_name(fname):
         if key in _CAPITAL_OVERRIDE_MAP:
             tokens[idx] = _CAPITAL_OVERRIDE_MAP[key]
         if tokens[idx - 1].endswith(":"):
-            tokens[idx] = titlecase_up(tokens[idx])
+            tokens[idx] = n.titlecase_up(tokens[idx])
     while tokens and tokens[-1].lower() in tail_cruft_tokens:
         tokens.pop()
     name = ' '.join(tokens)
