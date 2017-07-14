@@ -28,7 +28,7 @@ fname_subtitle_start_re = re.compile(r"(\d)(\s\w{2,})")
 #       mistakes so I can update the expected results.
 
 # TODO: Use these for Titlecase case-overriding instead of abusing
-#       the WHITESPACE_OVERRIDES dict.
+#       the c.WHITESPACE_OVERRIDES list.
 ARTICLES = ['a', 'an', 'the']
 CONJUNCTIONS = ['for', 'and', 'but', 'or', 'yet', 'so']
 PREPOSITIONS = [
@@ -71,48 +71,12 @@ PRESERVED_VERSION_KEYWORDS = ['Client', 'Server']
 # TODO: suppress colons following numbers when the following tokens follow:
 # bit, km, nd, st, th
 
-# Overrides for common places where the L{filename_to_name} heuristic breaks
-# TODO: Make sure I'm testing all of these cases
-# TODO: Find some way to do a coverage test for this.
-WHITESPACE_OVERRIDES = {
-    # Keepers (may still be refactored or obsoleted)
-    r' - ': ': ',
-    r'\b3 D\b': '3D',
-    r'\bCant': "Can't",
-    r'\bDont': "Don't",
-    r'\bDon T': "Don't",
-    r'\bGot Y\b': 'GotY',
-    r' Issue\b': ': Issue',
-    r'Mc ': 'Mc',
-    r'Mac ': 'Mac',
-    r'Mr': 'Mr.',
-    r'Mrs': 'Mrs.',
-    r'Ms': 'Ms.',
-    r'rys ': "ry\'s ",
-    r' S ': "'s ",
-    r'Scumm VM': 'ScummVM',
-    r'Sid Meiers ': "Sid Meier's ",
-    r'Star Wars ': 'Star Wars: ',
-    r': The\b': ': The',
-    # TODO: Once _WS_OVERRIDE_MAP is smarter, add these rules:
-    # "\b(An? [^ ][^ '])s\b" -> "\1's"
-    # "(\d) (st|nd|th)\b" -> "\1\2"
-
-    # Almost certainly too specialized to be justified
-    r'Djgpp': 'DJGPP',
-    r'IN Vedit': 'INVedit',
-
-    # Un-audited
-    r'^Open ': r'Open',
-    r'Preview': '(Preview)',
-    r'xwb': 'XWB',
-    r' V M': 'VM',
-}
-
 # Map used by L{filename_to_name}'s single-pass approach to using
-# WHITESPACE_OVERRIDES.
+# c.WHITESPACE_OVERRIDES.
 _WS_OVERRIDE_MAP = {x.replace(r'\b', '').replace('^', ''): y for x, y
-                    in WHITESPACE_OVERRIDES.items()}
+                    in c.WHITESPACE_OVERRIDES}
+
+WHITESPACE_OVERRIDES_RE = [(re.compile(x), y) for x, y in c.WHITESPACE_OVERRIDES]
 
 def _apply_ws_overrides(match):
     """Callback for re.sub"""
@@ -300,7 +264,8 @@ def filename_to_name(fname):
             name = n.titlecase_up(name.lower())
 
     # Fix capitalization anomalies broken by whitespace conversion
-    name = re.sub('|'.join(WHITESPACE_OVERRIDES), _apply_ws_overrides, name)
+    name = re.sub('|'.join(x[0] for x in c.WHITESPACE_OVERRIDES),
+                  _apply_ws_overrides, name)
 
     # TODO: Try to deduplicate this with the other use of it
     tokens = name.split()
