@@ -13,8 +13,6 @@ import src.core
 n = src.core.util.naming
 c = src.core.util.constants
 
-
-# TODO: Treat "+" similarly to "-" as a separator
 # TODO: Figure out how to filter "steam" as a version token without trucating
 #       names containing things like "of steam" or "and steam".
 # TODO: Need a filter stage which throws out numeric-only tokens after the
@@ -234,8 +232,10 @@ def filename_to_name(fname):
 
     # Assume that a number followed by a space and more text marks the
     # beginning of a subtitle and add a colon
+    # FIXME: Unless it's the first token
     name = fname_subtitle_start_re.sub(r"\1:\2", name)
 
+    # TODO: Document what this block does
     tokens = name.split(':')[0].split()
     for idx, token in list(enumerate(tokens))[::-1]:
         if re.search('[a-zA-Z]', token):
@@ -249,6 +249,7 @@ def filename_to_name(fname):
     if len(collapsed_name) < 5:
         name = collapsed_name
 
+    # TODO: Document what this block does
     name_prefix, name_suffix = name[:alpha_len], name[alpha_len:]
     if name_prefix.lower() not in _CAPITAL_OVERRIDE_MAP:
         if alpha_len <= 2:
@@ -282,11 +283,16 @@ def filename_to_name(fname):
         tokens.pop()
     name = ' '.join(tokens)
 
+    # TODO: Try to merge this into the whitespace overrides
     # Fix non-capitalized "of" in CamelCase filenames but ignore ".oof"
     name = re.sub(r'([^ o])of\s', r'\1 of ', name)
     # "Foo the Game" -> "Foo: The Game"
     name = re.sub(r'([^[ ]) the Game$', r'\1: The Game', name)
 
+    # Re-inject any tokens like "client" or "server" which might have been
+    # unintentionally stripped by earlier steps
+    # TODO: Look into replacing this with a mechanism which tags regions of
+    #       the string rather than stripping them out.
     for word in PRESERVED_VERSION_KEYWORDS:
         if word.lower() in fname.lower() and word.lower() not in name.lower():
             name = "{} {}".format(name, word)
