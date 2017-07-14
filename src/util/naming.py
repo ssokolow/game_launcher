@@ -198,7 +198,7 @@ def strip_ver_experimental(fname):
     while output:
         if output[-1] == '-':
             output = output[:-1]
-        elif output[-1][-1] in '-_.':
+        elif output[-1] and output[-1][-1] in '-_.':
             output[-1] = output[-1][:-1]
         elif output[-1] in tail_cruft_tokens:
             output = output[:-1]
