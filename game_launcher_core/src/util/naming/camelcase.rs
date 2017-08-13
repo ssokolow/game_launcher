@@ -275,7 +275,7 @@ impl<'a> Iterator for Words<'a> {
     type Item = &'a str;
 
     fn next(&mut self) -> Option<&'a str> {
-        #[allow(indexing_slicing)]
+        #![cfg_attr(feature="cargo-clippy", allow(ndexing_slicing))]
         match self.in_iter.next() {
             Some((start, end)) => Some(&self.in_str[start..end]),
             None => None
