@@ -4,7 +4,17 @@
   },
   "l_esprit_d_escalier": {
     "ideal": "L'esprit d'escalier",
-    "attainable": "L'esprit D'escalier"
+    "attainable": "L'esprit D'escalier",
+    "acceptable": [
+      "L'Esprit D'Escalier"
+    ]
+  },
+  "l_arc_en_ciel": {
+    "ideal": "L'arc en ciel",
+    "attainable": "L'arc en Ciel",
+    "acceptable": [
+      "L'Arc en Ciel"
+    ]
   },
   "Door Kickers": {
     "ideal": "Door Kickers"

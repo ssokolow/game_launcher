@@ -95,13 +95,22 @@ pub const WHITESPACE_OVERRIDES: &[(&str, &str)] = &[
     (r": Km\b", "km"),
     ("Mc ", "Mc"),
     ("Mac ", "Mac"),
-    (r": Nd\b", "nd"),
-    (r": Rd\b", "rd"),
     ("rys ", "ry's "), // TODO: Generalize this to a broader set of posessives
     (" S ", "'s "),
-    (r": St\b", "st"),
-    (r": Th\b", "th"), // TODO: Come up with a more specialized, optimized number suffix handler
     (r"The (\d+):", "The $1"),
+
+    // Number suffixes like 2nd
+    // TODO: Come up with a more specialized, optimized number suffix handler which can run before
+    // the colon insertion phase
+    (r": St\b", "st"),
+    (r": Nd\b", "nd"),
+    (r": Rd\b", "rd"),
+    (r": Th\b", "th"),
+
+    // French articles which show up in loan phrases and should be unambiguously matchable
+    // TODO: Come up with a solution that allows case-adjustment
+    // TODO: Use proper unicode letter matches
+    (r"\b([LD]) (.)", "${1}'${2}"),
 
     // Special cases so common as to be tentatively included
     ("Mupen 64: Plus", "Mupen64Plus"),
