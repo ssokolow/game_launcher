@@ -1,4 +1,11 @@
 {
+  "mupen64plus": {
+    "ideal": "Mupen64Plus"
+  },
+  "l_esprit_d_escalier": {
+    "ideal": "L'esprit d'escalier",
+    "attainable": "L'esprit D'escalier"
+  },
   "Door Kickers": {
     "ideal": "Door Kickers"
   },
