@@ -54,7 +54,7 @@ ROMAN_NUMERALS += ROMAN_NUMERALS_NONCONFUSABLE
 # (Given in the capitalization form they should be forced to)
 CAPITALIZATION_OVERRIDES = [
     '3D', 'DB', 'DLC', 'DX', 'FPS', 'GOG', 'is', 'km', 'RPG', 'RTS', 'TBS',
-    'UX', 'XWB', 'Ys'
+    'UI', 'UX', 'XWB', 'Ys'
 ]
 CAPITALIZATION_OVERRIDES += ROMAN_NUMERALS
 CAPITALIZATION_OVERRIDES += ARTICLES + CONJUNCTIONS + PREPOSITIONS
