@@ -61,6 +61,22 @@ CAPITALIZATION_OVERRIDES += ARTICLES + CONJUNCTIONS + PREPOSITIONS
 
 _CAPITAL_OVERRIDE_MAP = {x.lower(): x for x in CAPITALIZATION_OVERRIDES}
 
+CAMELCASE_TOKEN_FIXUPS = {
+    # Keepers (may still be refactored or obsoleted)
+    "cant": "Can't",
+    "dont": "Don't",
+    "mr": "Mr.",
+    "mrs": "Mrs.",
+    "ms": "Ms.",
+
+    # Almost certainly too specialized to be justified
+    "djgpp": "DJGPP",  # TODO: Move to capitalization-forcing list
+
+    # Un-audited
+    "preview": "(Preview)",
+}
+
+
 # NOTE: These must be their *final* capitalization, as this process runs last
 PRESERVED_VERSION_KEYWORDS = ['Client', 'Server']
 
@@ -68,18 +84,6 @@ PRESERVED_VERSION_KEYWORDS = ['Client', 'Server']
 
 # TODO: suppress colons following numbers when the following tokens follow:
 # bit, km, nd, st, th
-
-# Map used by L{filename_to_name}'s single-pass approach to using
-# c.WHITESPACE_OVERRIDES.
-_WS_OVERRIDE_MAP = {x.replace(r'\b', '').replace('^', ''): y for x, y
-                    in c.WHITESPACE_OVERRIDES}
-
-WHITESPACE_OVERRIDES_RE = [(re.compile(x), y) for x, y in c.WHITESPACE_OVERRIDES]
-
-def _apply_ws_overrides(match):
-    """Callback for re.sub"""
-    match_str = match.group(0)
-    return _WS_OVERRIDE_MAP[match_str]
 
 # Substrings that are easier to mark before tokenization
 pre_tokenization_filter = re.compile("""
@@ -216,8 +220,25 @@ def filename_to_name(fname):
     """A heuristic transform to produce pretty good titles from filenames
     without relying on out-of-band information.
     """
+
+    # 0. Remove recognized file extensions
     name = n.filename_extensionless(fname)
 
+    # TODO: Try this algorithm:
+    #   1. Remove x86_64 and other pre-split matches
+    #   2. Split on whichever of _ and - makes the most pieces
+    #   3. Remove tokens (especially version numbers)
+    #   4. Split on .
+    #   5. Remove tokens
+    #   6. Camelcase split
+    #   7. Remove tokens
+    # ALSO: Try making the first split based on whichever of _ and - appears
+    #       last in the string.
+
+    # TODO: Support opting out of version-stripping for filenames like
+    #       freeman_s_mind_episode_10.5.wmv
+    #       (Perhaps by redesigning this to tag rather than remove words)
+    #       (Tagging would also help for reliable deduplication)
     # Remove version information and convert whitespace cues
     # (Two passes required to reliably deal with semi-CamelCase filenames)
     name = strip_ver_experimental(name)
@@ -265,9 +286,25 @@ def filename_to_name(fname):
             name = n.titlecase_up(name.lower())
 
     # Fix capitalization anomalies broken by whitespace conversion
-    name = re.sub('|'.join(x[0] for x in c.WHITESPACE_OVERRIDES),
-                  _apply_ws_overrides, name)
 
+    # Apply token fixups that don't need a full-blown regex scan to apply
+    # because they don't change the number of tokens or match across boundaries
+    name = ' '.join(CAMELCASE_TOKEN_FIXUPS.get(x.lower(), x)
+                    for x in name.split())
+
+    # Apply fixups which DO change the number of tokens or match across
+    # boundaries
+    name = n.apply_camelcase_fixups(name)
+
+    # TODO: Try moving the regexing into Rust and benchmarking again
+    # name = n.
+    # TODO: Try using the aho-corasick crate for the metachar-free replacements
+
+    # Correct capitalization on words that represent exceptions to the
+    # camelcase algorithm. (ie. acronyms like DLC, things which are
+    # unambiguously roman numerals, and things like conjunctions which
+    # should be lowercase in titlecased strings when not the first word.)
+    # TODO: This shouldn't be difficult to port to Rust as string mutation.
     # TODO: Try to deduplicate this with the other use of it
     tokens = name.split()
     for idx, val in enumerate(tokens):

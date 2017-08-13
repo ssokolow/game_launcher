@@ -24,7 +24,7 @@ __license__ = "GNU GPL 3.0 or later"
 
 import logging, os, sys
 from src import interfaces
-from src.util.naming import titlecase_up
+from src.util.naming import n
 from src.util.executables import Roles
 from src.util.shlexing import (script_precheck, lex_shellscript,
                               make_metadata_mapper)
@@ -57,7 +57,7 @@ class GOGFallbackGameProvider(interfaces.IFallbackGameProvider):
                 token_list[3] = 'Play'
 
             fields.setdefault('commands', []).append(
-                (titlecase_up(token_list[3]), token_list[2]))
+                (n.titlecase_up(token_list[3]), token_list[2]))
 
     @staticmethod
     def _inspect_mojo(path):

@@ -22,7 +22,7 @@ def classify_executable(fname):
     """High-level wrapper for Roles.guess() which supports ignoring files."""
     fname_pat, fext = os.path.splitext(fname)
     fname_pat = fname_pat.lower()
-    if NON_BINARY_EXTS_RE.match(fext) or IGNORED_BINARIES_RE.match(fname):
+    if NON_BINARY_EXTS_RE.match(fext[1:]) or IGNORED_BINARIES_RE.match(fname):
         return None
     return Roles.guess(fname)
 

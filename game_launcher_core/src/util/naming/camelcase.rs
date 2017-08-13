@@ -354,6 +354,8 @@ impl CamelCaseIterators for str {
 mod tests {
     use super::CamelCaseIterators;
 
+    // TODO: Set up fuzzing too so I can shake out any flaws I *didn't* anticipate.
+
     /// Helper for testing `camelcase_words` on strings which rely on whitespace for some of their
     /// word boundaries.
     fn check_camelcase_words_limited(input: &str, expected: &[&str]) -> String {
@@ -381,8 +383,8 @@ mod tests {
                    "camelcase_words should be a no-op when re-run on its own output (no space)");
     }
 
-    /// Basic sanity test to catch if camelcase_words passes the tests because it and
-    /// camelcase_offsets embody compatible misunderstandings of string indexing.
+    /// Basic sanity test to catch if camelcase_words passes the tests because it undoes an
+    /// indexing mistake camelcase_offsets makes.
     #[test]
     fn camelcase_offsets_basic_function() {
         assert_eq!("fooBar2 baz".camelcase_offsets(false).collect::<Vec<_>>(),
@@ -391,13 +393,13 @@ mod tests {
 
     #[test]
     fn camelcase_words_basic_function() {
-        check_camelcase_words("fooBar", &["foo", "Bar"]);
-        check_camelcase_words("FooBar", &["Foo", "Bar"]);
-        check_camelcase_words("AndroidVM", &["Android", "VM"]);
-        check_camelcase_words("RARFile", &["RAR", "File"]);
-        check_camelcase_words("ADruidsDuel", &["A", "Druids", "Duel"]);
-        check_camelcase_words("PickACard", &["Pick", "A", "Card"]);
-        check_camelcase_words("AxelF", &["Axel", "F"]);
+        check_camelcase_words("fooBar", &["foo", "Bar"]); // Basic lower-starting camelcase
+        check_camelcase_words("FooBar", &["Foo", "Bar"]); // Basic upper-starting camelcase
+        check_camelcase_words("AndroidVM", &["Android", "VM"]); // All-caps at the end
+        check_camelcase_words("RARFile", &["RAR", "File"]); // All-caps at the beginning
+        check_camelcase_words("ADruidsDuel", &["A", "Druids", "Duel"]); // Start with len(1)
+        check_camelcase_words("PickACard", &["Pick", "A", "Card"]); // len(1) in the middle
+        check_camelcase_words("AxelF", &["Axel", "F"]); // len(1) at the end
     }
 
     #[test]
@@ -476,6 +478,8 @@ mod tests {
     }
 
     #[test]
+    /// Test that the deferred "start new word" signal from the first two characters of a camelcase
+    /// word is prevented from inserting a space after an opening punctuation mark like "(" or "["
     fn camelcase_words_open_close_plus_upper_lower() {
         check_camelcase_words("Test [Hello]", &["Test", "[Hello]"]);
         check_camelcase_words("Test (Hello)", &["Test", "(Hello)"]);
@@ -487,6 +491,12 @@ mod tests {
     }
 
     #[test]
+    /// General tests for proper handling of characters which should force a word break on one side
+    /// but not the other. (eg. brackets, exclamation marks, etc.)
+    ///
+    /// TODO: Find real-world sample strings for all character I want to include in my tables to
+    /// guard against accidentally mis-filing a character in both the tables and the tests.
+    /// (Because mistakes are much easier to see in context)
     fn camelcase_words_open_close_handling() {
         check_camelcase_words("Who?Him!Really?Yeah!", &["Who?", "Him!", "Really?", "Yeah!"]);
         check_camelcase_words("100%Juice", &["100%", "Juice"]);

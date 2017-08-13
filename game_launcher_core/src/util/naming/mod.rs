@@ -15,7 +15,7 @@ use cpython::{PyModule, PyResult, Python};
 
 use super::constants::{
     FNAME_WSPACE_RE, FNAME_WSPACE_NODASH_RE, RECOGNIZED_EXTS,
-    SUBTITLE_START_RE, WHITESPACE_RE, WORD_BOUNDARY_CHARS
+    SUBTITLE_START_RE, WHITESPACE_RE, WHITESPACE_OVERRIDES_RE, WORD_BOUNDARY_CHARS
 };
 
 mod camelcase;
@@ -42,18 +42,17 @@ impl ConvenientCharCount for str {
 
 // TODO: Write a function which generates sorting keys like "Boy And His Blob, A" from titles.
 
+// TODO: Make this into an extension trait for Path
 /// Strip recognized extensions without over-stripping when periods are used in other ways.
 pub fn filename_extensionless<P: AsRef<Path> + ?Sized>(path: &P) -> Cow<str> {
     let mut path = path.as_ref();
 
-    // TODO: Unit test that this behaves as expected
     loop {
-        let ext = path.extension().map(|x| x.to_string_lossy().to_lowercase()
-                                       ).unwrap_or(String::new());
-
         // Ensure we consistently have either an empty or escaped string
         // TODO: Is this still simpler than converting empty strings to Option::None early?
         let stem = path.file_stem().unwrap_or_else(|| OsStr::new(""));
+        let ext = path.extension().map(|x| x.to_string_lossy().to_lowercase())
+                                  .unwrap_or(String::new());
 
         if RECOGNIZED_EXTS.contains(&ext.as_str()) {
             path = Path::new(stem);
@@ -228,6 +227,50 @@ pub fn titlecase_up(in_str: &str) -> String {
 
 // --== CPython API ==--
 
+// TODO: Should this and its fixup table go in the camelcase submodule?
+// TODO: Document this
+fn apply_camelcase_fixups(in_str: &str) -> String {
+    let mut out_str = Cow::Borrowed(in_str);
+
+    // Thanks to talchas in #rust for this workaround for borrow checker shortcomings
+    // https://play.rust-lang.org/?gist=e0410cb9a0542e2da8a97165fafdbb61&version=stable
+    // https://gist.github.com/anonymous/e0410cb9a0542e2da8a97165fafdbb61
+    for &(ref re_obj, ref repl) in WHITESPACE_OVERRIDES_RE.iter() {
+        match {out_str} {
+            Cow::Borrowed(i) => out_str = re_obj.replace_all(i, *repl),
+            Cow::Owned(i) => {
+                let new = match re_obj.replace_all(&i, *repl) {
+                    Cow::Borrowed(o) => {
+                        // talchas: I'm not entirely sure this is always true. It certainly is
+                        //   unlikely to be /guaranteed/. If not you have to use to_owned or like
+                        //   into_bytes and drain()s and from_utf8 it back
+                        // <talchas> ssokolow: replace_all of "^ *" against
+                        //   Cow::Owned(" abc".to_string()) could return Cow::Borrowed(input[1..])
+                        // <talchas> (it doesn't at the moment,
+                        //   https://play.rust-lang.org/?gist=f66f15a3e7d51e648c7d911c25e93f3a
+                        //   passes, but I don't think regex guarantees it)
+                        assert!(i.len() == o.len());
+                        None
+                    },
+                    Cow::Owned(o) => Some(o),
+                };
+                if let Some(o) = new {
+                    out_str = Cow::Owned(o);
+                } else {
+                    out_str = Cow::Owned(i);
+                }
+            }
+        }
+    }
+
+    out_str.into_owned()
+}
+
+// TODO: Document this
+fn py_apply_camelcase_fixups(_: Python, in_str: &str) -> PyResult<String> {
+    Ok(apply_camelcase_fixups(in_str))
+}
+
 /// `rust-cpython` API wrapper for `CamelCaseIterators::camelcase_words`
 /// TODO: Finish factoring out the "join"
 fn py_camelcase_to_spaces(_: Python, in_str: &str) -> PyResult<String> {
@@ -253,6 +296,8 @@ fn py_titlecase_up(_: Python, in_str: &str) -> PyResult<String> { Ok(titlecase_u
 pub fn into_python_module(py: &Python) -> PyResult<PyModule> {
     let py = *py;
     let py_naming = PyModule::new(py, "naming")?;
+    py_naming.add(py, "apply_camelcase_fixups",
+                  py_fn!(py, py_apply_camelcase_fixups(in_str: &str)))?;
     py_naming.add(py, "camelcase_to_spaces", py_fn!(py, py_camelcase_to_spaces(in_str: &str)))?;
     py_naming.add(py, "filename_extensionless",
                   py_fn!(py, py_filename_extensionless(in_str: &str)))?;
@@ -265,22 +310,80 @@ pub fn into_python_module(py: &Python) -> PyResult<PyModule> {
 
 #[cfg(test)]
 mod tests {
-    use super::{filename_extensionless,titlecase_up};
+    use super::{apply_camelcase_fixups,filename_extensionless,titlecase_up};
 
-    // TODO: Do this more methodically
     #[test]
     fn filename_extensionless_basic_functionality() {
-        assert_eq!(filename_extensionless("readme"), "readme");
-        assert_eq!(filename_extensionless("readme.txt"), "readme");
-        assert_eq!(filename_extensionless("read.me"), "read.me");
-        assert_eq!(filename_extensionless("readme.txt.gz"), "readme");
-        assert_eq!(filename_extensionless("read.me.txt.gz"), "read.me");
-        assert_eq!(filename_extensionless(".readme"), ".readme");
-        assert_eq!(filename_extensionless(".readme.txt"), ".readme");
-        assert_eq!(filename_extensionless(".read.me"), ".read.me");
-        assert_eq!(filename_extensionless(".readme.txt.gz"), ".readme");
-        assert_eq!(filename_extensionless(".read.me.txt.gz"), ".read.me");
+        // TODO: Add itertools as a dependency and rewrite this using the iproduct! macro
+        for prefix in &["", "."] {
+            for fname in &["readme", "read.me", "readme.1st"] {
+                let expected = (prefix.to_string()) + fname;
+                for ext in &["", ".txt", ".txt.gz"] {
+                    assert_eq!(&filename_extensionless(&(expected.clone() + ext)), &expected);
+                }
+            }
+        }
     }
+
+    // -- apply_camelcase_fixups --
+
+    fn check_apply_camelcase_fixups(input: &str, expected: &str) {
+        let result = apply_camelcase_fixups(input);
+        assert_eq!(result, expected, "(with input {:?})", input);
+        assert_eq!(apply_camelcase_fixups(&result), result,
+                   "apply_camelcase_fixups should be a no-op when re-run on its own output");
+    }
+
+    #[test]
+    fn apply_camelcase_fixups_basic_functionality() {
+        // TODO: Port the score-based test harness from Python
+        // TODO: Make these just the test strings and synthesize prefixes and suffxes (incl. empty)
+        // TODO: Consider making colon insertion a separate step
+        check_apply_camelcase_fixups("Andro V Mplayer", "AndroVMplayer");
+        check_apply_camelcase_fixups("Badland Got Y 121", "Badland GotY 121");
+        check_apply_camelcase_fixups("Darwin S Dinner", "Darwin's Dinner");
+        //check_apply_camelcase_fixups("Cant Quit", "Can't Quit");
+        check_apply_camelcase_fixups("Defender S Quest", "Defender's Quest");
+        //check_apply_camelcase_fixups("Dont Move", "Don't Move");
+        //check_apply_camelcase_fixups("Dont Starve", "Don't Starve");
+        check_apply_camelcase_fixups("Don T Starve", "Don't Starve");
+        check_apply_camelcase_fixups("Drod RPG Tendry S Tale", "Drod RPG Tendry's Tale");
+        check_apply_camelcase_fixups("Edna Harvey Harvey S New Eyes",
+                                     "Edna Harvey Harvey's New Eyes");
+        check_apply_camelcase_fixups("Jack S Gang", "Jack's Gang");
+        check_apply_camelcase_fixups("Kith Tales from the Fractured Plateaus Issue 1",
+                                     "Kith Tales from the Fractured Plateaus: Issue 1");
+        //check_apply_camelcase_fixups("Louie Cooks Preview", "Louie Cooks (Preview)");
+        check_apply_camelcase_fixups("Mac Gyver", "MacGyver");
+        check_apply_camelcase_fixups("Mac Venture", "MacVenture");
+        check_apply_camelcase_fixups("Mc Pixel", "McPixel");
+        //check_apply_camelcase_fixups("Mr Makeshifter", "Mr. Makeshifter");
+        //check_apply_camelcase_fixups("Mrs Mopp", "Mrs. Mopp");
+        //check_apply_camelcase_fixups("Ms Pac-Man", "Ms. Pac-Man");
+        check_apply_camelcase_fixups("Open TTD", "OpenTTD");
+        check_apply_camelcase_fixups("Scumm VM", "ScummVM");
+        check_apply_camelcase_fixups("Sid Meiers Covert Action", "Sid Meier's Covert Action");
+        check_apply_camelcase_fixups("Star Wars Rebel Assault", "Star Wars: Rebel Assault");
+        check_apply_camelcase_fixups("Tachyon Reef 3 D Prototype", "Tachyon Reef 3D Prototype");
+        check_apply_camelcase_fixups("Wasteland 1 - The Original Classic",
+                                     "Wasteland 1: The Original Classic");
+
+        // TODO: What was the ": The\b" rule supposed to do?
+
+        // TODO: Move this to the capitalization forcer
+        //check_apply_camelcase_fixups("xwb", "XWB");
+
+        // TODO: If I keep this, move it to the capitalization forcer and also support other things
+        // which might show up in build strings like "GCC".
+        //check_apply_camelcase_fixups("Djgpp", "DJGPP");
+
+        // TODO: Probably too specialized to be kept around
+        check_apply_camelcase_fixups("IN Vedit", "INVedit");
+
+    }
+
+    // TODO: Add some negative assertions for things like
+    // "Kabitis", "Cooks" !=> "Kabiti's", "Cook's"
 
     // -- titlecase_up --
 

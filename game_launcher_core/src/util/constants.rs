@@ -76,6 +76,46 @@ pub const RESOURCE_DIRS: &[&str] =
 /// total number of comparisons before the algorithm terminates.
 pub const WORD_BOUNDARY_CHARS: &str = ". _-";
 
+/// Overrides for common places where the `filename_to_name` heuristic breaks
+///
+/// **WARNING:** Future versions of the `regex` crate may add an optimization which breaks this.
+///    The necessary fix is documented in the code which uses this but has been deferred due to
+///    the added hassle of testing it before said optimizations actually exist.
+///
+/// TODO: Make sure I'm testing all of these cases
+/// TODO: Find some way to do a coverage test for this.
+pub const WHITESPACE_OVERRIDES: &[(&str, &str)] = &[
+    // Keepers (may still be refactored or obsoleted)
+    (" - ", ": "),
+    (r"\b3 D\b", "3D"),
+    (r"\bDon T", "Don't"), // TODO: Generalize this to more types of contractions
+    (r"\bGot Y\b", "GotY"),
+    (r"([^:]) Issue\b", r"$1: Issue"), // TODO: Consider making colon insertion a separate ruleset
+    ("Mc ", "Mc"),
+    ("Mac ", "Mac"),
+    ("rys ", "ry's "), // TODO: Generalize this to a broader set of posessives
+    (" S ", "'s "),
+
+    // Special cases so common as to be tentatively included
+    ("Scumm VM", "ScummVM"),
+    ("Sid Meiers ", "Sid Meier's "),
+    ("Star Wars ", "Star Wars: "), // TODO: Consider making colon insertion a separate ruleset
+
+    // TODO: What was this supposed to do again?
+    (r": The\b", ": The"),
+
+    // TODO: Once _WS_OVERRIDE_MAP is smarter, add these rules:
+    // (r"\b(An? [^ ][^ '])s\b", "\1's"),
+    // (r"(\d) (st|nd|th)\b", "\1\2"),
+
+    // TODO: Almost certainly too specialized to be justified
+    ("IN Vedit", "INVedit"),
+
+    // Un-audited
+    ("^Open ", "Open"),
+    (" V M", "VM"),
+    ("xwb", "XWB"),  // TODO: Un-break the support for this in the capitalization forcer
+];
 
 /// Simple deduplication helper for `.expect()`-ing a lot of `Regex::new()` calls.
 const RE_EXPECT_MSG: &str = "compiled regex from string literal";
@@ -83,9 +123,14 @@ lazy_static! {
     // TODO: Unit tests for these regexes, independent from the functional test corpus
     // TODO: Move version-matching into its own pass so we can split on periods
 
-    // TODO: Do this once using something like lazy_static
     pub static ref RECOGNIZED_EXTS: Vec<&'static str> =
         [PROGRAM_EXTS, INSTALLER_EXTS, NON_BINARY_EXTS, &["app"]].concat();
+
+    pub static ref WHITESPACE_OVERRIDES_RE: Vec<(Regex, &'static str)> =
+        WHITESPACE_OVERRIDES.iter().map(|&(re_str, repl)|
+            (Regex::new(re_str).expect(RE_EXPECT_MSG), repl)).collect::<Vec<_>>();
+
+    // TODO: Refactor the stuff below further to minimize the unnecessary use of regexes
 
     /// Used by `filename_to_name` to insert colons
     pub static ref SUBTITLE_START_RE: Regex = Regex::new(r"(\d)\s+(\w)").expect(RE_EXPECT_MSG);
@@ -105,6 +150,7 @@ pub fn into_python_module(py: &Python) -> PyResult<PyModule> {
     let py = *py;
     let py_constants = PyModule::new(py, "constants")?;
     python_reexport!(py, py_constants,
+                     WHITESPACE_OVERRIDES,
                      IGNORED_BINARIES, INSTALLER_EXTS,
                      MAX_SCRIPT_SIZE, NON_BINARY_EXTS,
                      PROGRAM_EXTS, RESOURCE_DIRS, WORD_BOUNDARY_CHARS);
