@@ -34,7 +34,8 @@
 #    4. file ~/opt/openwatcom/binl/* | grep ELF | cut -d: -f1 | xargs chmod +x
 #
 # Pacific C (because /usr/bin/file sees its output as different from others)
-#   Obtain from: http://www.freedos.org/software/?prog=pacific-c
+#   Obtain from:
+#    http://www.ibiblio.org/pub/micro/pc-stuff/freedos/files/distributions/1.0/pkgs/pacificx.zip
 #   Installation:
 #    1. Run `dosemu` and then type `exitemu` in the resulting window
 #    2. Unzip Pacific C such that C:\pacific\bin\pacc.exe exists
