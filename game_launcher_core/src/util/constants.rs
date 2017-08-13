@@ -116,10 +116,8 @@ pub const WHITESPACE_OVERRIDES: &[(&str, &str)] = &[
     // (r"\b(An? [^ ][^ '])s\b", "\1's"),
     // (r"(\d) (st|nd|th)\b", "\1\2"),
 
-    // TODO: Almost certainly too specialized to be justified
-    ("IN Vedit", "INVedit"),
-
     // Un-audited
+    (r" ([A-Z])edit\b", "${1}edit"),
     ("^Open ", "Open"),
     (" V M", "VM"),
     ("xwb", "XWB"),  // TODO: Un-break the support for this in the capitalization forcer
