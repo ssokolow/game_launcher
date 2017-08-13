@@ -1,34 +1,10 @@
 # Run `cargo check` plus some basic setup.py sanity checks
 check:
-	#!/usr/bin/env python3
-
-	import os, re, subprocess, sys
-	from distutils.spawn import find_executable
-
-	# Workaround for Manishearth/rust-clippy#1500
-	filter_re = re.compile(b"\n?\n[^\n]*error.*: linking with `cc` failed: exit code: 1(.|\n)*syntax error in VERSION script(.|\n)*To learn more, run the command again with --verbose\.")
-
-	print('* Running `setup.py check`...')
-	subprocess.call(['python3', 'setup.py', 'check'])
-
-	os.chdir('game_launcher_core')
-	if find_executable('cargo-clippy'):
-		print("* Running Clippy...")
-		clippy = subprocess.Popen(
-			['cargo', '+nightly', 'clippy', '--color=always'],
-			stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-		clippy_output = clippy.communicate()[0]
-		sys.stdout.buffer.write(filter_re.sub(b'', clippy_output))
-
-		# ...and let `cargo check` handle dying on failure instead
-		with open(os.devnull, 'wb') as devnull:
-			sys.exit(subprocess.call(['cargo', 'check'], 
-				stdout=devnull, stderr=devnull))
-	else:
-		print("* Clippy not found. Using `cargo check`...")
-		sys.exit(subprocess.call(['cargo', 'check']))
-		# Use sys.exit() rather than check_call() to avoid traceback
-		# (no conditional since it's the last thing in the task anyway)
+	python3 setup.py check
+	@echo "--== Clippy Lints ==--"
+	cd game_launcher_core && cargo +nightly clippy || true
+	@echo "--== rustc Lints (stable) ==--"
+	cd game_launcher_core && cargo check 
 
 # Rebuild the Rust `core` module
 rebuild:
