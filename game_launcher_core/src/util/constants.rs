@@ -88,15 +88,23 @@ pub const WHITESPACE_OVERRIDES: &[(&str, &str)] = &[
     // Keepers (may still be refactored or obsoleted)
     (" - ", ": "),
     (r"\b3 D\b", "3D"),
+    (r": Bit\b", "-Bit"),
     (r"\bDon T", "Don't"), // TODO: Generalize this to more types of contractions
     (r"\bGot Y\b", "GotY"),
     (r"([^:]) Issue\b", r"$1: Issue"), // TODO: Consider making colon insertion a separate ruleset
+    (r": Km\b", "km"),
     ("Mc ", "Mc"),
     ("Mac ", "Mac"),
+    (r": Nd\b", "nd"),
+    (r": Rd\b", "rd"),
     ("rys ", "ry's "), // TODO: Generalize this to a broader set of posessives
     (" S ", "'s "),
+    (r": St\b", "st"),
+    (r": Th\b", "th"), // TODO: Come up with a more specialized, optimized number suffix handler
+    (r"The (\d+):", "The $1"),
 
     // Special cases so common as to be tentatively included
+    ("Mupen 64: Plus", "Mupen64Plus"),
     ("Scumm VM", "ScummVM"),
     ("Sid Meiers ", "Sid Meier's "),
     ("Star Wars ", "Star Wars: "), // TODO: Consider making colon insertion a separate ruleset
