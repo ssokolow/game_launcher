@@ -1,9 +1,18 @@
 #!/usr/bin/env python3
 from setuptools import setup
-from setuptools_rust import RustExtension
 
-# TODO: Is there any way I can get setup.py to install setuptools_rust?
-# https://github.com/fafhrd91/setuptools-rust
+# Workaround for https://github.com/PyO3/setuptools-rust/issues/2
+try:
+    from setuptools_rust import RustExtension
+except ImportError:
+    import subprocess
+    import sys
+    errno = subprocess.call([sys.executable, '-m', 'pip', 'install', 'setuptools-rust'])
+    if errno:
+        print("Please install setuptools-rust package")
+        raise SystemExit(errno)
+    else:
+        from setuptools_rust import RustExtension
 
 setup(name='game-launcher',
       # TODO: Unify this version definition with the source
