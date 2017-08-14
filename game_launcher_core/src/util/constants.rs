@@ -18,10 +18,11 @@ pub const IGNORED_BINARIES: &[&str] =
 ///
 /// **NOTE:** These will be compared against the output of `to_lowercase()`
 pub const INSTALLER_EXTS: &[&str] = &[
-    "zip", "rar",
+    "7z", "zip", "rar",
     "tar", "gz", "tgz", "bz2", "tbz2", "xz", "txz",
     "sh",  "run", "bin",
-    "deb", "rpm"
+    "deb", "rpm",
+    "msi"
 ];
 
 /// Don't search for metadata inside scripts like `start.sh` if they're bigger
@@ -87,17 +88,24 @@ pub const WORD_BOUNDARY_CHARS: &str = ". _-";
 pub const WHITESPACE_OVERRIDES: &[(&str, &str)] = &[
     // Keepers (may still be refactored or obsoleted)
     (" - ", ": "),
+    (r"Add Ons", "Add-ons"),
     (r"\b3 D\b", "3D"),
     (r": Bit\b", "-Bit"),
     (r"\bDon T", "Don't"), // TODO: Generalize this to more types of contractions
     (r"\bGot Y\b", "GotY"),
+    (r"Inc($|[ ])", "Inc.$1"),
     (r"([^:]) Issue\b", r"$1: Issue"), // TODO: Consider making colon insertion a separate ruleset
     (r": Km\b", "km"),
     ("Mc ", "Mc"),
     ("Mac ", "Mac"),
     ("rys ", "ry's "), // TODO: Generalize this to a broader set of posessives
+    (r"RO Ms\b", "ROMs"),
     (" S ", "'s "),
     (r"The (\d+):", "The $1"),
+    (r": Games", " Games"),
+    (r"Vs\.?", "vs."),
+    (r"\bMP 3\b", "MP3"),
+    (r"\bX (\d)\b", "X$1"),
 
     // Number suffixes like 2nd
     // TODO: Come up with a more specialized, optimized number suffix handler which can run before
@@ -109,14 +117,18 @@ pub const WHITESPACE_OVERRIDES: &[(&str, &str)] = &[
 
     // French articles which show up in loan phrases and should be unambiguously matchable
     // TODO: Come up with a solution that allows case-adjustment
-    // TODO: Use proper unicode letter matches
-    (r"\b([LD]) (.)", "${1}'${2}"),
+    // Source: https://www.thoughtco.com/understanding-french-accents-1369540
+    (r"\b([LD]) ([AaÀàÂâEeÈèÉéÊêËëIiÎîÏïOoÔôUuÙùÛûÜü])", "${1}'${2}"),
 
     // Special cases so common as to be tentatively included
+    ("DOS Box", "DOSBox"),
     ("Mupen 64: Plus", "Mupen64Plus"),
     ("Scumm VM", "ScummVM"),
     ("Sid Meiers ", "Sid Meier's "),
+    ("^Sim ", "Sim"),
     ("Star Wars ", "Star Wars: "), // TODO: Consider making colon insertion a separate ruleset
+    ("Wh 40 K ", "WarHammer 40,000: "),
+    (r"Xcom\b", "X-COM:"),
 
     // TODO: What was this supposed to do again?
     (r": The\b", ": The"),

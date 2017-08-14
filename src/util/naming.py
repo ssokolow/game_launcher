@@ -53,8 +53,8 @@ ROMAN_NUMERALS += ROMAN_NUMERALS_NONCONFUSABLE
 # before the first occurrence of a number
 # (Given in the capitalization form they should be forced to)
 CAPITALIZATION_OVERRIDES = [
-    '3D', 'DB', 'DLC', 'DX', 'FPS', 'GOG', 'is', 'km', 'RPG', 'RTS', 'TBS',
-    'UI', 'UX', 'XWB', 'Ys'
+    '3D', 'DB', 'DOSBox', 'DLC', 'DX', 'FD', 'FPS', 'GOG', 'HD', 'is', 'km',
+    'n', 'RPG', 'RTS', 'TBS', 'UFO', 'UI', 'UX', 'XWB', 'Ys'
 ]
 CAPITALIZATION_OVERRIDES += ROMAN_NUMERALS
 CAPITALIZATION_OVERRIDES += ARTICLES + CONJUNCTIONS + PREPOSITIONS
@@ -87,11 +87,11 @@ PRESERVED_VERSION_KEYWORDS = ['Client', 'Server']
 
 # Substrings that are easier to mark before tokenization
 pre_tokenization_filter = re.compile("""
-    v_?(\d_?)+|                   # Versions with escaped periods (v...)
-    [01]{1,2}_\d{1,2}(_\d{1,2})?| # Versions with escaped periods ([01]_m(_p)?)
-    \d{4}-\d{2}-\d{2}|            # ISO 8601 dates
-    [^ _-]+[ _-]version[ _-]|     # "... version"
-    x86_64                        # "x86_64" before _ is used as a delimiter
+    v_?(\d_?)+|                     # Versions with escaped periods (v...)
+    b?[01]{1,2}_\d{1,2}(_\d{1,2})?| # Versions with escaped periods ([01]_m(_p)?)
+    \d{4}-\d{2}-\d{2}|              # ISO 8601 dates
+    [^ _-]+[ _-]version[ _-]|       # "... version"
+    x86_64                          # "x86_64" before _ is used as a delimiter
 """, re.IGNORECASE | re.VERBOSE)
 
 # TODO: Unit test suites for these various rules
@@ -127,7 +127,7 @@ cruft_tokens = [
 
     # Platform names which can't be matched as substrings because it'll leave
     # behind bits that are harder to classify (eg. "linux32" -> "32")
-    'lin', 'lin32', 'lin64', 'linux', 'lnx', 'win', 'win32', 'win64',
+    'lin', 'lin32', 'lin64', 'linux', 'lnx', 'win', 'win32', 'win64', 'pc',
     'nw',  # NW.js, as seen in the wild
 
     # Shorthand for DOSBox seen in the wild
@@ -135,7 +135,7 @@ cruft_tokens = [
     'db',
 
     # release-type classifiers which could present a Scunthorpe problem
-    'indev', 'install', 'patch',
+    'indev', 'install', 'patch', 'buildano',
 
     # country/language tokens which can't reasonably be confused for words
     # (ie. keep "en", "es", "de", "in", "it", and "us" out of this list)
@@ -146,7 +146,7 @@ cruft_tokens = [
 
 # Tokens which should be considered cruft only if they appear at the beginning
 # (ie. "gog_game_name_1.0.sh" but not "frobnicate_gog_game.sh")
-prefix_cruft_tokens = ['gog'] + cruft_tokens
+prefix_cruft_tokens = ['gog', 'dd'] + cruft_tokens
 
 # Stuff which should short-circuit the evaluation if found as a substring
 inner_cruft_internal = [
@@ -157,8 +157,8 @@ inner_cruft_internal = [
 
 # Stuff that's only cruft when it shows up as the last token after the other
 # processing stages have finished
-tail_cruft_tokens = ['full', 'groupees', 'l', 'hilo', 'starter', 'steam',
-                     'darwin'] + cruft_tokens
+tail_cruft_tokens = ['full', 'groupees', 'l', 'hilo', 'starter', 'steam', 'lx', 'windows',
+                     'darwin', 'dd'] + cruft_tokens
 
 tokens_rx = """(^|\b)(
     gamma\d+|update\d+|
@@ -239,6 +239,7 @@ def filename_to_name(fname):
     #       freeman_s_mind_episode_10.5.wmv
     #       (Perhaps by redesigning this to tag rather than remove words)
     #       (Tagging would also help for reliable deduplication)
+
     # Remove version information and convert whitespace cues
     # (Two passes required to reliably deal with semi-CamelCase filenames)
     name = strip_ver_experimental(name)
