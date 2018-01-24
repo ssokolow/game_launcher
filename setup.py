@@ -3,7 +3,7 @@ from setuptools import setup
 
 # Workaround for https://github.com/PyO3/setuptools-rust/issues/2
 try:
-    from setuptools_rust import RustExtension
+    from setuptools_rust import RustExtension, Binding
 except ImportError:
     import subprocess
     import sys
@@ -19,7 +19,9 @@ setup(name='game-launcher',
       version='0.0a0',
       url='https://github.com/ssokolow/game_launcher',
       author='Stephan Sokolow',
-      rust_extensions=[RustExtension('src.core', 'game_launcher_core/Cargo.toml')],
+      rust_extensions=[RustExtension('src.core',
+                                     'game_launcher_core/Cargo.toml',
+                                     binding=Binding.RustCPython)],
       packages=['src'],
       # rust extensions are not zip safe, just like C-extensions.
       zip_safe=False
