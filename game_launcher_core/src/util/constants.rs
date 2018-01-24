@@ -27,6 +27,8 @@ pub const INSTALLER_EXTS: &[&str] = &[
 
 /// Don't search for metadata inside scripts like `start.sh` if they're bigger
 /// than this size.
+// Silence spurious warning from clippy bug #1761
+#[cfg_attr(feature="cargo-clippy", allow(integer_arithmetic))]
 pub const MAX_SCRIPT_SIZE: u64 = 1024 * 1024; // 1 MiB
 
 /// Extensions which indicate files shouldn't be considered as executables even when marked `+x`

@@ -54,7 +54,8 @@ enum CCaseAction {
     /// Emit accumulated word (if non-empty) and begin a new word starting with this grapheme
     StartWord,
     /// Shift a grapheme back out of the accumulator, then operate as in `StartWord`
-    /// (Necessary to implement camelcase "<upper><lower>" handling in a single pass)
+    /// (Necessary to implement camelcase "<upper><lower>" handling in a single pass
+    /// in cases like "RARFile" becoming "RAR File")
     AlreadyStartedWord,
     /// Like `Literal`, but prevent the following character from being the split point for a new
     /// word (Used to suppress AlreadyStartedWord in cases like "[Hello]")
@@ -68,7 +69,11 @@ enum CCaseAction {
 
 /// Identify what role a given character plays in the string
 fn classify_char(in_char: char) -> CharType {
+    // Prevent clippy from complaining about types being split across multiple match arms
+    // with different explanatory comments for maintainability
+    #[cfg_attr(feature="cargo-clippy", allow(match_same_arms))]
     match in_char {
+
         // TODO: Adapt unicode.py from unicode-categories and auto-generate the "BIDI" categories
         // TODO: Find a crate to which I can delegate "BIDI" category membership checking
         //       (Membership checked at http://www.unicode.org/Public/UNIDATA/UnicodeData.txt)
@@ -225,7 +230,7 @@ impl<'a> Iterator for WordOffsets<'a> {
     fn next(&mut self) -> Option<(usize, usize)> {
         // Get the next grapheme cluster and its byte index
         // Note: Using `while let` instead of `for` is necessary to avoid a borrow conflict
-        #[allow(while_let_on_iterator)]
+        #[cfg_attr(feature="cargo-clippy", allow(while_let_on_iterator))]
         while let Some((byte_offset, grapheme)) = self.in_iter.next() {
             // Extract the base `char` so `classify_char` can call things like `is_uppercase`
             let base = grapheme.chars().nth(0).expect("non-empty grapheme cluster");
@@ -275,7 +280,7 @@ impl<'a> Iterator for Words<'a> {
     type Item = &'a str;
 
     fn next(&mut self) -> Option<&'a str> {
-        #![cfg_attr(feature="cargo-clippy", allow(ndexing_slicing))]
+        #![cfg_attr(feature="cargo-clippy", allow(indexing_slicing))]
         match self.in_iter.next() {
             Some((start, end)) => Some(&self.in_str[start..end]),
             None => None

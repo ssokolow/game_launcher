@@ -11,8 +11,12 @@ pub mod naming;
 // * Ensuring a consistent sort order when using this as a sorting key
 // * Using variant names as labels in the GUI
 // * Deciding whether I need to leave room for new variants
-// * Finding a way to either put the doc comments on the same line or shut up clippy about them
 pub mod executables {
+    /// The role the executable plays for the game in question (eg. installer, launcher, etc.)
+    /// FIXME: Find a way to put the variant docs on the same line and this remove the allow()
+    #[cfg_attr(feature="cargo-clippy", allow(missing_docs_in_private_items))]
+    // XXX: Silence spurious warning from clippy bug #1858
+    #[cfg_attr(feature="cargo-clippy", allow(integer_arithmetic))]
     #[repr(C)]
     pub enum Role {
         Play = -2,

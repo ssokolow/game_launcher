@@ -51,8 +51,7 @@ pub fn filename_extensionless<P: AsRef<Path> + ?Sized>(path: &P) -> Cow<str> {
         // Ensure we consistently have either an empty or escaped string
         // TODO: Is this still simpler than converting empty strings to Option::None early?
         let stem = path.file_stem().unwrap_or_else(|| OsStr::new(""));
-        let ext = path.extension().map(|x| x.to_string_lossy().to_lowercase())
-                                  .unwrap_or(String::new());
+        let ext = path.extension().map_or(String::new(), |x| x.to_string_lossy().to_lowercase());
 
         if RECOGNIZED_EXTS.contains(&ext.as_str()) {
             path = Path::new(stem);
@@ -80,7 +79,6 @@ pub fn filename_to_name<P: AsRef<Path> + ?Sized>(path: &P) -> Option<String> {
     // TODO: Group the algorithm into labelled phases
 
     // Throw out all "words" starting with the first thing identified as a version number.
-    // TODO: Replace the map()'s innards with a successor to fname_ver_re
     // TODO: What's the simplest way to give the first element a pass from filtering?
     // TODO: Verify that using `.map() -> None` short-circuits iteration.
     //       (And is there a more idiomatic way?)
@@ -89,7 +87,7 @@ pub fn filename_to_name<P: AsRef<Path> + ?Sized>(path: &P) -> Option<String> {
     //    name = fname_ver_re.sub('', fname)
     let name_in = name_in
         .split_whitespace()
-        .map(|x| x)
+        .map(|x| x)  // TODO: Replace this line with a successor to fname_ver_re
         .collect::<Vec<_>>().join(" ");
 
     // TODO: Maybe I should convert whitespace cues first, then filter out version information in
@@ -227,8 +225,12 @@ pub fn titlecase_up(in_str: &str) -> String {
 
 // --== CPython API ==--
 
-// TODO: Should this and its fixup table go in the camelcase submodule?
-// TODO: Document this
+/// Apply a fixup table to a string to make up for inherent shortcomings in camelcase.
+///
+/// (eg. Changing "Dont" to "Don't" and "Mrs" to "Mrs.")
+///
+/// TODO: Should this and its fixup table go in the camelcase submodule?
+/// TODO: Document the innards of this properly or refactor to be more readable
 fn apply_camelcase_fixups(in_str: &str) -> String {
     let mut out_str = Cow::Borrowed(in_str);
 
@@ -266,7 +268,7 @@ fn apply_camelcase_fixups(in_str: &str) -> String {
     out_str.into_owned()
 }
 
-// TODO: Document this
+/// `rust-cpython` API wrapper for `apply_camelcase_fixups`
 fn py_apply_camelcase_fixups(_: Python, in_str: &str) -> PyResult<String> {
     Ok(apply_camelcase_fixups(in_str))
 }
