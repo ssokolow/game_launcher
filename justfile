@@ -1,10 +1,11 @@
 # Run `cargo check` plus some basic setup.py sanity checks
 check:
+	@echo "$(tput setaf 2)--== Python/rustc Lints (stable) ==--$(tput sgr0)"
 	python3 setup.py check
-	@echo "--== Clippy Lints ==--"
+	@echo "$(tput setaf 2)--== Clippy Lints ==--$(tput sgr0)"
+	@# (This can be rolled into python3 setup.py check once clippy is in stable channel
+	@#  by using the compiler plugin approach to running clippy)
 	cd game_launcher_core && cargo +nightly clippy || true
-	@echo "--== rustc Lints (stable) ==--"
-	cd game_launcher_core && cargo check 
 
 # Rebuild the Rust `core` module
 rebuild:
