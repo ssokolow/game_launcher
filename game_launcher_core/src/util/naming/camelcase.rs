@@ -369,8 +369,8 @@ mod tests {
         assert_eq!(result, expected, "(with input {:?})", input);
 
         // Check that re-joining with " " and then re-splitting doesn't change the results
-        let result_j = result.join(" ");
-        let result2 = result_j.camelcase_words(false).collect::<Vec<_>>();
+        let result_joined = result.join(" ");
+        let result2 = result_joined.camelcase_words(false).collect::<Vec<_>>();
         assert_eq!(result2, result,
                    "camelcase_words should be a no-op when re-run on its own output (space)");
 
@@ -383,12 +383,12 @@ mod tests {
 
     /// Helper to deduplicate verifying that CamelCaseIterators output is stable
     fn check_camelcase_words(input: &str, expected: &[&str]) {
-        let result2_j = check_camelcase_words_limited(input, expected);
-        assert_eq!(result2_j.camelcase_words(false).collect::<Vec<_>>(), expected,
+        let result2_joined = check_camelcase_words_limited(input, expected);
+        assert_eq!(result2_joined.camelcase_words(false).collect::<Vec<_>>(), expected,
                    "camelcase_words should be a no-op when re-run on its own output (no space)");
     }
 
-    /// Basic sanity test to catch if camelcase_words passes the tests because it undoes an
+    /// Basic sanity test to catch if camelcase_words is only passing tests because it reverses an
     /// indexing mistake camelcase_offsets makes.
     #[test]
     fn camelcase_offsets_basic_function() {
@@ -398,13 +398,16 @@ mod tests {
 
     #[test]
     fn camelcase_words_basic_function() {
-        check_camelcase_words("fooBar", &["foo", "Bar"]); // Basic lower-starting camelcase
-        check_camelcase_words("FooBar", &["Foo", "Bar"]); // Basic upper-starting camelcase
-        check_camelcase_words("AndroidVM", &["Android", "VM"]); // All-caps at the end
-        check_camelcase_words("RARFile", &["RAR", "File"]); // All-caps at the beginning
-        check_camelcase_words("ADruidsDuel", &["A", "Druids", "Duel"]); // Start with len(1)
-        check_camelcase_words("PickACard", &["Pick", "A", "Card"]); // len(1) in the middle
-        check_camelcase_words("AxelF", &["Axel", "F"]); // len(1) at the end
+        check_camelcase_words("NeonChrome", &["Neon", "Chrome"]); // Basic upper-starting camelcase
+        check_camelcase_words("projectShyknight", &["project", "Shyknight"]); // ...lower-starting
+        check_camelcase_words("AndroidVM", &["Android", "VM"]); // Acronym at the end
+        check_camelcase_words("RARFile", &["RAR", "File"]); // Acronym at the beginning
+        // TODO: Find a real-world "acronym in the middle" test which allows corpus-friendly rules
+
+        // Regression tests
+        check_camelcase_words("ADruidsDuel", &["A", "Druids", "Duel"]); // Single-letter first word
+        check_camelcase_words("PickACard", &["Pick", "A", "Card"]); // Single-letter middle word
+        check_camelcase_words("AxelF", &["Axel", "F"]); // Single-letter end word
     }
 
     #[test]
@@ -446,35 +449,52 @@ mod tests {
 
     #[test]
     fn camelcase_words_titlecase_handling() {
+        // Actual word (Serbo-Croatian for "jungle")
+        check_camelcase_words("ǅungla", &["ǅungla"]);
+
+        // Synthetic cases for exhaustiveness
         check_camelcase_words("ǅ", &["ǅ"]);
-        check_camelcase_words("ǅxx", &["ǅxx"]);
         check_camelcase_words("ǅX", &["ǅ", "X"]);
         check_camelcase_words("Xǅ", &["X", "ǅ"]);
         check_camelcase_words("Xxǅ", &["Xx", "ǅ"]);
         check_camelcase_words("ǅXx", &["ǅ", "Xx"]);
         check_camelcase_words("1ǅ2", &["1", "ǅ", "2"]);
+        check_camelcase_words("ǅ&ǅ", &["ǅ", "&", "ǅ"]);
     }
 
     #[test]
     fn camelcase_words_ampersand_handling() {
+        // Basic function with all known ampersand code points
         check_camelcase_words("TheKing&I", &["The", "King", "&", "I"]);
         check_camelcase_words("TheKing﹠I", &["The", "King", "﹠", "I"]);
         check_camelcase_words("TheKing＆I", &["The", "King", "＆", "I"]);
         check_camelcase_words("TheKing\u{1F674}I", &["The", "King", "\u{1F674}", "I"]);
+
+        // Ampersand interaction with titlecase codepoints
+        check_camelcase_words("ǅ&ǅ", &["ǅ", "&", "ǅ"]);
+
+        // Ampersand followed by punctuation
+        check_camelcase_words("Forsooth&'tisTrue", &["Forsooth", "&", "'tis", "True"]);
+
+        // Regression tests (Ampersand between single-letter words)
         check_camelcase_words("A&b", &["A", "&", "b"]);
         check_camelcase_words("A﹠b", &["A", "﹠", "b"]);
         check_camelcase_words("A＆b", &["A", "＆", "b"]);
         check_camelcase_words("A\u{1F674}b", &["A", "\u{1F674}", "b"]);
         check_camelcase_words("1&2", &["1", "&", "2"]);
-        check_camelcase_words("ǅ&ǅ", &["ǅ", "&", "ǅ"]);
-        check_camelcase_words("Forsooth&'tisTrue", &["Forsooth", "&", "'tis", "True"]);
     }
 
     #[test]
     fn camelcase_words_apostrophe_handling() {
+        // Basic check for common apostrophe characters
         check_camelcase_words("Don'tMove", &["Don't", "Move"]);
+        check_camelcase_words("Don\u{FF07}tMove", &["Don\u{FF07}t", "Move"]); // Double-width
         check_camelcase_words("Don\u{2019}tMove", &["Don\u{2019}t", "Move"]);
-        check_camelcase_words("Don\u{FF07}tMove", &["Don\u{FF07}t", "Move"]);
+        // Note: U+2019 (Right Single Quotation Mark)" is included here because FileFormat.info
+        //       includes "U+2019 is preferred for apostrophe" in the "Comments" field.
+
+        // Use an odd but valid sentence to test apostrophes within words, before a space,
+        // and at the end of the string.
         check_camelcase_words_limited("It's my kids' kids'", &["It's", "my", "kids'", "kids'"]);
         check_camelcase_words_limited("it\u{2019}s my kids\u{2019} kids\u{2019}",
                                       &["it\u{2019}s", "my", "kids\u{2019}", "kids\u{2019}"]);
@@ -483,8 +503,8 @@ mod tests {
     }
 
     #[test]
-    /// Test that the deferred "start new word" signal from the first two characters of a camelcase
-    /// word is prevented from inserting a space after an opening punctuation mark like "(" or "["
+    /// Test that the "retroactively insert word break" signal from the first two characters of a
+    /// camelcase word adjusts for opening punctuation marks like "(" and "["
     fn camelcase_words_open_close_plus_upper_lower() {
         check_camelcase_words("Test [Hello]", &["Test", "[Hello]"]);
         check_camelcase_words("Test (Hello)", &["Test", "(Hello)"]);
@@ -493,54 +513,94 @@ mod tests {
         check_camelcase_words("Test <Hello>", &["Test", "<Hello>"]);
         check_camelcase_words("Test ﹤Hello﹥", &["Test", "﹤Hello﹥"]);
         check_camelcase_words("Test ＜Hello＞", &["Test", "＜Hello＞"]);
+        // XXX: Consider just using a string-building loop so the "Test " and "Hello" don't need to
+        //      be specified repeatedly.
+
+        // XXX: Decide whether it's within the scope of our concerns so specify a behaviour
+        //      for a testcase like "[Hello)" where a parser might be trying to enforce
+        //      balanced parens.
     }
 
     #[test]
     /// General tests for proper handling of characters which should force a word break on one side
     /// but not the other. (eg. brackets, exclamation marks, etc.)
     ///
-    /// TODO: Find real-world sample strings for all character I want to include in my tables to
+    /// TODO: Find real-world sample strings for all characters I want to include in my tables to
     /// guard against accidentally mis-filing a character in both the tables and the tests.
     /// (Because mistakes are much easier to see in context)
     fn camelcase_words_open_close_handling() {
+        // Punctuation symbol associativity
         check_camelcase_words("Who?Him!Really?Yeah!", &["Who?", "Him!", "Really?", "Yeah!"]);
         check_camelcase_words("100%Juice", &["100%", "Juice"]);
         check_camelcase_words("WeAre#1", &["We", "Are", "#1"]);
+
+        // Bracket associativity
         check_camelcase_words("ShadowWarrior(2013)", &["Shadow", "Warrior", "(2013)"]);
-        check_camelcase_words("Testy<foo>", &["Testy", "<foo>"]);
-        check_camelcase_words("Testy﹤foo﹥", &["Testy", "﹤foo﹥"]);
-        check_camelcase_words("Testy＜foo＞", &["Testy", "＜foo＞"]);
-        check_camelcase_words("Testy«foo»", &["Testy", "«foo»"]);
+        check_camelcase_words("The<html>tag", &["The", "<html>", "tag"]);
+        check_camelcase_words("[She]said[...]and[…].", &["[She]", "said", "[...]", "and", "[…]."]);
+
+        // Word-break insertion in the presence of titlecase codepoints
+        check_camelcase_words("[ǅungla]", &["[ǅungla]"]); // Opening bracket, then titlecase char
+        check_camelcase_words(" [ǅungla] ", &["[ǅungla]"]); // ... with leading space
+
+        // Regression tests and variations thereof
         check_camelcase_words("SallyFace[linux]", &["Sally", "Face", "[linux]"]);
         check_camelcase_words("SallyFace[Linux]", &["Sally", "Face", "[Linux]"]);
-        check_camelcase_words("TestyFoo{Bar}Baz", &["Testy", "Foo", "{Bar}", "Baz"]);
-        check_camelcase_words("ShadowWarrior\u{FF08}2013\u{FF09}",
-                                  &["Shadow", "Warrior", "\u{FF08}2013\u{FF09}"]);
-        check_camelcase_words("[ǅxx]", &["[ǅxx]"]);
-        check_camelcase_words(" [ǅxx] ", &["[ǅxx]"]);
+
+        // Guillemet associativity
+        // (Apologies to fans of "Un cœur simple". A more real-world example will be welcomed.)
+        // See Also: https://www.thoughtco.com/capitalize-french-titles-4086495
+        check_camelcase_words("UnCœur«simple»2", &["Un", "Cœur", "«simple»", "2"]); // fr_CH
+
+        // XXX: Once I've got English solid, I need to evaluate the feasibility of unconditionally
+        //      ignoring non-breaking spaces after "«" and before "»" when splitting so that
+        //      already-split French strings from outside Switzerland don't get mangled.
+
+        // TODO: figure out how to handle double-quote associativity.
+        //       (The triggering string was "[She]said\"He's[...]boorish[…]andCrude.\"")
     }
 
     #[test]
     fn camelcase_words_doesnt_subdivide_numbers() {
-        check_camelcase_words("3.14", &["3.14"]);
-        check_camelcase_words("255", &["255"]);
-        check_camelcase_words("1000000", &["1000000"]);
+        check_camelcase_words("3.14", &["3.14"]); // Decimal
+        check_camelcase_words("255", &["255"]); // Positive integer
+        check_camelcase_words("-127", &["-127"]); // Negative integer
+        check_camelcase_words("1000000", &["1000000"]); // Repeating zeros
+
+        // Numeric Separators
+        check_camelcase_words("1,000,000 BCE", &["1,000,000", "BCE"]); // Thousands sep. (en)
+        check_camelcase_words("1.000.000 AEC", &["1.000.000", "AEC"]); // Thousands sep. (fr)
+        check_camelcase_words("$1,499.95", &["$1,499.95"]); // Comma and period (English)
+        check_camelcase_words("€1.499,95", &["€1.499,95"]); // Comma and period (Français)
+        check_camelcase_words("2.6.12", &["2.6.12"]); // Raw version number
+
+        // Regression tests
         check_camelcase_words("ut2003", &["ut", "2003"]);
+
+        // XXX: Where in the stack of transforms is it most appropriate to ensure that "v1.5rc2"
+        //      doesn't get split up into &["v", "1.5", "rc", "2"]?
     }
 
     #[test]
     fn camelcase_words_unicode_segmentation() {
         // Zalgo text generated using http://eeemo.net/
-        check_camelcase_words("f̴͘͟͜ǫ̴̸̧͘ó̵̢̢͏B̴̨͠á̵̸͡r̶̵͢͠", &["f̴͘͟͜ǫ̴̸̧͘ó̵̢̢͏", "B̴̨͠á̵̸͡r̶̵͢͠"]);
-        check_camelcase_words("Ŕ̀̕͟͞À̸̛͞͞Ŕ̨̕F̕͜͟͠í̵͜l҉̨e̶̵", &["Ŕ̀̕͟͞À̸̛͞͞Ŕ̨̕", "F̕͜͟͠í̵͜l҉̨e̶̵"]);
-        check_camelcase_words("P̕͟͠i҉͢c̨̨͞͡ḱ̸̕Ą̸Ç͘͜a͘͟r̀͟͢҉̵d̕͜", &["P̕͟͠i҉͢c̨̨͞͡ḱ̸̕", "Ą̸", "Ç͘͜a͘͟r̀͟͢҉̵d̕͜"]);
-        check_camelcase_words("6̢L̢͏͏͠i̷̛͜t̷̕t̷͟ļ͟͢ȩ̨̕̕È̷̸g̵̷̨͢͡g̷s͟͞", &["6̢", "L̢͏͏͠i̷̛͜t̷̕t̷͟ļ͟͢ȩ̨̕̕", "È̷̸g̵̷̨͢͡g̷s͟͞"]);
-        check_camelcase_words("t̶̨͞h̨͝͝e̡͟͢1̴̧̀͘͟2͘͘c̷̴̢͘h̶̴̢͢à͘͏i̡̛r͜s̷͏", &["t̶̨͞h̨͝͝e̡͟͢", "1̴̧̀͘͟2͘͘", "c̷̴̢͘h̶̴̢͢à͘͏i̡̛r͜s̷͏"]);
-        check_camelcase_words("T̶͡ḩ̷̷͟ȩ̛́͘͡1̵̨̕͢2̕͝C̸̡͞͏͟h̴̵̀a҉͜͢i̵̸̡̕ŗ̴͢s̴͏͘͡", &["T̶͡ḩ̷̷͟ȩ̛́͘͡", "1̵̨̕͢2̕͝", "C̸̡͞͏͟h̴̵̀a҉͜͢i̵̸̡̕ŗ̴͢s̴͏͘͡"]);
-        check_camelcase_words("T͠҉̸̷h̀͡e̡̨͝͠1̴́͏.͏̨́͠͝5̨́̕C̷͜͏͠h̢̧͝ì̡̢̕l̸͞͡d̵̕͢͡ŕ̶͘͡͞e͜͝n̨҉̕", &["T͠҉̸̷h̀͡e̡̨͝͠", "1̴́͏.͏̨́͠͝5̨́̕", "C̷͜͏͠h̢̧͝ì̡̢̕l̸͞͡d̵̕͢͡ŕ̶͘͡͞e͜͝n̨҉̕"]);
-        check_camelcase_words("t̡̛͟h͏҉҉́è͝͠1̢̕͟͟.̶̛5̶͜ć̀ḩ̶̸̕͜i̸̕͢l̢͡͝͝͏d͘͟r̨͢e̢҉̵͞͠n̛", &["t̡̛͟h͏҉҉́è͝͠", "1̢̕͟͟.̶̛5̶͜", "ć̀ḩ̶̸̕͜i̸̕͢l̢͡͝͝͏d͘͟r̨͢e̢҉̵͞͠n̛"]);
-        check_camelcase_words("V̶͞e̡͜͟͠r̢͟s̀͏̧̢̕i̸̧͞͠o̷̸̧n̡͞1̧̀͘͟͞.̸̕1́͞҉", &["V̶͞e̡͜͟͠r̢͟s̀͏̧̢̕i̸̧͞͠o̷̸̧n̡͞", "1̧̀͘͟͞.̸̕1́͞҉"]);
-        check_camelcase_words("A̴&͏̵̛b͝", &["A̴", "&͏̵̛", "b͝"]);
+
+        // Zalgo'd synthetic tests for situations where some algorithms could fail
+        check_camelcase_words("f̴͘͟͜ǫ̴̸̧͘ó̵̢̢͏B̴̨͠á̵̸͡r̶̵͢͠", &["f̴͘͟͜ǫ̴̸̧͘ó̵̢̢͏", "B̴̨͠á̵̸͡r̶̵͢͠"]); // Basic test
+        check_camelcase_words("Ŕ̀̕͟͞À̸̛͞͞Ŕ̨̕F̕͜͟͠í̵͜l҉̨e̶̵", &["Ŕ̀̕͟͞À̸̛͞͞Ŕ̨̕", "F̕͜͟͠í̵͜l҉̨e̶̵"]); // Acronym
+        check_camelcase_words("A̴&b͝", &["A̴", "&", "b͝"]); // Ampersand (No combining chars on &)
+        check_camelcase_words("A̴&͏̵̛b͝", &["A̴", "&͏̵̛", "b͝"]); // Ampersand (Combining chars on &)
+        check_camelcase_words("P̕͟͠i҉͢c̨̨͞͡ḱ̸̕Ą̸Ç͘͜a͘͟r̀͟͢҉̵d̕͜", &["P̕͟͠i҉͢c̨̨͞͡ḱ̸̕", "Ą̸", "Ç͘͜a͘͟r̀͟͢҉̵d̕͜"]); // Single-letter word
+        check_camelcase_words("6̢L̢͏͏͠i̷̛͜t̷̕t̷͟ļ͟͢ȩ̨̕̕È̷̸g̵̷̨͢͡g̷s͟͞", &["6̢", "L̢͏͏͠i̷̛͜t̷̕t̷͟ļ͟͢ȩ̨̕̕", "È̷̸g̵̷̨͢͡g̷s͟͞"]); // Initial number
+        check_camelcase_words("T̶͡ḩ̷̷͟ȩ̛́͘͡1̵̨̕͢2̕͝C̸̡͞͏͟h̴̵̀a҉͜͢i̵̸̡̕ŗ̴͢s̴͏͘͡", &["T̶͡ḩ̷̷͟ȩ̛́͘͡", "1̵̨̕͢2̕͝", "C̸̡͞͏͟h̴̵̀a҉͜͢i̵̸̡̕ŗ̴͢s̴͏͘͡"]); // Number in the middle
+        check_camelcase_words("t̶̨͞h̨͝͝e̡͟͢1̴̧̀͘͟2͘͘c̷̴̢͘h̶̴̢͢à͘͏i̡̛r͜s̷͏", &["t̶̨͞h̨͝͝e̡͟͢", "1̴̧̀͘͟2͘͘", "c̷̴̢͘h̶̴̢͢à͘͏i̡̛r͜s̷͏"]); // ...starting lowercase
+        check_camelcase_words("T͠҉̸̷h̀͡e̡̨͝͠1̴́͏.͏̨́͠͝5̨́̕C̷͜͏͠h̢̧͝ì̡̢̕l̸͞͡d̵̕͢͡ŕ̶͘͡͞e͜͝n̨҉̕", &["T͠҉̸̷h̀͡e̡̨͝͠", "1̴́͏.͏̨́͠͝5̨́̕", "C̷͜͏͠h̢̧͝ì̡̢̕l̸͞͡d̵̕͢͡ŕ̶͘͡͞e͜͝n̨҉̕"]); // ...with decimal
+        check_camelcase_words("t̡̛͟h͏҉҉́è͝͠1̢̕͟͟.̶̛5̶͜ć̀ḩ̶̸̕͜i̸̕͢l̢͡͝͝͏d͘͟r̨͢e̢҉̵͞͠n̛", &["t̡̛͟h͏҉҉́è͝͠", "1̢̕͟͟.̶̛5̶͜", "ć̀ḩ̶̸̕͜i̸̕͢l̢͡͝͝͏d͘͟r̨͢e̢҉̵͞͠n̛"]); // ...with decimal
+        check_camelcase_words("V̶͞e̡͜͟͠r̢͟s̀͏̧̢̕i̸̧͞͠o̷̸̧n̡͞1̧̀͘͟͞.̸̕1́͞҉", &["V̶͞e̡͜͟͠r̢͟s̀͏̧̢̕i̸̧͞͠o̷̸̧n̡͞", "1̧̀͘͟͞.̸̕1́͞҉"]); // Decimal number at the end
+        check_camelcase_words("2̶͏͡0́̕҉̶0̡͞͡3̴̷͟", &["2̶͏͡0́̕҉̶0̡͞͡3̴̷͟"]); // Multi-digit integer with combining characters
+
+        // Zalgo'd regression tests
+        check_camelcase_words("u̢҉͡t̸̷̛2003", &["u̢҉͡t̸̷̛", "2003"]);
         check_camelcase_words("u̢҉͡t̸̷̛2̶͏͡0́̕҉̶0̡͞͡3̴̷͟", &["u̢҉͡t̸̷̛", "2̶͏͡0́̕҉̶0̡͞͡3̴̷͟"]);
     }
 }
